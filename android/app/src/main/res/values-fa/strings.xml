@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">پیشرفت آب با انیمیشن قطره</string>
+    <string name="widget_small_b_desc">مصرف آب با نوار پیشرفت</string>
+    <string name="widget_medium_a_desc">شمارش معکوس یادآوری بعدی</string>
+    <string name="widget_medium_b_desc">مصرف امروز با افزودن سریع</string>
+    <string name="widget_large_desc">داشبورد کامل با تاریخچه</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">سفارشی</string>
+    <string name="today_s_intake">مصرف امروز</string>
+    <string name="no_records_today">امروز هیچ رکوردی وجود ندارد</string>
+    <string name="add_drink">افزودن نوشیدنی</string>
+    <string name="time_to_drink_water">وقت نوشیدن آب!</string>
+    <string name="water_tracking">ردیابی آب</string>
+    <string name="ongoing_desc">اعلان پیگیری مداوم مصرف آب</string>
+    <string name="drink_reminders">یادآورهای نوشیدن</string>
+    <string name="daily_desc">یادآوری‌های روزانه نوشیدن آب</string>
+    <string name="its_time_to_drink">وقت نوشیدن است</string>
+    <string name="some_water">کمی آب</string>
+    <string name="ml">میلی‌لیتر</string>
+    <string name="oz">اونس</string>
+    <string name="motivation_1">برای تمرکز و انرژی بهتر هیدراته بمانید!</string>
+    <string name="motivation_2">بدن شما برای عملکرد بهتر به آب نیاز دارد!</string>
+    <string name="motivation_3">یک لیوان آب می‌تواند حال شما را بهتر کند!</string>
+    <string name="motivation_4">به خط هیدراتاسیون خود ادامه دهید!</string>
+    <string name="motivation_5">آب بهترین سوخت برای مغز شماست!</string>
+    <string name="no_reminder_set">هیچ یادآوری تنظیم نشده است</string>
+    <string name="hours">ساعت</string>
+    <string name="minutes">دقیقه</string>
+    <string name="seconds">ثانیه‌ها</string>
+    <string name="exceeded_your_goal">از هدف‌تان فراتر رفتید</string>
+    <string name="goal_completed">هدف تکمیل شد!</string>
+</resources>

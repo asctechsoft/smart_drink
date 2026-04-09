@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">የውሃ እድገት ከቀንድ አነሳሳ ጋር</string>
+    <string name="widget_small_b_desc">ውሃ አቅላ በእድገት ባር</string>
+    <string name="widget_medium_a_desc">ቀጣይ ማስታወሻ ቆጠራ</string>
+    <string name="widget_medium_b_desc">የዛሬው አቅርቦት በፈጣን ጨምር</string>
+    <string name="widget_large_desc">ሙሉ ዳሽቦርድ ከታሪክ ጋር</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">ብጁ</string>
+    <string name="today_s_intake">የዛሬ ቅበላ</string>
+    <string name="no_records_today">ዛሬ መዝገቦች የሉም</string>
+    <string name="add_drink">መጠጥ ጨምር</string>
+    <string name="time_to_drink_water">ውሃ ለመጠጣት ጊዜው ደርሷል!</string>
+    <string name="water_tracking">የውሃ መከታተያ</string>
+    <string name="ongoing_desc">የቀጣይ ውሃ መጠጥ መከታተያ ማሳወቂያ</string>
+    <string name="drink_reminders">የመጠጥ አስታዋሾች</string>
+    <string name="daily_desc">ዕለታዊ ውሃ መጠጥ ማስታወሻዎች</string>
+    <string name="its_time_to_drink">ለመጠጣት ጊዜው ደርሷል</string>
+    <string name="some_water">ውሃ</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">ለተሻለ ትኩረት እና ጉልበት ውሃ በቂ ይጠጡ!</string>
+    <string name="motivation_2">አካልዎ በምርጥ ሁኔታ ለማስተናገድ ውሃ ያስፈልጋል!</string>
+    <string name="motivation_3">አንድ ብርጭቆ ውሃ ስሜትህን ሊያሻሽል ይችላል!</string>
+    <string name="motivation_4">የእርስዎን ውሃ መጠጥ ቀጥሉ!</string>
+    <string name="motivation_5">ውሃ ለሞላላው አንጎል ምርጥ ነዳጅ ነው!</string>
+    <string name="no_reminder_set">ምንም አስታዋሽ አልተዘጋጀም።</string>
+    <string name="hours">ሰዓቶች</string>
+    <string name="minutes">ደቂቃዎች</string>
+    <string name="seconds">ሰከንዶች</string>
+    <string name="exceeded_your_goal">ግብህን አልፏል</string>
+    <string name="goal_completed">ግብ ተጠናቀቀ!</string>
+</resources>

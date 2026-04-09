@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Damla animasyonlu su ilerlemesi</string>
+    <string name="widget_small_b_desc">İlerleme çubuğu ile su tüketimi</string>
+    <string name="widget_medium_a_desc">Sonraki hatırlatma geri sayımı</string>
+    <string name="widget_medium_b_desc">Hızlı eklemeyle bugünün alımı</string>
+    <string name="widget_large_desc">Tam gösterge paneli ve tarihçe</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Özel</string>
+    <string name="today_s_intake">Bugünün alımı</string>
+    <string name="no_records_today">Bugün kayıt yok</string>
+    <string name="add_drink">İçecek Ekle</string>
+    <string name="time_to_drink_water">Su içme zamanı!</string>
+    <string name="water_tracking">Su Takibi</string>
+    <string name="ongoing_desc">Devam eden su tüketimi takibi bildirimi</string>
+    <string name="drink_reminders">İçecek Hatırlatıcıları</string>
+    <string name="daily_desc">Günlük su içme hatırlatıcıları</string>
+    <string name="its_time_to_drink">İçme zamanı</string>
+    <string name="some_water">biraz su</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Daha iyi odaklanma ve enerji için susuz kalmayın!</string>
+    <string name="motivation_2">Vücudunuz en iyi şekilde çalışmak için suya ihtiyaç duyar!</string>
+    <string name="motivation_3">Bir bardak su moralinizi yükseltebilir!</string>
+    <string name="motivation_4">Hidrasyon serinizi sürdürün!</string>
+    <string name="motivation_5">Su beyniniz için en iyi yakıttır!</string>
+    <string name="no_reminder_set">Hatırlatıcı ayarlanmadı</string>
+    <string name="hours">SAAT</string>
+    <string name="minutes">DAKİKA</string>
+    <string name="seconds">SANIYE</string>
+    <string name="exceeded_your_goal">Hedefinizi aştınız</string>
+    <string name="goal_completed">Hedef tamamlandı!</string>
+</resources>

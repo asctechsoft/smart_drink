@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="clr_water_blue">#2196F3</color>
+    <color name="clr_water_light">#BBDEFB</color>
+    <color name="clr_progress_bg">#E0E0E0</color>
+    <color name="clr_white">#FFFFFF</color>
+    <color name="clr_text_dark">#212121</color>
+    <color name="clr_text_secondary">#45464F</color>
+    <color name="clr_text_muted">#80FFFFFF</color>
+    <color name="clr_border_bth">#4000E0FF</color>
+
+    <!-- Widget colors -->
+    <color name="widget_bg_dark">#FFFFFFFF</color>
+    <color name="widget_bg_dark_end">#FFF5F5F5</color>
+
+    <color name="widget_cyan">#FF00E0FF</color>
+    <color name="widget_blue_accent">#FF4FC3F7</color>
+    <color name="widget_text_secondary">#8A000000</color>
+    <color name="widget_text_muted">#61000000</color>
+    <color name="widget_progress_track">#14000000</color>
+    <color name="widget_card_border">#1F000000</color>
+    <color name="widget_btn_bg">#0A000000</color>
+    <color name="widget_badge_bg">#0A000000</color>
+    <color name="widget_text_disabled">#3D000000</color>
+    <color name="widget_text_primary">#212121</color>
+    
+    <!-- Design colors -->
+    <color name="widget_small_bg_start">#000428</color>
+    <color name="widget_small_bg_end">#113C72</color>
+    <color name="widget_small_border">#FFFFFF</color>
+
+    <color name="widget_blue_bg_start">#42A5F5</color>
+    <color name="widget_blue_bg_end">#0F85E4</color>
+
+    <color name="widget_medium_bg_start">#2788F6</color>
+    <color name="widget_medium_bg_end">#10519C</color>
+
+    <color name="widget_digit_bg">#1AFFFFFF</color>
+
+    <color name="widget_cyan_40">#40FFFFFF</color>
+</resources>

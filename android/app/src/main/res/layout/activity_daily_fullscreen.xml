@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/clr_white"
+    android:padding="32dp">
+
+    <ProgressBar
+        android:id="@+id/pb_circular"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:max="100"
+        android:progress="37"
+        android:indeterminate="false" />
+
+    <TextView
+        android:id="@+id/tv_current_goal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="750 / 2000 ml"
+        android:textColor="@color/clr_text_dark"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/tv_motivation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time to hydrate!"
+        android:textColor="@color/clr_text_secondary"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="32dp">
+
+        <Button
+            android:id="@+id/btn_add_water"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Water"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btn_open_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Open App"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btn_dismiss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dismiss" />
+    </LinearLayout>
+</LinearLayout>

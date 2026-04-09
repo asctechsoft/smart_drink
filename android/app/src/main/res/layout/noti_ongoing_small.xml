@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/noti_ongoing_small_bg"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="12dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/iv_water_drop"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/img_water"
+        android:contentDescription="Water drop"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Time to drink water!"
+        android:textColor="@color/clr_white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:layout_marginEnd="8dp" />
+
+    <!-- Animated "Add Drink" button -->
+    <FrameLayout
+        android:id="@+id/btn_add_water_small"
+        android:layout_width="100dp"
+        android:layout_height="32dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <!-- Static fallback background for devices that don't support animation -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/noti_small_btn"
+            android:clickable="false"
+            android:focusable="false" />
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/noti_small_btn_shimmer_anim"
+            android:indeterminateOnly="true"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+        <TextView
+            android:id="@+id/tv_btn_add_water_small"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/add_drink"
+            android:textColor="#FF0094FF"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:clickable="false"
+            android:focusable="false" />
+
+    </FrameLayout>
+
+</LinearLayout>

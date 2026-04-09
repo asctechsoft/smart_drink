@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">थोपा एनिमेसनसँग पानी प्रगति</string>
+    <string name="widget_small_b_desc">प्रगति पट्टी सहित पानी सेवन</string>
+    <string name="widget_medium_a_desc">अर्को रिमाइन्डर काउन्टडाउन</string>
+    <string name="widget_medium_b_desc">आजको सेवन छिटो थप्नुस्</string>
+    <string name="widget_large_desc">इतिहाससहितको पूर्ण ड्यासबोर्ड</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">कस्टम</string>
+    <string name="today_s_intake">आजको सेवन</string>
+    <string name="no_records_today">आज कुनै रेकर्ड छैन</string>
+    <string name="add_drink">पेय थप्नुहोस्</string>
+    <string name="time_to_drink_water">पानी पिउने समय भयो!</string>
+    <string name="water_tracking">पानी ट्र्याकिङ</string>
+    <string name="ongoing_desc">जारी पानी सेवन ट्र्याकिङ सूचना</string>
+    <string name="drink_reminders">पिउने रिमाइन्डरहरू</string>
+    <string name="daily_desc">दैनिक पानी पिउने स्मरणहरू</string>
+    <string name="its_time_to_drink">पिउने समय भयो</string>
+    <string name="some_water">थोरै पानी</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">राम्रो फोकस र ऊर्जाको लागि हाइड्रेटेड रहनुहोस्!</string>
+    <string name="motivation_2">तपाईंको शरीरलाई राम्रोसँग काम गर्न पानी चाहिन्छ!</string>
+    <string name="motivation_3">एउटा गिलास पानीले तपाईंको मुड बढाउन सक्छ!</string>
+    <string name="motivation_4">आफ्नो हाइड्रेशन स्ट्रिक जारी राख्नुहोस्!</string>
+    <string name="motivation_5">पानी तपाईंको मस्तिष्कको लागि उत्तम इन्धन हो!</string>
+    <string name="no_reminder_set">कुनै रिमाइन्डर सेट छैन</string>
+    <string name="hours">घण्टा</string>
+    <string name="minutes">मिनेटहरू</string>
+    <string name="seconds">सेकेन्ड</string>
+    <string name="exceeded_your_goal">तपाईंको लक्ष्य भन्दा बढी</string>
+    <string name="goal_completed">लक्ष्य पूरा भयो!</string>
+</resources>

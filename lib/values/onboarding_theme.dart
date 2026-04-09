@@ -120,6 +120,8 @@ class OnboardingTheme {
 
   Color get bgBottomSheet =>
       isLight ? AppColors.bottomSheetBgLight : AppColors.bottomSheetBgDark;
+  Color get bgToast =>
+      isLight ? AppColors.basic500 : AppColors.bottomSheetBgDark;
 
   Color get iconPill =>
       isLight ? AppColors.primary500Light : AppColors.basic500;
@@ -151,4 +153,15 @@ class OnboardingTheme {
   Color get borderTabHistory => isLight
       ? AppColors.primary500Dark.withValues(alpha: 0.35)
       : AppColors.primary500Dark.withValues(alpha: 0.15);
+
+  Color get waterWave1 => isLight
+      ? AppColors.waterWave1Light.withValues(alpha: 0.2)
+      : AppColors.waterWave1Dark.withValues(alpha: 0.2);
+  Color get waterWave2 => isLight
+      ? AppColors.waterWave2Light.withValues(alpha: 0.5)
+      : AppColors.waterWave2Dark.withValues(alpha: 0.2);
+  Color get waterWave3 => isLight
+      ? AppColors.waterWave3Light.withValues(alpha: 0.5)
+      : AppColors.waterWave3Dark.withValues(alpha: 0.25);
 }
+

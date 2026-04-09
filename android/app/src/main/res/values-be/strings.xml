@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Прагрэс вады з анімацыяй кроплі</string>
+    <string name="widget_small_b_desc">Прыём вады з індыкатарам прагрэсу</string>
+    <string name="widget_medium_a_desc">Адлік да наступнага напамінання</string>
+    <string name="widget_medium_b_desc">Сённяшняе спажыванне з хуткім даданнем</string>
+    <string name="widget_large_desc">Поўны дашборд з гісторыяй</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Уласны</string>
+    <string name="today_s_intake">Сённяшні прыём</string>
+    <string name="no_records_today">Сёння няма запісаў</string>
+    <string name="add_drink">Дадаць Напой</string>
+    <string name="time_to_drink_water">Час піць ваду!</string>
+    <string name="water_tracking">Адсочванне Вады</string>
+    <string name="ongoing_desc">Паведамленне пра пастаяннае адсочванне спажывання вады</string>
+    <string name="drink_reminders">Напаміны Пра Напоі</string>
+    <string name="daily_desc">Штодзённыя напаміны аб выпіванні вады</string>
+    <string name="its_time_to_drink">Час піць</string>
+    <string name="some_water">вада</string>
+    <string name="ml">مل</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Заставайцеся ўвільготненым для лепшай канцэнтрацыі і энергіі!</string>
+    <string name="motivation_2">Вашаму арганізму патрэбна вада, каб працаваць найлепшым чынам!</string>
+    <string name="motivation_3">Шклянка вады можа падняць настрой!</string>
+    <string name="motivation_4">Трымай сваю сэрыю гідратацыі!</string>
+    <string name="motivation_5">Вада - лепшае паліва для вашага мозгу!</string>
+    <string name="no_reminder_set">Няма ўстаноўленага напамінку</string>
+    <string name="hours">ГАДЗІН</string>
+    <string name="minutes">ХВІЛІНЫ</string>
+    <string name="seconds">СЕКУНДЫ</string>
+    <string name="exceeded_your_goal">Перавыканана ваша мэта</string>
+    <string name="goal_completed">Мэта выканана!</string>
+</resources>

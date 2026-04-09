@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "879252460066",
+    "project_id": "smartdrink-ai",
+    "storage_bucket": "smartdrink-ai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879252460066:android:704e691af5de6445c2b07b",
+        "android_client_info": {
+          "package_name": "com.dsp.smartdrinkai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsaTPOJO4BIo13WXQCSeoWmdUSK8COycI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

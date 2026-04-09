@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Ūdens progress ar pilienu animāciju</string>
+    <string name="widget_small_b_desc">Ūdens uzņemšana ar progresu joslu</string>
+    <string name="widget_medium_a_desc">Nākamā atgādinājuma atpakaļskaitīšana</string>
+    <string name="widget_medium_b_desc">Šodienas uzņemšana ar ātru pievienošanu</string>
+    <string name="widget_large_desc">Pilns informācijas panelis ar vēsturi</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Pielāgots</string>
+    <string name="today_s_intake">Šodienas uzņemšana</string>
+    <string name="no_records_today">Nav ierakstu šodien</string>
+    <string name="add_drink">Pievienot Dzērienu</string>
+    <string name="time_to_drink_water">Ir pienācis laiks dzert ūdeni!</string>
+    <string name="water_tracking">Ūdens Izsekošana</string>
+    <string name="ongoing_desc">Notifikācija par ūdens patēriņa uzraudzību</string>
+    <string name="drink_reminders">Dzeršanas Atgādinājumi</string>
+    <string name="daily_desc">Ikdienas atgādinājumi dzert ūdeni</string>
+    <string name="its_time_to_drink">Ir pienācis laiks dzert</string>
+    <string name="some_water">nedaudz ūdens</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Palieciet hidratēts labākai koncentrācijai un enerģijai!</string>
+    <string name="motivation_2">Jūsu ķermenim vajadzīgs ūdens, lai tas darbotos vislabāk!</string>
+    <string name="motivation_3">Glāze ūdens var uzlabot tavu garastāvokli!</string>
+    <string name="motivation_4">Turpini savu hidratācijas sēriju!</string>
+    <string name="motivation_5">Ūdens ir labākā degviela jūsu smadzenēm!</string>
+    <string name="no_reminder_set">Nav iestatīts atgādinājums</string>
+    <string name="hours">STUNDAS</string>
+    <string name="minutes">MINŪTES</string>
+    <string name="seconds">SEKUNDES</string>
+    <string name="exceeded_your_goal">Pārsniegts jūsu mērķis</string>
+    <string name="goal_completed">Mērķis sasniegts!</string>
+</resources>

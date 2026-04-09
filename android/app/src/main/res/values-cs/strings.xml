@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Pokrok vody s animací kapky</string>
+    <string name="widget_small_b_desc">Příjem vody s ukazatelem průběhu</string>
+    <string name="widget_medium_a_desc">Odpočet další připomínky</string>
+    <string name="widget_medium_b_desc">Dnešní příjem s rychlým přidáním</string>
+    <string name="widget_large_desc">Kompletní přehled s historií</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Vlastní</string>
+    <string name="today_s_intake">Dnešní příjem</string>
+    <string name="no_records_today">Dnes žádné záznamy</string>
+    <string name="add_drink">Přidat Nápoj</string>
+    <string name="time_to_drink_water">Je čas pít vodu!</string>
+    <string name="water_tracking">Sledování Vody</string>
+    <string name="ongoing_desc">Oznámení o průběžném sledování příjmu vody</string>
+    <string name="drink_reminders">Upomínky Na Pití</string>
+    <string name="daily_desc">Denní připomínky pití vody</string>
+    <string name="its_time_to_drink">Je čas pít</string>
+    <string name="some_water">trochu vody</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Zůstaňte hydratovaní pro lepší soustředění a energii!</string>
+    <string name="motivation_2">Vaše tělo potřebuje vodu, aby fungovalo co nejlépe!</string>
+    <string name="motivation_3">Sklenice vody může zlepšit vaši náladu!</string>
+    <string name="motivation_4">Pokračuj ve své hydratační sérii!</string>
+    <string name="motivation_5">Voda je nejlepší palivo pro váš mozek!</string>
+    <string name="no_reminder_set">Žádné připomenutí nastaveno</string>
+    <string name="hours">HODINY</string>
+    <string name="minutes">MINUTY</string>
+    <string name="seconds">SEKUNDY</string>
+    <string name="exceeded_your_goal">Překonal jsi svůj cíl</string>
+    <string name="goal_completed">Cíl splněn!</string>
+</resources>

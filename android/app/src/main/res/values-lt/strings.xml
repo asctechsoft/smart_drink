@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Vandens pažanga su lašo animacija</string>
+    <string name="widget_small_b_desc">Vandens suvartojimas su pažangos juosta</string>
+    <string name="widget_medium_a_desc">Kitas priminimo atgalinis skaičiavimas</string>
+    <string name="widget_medium_b_desc">Šiandienos suvartojimas su greitu pridėjimu</string>
+    <string name="widget_large_desc">Visas prietaisų skydelis su istorija</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Pasirinktinis</string>
+    <string name="today_s_intake">Šiandienos suvartojimas</string>
+    <string name="no_records_today">Nėra įrašų šiandien</string>
+    <string name="add_drink">Pridėti Gėrimą</string>
+    <string name="time_to_drink_water">Atėjo laikas gerti vandenį!</string>
+    <string name="water_tracking">Vandens Sekimas</string>
+    <string name="ongoing_desc">Nuolatinio vandens suvartojimo stebėjimo pranešimas</string>
+    <string name="drink_reminders">Gėrimo Priminimai</string>
+    <string name="daily_desc">Kasdieniniai vandens gėrimo priminimai</string>
+    <string name="its_time_to_drink">Atėjo laikas gerti</string>
+    <string name="some_water">šiek tiek vandens</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Būkite hidratuoti, kad geriau susikauptumėte ir gautumėte energijos!</string>
+    <string name="motivation_2">Jūsų organizmui reikia vandens, kad jis veiktų geriausiai!</string>
+    <string name="motivation_3">Stiklinė vandens gali pagerinti jūsų nuotaiką!</string>
+    <string name="motivation_4">Tęskite savo hidratacijos seriją!</string>
+    <string name="motivation_5">Vanduo yra geriausias kuras jūsų smegenims!</string>
+    <string name="no_reminder_set">Priminimas nenustatytas</string>
+    <string name="hours">VALANDOS</string>
+    <string name="minutes">MINUTĖS</string>
+    <string name="seconds">SEKUNDĖS</string>
+    <string name="exceeded_your_goal">Viršijote savo tikslą</string>
+    <string name="goal_completed">Tikslas pasiektas!</string>
+</resources>

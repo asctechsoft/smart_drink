@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Прогрес воде са анимацијом капи</string>
+    <string name="widget_small_b_desc">Унос воде са траком напретка</string>
+    <string name="widget_medium_a_desc">Одбројавање до следећег подсетника</string>
+    <string name="widget_medium_b_desc">Данашњи унос са брзим додавањем</string>
+    <string name="widget_large_desc">Комплетна контролна табла са историјом</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Прилагођено</string>
+    <string name="today_s_intake">Данашњи унос</string>
+    <string name="no_records_today">Нема записа данас</string>
+    <string name="add_drink">Додај Пиће</string>
+    <string name="time_to_drink_water">Време је за пиће воде!</string>
+    <string name="water_tracking">Праћење Воде</string>
+    <string name="ongoing_desc">Обавештење о праћењу уноса воде у току</string>
+    <string name="drink_reminders">Подсетници За Пиће</string>
+    <string name="daily_desc">Дневни подсетници за пиће воде</string>
+    <string name="its_time_to_drink">Време је за пиће</string>
+    <string name="some_water">мало воде</string>
+    <string name="ml">мл</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Останите хидрирани за бољи фокус и енергију!</string>
+    <string name="motivation_2">Вашем телу је потребна вода да би најбоље функционисало!</string>
+    <string name="motivation_3">Чаша воде може вам подићи расположење!</string>
+    <string name="motivation_4">Наставите са хидратацијом!</string>
+    <string name="motivation_5">Вода је најбоље гориво за твој мозак!</string>
+    <string name="no_reminder_set">Није постављен подсетник</string>
+    <string name="hours">САТИ</string>
+    <string name="minutes">МИНУТЕ</string>
+    <string name="seconds">СЕКУНДЕ</string>
+    <string name="exceeded_your_goal">Премашили сте циљ</string>
+    <string name="goal_completed">Циљ остварен!</string>
+</resources>

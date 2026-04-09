@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Vattenframsteg med droppanimation</string>
+    <string name="widget_small_b_desc">Vattenintag med framstegsbalk</string>
+    <string name="widget_medium_a_desc">Nedräkning till nästa påminnelse</string>
+    <string name="widget_medium_b_desc">Dagens intag med snabb tillägg</string>
+    <string name="widget_large_desc">Fullständig instrumentpanel med historik</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Anpassad</string>
+    <string name="today_s_intake">Dagens intag</string>
+    <string name="no_records_today">Inga poster idag</string>
+    <string name="add_drink">Lägg Till Dryck</string>
+    <string name="time_to_drink_water">Dags att dricka vatten!</string>
+    <string name="water_tracking">Vattenspårning</string>
+    <string name="ongoing_desc">Pågående notifikation för spårning av vattenintag</string>
+    <string name="drink_reminders">Drickpåminnelser</string>
+    <string name="daily_desc">Dagliga påminnelser om att dricka vatten</string>
+    <string name="its_time_to_drink">Dags att dricka</string>
+    <string name="some_water">lite vatten</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Håll dig hydrerad för bättre fokus och energi!</string>
+    <string name="motivation_2">Din kropp behöver vatten för att fungera som bäst!</string>
+    <string name="motivation_3">Ett glas vatten kan förbättra ditt humör!</string>
+    <string name="motivation_4">Håll igång din vätskerytm!</string>
+    <string name="motivation_5">Vatten är det bästa bränslet för din hjärna!</string>
+    <string name="no_reminder_set">Ingen påminnelse inställd</string>
+    <string name="hours">TIMMAR</string>
+    <string name="minutes">MINUTER</string>
+    <string name="seconds">SEKUNDER</string>
+    <string name="exceeded_your_goal">Överträffade ditt mål</string>
+    <string name="goal_completed">Mål uppnått!</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">ຄວາມຄືບຫນ້າຂອງນ້ໍາທີ່ມີການເຄື່ອນໄຫວຫຼຸດລົງ</string>
+    <string name="widget_small_b_desc">ການດື່ມນ້ຳກັບແຖບຄືບໜ້າ</string>
+    <string name="widget_medium_a_desc">ນັບຖອຍເຕືອນຕໍ່ໄປ</string>
+    <string name="widget_medium_b_desc">ການຮັບປະທານມື້ນີ້ດ້ວຍການເພີ່ມໄວ</string>
+    <string name="widget_large_desc">ແຜງຄວບຄຸມທັງໝົດພ້ອມປະຫວັດສາດ</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">ກຳນົດເອງ</string>
+    <string name="today_s_intake">ການຮັບປະທານມື້ນີ້</string>
+    <string name="no_records_today">ບໍ່ມີບັນທຶກວັນນີ້</string>
+    <string name="add_drink">ເພີ່ມເຄື່ອງດື່ມ</string>
+    <string name="time_to_drink_water">ເຖິງເວລາផິ່ນ້ຳແລ້ວ!</string>
+    <string name="water_tracking">ການຕິດຕາມນໍ້າ</string>
+    <string name="ongoing_desc">ການແຈ້ງເຕືອນຕິດຕາມການດື່ມນ້ຳຢ່າງຕໍ່ເນື່ອງ</string>
+    <string name="drink_reminders">ເຕືອນການດື່ມນ້ຳ</string>
+    <string name="daily_desc">ເຕືອນດື່ມນ້ຳປະຈຳວັນ</string>
+    <string name="its_time_to_drink">ເຖິງເວລາផິ່ນ້ຳແລ້ວ</string>
+    <string name="some_water">ນ້ຳໜ້ອຍໜຶ່ງ</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">ຮັກສາຄວາມຊຸ່ມຊື່ນເພື່ອການສຸມໃສ່ ແລະພະລັງງານທີ່ດີຂຶ້ນ!</string>
+    <string name="motivation_2">ຮ່າງກາຍຂອງເຈົ້າຕ້ອງການນ້ຳເພື່ອເຮັດວຽກໄດ້ດີທີ່ສຸດ!</string>
+    <string name="motivation_3">ຈອກນ້ໍາສາມາດເພີ່ມອາລົມຂອງທ່ານ!</string>
+    <string name="motivation_4">ສືບຕໍ່ຮັກສາເສັ້ນດື່ມນ້ຳຂອງເຈົ້າເດີ້!</string>
+    <string name="motivation_5">ນ້ຳແມ່ນນ້ຳມັນເຊື້ອໄຟທີ່ດີທີ່ສຸດສຳລັບສະໝອງຂອງທ່ານ!</string>
+    <string name="no_reminder_set">ບໍ່ມີການເຕືອນກຳນົດ</string>
+    <string name="hours">ຊົ່ວໂມງ</string>
+    <string name="minutes">ນາທີ</string>
+    <string name="seconds">ວິນາທີ</string>
+    <string name="exceeded_your_goal">ເກີນເປົ້າໝາຍຂອງເຈົ້າ</string>
+    <string name="goal_completed">ເປົ້າໝາຍສຳເລັດ!</string>
+</resources>

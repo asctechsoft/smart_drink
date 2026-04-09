@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Тамчы анимациясы менен суу прогресси</string>
+    <string name="widget_small_b_desc">Суу ичүү прогресс тилкеси менен</string>
+    <string name="widget_medium_a_desc">Кийинки эскертүү санагы</string>
+    <string name="widget_medium_b_desc">Бүгүнкү кабыл алуу тез кошуу менен</string>
+    <string name="widget_large_desc">Толук тарыхы бар башкаруу панели</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Ыңгайлаштырылган</string>
+    <string name="today_s_intake">Бүгүнкү кабыл алуу</string>
+    <string name="no_records_today">Бүгүн жазбалар жок</string>
+    <string name="add_drink">Ичимдик Кошуу</string>
+    <string name="time_to_drink_water">Суу ичүүгө убакыт келди!</string>
+    <string name="water_tracking">Суу Көзөмөлдөө</string>
+    <string name="ongoing_desc">Учурдагы суу алууну көзөмөлдөө эскертме</string>
+    <string name="drink_reminders">Ичүү Эскертүүлөрү</string>
+    <string name="daily_desc">Күнүмдүк суу ичүү эскертүүлөрү</string>
+    <string name="its_time_to_drink">Суу ичүүгө убакыт келди</string>
+    <string name="some_water">бир аз суу</string>
+    <string name="ml">мл</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Жакшыраак фокус жана энергия үчүн суусузданбаңыз!</string>
+    <string name="motivation_2">Сиздин денеңиз мыкты иштеши үчүн суу керек!</string>
+    <string name="motivation_3">Бир стакан суу маанайыңызды көтөрө алат!</string>
+    <string name="motivation_4">Суу ичүү стрикыңызды уланткыла!</string>
+    <string name="motivation_5">Суу - бул сиздин мээңиз үчүн эң жакшы күйүүчү май!</string>
+    <string name="no_reminder_set">Эскертүү коюлган жок</string>
+    <string name="hours">СААТТАР</string>
+    <string name="minutes">МИНУТТАР</string>
+    <string name="seconds">СЕКУНДАЛАР</string>
+    <string name="exceeded_your_goal">Максатыңыздан аштыңыз</string>
+    <string name="goal_completed">Максат аткарылды!</string>
+</resources>

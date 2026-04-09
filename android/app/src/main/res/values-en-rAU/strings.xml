@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Water progress with drop animation</string>
+    <string name="widget_small_b_desc">Water intake with progress bar</string>
+    <string name="widget_medium_a_desc">Next reminder countdown</string>
+    <string name="widget_medium_b_desc">Today\'s intake with quick add</string>
+    <string name="widget_large_desc">Full dashboard with history</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Custom</string>
+    <string name="today_s_intake">Today\'s intake</string>
+    <string name="no_records_today">No records today</string>
+    <string name="add_drink">Add Drink</string>
+    <string name="time_to_drink_water">Time to drink water!</string>
+    <string name="water_tracking">Water Tracking</string>
+    <string name="ongoing_desc">Ongoing water intake tracking notification</string>
+    <string name="drink_reminders">Drink Reminders</string>
+    <string name="daily_desc">Daily water drink reminders</string>
+    <string name="its_time_to_drink">It\'s time to drink</string>
+    <string name="some_water">some water</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Stay hydrated for better focus and energy!</string>
+    <string name="motivation_2">Your body needs water to function at its best!</string>
+    <string name="motivation_3">A glass of water can boost your mood!</string>
+    <string name="motivation_4">Keep up your hydration streak!</string>
+    <string name="motivation_5">Water is the best fuel for your brain!</string>
+    <string name="no_reminder_set">No reminder set</string>
+    <string name="hours">HOURS</string>
+    <string name="minutes">MINUTES</string>
+    <string name="seconds">SECONDS</string>
+    <string name="exceeded_your_goal">Exceeded your goal</string>
+    <string name="goal_completed">Goal completed!</string>
+</resources>
+

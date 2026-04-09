@@ -1,6 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_HEALTH" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
+
     <application
-        android:label="drink_water"
+        android:label="@string/app_name"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -30,6 +38,137 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+            
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+
+        <service
+            android:name=".notification.WaterTrackingService"
+            android:exported="false"
+            android:foregroundServiceType="health" />
+
+        <service
+            android:name=".notification.FCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".notification.ReminderAlarmReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".notification.NotificationClickHandler"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.amobi.drinkwater.ACTION_CLOSE_ONGOING" />
+                <action android:name="com.amobi.drinkwater.ACTION_ADD_WATER" />
+                <action android:name="com.amobi.drinkwater.ACTION_REFRESH" />
+                <action android:name="com.amobi.drinkwater.ACTION_OPEN_APP" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".notification.OngoingHealthCheckReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".notification.AppRestartedReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".notification.DailyFullScreenActivity"
+            android:exported="false"
+            android:theme="@style/DailyFullScreenTheme"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:launchMode="singleInstance" />
+
+        <!-- Home screen widgets -->
+        <receiver
+            android:name=".widget.SmallWidgetAProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_small_a_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.SmallWidgetBProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_small_b_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.MediumWidgetAProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_medium_a_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.MediumWidgetBProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_medium_b_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.LargeWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_large_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.WidgetActionReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.amobi.drinkwater.WIDGET_QUICK_ADD" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".widget.MidnightResetReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.amobi.drinkwater.MIDNIGHT_RESET" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".widget.WidgetCountdownService"
+            android:exported="false" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

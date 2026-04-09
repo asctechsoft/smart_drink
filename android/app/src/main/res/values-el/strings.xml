@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Πρόοδος νερού με κινούμενη σταγόνα</string>
+    <string name="widget_small_b_desc">Κατανάλωση νερού με μπάρα προόδου</string>
+    <string name="widget_medium_a_desc">Επόμενη αντίστροφη μέτρηση υπενθύμισης</string>
+    <string name="widget_medium_b_desc">Η σημερινή πρόσληψη με γρήγορη προσθήκη</string>
+    <string name="widget_large_desc">Πλήρης πίνακας ελέγχου με ιστορικό</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Προσαρμοσμένο</string>
+    <string name="today_s_intake">Η σημερινή πρόσληψη</string>
+    <string name="no_records_today">Δεν υπάρχουν εγγραφές σήμερα</string>
+    <string name="add_drink">Προσθήκη Ποτού</string>
+    <string name="time_to_drink_water">Ώρα να πιείτε νερό!</string>
+    <string name="water_tracking">Παρακολούθηση Νερού</string>
+    <string name="ongoing_desc">Ειδοποίηση συνεχούς παρακολούθησης πρόσληψης νερού</string>
+    <string name="drink_reminders">Υπενθυμίσεις Πόσης</string>
+    <string name="daily_desc">Καθημερινές υπενθυμίσεις πόσης νερού</string>
+    <string name="its_time_to_drink">Ώρα να πιείτε</string>
+    <string name="some_water">λίγο νερό</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Μείνε ενυδατωμένος για καλύτερη συγκέντρωση και ενέργεια!</string>
+    <string name="motivation_2">Το σώμα σας χρειάζεται νερό για να λειτουργεί στο μέγιστο!</string>
+    <string name="motivation_3">Ένα ποτήρι νερό μπορεί να ανεβάσει τη διάθεσή σου!</string>
+    <string name="motivation_4">Συνέχισε το σερί ενυδάτωσης σου!</string>
+    <string name="motivation_5">Το νερό είναι το καλύτερο καύσιμο για τον εγκέφαλό σας!</string>
+    <string name="no_reminder_set">Δεν έχει οριστεί υπενθύμιση</string>
+    <string name="hours">ΩΡΕΣ</string>
+    <string name="minutes">ΛΕΠΤΑ</string>
+    <string name="seconds">ΔΕΥΤΕΡΟΛΕΠΤΑ</string>
+    <string name="exceeded_your_goal">Ξεπέρασες τον στόχο σου</string>
+    <string name="goal_completed">Στόχος ολοκληρώθηκε!</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Uraren aurrerapena tantazko animazioarekin</string>
+    <string name="widget_small_b_desc">Ur kontsumoa aurrerapen barra batekin</string>
+    <string name="widget_medium_a_desc">Hurrengo abisuaren atzerako kontaketa</string>
+    <string name="widget_medium_b_desc">Gaurko kontsumoa azkar gehitzeko</string>
+    <string name="widget_large_desc">Arbel osoa historiarekin</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Pertsonalizatua</string>
+    <string name="today_s_intake">Gaurko kontsumoa</string>
+    <string name="no_records_today">Gaur ez dago erregistrorik</string>
+    <string name="add_drink">Gehitu Edaria</string>
+    <string name="time_to_drink_water">Edateko ordua!</string>
+    <string name="water_tracking">Uraren Jarraipena</string>
+    <string name="ongoing_desc">Etengabeko ura hartzearen jarraipenaren jakinarazpena</string>
+    <string name="drink_reminders">Edateko Abisuak</string>
+    <string name="daily_desc">Eguneroko ura edateko abisuak</string>
+    <string name="its_time_to_drink">Edateko ordua da</string>
+    <string name="some_water">ur pixka bat</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Egon hidratatuta arreta eta energia hobea lortzeko!</string>
+    <string name="motivation_2">Zure gorputzak ura behar du bere onenean funtzionatzeko!</string>
+    <string name="motivation_3">Ur kopa bat zure aldartea hobetu dezake!</string>
+    <string name="motivation_4">Jarrai ezazu zure hidratazio bolada!</string>
+    <string name="motivation_5">Ura da zure garunerako erregaia!</string>
+    <string name="no_reminder_set">Ez da gogorarazpenik ezarri</string>
+    <string name="hours">ORDUAK</string>
+    <string name="minutes">MINUTUAK</string>
+    <string name="seconds">SEGUNDUAK</string>
+    <string name="exceeded_your_goal">Zure helburua gainditu duzu</string>
+    <string name="goal_completed">Helburua bete da!</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Прогрес води з анімацією краплі</string>
+    <string name="widget_small_b_desc">Споживання води з індикатором прогресу</string>
+    <string name="widget_medium_a_desc">Зворотний відлік наступного нагадування</string>
+    <string name="widget_medium_b_desc">Сьогоднішнє споживання з швидким додаванням</string>
+    <string name="widget_large_desc">Повний дашборд з історією</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Користувацький</string>
+    <string name="today_s_intake">Сьогоднішнє споживання</string>
+    <string name="no_records_today">Сьогодні немає записів</string>
+    <string name="add_drink">Додати Напій</string>
+    <string name="time_to_drink_water">Час пити воду!</string>
+    <string name="water_tracking">Відстеження Води</string>
+    <string name="ongoing_desc">Сповіщення про триваюче відстеження споживання води</string>
+    <string name="drink_reminders">Нагадування Про Питво</string>
+    <string name="daily_desc">Щоденні нагадування про пиття води</string>
+    <string name="its_time_to_drink">Час пити</string>
+    <string name="some_water">трохи води</string>
+    <string name="ml">мл</string>
+    <string name="oz">унція</string>
+    <string name="motivation_1">Залишайтеся зволоженими для кращої концентрації та енергії!</string>
+    <string name="motivation_2">Ваше тіло потребує води, щоб функціонувати якнайкраще!</string>
+    <string name="motivation_3">Склянка води може покращити ваш настрій!</string>
+    <string name="motivation_4">Продовжуйте свою серію гідратації!</string>
+    <string name="motivation_5">Вода - найкраще паливо для вашого мозку!</string>
+    <string name="no_reminder_set">Нагадування не встановлено</string>
+    <string name="hours">ГОДИНИ</string>
+    <string name="minutes">ХВИЛИНИ</string>
+    <string name="seconds">СЕКУНД</string>
+    <string name="exceeded_your_goal">Перевищив свою ціль</string>
+    <string name="goal_completed">Мета досягнута!</string>
+</resources>

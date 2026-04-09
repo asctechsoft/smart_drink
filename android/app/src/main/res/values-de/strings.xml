@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Wasserfortschritt mit tropfenanimation</string>
+    <string name="widget_small_b_desc">Wasseraufnahme mit fortschrittsbalken</string>
+    <string name="widget_medium_a_desc">Countdown zur nächsten erinnerung</string>
+    <string name="widget_medium_b_desc">Heutige aufnahme mit schnellzugabe</string>
+    <string name="widget_large_desc">Vollständiges dashboard mit verlauf</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Benutzerdefiniert</string>
+    <string name="today_s_intake">Heutige aufnahme</string>
+    <string name="no_records_today">Keine aufzeichnungen heute</string>
+    <string name="add_drink">Getränk Hinzufügen</string>
+    <string name="time_to_drink_water">Es ist Zeit, Wasser zu trinken!</string>
+    <string name="water_tracking">Wasserverfolgung</string>
+    <string name="ongoing_desc">Laufende benachrichtigung zur verfolgung der wasseraufnahme</string>
+    <string name="drink_reminders">Trink-Erinnerungen</string>
+    <string name="daily_desc">Tägliche trinkwasser-erinnerungen</string>
+    <string name="its_time_to_drink">Es ist Zeit zu trinken</string>
+    <string name="some_water">etwas Wasser</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Bleib hydriert für besseren fokus und mehr energie!</string>
+    <string name="motivation_2">Dein körper braucht wasser, um optimal zu funktionieren!</string>
+    <string name="motivation_3">Ein glas wasser kann ihre stimmung heben!</string>
+    <string name="motivation_4">Halte deinen hydrations-streak am laufen!</string>
+    <string name="motivation_5">Wasser ist der beste Treibstoff für Ihr Gehirn!</string>
+    <string name="no_reminder_set">Keine erinnerung gesetzt</string>
+    <string name="hours">STUNDEN</string>
+    <string name="minutes">MINUTEN</string>
+    <string name="seconds">SEKUNDEN</string>
+    <string name="exceeded_your_goal">Ziel überschritten</string>
+    <string name="goal_completed">Ziel erreicht!</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Тамшы анимациясымен су прогрессі</string>
+    <string name="widget_small_b_desc">Прогресс жолағы бар су қабылдау</string>
+    <string name="widget_medium_a_desc">Келесі ескерту кері санағы</string>
+    <string name="widget_medium_b_desc">Жылдам қосу арқылы бүгінгі қабылдау</string>
+    <string name="widget_large_desc">Тарихы бар толық бақылау тақтасы</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Тапсырыс бойынша</string>
+    <string name="today_s_intake">Бүгінгі қабылдау</string>
+    <string name="no_records_today">Бүгін жазбалар жоқ</string>
+    <string name="add_drink">Сусын Қосу</string>
+    <string name="time_to_drink_water">Су ішуге уақыт келді!</string>
+    <string name="water_tracking">Суды Қадағалау</string>
+    <string name="ongoing_desc">Үздіксіз су ішуді бақылау хабарламасы</string>
+    <string name="drink_reminders">Ішуге Ескертулер</string>
+    <string name="daily_desc">Күнделікті су ішу ескертулері</string>
+    <string name="its_time_to_drink">Су ішуге уақыт келді</string>
+    <string name="some_water">бірнеше су</string>
+    <string name="ml">мл</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Зейін мен энергияны жақсарту үшін су ішіп тұрыңыз!</string>
+    <string name="motivation_2">Денеңіз ең жақсы жұмыс істеуі үшін су қажет!</string>
+    <string name="motivation_3">Бір стақан су көңіл-күйіңізді көтере алады!</string>
+    <string name="motivation_4">Су ішу дағдыңды сақта!</string>
+    <string name="motivation_5">Су - сіздің миыңыз үшін ең жақсы отын!</string>
+    <string name="no_reminder_set">Еске салғыш орнатылмаған</string>
+    <string name="hours">САҒАТТАР</string>
+    <string name="minutes">МИНУТТАР</string>
+    <string name="seconds">СЕКУНД</string>
+    <string name="exceeded_your_goal">Мақсатыңыздан асып түсті</string>
+    <string name="goal_completed">Мақсат орындалды!</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Vannprogresjon med dråpeanimasjon</string>
+    <string name="widget_small_b_desc">Vanninntak med fremdriftslinje</string>
+    <string name="widget_medium_a_desc">Nedtelling til neste påminnelse</string>
+    <string name="widget_medium_b_desc">Dagens inntak med rask tillegg</string>
+    <string name="widget_large_desc">Fullt dashbord med historikk</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Tilpasset</string>
+    <string name="today_s_intake">Dagens inntak</string>
+    <string name="no_records_today">Ingen poster i dag</string>
+    <string name="add_drink">Legg Til Drikke</string>
+    <string name="time_to_drink_water">Det er på tide å drikke vann!</string>
+    <string name="water_tracking">Vannsporing</string>
+    <string name="ongoing_desc">Pågående varsel om sporing av vanninntak</string>
+    <string name="drink_reminders">Drikkepåminnelser</string>
+    <string name="daily_desc">Daglige påminnelser om å drikke vann</string>
+    <string name="its_time_to_drink">Det er på tide å drikke</string>
+    <string name="some_water">litt vann</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Hold deg hydrert for bedre fokus og energi!</string>
+    <string name="motivation_2">Kroppen din trenger vann for å fungere på sitt beste!</string>
+    <string name="motivation_3">Et glass vann kan løfte humøret ditt!</string>
+    <string name="motivation_4">Fortsett hydreringsstreaket ditt!</string>
+    <string name="motivation_5">Vann er den beste drivstoffen for hjernen din!</string>
+    <string name="no_reminder_set">Ingen påminnelse satt</string>
+    <string name="hours">TIMER</string>
+    <string name="minutes">MINUTTER</string>
+    <string name="seconds">SEKUNDER</string>
+    <string name="exceeded_your_goal">Overskredet målet ditt</string>
+    <string name="goal_completed">Mål fullført!</string>
+</resources>

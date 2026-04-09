@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Veden eteneminen pisara-animaatiolla</string>
+    <string name="widget_small_b_desc">Veden saanti edistymispalkilla</string>
+    <string name="widget_medium_a_desc">Seuraavan muistutuksen lähtölaskenta</string>
+    <string name="widget_medium_b_desc">Tämän päivän saanti pikalisäyksellä</string>
+    <string name="widget_large_desc">Täysi kojelauta historialla</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Mukautettu</string>
+    <string name="today_s_intake">Tämän päivän saanti</string>
+    <string name="no_records_today">Ei tallenteita tänään</string>
+    <string name="add_drink">Lisää Juoma</string>
+    <string name="time_to_drink_water">On aika juoda vettä!</string>
+    <string name="water_tracking">Veden Seuranta</string>
+    <string name="ongoing_desc">Jatkuva vedenkulutuksen seuranta-ilmoitus</string>
+    <string name="drink_reminders">Juomamuistutukset</string>
+    <string name="daily_desc">Päivittäiset vedenjuontimuistutukset</string>
+    <string name="its_time_to_drink">On aika juoda</string>
+    <string name="some_water">vettä</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Pysy hydratoituneena parantaaksesi keskittymistä ja energiaa!</string>
+    <string name="motivation_2">Kehosi tarvitsee vettä toimiakseen parhaimmillaan!</string>
+    <string name="motivation_3">Lasillinen vettä voi kohottaa mielialaa!</string>
+    <string name="motivation_4">Jatka nesteytyksiäsi!</string>
+    <string name="motivation_5">Vesi on paras polttoaine aivoillesi!</string>
+    <string name="no_reminder_set">Ei muistutusta asetettu</string>
+    <string name="hours">TUNNIT</string>
+    <string name="minutes">MINUUTTIA</string>
+    <string name="seconds">SEKUNTIA</string>
+    <string name="exceeded_your_goal">Ylitit tavoitteesi</string>
+    <string name="goal_completed">Tavoite saavutettu!</string>
+</resources>

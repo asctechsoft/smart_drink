@@ -18,3 +18,4 @@ class RouteName {
   static const String languageSelection = '/language_selection';
   static const String premium = '/premium';
 }
+

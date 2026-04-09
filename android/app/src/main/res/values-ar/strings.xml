@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">تقدم المياه مع تأثير سقوط القطرة</string>
+    <string name="widget_small_b_desc">تناول الماء مع شريط التقدم</string>
+    <string name="widget_medium_a_desc">العد التنازلي للتذكير التالي</string>
+    <string name="widget_medium_b_desc">إدخال اليوم مع الإضافة السريعة</string>
+    <string name="widget_large_desc">لوحة تحكم كاملة مع السجل</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">مخصص</string>
+    <string name="today_s_intake">مدخول اليوم</string>
+    <string name="no_records_today">لا توجد سجلات اليوم</string>
+    <string name="add_drink">إضافة مشروب</string>
+    <string name="time_to_drink_water">حان الوقت لشرب الماء!</string>
+    <string name="water_tracking">تتبع المياه</string>
+    <string name="ongoing_desc">إشعار تتبع تناول الماء المستمر</string>
+    <string name="drink_reminders">تذكيرات الشرب</string>
+    <string name="daily_desc">تذكيرات شرب الماء اليومية</string>
+    <string name="its_time_to_drink">حان الوقت للشرب</string>
+    <string name="some_water">بعض الماء</string>
+    <string name="ml">مل</string>
+    <string name="oz">أونصة</string>
+    <string name="motivation_1">ابقَ مُرْتَوِيًا لتركيز أفضل وطاقة أكبر!</string>
+    <string name="motivation_2">يحتاج جسمك إلى الماء ليعمل بأفضل شكل!</string>
+    <string name="motivation_3">كوب من الماء يمكن أن يحسن مزاجك!</string>
+    <string name="motivation_4">حافظ على استمرارية ترطيبك!</string>
+    <string name="motivation_5">الماء هو أفضل وقود للدماغ!</string>
+    <string name="no_reminder_set">لا يوجد تذكير مضبوط</string>
+    <string name="hours">ساعات</string>
+    <string name="minutes">دقائق</string>
+    <string name="seconds">ثواني</string>
+    <string name="exceeded_your_goal">تجاوزت هدفك</string>
+    <string name="goal_completed">تم إنجاز الهدف!</string>
+</resources>

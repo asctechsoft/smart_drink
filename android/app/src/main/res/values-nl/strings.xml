@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Watervoortgang met druppelanimatie</string>
+    <string name="widget_small_b_desc">Waterinname met voortgangsbalk</string>
+    <string name="widget_medium_a_desc">Aftelling tot volgende herinnering</string>
+    <string name="widget_medium_b_desc">De intake van vandaag met snelle toevoeging</string>
+    <string name="widget_large_desc">Volledig dashboard met geschiedenis</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Aangepast</string>
+    <string name="today_s_intake">Inname van vandaag</string>
+    <string name="no_records_today">Geen records vandaag</string>
+    <string name="add_drink">Drink Toevoegen</string>
+    <string name="time_to_drink_water">Het is tijd om water te drinken!</string>
+    <string name="water_tracking">Water Bijhouden</string>
+    <string name="ongoing_desc">Doorlopende melding voor waterinname bijhouden</string>
+    <string name="drink_reminders">Drinkherinneringen</string>
+    <string name="daily_desc">Dagelijkse waterdrinkherinneringen</string>
+    <string name="its_time_to_drink">Het is tijd om te drinken</string>
+    <string name="some_water">een beetje water</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Blijf gehydrateerd voor betere focus en energie!</string>
+    <string name="motivation_2">Je lichaam heeft water nodig om optimaal te functioneren!</string>
+    <string name="motivation_3">Een glas water kan je humeur een boost geven!</string>
+    <string name="motivation_4">Houd je hydratatiereeks vol!</string>
+    <string name="motivation_5">Water is de beste brandstof voor je hersenen!</string>
+    <string name="no_reminder_set">Geen herinnering ingesteld</string>
+    <string name="hours">UREN</string>
+    <string name="minutes">MINUTEN</string>
+    <string name="seconds">SECONDEN</string>
+    <string name="exceeded_your_goal">Je doel overschreden</string>
+    <string name="goal_completed">Doel voltooid!</string>
+</resources>
+

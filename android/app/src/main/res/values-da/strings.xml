@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Vandfremgang med dråbeanimation</string>
+    <string name="widget_small_b_desc">Vandindtag med fremdriftslinje</string>
+    <string name="widget_medium_a_desc">Næste påmindelsesnedtælling</string>
+    <string name="widget_medium_b_desc">Dagens indtag med hurtig tilføjelse</string>
+    <string name="widget_large_desc">Fuld oversigt med historik</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Tilpasset</string>
+    <string name="today_s_intake">Dagens indtag</string>
+    <string name="no_records_today">Ingen poster i dag</string>
+    <string name="add_drink">Tilføj Drik</string>
+    <string name="time_to_drink_water">Det er tid til at drikke vand!</string>
+    <string name="water_tracking">Vandsporing</string>
+    <string name="ongoing_desc">Løbende notifikation om sporing af vandindtag</string>
+    <string name="drink_reminders">Drikkepåmindelser</string>
+    <string name="daily_desc">Daglige påmindelser om at drikke vand</string>
+    <string name="its_time_to_drink">Det er tid til at drikke</string>
+    <string name="some_water">lidt vand</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Hold dig hydreret for bedre fokus og energi!</string>
+    <string name="motivation_2">Din krop har brug for vand for at fungere optimalt!</string>
+    <string name="motivation_3">Et glas vand kan løfte dit humør!</string>
+    <string name="motivation_4">Fortsæt din hydreringsstreak!</string>
+    <string name="motivation_5">Vand er det bedste brændstof for din hjerne!</string>
+    <string name="no_reminder_set">Ingen påmindelse indstillet</string>
+    <string name="hours">TIMER</string>
+    <string name="minutes">MINUTTER</string>
+    <string name="seconds">SEKUNDER</string>
+    <string name="exceeded_your_goal">Overskredet dit mål</string>
+    <string name="goal_completed">Mål fuldført!</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Წყლის პროგრესი წვეთების ანიმაციით</string>
+    <string name="widget_small_b_desc">Წყლის მიღება პროგრესის ზოლით</string>
+    <string name="widget_medium_a_desc">Შემდეგი შეხსენების დათვლა</string>
+    <string name="widget_medium_b_desc">Დღევანდელი მიღება სწრაფი დამატებით</string>
+    <string name="widget_large_desc">Სრული დაფა ისტორიით</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Მორგებული</string>
+    <string name="today_s_intake">Დღევანდელი მიღება</string>
+    <string name="no_records_today">Დღეს ჩანაწერები არ არის</string>
+    <string name="add_drink">Სასმელის Დამატება</string>
+    <string name="time_to_drink_water">დროა დალიო წყალი!</string>
+    <string name="water_tracking">Წყლის Მონიტორინგი</string>
+    <string name="ongoing_desc">Მიმდინარე წყლის მიღების თვალთვალის შეტყობინება</string>
+    <string name="drink_reminders">Სმის Შეხსენებები</string>
+    <string name="daily_desc">Ყოველდღიური წყლის დალევის შეხსენებები</string>
+    <string name="its_time_to_drink">დროა დალიო</string>
+    <string name="some_water">ცოტა წყალი</string>
+    <string name="ml">მლ</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Იყავი ჰიდრირებული უკეთესი ფოკუსისა და ენერგიისთვის!</string>
+    <string name="motivation_2">Თქვენს სხეულს სჭირდება წყალი საუკეთესოდ ფუნქციონირებისთვის!</string>
+    <string name="motivation_3">Წყლის ჭიქა შეიძლება გააუმჯობესოს თქვენი განწყობა!</string>
+    <string name="motivation_4">Გააგრძელე ჰიდრატაციის სერია!</string>
+    <string name="motivation_5">წყალი საუკეთესო საწვავია შენი ტვინისთვის!</string>
+    <string name="no_reminder_set">Შეხსენება არ არის დაყენებული</string>
+    <string name="hours">ᲡᲐᲐᲗᲘ</string>
+    <string name="minutes">ᲬᲣᲗᲔᲑᲘ</string>
+    <string name="seconds">ᲬᲐᲛᲔᲑᲘ</string>
+    <string name="exceeded_your_goal">Გადააჭარბეთ თქვენს მიზანს</string>
+    <string name="goal_completed">Მიზანი შესრულდა!</string>
+</resources>

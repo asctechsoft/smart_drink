@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Progresul apei cu animație de picătură</string>
+    <string name="widget_small_b_desc">Aport de apă cu bară de progres</string>
+    <string name="widget_medium_a_desc">Următoarea numărătoare inversă pentru memento</string>
+    <string name="widget_medium_b_desc">Consumul de astăzi cu adăugare rapidă</string>
+    <string name="widget_large_desc">Tablou de bord complet cu istoric</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Personalizat</string>
+    <string name="today_s_intake">Consumul de astăzi</string>
+    <string name="no_records_today">Nu există înregistrări astăzi</string>
+    <string name="add_drink">Adaugă Băutură</string>
+    <string name="time_to_drink_water">Este timpul să bei apă!</string>
+    <string name="water_tracking">Urmărirea Apei</string>
+    <string name="ongoing_desc">Notificare de urmărire continuă a consumului de apă</string>
+    <string name="drink_reminders">Memento-uri Pentru Băuturi</string>
+    <string name="daily_desc">Memento-uri zilnice pentru consumul de apă</string>
+    <string name="its_time_to_drink">Este timpul să bei</string>
+    <string name="some_water">un pic de apă</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Rămâi hidratat pentru o concentrare și energie mai bune!</string>
+    <string name="motivation_2">Corpul tău are nevoie de apă pentru a funcționa la capacitate maximă!</string>
+    <string name="motivation_3">Un pahar cu apă poate îmbunătăți starea ta de spirit!</string>
+    <string name="motivation_4">Continuă-ți seria de hidratare!</string>
+    <string name="motivation_5">Apa este cel mai bun combustibil pentru creierul tău!</string>
+    <string name="no_reminder_set">Niciun memento setat</string>
+    <string name="hours">ORE</string>
+    <string name="minutes">MINUTE</string>
+    <string name="seconds">SECUNDE</string>
+    <string name="exceeded_your_goal">Ai depășit obiectivul tău</string>
+    <string name="goal_completed">Obiectiv îndeplinit!</string>
+</resources>

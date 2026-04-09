@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/noti_ongoing_bg"
+    android:padding="16dp">
+
+    <!-- Decorative bubbles (must use ImageView, not View, for RemoteViews) -->
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/noti_ongoing_bubble"
+        android:scaleType="fitXY"
+        android:contentDescription="@null" />
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="60dp"
+        android:src="@drawable/noti_ongoing_bubble"
+        android:scaleType="fitXY"
+        android:contentDescription="@null" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/noti_ongoing_bubble"
+        android:scaleType="fitXY"
+        android:contentDescription="@null" />
+
+    <!-- Content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Icon + time row -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <FrameLayout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp">
+
+                <!-- <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/noti_ongoing_icon_bg"
+                    android:scaleType="fitXY"
+                    android:contentDescription="@null" /> -->
+
+                <ImageView
+                    android:id="@+id/iv_water_drop"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/img_water"
+                    android:contentDescription="Water" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01:00 pm"
+                android:textColor="@color/clr_text_muted"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- "It's time to drink" text -->
+        <TextView
+            android:id="@+id/tv_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/its_time_to_drink"
+            android:textColor="@color/clr_white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="2dp" />
+
+        <!-- "some water" accent text -->
+        <TextView
+            android:id="@+id/tv_sub_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/some_water"   
+            android:textColor="@color/widget_cyan"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Progress bar -->
+        <ProgressBar
+            android:id="@+id/pb_progress"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@drawable/noti_ongoing_progress"
+            android:layout_marginBottom="2dp" />
+
+        <!-- Progress text -->
+        <TextView
+            android:id="@+id/tv_progress_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1000 / 2000 ml"
+            android:textColor="@color/clr_text_muted"
+            android:textSize="12sp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Add Drink button with animated shimmer -->
+        <FrameLayout
+            android:id="@+id/btn_add_water"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <!-- Static fallback background for devices that don't support animation -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/noti_ongoing_btn"
+                android:clickable="false"
+                android:focusable="false" />
+
+            <!-- Animated shimmer background (ProgressBar auto-starts AnimationDrawable) -->
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@drawable/noti_btn_shimmer_anim"
+                android:indeterminateOnly="true"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
+
+            <!-- Button text overlay -->
+            <TextView
+                android:id="@+id/tv_btn_add_water"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/add_drink"
+                android:textColor="@color/clr_white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:clickable="false"
+                android:focusable="false" />
+
+        </FrameLayout>
+    </LinearLayout>
+</RelativeLayout>

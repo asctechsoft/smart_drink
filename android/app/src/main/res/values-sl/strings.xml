@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Napredek vode z animacijo kapljic</string>
+    <string name="widget_small_b_desc">Vnos vode s kazalnikom napredka</string>
+    <string name="widget_medium_a_desc">Odštevanje do naslednjega opomnika</string>
+    <string name="widget_medium_b_desc">Današnji vnos s hitrim dodajanjem</string>
+    <string name="widget_large_desc">Celotna nadzorna plošča z zgodovino</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Po meri</string>
+    <string name="today_s_intake">Današnji vnos</string>
+    <string name="no_records_today">Danes ni zapisov</string>
+    <string name="add_drink">Dodaj Pijačo</string>
+    <string name="time_to_drink_water">Čas je za pitje vode!</string>
+    <string name="water_tracking">Spremljanje Vode</string>
+    <string name="ongoing_desc">Obvestilo o stalnem spremljanju vnosa vode</string>
+    <string name="drink_reminders">Opomniki Za Pitje</string>
+    <string name="daily_desc">Dnevni opomniki za pitje vode</string>
+    <string name="its_time_to_drink">Čas je za pitje</string>
+    <string name="some_water">malo vode</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Ostanite hidrirani za boljšo osredotočenost in energijo!</string>
+    <string name="motivation_2">Vaše telo potrebuje vodo za najboljše delovanje!</string>
+    <string name="motivation_3">Kozarec vode lahko izboljša vaše razpoloženje!</string>
+    <string name="motivation_4">Ohrani svoj niz hidracije!</string>
+    <string name="motivation_5">Voda je najboljše gorivo za tvoj možgan!</string>
+    <string name="no_reminder_set">Ni nastavljenega opomnika</string>
+    <string name="hours">URE</string>
+    <string name="minutes">MINUTE</string>
+    <string name="seconds">SEKUNDE</string>
+    <string name="exceeded_your_goal">Presegli ste svoj cilj</string>
+    <string name="goal_completed">Cilj dosežen!</string>
+</resources>

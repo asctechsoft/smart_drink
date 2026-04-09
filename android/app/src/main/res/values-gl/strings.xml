@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Progreso da auga con animación de gota</string>
+    <string name="widget_small_b_desc">Inxesta de auga con barra de progreso</string>
+    <string name="widget_medium_a_desc">Próximo recordatorio conta atrás</string>
+    <string name="widget_medium_b_desc">Inxesta de hoxe con engadir rápido</string>
+    <string name="widget_large_desc">Taboleiro completo con historial</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Personalizado</string>
+    <string name="today_s_intake">Ingesta de hoxe</string>
+    <string name="no_records_today">Non hai rexistros hoxe</string>
+    <string name="add_drink">Engadir Bebida</string>
+    <string name="time_to_drink_water">É hora de beber auga!</string>
+    <string name="water_tracking">Seguimento Da Auga</string>
+    <string name="ongoing_desc">Notificación de seguimento continuo da ingesta de auga</string>
+    <string name="drink_reminders">Lembretes Para Beber</string>
+    <string name="daily_desc">Recordatorios diarios para beber auga</string>
+    <string name="its_time_to_drink">É hora de beber</string>
+    <string name="some_water">un pouco de auga</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Mantente hidratado para mellorar a concentración e a enerxía!</string>
+    <string name="motivation_2">O teu corpo necesita auga para funcionar ao máximo!</string>
+    <string name="motivation_3">Un vaso de auga pode mellorar o teu ánimo!</string>
+    <string name="motivation_4">Mantén a túa racha de hidratación!</string>
+    <string name="motivation_5">A auga é o mellor combustible para o teu cerebro!</string>
+    <string name="no_reminder_set">Non se definiu ningún recordatorio</string>
+    <string name="hours">HORAS</string>
+    <string name="minutes">MINUTOS</string>
+    <string name="seconds">SEGUNDOS</string>
+    <string name="exceeded_your_goal">Superaches o teu obxectivo</string>
+    <string name="goal_completed">Obxectivo cumprido!</string>
+</resources>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Medium Widget B: Today's intake with percentage + quick add buttons -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/widget_bg_medium_rounded"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <!-- Top row: Percentage + intake text -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Large percentage with Progress Circle -->
+        <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="12dp">
+
+            <ImageView
+                android:id="@+id/iv_progress_ring_percentage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/tv_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="90%"
+                android:textColor="@color/clr_white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_label_today_intake"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/today_s_intake"
+                android:textColor="@color/clr_white"
+                android:textSize="11sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_current_ml"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1800ml"
+                    android:textColor="@color/clr_white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_goal_ml"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" / 2000ml"
+                    android:textColor="@color/clr_text_muted"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Goal status (shown when goal reached or exceeded) -->
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/widget_cyan"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <!-- Quick add buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:orientation="vertical">
+
+        <!-- Row 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_150"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/widget_quick_add_bg"
+                android:drawableTop="@drawable/ic_water_capacity_150"
+                android:drawablePadding="0dp"
+                android:gravity="center"
+                android:paddingTop="4dp"
+                android:text="150 ml"
+                android:textColor="@color/clr_white"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/btn_200"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/widget_quick_add_bg"
+                android:drawableTop="@drawable/ic_water_capacity_200"
+                android:drawablePadding="0dp"
+                android:gravity="center"
+                android:paddingTop="4dp"
+                android:text="200 ml"
+                android:textColor="@color/clr_white"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/btn_300"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/widget_quick_add_bg"
+                android:drawableTop="@drawable/ic_water_capacity_300"
+                android:drawablePadding="0dp"
+                android:gravity="center"
+                android:paddingTop="4dp"
+                android:text="300 ml"
+                android:textColor="@color/clr_white"
+                android:textSize="9sp" />
+        </LinearLayout>
+
+        <!-- Row 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_500"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/widget_quick_add_bg"
+                android:drawableTop="@drawable/ic_water_capacity_500"
+                android:drawablePadding="0dp"
+                android:gravity="center"
+                android:paddingTop="4dp"
+                android:text="500 ml"
+                android:textColor="@color/clr_white"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/btn_700"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/widget_quick_add_bg"
+                android:drawableTop="@drawable/ic_water_capacity_700"
+                android:drawablePadding="0dp"
+                android:gravity="center"
+                android:paddingTop="4dp"
+                android:text="700 ml"
+                android:textColor="@color/clr_white"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/btn_custom"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/widget_quick_add_bg"
+                android:drawableTop="@drawable/ic_edit_water"
+                android:drawablePadding="0dp"
+                android:gravity="center"
+                android:paddingTop="4dp"
+                android:text="@string/custom"
+                android:textColor="@color/clr_white"
+                android:textSize="9sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Напредок на вода со анимација на капка</string>
+    <string name="widget_small_b_desc">Унес на вода со лента за напредок</string>
+    <string name="widget_medium_a_desc">Одбројување до следниот потсетник</string>
+    <string name="widget_medium_b_desc">Денешниот внес со брзо додавање</string>
+    <string name="widget_large_desc">Целосна контролна табла со историја</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Прилагодено</string>
+    <string name="today_s_intake">Денешниот внес</string>
+    <string name="no_records_today">Нема записи денес</string>
+    <string name="add_drink">Додај Пијалак</string>
+    <string name="time_to_drink_water">Време е да пиете вода!</string>
+    <string name="water_tracking">Следење На Вода</string>
+    <string name="ongoing_desc">Нотификација за тековно следење на внесот на вода</string>
+    <string name="drink_reminders">Потсетници За Пиење</string>
+    <string name="daily_desc">Дневни потсетници за пиење вода</string>
+    <string name="its_time_to_drink">Време е да пиете</string>
+    <string name="some_water">малку вода</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Останете хидрирани за подобар фокус и енергија!</string>
+    <string name="motivation_2">На вашето тело му треба вода за да функционира најдобро!</string>
+    <string name="motivation_3">Чаша вода може да го подобри вашето расположение!</string>
+    <string name="motivation_4">Продолжете со вашата серија на хидратација!</string>
+    <string name="motivation_5">Водата е најдоброто гориво за вашиот мозок!</string>
+    <string name="no_reminder_set">Нема поставено потсетник</string>
+    <string name="hours">ЧАСОВИ</string>
+    <string name="minutes">МИНУТИ</string>
+    <string name="seconds">СЕКУНДИ</string>
+    <string name="exceeded_your_goal">Надминавте ја вашата цел</string>
+    <string name="goal_completed">Целта е завршена!</string>
+</resources>

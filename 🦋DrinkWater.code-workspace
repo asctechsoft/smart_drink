@@ -1,0 +1,45 @@
+{
+	"folders": [
+		{
+			"name": "🏠Root",
+			"path": "."
+		}
+	],
+	"settings": {
+		"explorer.autoReveal": true,
+		"search.exclude": {
+			"amobi_common/.dart_tool": true,
+			"amobi_common/.metadata": true,
+			"amobi_common/.flutter-plugins": true,
+			"amobi_common/.flutter-plugins-dependencies": true,
+			".dart_tool": true,
+			".idea": true,
+			".vscode": true,
+			".metadata": true,
+			"build": true,
+			"README.md": true,
+			"android/.gradle": true,
+			"android/.kotlin": true,
+			".flutter-plugins": true,
+			".flutter-plugins-dependencies": true
+		},
+		"files.exclude": {
+			"amobi_common/.dart_tool": true,
+			"amobi_common/.metadata": true,
+			"amobi_common/.flutter-plugins": true,
+			"amobi_common/.flutter-plugins-dependencies": true,
+			".dart_tool": true,
+			".idea": true,
+			".vscode": true,
+			".metadata": true,
+			"build": true,
+			"README.md": true,
+			"android/.gradle": true,
+			"android/.kotlin": true,
+			".flutter-plugins": true,
+			".flutter-plugins-dependencies": true
+		},
+		"workbench.editor.enablePreview": false,
+		"workbench.editor.enablePreviewFromQuickOpen": false
+	}
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">水の進捗（水滴アニメーション付き）</string>
+    <string name="widget_small_b_desc">水分摂取量と進捗バー</string>
+    <string name="widget_medium_a_desc">次のリマインダーのカウントダウン</string>
+    <string name="widget_medium_b_desc">今日の摂取をクイック追加</string>
+    <string name="widget_large_desc">履歴付きフルダッシュボード</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">カスタム</string>
+    <string name="today_s_intake">今日の摂取量</string>
+    <string name="no_records_today">今日の記録はありません</string>
+    <string name="add_drink">ドリンクを追加</string>
+    <string name="time_to_drink_water">水分補給の時間です！</string>
+    <string name="water_tracking">水分追跡</string>
+    <string name="ongoing_desc">継続的な水分摂取追跡通知</string>
+    <string name="drink_reminders">飲水リマインダー</string>
+    <string name="daily_desc">毎日の水分摂取リマインダー</string>
+    <string name="its_time_to_drink">水分補給の時間です</string>
+    <string name="some_water">水を飲みましょう</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">水分補給で集中力とエネルギーをアップ！</string>
+    <string name="motivation_2">体が最高の状態で機能するには水が必要です。</string>
+    <string name="motivation_3">コップ1杯の水で気分がアップ！</string>
+    <string name="motivation_4">水分補給の習慣を続けましょう！</string>
+    <string name="motivation_5">水は脳にとって最高の燃料です！</string>
+    <string name="no_reminder_set">リマインダーが設定されていません</string>
+    <string name="hours">時間</string>
+    <string name="minutes">分</string>
+    <string name="seconds">秒</string>
+    <string name="exceeded_your_goal">目標を超えました</string>
+    <string name="goal_completed">目標達成！</string>
+</resources>

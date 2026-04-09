@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Дусал хөдөлгөөн бүхий усны явц</string>
+    <string name="widget_small_b_desc">Усны хэрэглээ ба дэвшлийн мөр</string>
+    <string name="widget_medium_a_desc">Дараагийн сануулгын тоолуур</string>
+    <string name="widget_medium_b_desc">Өнөөдрийн хэрэглээ хурдан нэмэхтэй</string>
+    <string name="widget_large_desc">Түүхтэй бүрэн хяналтын самбар</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Захиалгат</string>
+    <string name="today_s_intake">Өнөөдрийн хэрэглээ</string>
+    <string name="no_records_today">Өнөөдөр бичлэг байхгүй</string>
+    <string name="add_drink">Ундаа Нэмэх</string>
+    <string name="time_to_drink_water">Ус уух цаг боллоо!</string>
+    <string name="water_tracking">Усны Хяналт</string>
+    <string name="ongoing_desc">Ус уух хэмжээг тасралтгүй хянах мэдэгдэл</string>
+    <string name="drink_reminders">Уух Сануулга</string>
+    <string name="daily_desc">Өдөр бүр ус уух сануулга</string>
+    <string name="its_time_to_drink">Уух цаг боллоо</string>
+    <string name="some_water">бага зэрэг ус</string>
+    <string name="ml">мл</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Илүү сайн төвлөрөл, эрч хүчний тулд ус ууж байгаарай!</string>
+    <string name="motivation_2">Таны бие хамгийн сайн ажиллахын тулд ус хэрэгтэй!</string>
+    <string name="motivation_3">Нэг аяга ус таны сэтгэл санааг сайжруулна!</string>
+    <string name="motivation_4">Ус уух цувралаа үргэлжлүүлээрэй!</string>
+    <string name="motivation_5">Ус бол таны тархины хамгийн сайн түлш юм!</string>
+    <string name="no_reminder_set">Сануулга тохируулагдаагүй</string>
+    <string name="hours">ЦАГ</string>
+    <string name="minutes">МИНУТ</string>
+    <string name="seconds">СЕКУНД</string>
+    <string name="exceeded_your_goal">Зорилгоо давлаа</string>
+    <string name="goal_completed">Зорилго биелсэн!</string>
+</resources>

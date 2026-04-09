@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">ਪਾਣੀ ਦੀ ਤਰੱਕੀ ਡ੍ਰੌਪ ਐਨੀਮੇਸ਼ਨ ਨਾਲ</string>
+    <string name="widget_small_b_desc">ਪਾਣੀ ਦੀ ਖਪਤ ਨਾਲ ਪ੍ਰਗਤੀ ਬਾਰ</string>
+    <string name="widget_medium_a_desc">ਅਗਲੀ ਰੀਮਾਈਂਡਰ ਕਾਊਂਟਡਾਊਨ</string>
+    <string name="widget_medium_b_desc">ਅੱਜ ਦੀ ਖਪਤ ਤੇਜ਼ ਜੋੜ ਨਾਲ</string>
+    <string name="widget_large_desc">ਪੂਰਾ ਡੈਸ਼ਬੋਰਡ ਇਤਿਹਾਸ ਨਾਲ</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">ਕਸਟਮ</string>
+    <string name="today_s_intake">ਅੱਜ ਦੀ ਖਪਤ</string>
+    <string name="no_records_today">ਅੱਜ ਕੋਈ ਰਿਕਾਰਡ ਨਹੀਂ</string>
+    <string name="add_drink">ਡਰਿੰਕ ਜੋੜੋ</string>
+    <string name="time_to_drink_water">ਪਾਣੀ ਪੀਣ ਦਾ ਸਮਾਂ ਹੋ ਗਿਆ ਹੈ!</string>
+    <string name="water_tracking">ਪਾਣੀ ਦੀ ਟ੍ਰੈਕਿੰਗ</string>
+    <string name="ongoing_desc">ਲਗਾਤਾਰ ਪਾਣੀ ਪੀਣ ਦੀ ਟਰੈਕਿੰਗ ਨੋਟੀਫਿਕੇਸ਼ਨ</string>
+    <string name="drink_reminders">ਪੀਣ ਦੇ ਰਿਮਾਈਂਡਰ</string>
+    <string name="daily_desc">ਰੋਜ਼ਾਨਾ ਪਾਣੀ ਪੀਣ ਦੇ ਰੀਮਾਈਂਡਰ</string>
+    <string name="its_time_to_drink">ਪੀਣ ਦਾ ਸਮਾਂ ਹੋ ਗਿਆ ਹੈ</string>
+    <string name="some_water">ਥੋੜ੍ਹਾ ਪਾਣੀ</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">ਬਿਹਤਰ ਧਿਆਨ ਅਤੇ ਊਰਜਾ ਲਈ ਪਾਣੀ ਪੀਂਦੇ ਰਹੋ!</string>
+    <string name="motivation_2">ਤੁਹਾਡੇ ਸਰੀਰ ਨੂੰ ਸਭ ਤੋਂ ਵਧੀਆ ਕੰਮ ਕਰਨ ਲਈ ਪਾਣੀ ਦੀ ਲੋੜ ਹੈ!</string>
+    <string name="motivation_3">ਇੱਕ ਗਲਾਸ ਪਾਣੀ ਤੁਹਾਡੇ ਮੂਡ ਨੂੰ ਵਧਾ ਸਕਦਾ ਹੈ!</string>
+    <string name="motivation_4">ਆਪਣੀ ਹਾਈਡ੍ਰੇਸ਼ਨ ਲੜੀ ਜਾਰੀ ਰੱਖੋ!</string>
+    <string name="motivation_5">ਪਾਣੀ ਤੁਹਾਡੇ ਦਿਮਾਗ ਲਈ ਸਭ ਤੋਂ ਵਧੀਆ ਬਾਲਣ ਹੈ!</string>
+    <string name="no_reminder_set">ਕੋਈ ਰਿਮਾਈਂਡਰ ਸੈੱਟ ਨਹੀਂ</string>
+    <string name="hours">ਘੰਟੇ</string>
+    <string name="minutes">ਮਿੰਟ</string>
+    <string name="seconds">ਸਕਿੰਟ</string>
+    <string name="exceeded_your_goal">ਆਪਣੇ ਟੀਚੇ ਨੂੰ ਪਾਰ ਕੀਤਾ</string>
+    <string name="goal_completed">ਟੀਚਾ ਪੂਰਾ ਹੋਇਆ!</string>
+</resources>

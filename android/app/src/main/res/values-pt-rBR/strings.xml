@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Progresso da água com animação de gota</string>
+    <string name="widget_small_b_desc">Ingestão de água com barra de progresso</string>
+    <string name="widget_medium_a_desc">Contagem regressiva do próximo lembrete</string>
+    <string name="widget_medium_b_desc">Ingestão de hoje com adição rápida</string>
+    <string name="widget_large_desc">Painel completo com histórico</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Personalizado</string>
+    <string name="today_s_intake">Ingestão de hoje</string>
+    <string name="no_records_today">Sem registros hoje</string>
+    <string name="add_drink">Adicionar Bebida</string>
+    <string name="time_to_drink_water">Hora de beber água!</string>
+    <string name="water_tracking">Rastreamento De Água</string>
+    <string name="ongoing_desc">Notificação de acompanhamento contínuo da ingestão de água</string>
+    <string name="drink_reminders">Lembretes Para Beber</string>
+    <string name="daily_desc">Lembretes diários para beber água</string>
+    <string name="its_time_to_drink">Hora de beber</string>
+    <string name="some_water">um pouco de água</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Mantenha-se hidratado para melhor foco e energia!</string>
+    <string name="motivation_2">Seu corpo precisa de água para funcionar da melhor forma!</string>
+    <string name="motivation_3">Um copo de água pode melhorar o seu humor!</string>
+    <string name="motivation_4">Mantenha sua sequência de hidratação!</string>
+    <string name="motivation_5">A água é o melhor combustível para o seu cérebro!</string>
+    <string name="no_reminder_set">Nenhum lembrete definido</string>
+    <string name="hours">HORAS</string>
+    <string name="minutes">MINUTOS</string>
+    <string name="seconds">SEGUNDOS</string>
+    <string name="exceeded_your_goal">Superou sua meta</string>
+    <string name="goal_completed">Objetivo concluído!</string>
+</resources>

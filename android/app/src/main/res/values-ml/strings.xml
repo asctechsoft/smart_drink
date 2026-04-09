@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">ജല പുരോഗതി ഡ്രോപ്പ് അനിമേഷനോടുകൂടി</string>
+    <string name="widget_small_b_desc">പുരോഗതി ബാറോടുകൂടിയ വെള്ളം കുടിക്കൽ</string>
+    <string name="widget_medium_a_desc">അടുത്ത റിമൈൻഡർ കൗണ്ട്ഡൗൺ</string>
+    <string name="widget_medium_b_desc">ഇന്നത്തെ അവശോഷണം വേഗത്തിൽ ചേർക്കുക</string>
+    <string name="widget_large_desc">ചരിത്രമുള്ള മുഴുവൻ ഡാഷ്‌ബോർഡും</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">കസ്റ്റം</string>
+    <string name="today_s_intake">ഇന്നത്തെ ഉപഭോഗം</string>
+    <string name="no_records_today">ഇന്ന് റെക്കോർഡുകളില്ല</string>
+    <string name="add_drink">പാനീയം ചേർക്കുക</string>
+    <string name="time_to_drink_water">വെള്ളം കുടിക്കാനുള്ള സമയമായി!</string>
+    <string name="water_tracking">ജല നിരീക്ഷണം</string>
+    <string name="ongoing_desc">തുടർച്ചയായ വെള്ളം കുടിക്കൽ പിന്തുടരൽ അറിയിപ്പ്</string>
+    <string name="drink_reminders">കുടിക്കൽ ഓർമ്മപ്പെടുത്തലുകൾ</string>
+    <string name="daily_desc">ദൈനിക വെള്ളം കുടിക്കൽ ഓർമ്മപ്പെടുത്തലുകൾ</string>
+    <string name="its_time_to_drink">കുടിക്കാനുള്ള സമയമായി</string>
+    <string name="some_water">കുറച്ച് വെള്ളം</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">നന്നായി ശ്രദ്ധ കേന്ദ്രീകരിക്കാനും ഊർജ്ജം നിലനിർത്താനും വെള്ളം കുടിക്കുക!</string>
+    <string name="motivation_2">നിങ്ങളുടെ ശരീരം മികച്ച രീതിയിൽ പ്രവർത്തിക്കാൻ വെള്ളം ആവശ്യമാണ്!</string>
+    <string name="motivation_3">ഒരു ഗ്ലാസ് വെള്ളം നിങ്ങളുടെ മൂഡ് ഉയർത്താം!</string>
+    <string name="motivation_4">നിങ്ങളുടെ ഇരിവ് സ്ട്രീക്ക് തുടരൂ!</string>
+    <string name="motivation_5">വെള്ളം നിങ്ങളുടെ തലച്ചോറിന് ഏറ്റവും മികച്ച ഇന്ധനമാണ്!</string>
+    <string name="no_reminder_set">റിമൈൻഡർ സജ്ജീകരിച്ചിട്ടില്ല</string>
+    <string name="hours">മണിക്കൂറുകൾ</string>
+    <string name="minutes">നിമിഷങ്ങൾ</string>
+    <string name="seconds">സെക്കൻഡുകൾ</string>
+    <string name="exceeded_your_goal">നിങ്ങളുടെ ലക്ഷ്യം മറികടന്നു</string>
+    <string name="goal_completed">ലക്ഷ്യം പൂർത്തിയായി!</string>
+</resources>

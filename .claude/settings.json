@@ -1,0 +1,48 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && python3 build.py claude"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "firebase@firebase": true
+  },
+  "extraKnownMarketplaces": {
+    "firebase": {
+      "source": {
+        "source": "github",
+        "repo": "firebase/firebase-tools"
+      }
+    }
+  },
+  "permissions": {
+    "allow": [
+      "mcp__plugin_firebase_firebase__firebase_get_project",
+      "mcp__plugin_firebase_firebase__firebase_list_projects",
+      "mcp__plugin_firebase_firebase__firebase_list_apps",
+      "mcp__plugin_firebase_firebase__firebase_get_sdk_config",
+      "mcp__plugin_firebase_firebase__firebase_get_environment",
+      "mcp__plugin_firebase_firebase__firebase_read_resources",
+      "mcp__plugin_firebase_firebase__crashlytics_list_events",
+      "mcp__plugin_firebase_firebase__crashlytics_get_issue",
+      "mcp__plugin_firebase_firebase__crashlytics_get_report",
+      "mcp__plugin_firebase_firebase__crashlytics_batch_get_events",
+      "mcp__plugin_firebase_firebase__crashlytics_list_notes",
+      "mcp__plugin_firebase_firebase__remoteconfig_get_template",
+      "mcp__plugin_firebase_firebase__messaging_send_message",
+      "mcp__plugin_firebase_firebase__auth_get_users",
+      "mcp__plugin_firebase_firebase__firestore_list_collections",
+      "mcp__plugin_firebase_firebase__firestore_list_documents",
+      "mcp__plugin_firebase_firebase__firestore_get_document",
+      "mcp__plugin_firebase_firebase__firestore_query_collection",
+      "mcp__plugin_firebase_firebase__realtimedatabase_get_data"
+    ]
+  }
+}

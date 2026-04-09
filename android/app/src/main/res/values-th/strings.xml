@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">ความคืบหน้าน้ำพร้อมแอนิเมชันหยดน้ำ</string>
+    <string name="widget_small_b_desc">การดื่มน้ำพร้อมแถบความคืบหน้า</string>
+    <string name="widget_medium_a_desc">นับถอยหลังแจ้งเตือนถัดไป</string>
+    <string name="widget_medium_b_desc">ปริมาณรับประทานวันนี้ ด้วยการเพิ่มอย่างรวดเร็ว</string>
+    <string name="widget_large_desc">แดชบอร์ดเต็มรูปแบบพร้อมประวัติ</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">กำหนดเอง</string>
+    <string name="today_s_intake">การรับประทานวันนี้</string>
+    <string name="no_records_today">ไม่มีบันทึกวันนี้</string>
+    <string name="add_drink">เพิ่มเครื่องดื่ม</string>
+    <string name="time_to_drink_water">ได้เวลาดื่มน้ำแล้ว!</string>
+    <string name="water_tracking">การติดตามน้ำ</string>
+    <string name="ongoing_desc">การแจ้งเตือนการติดตามการดื่มน้ำอย่างต่อเนื่อง</string>
+    <string name="drink_reminders">การแจ้งเตือนดื่มน้ำ</string>
+    <string name="daily_desc">เตือนดื่มน้ำรายวัน</string>
+    <string name="its_time_to_drink">ได้เวลาดื่ม</string>
+    <string name="some_water">น้ำเปล่าเล็กน้อย</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">ดื่มน้ำให้เพียงพอเพื่อสมาธิและพลังงานที่ดีขึ้น!</string>
+    <string name="motivation_2">ร่างกายของคุณต้องการน้ำเพื่อให้ทำงานได้ดีที่สุด!</string>
+    <string name="motivation_3">น้ำหนึ่งแก้วช่วยยกระดับอารมณ์ได้!</string>
+    <string name="motivation_4">รักษาสตรีคการดื่มน้ำของคุณต่อไป!</string>
+    <string name="motivation_5">น้ำเป็นเชื้อเพลิงที่ดีที่สุดสำหรับสมองของคุณ!</string>
+    <string name="no_reminder_set">ยังไม่ได้ตั้งเตือน</string>
+    <string name="hours">ชั่วโมง</string>
+    <string name="minutes">นาที</string>
+    <string name="seconds">วินาที</string>
+    <string name="exceeded_your_goal">เกินเป้าหมายของคุณ</string>
+    <string name="goal_completed">เป้าหมายสำเร็จแล้ว!</string>
+</resources>

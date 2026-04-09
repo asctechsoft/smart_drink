@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Progrés de l\'aigua amb animació de gota</string>
+    <string name="widget_small_b_desc">Ingesta d\'aigua amb barra de progrés</string>
+    <string name="widget_medium_a_desc">Compte enrere del següent recordatori</string>
+    <string name="widget_medium_b_desc">Ingesta d\'avui amb afegit ràpid</string>
+    <string name="widget_large_desc">Tauler complet amb historial</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Personalitzat</string>
+    <string name="today_s_intake">Ingesta d\'avui</string>
+    <string name="no_records_today">Avui no hi ha registres</string>
+    <string name="add_drink">Afegeix Beguda</string>
+    <string name="time_to_drink_water">És hora de beure aigua!</string>
+    <string name="water_tracking">Seguiment De L\'aigua</string>
+    <string name="ongoing_desc">Notificació de seguiment continu de la ingesta d\'aigua</string>
+    <string name="drink_reminders">Recordatoris Per Beure</string>
+    <string name="daily_desc">Recordatoris diaris per beure aigua</string>
+    <string name="its_time_to_drink">És hora de beure</string>
+    <string name="some_water">una mica d\'aigua</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Mantingues\'t hidratat per a una millor concentració i energia!</string>
+    <string name="motivation_2">El teu cos necessita aigua per funcionar al màxim!</string>
+    <string name="motivation_3">Un got d’aigua pot millorar el teu estat d’ànim!</string>
+    <string name="motivation_4">Mantén la teva ratxa d\'hidració!</string>
+    <string name="motivation_5">L\'aigua és el millor combustible per al teu cervell!</string>
+    <string name="no_reminder_set">No s\'ha establert cap recordatori</string>
+    <string name="hours">HORES</string>
+    <string name="minutes">MINUTS</string>
+    <string name="seconds">SEGONS</string>
+    <string name="exceeded_your_goal">Has superat el teu objectiu</string>
+    <string name="goal_completed">Objectiu completat!</string>
+</resources>

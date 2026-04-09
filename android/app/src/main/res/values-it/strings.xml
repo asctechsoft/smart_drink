@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Progresso dell\'acqua con animazione a goccia</string>
+    <string name="widget_small_b_desc">Assunzione di acqua con barra di progresso</string>
+    <string name="widget_medium_a_desc">Prossimo conto alla rovescia del promemoria</string>
+    <string name="widget_medium_b_desc">Assunzione di oggi con aggiunta rapida</string>
+    <string name="widget_large_desc">Cruscotto completo con cronologia</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Personalizzato</string>
+    <string name="today_s_intake">Assunzione di oggi</string>
+    <string name="no_records_today">Nessun record oggi</string>
+    <string name="add_drink">Aggiungi Bevanda</string>
+    <string name="time_to_drink_water">È ora di bere acqua!</string>
+    <string name="water_tracking">Monitoraggio Dell\'acqua</string>
+    <string name="ongoing_desc">Notifica di monitoraggio continuo dell\'assunzione di acqua</string>
+    <string name="drink_reminders">Promemoria Per Bere</string>
+    <string name="daily_desc">Promemoria giornalieri per bere acqua</string>
+    <string name="its_time_to_drink">È ora di bere</string>
+    <string name="some_water">un po\' d\'acqua</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Rimani idratato per una migliore concentrazione ed energia!</string>
+    <string name="motivation_2">Il tuo corpo ha bisogno di acqua per funzionare al meglio!</string>
+    <string name="motivation_3">Un bicchiere d\'acqua può migliorare il tuo umore!</string>
+    <string name="motivation_4">Mantieni la tua serie di idratazione!</string>
+    <string name="motivation_5">L\'acqua è il miglior carburante per il tuo cervello!</string>
+    <string name="no_reminder_set">Nessun promemoria impostato</string>
+    <string name="hours">ORE</string>
+    <string name="minutes">MINUTI</string>
+    <string name="seconds">SECONDI</string>
+    <string name="exceeded_your_goal">Hai superato il tuo obiettivo</string>
+    <string name="goal_completed">Obiettivo completato!</string>
+</resources>

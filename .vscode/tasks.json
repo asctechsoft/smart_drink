@@ -1,0 +1,210 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🔨 Build APK, AAB or IPA",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "/Users/admin/Work/script_utils/runnable_task_project.py",
+        "--action",
+        "1"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "/Users/admin/Work/drink_water"
+      }
+    },
+    {
+      "label": "📱 Build & Run Device",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "/Users/admin/Work/script_utils/runnable_task_project.py",
+        "--action",
+        "2"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "/Users/admin/Work/drink_water"
+      }
+    },
+    {
+      "label": "🌐 Translate",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "/Users/admin/Work/script_utils/runnable_task_project.py",
+        "--action",
+        "3"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "/Users/admin/Work/drink_water"
+      }
+    },
+    {
+      "label": "📝 Review Code",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "/Users/admin/Work/script_utils/runnable_task_project.py",
+        "--action",
+        "4"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "/Users/admin/Work/drink_water"
+      }
+    },
+    {
+      "label": "📥 Git Pull All",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "/Users/admin/Work/script_utils/runnable_task_project.py",
+        "--action",
+        "5"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "/Users/admin/Work/drink_water"
+      }
+    },
+    {
+      "label": "🧪 Run Test",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "/Users/admin/Work/script_utils/runnable_task_project.py",
+        "--action",
+        "6"
+      ],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "/Users/admin/Work/drink_water"
+      }
+    },
+    {
+      "label": "📋 Logcat",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "/Users/admin/Work/script_utils/runnable_task_project.py",
+        "--action",
+        "7"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "/Users/admin/Work/drink_water"
+      }
+    },
+    {
+      "label": "🔧 Fix & 🔄 Reformat Code",
+      "type": "shell",
+      "command": "dart fix --apply && dart format .",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "/Users/admin/Work/drink_water"
+      }
+    },
+    {
+      "label": "🚀 Action Menu",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "/Users/admin/Work/script_utils/runnable_task_project.py"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "/Users/admin/Work/drink_water"
+      }
+    },
+    {
+      "label": "✴️ Claude [OPUS] (YOLO Mode)",
+      "type": "shell",
+      "command": "claude",
+      "args": [
+        "--dangerously-skip-permissions",
+        "--model",
+        "claude-opus-4-6"
+      ],
+      "presentation": {
+        "panel": "new"
+      },
+      "group": "build",
+      "problemMatcher": [],
+      "options": {
+        "cwd": "/Users/admin/Work/drink_water"
+      }
+    },
+    {
+      "label": "✴️ Claude [SONNET] (YOLO Mode)",
+      "type": "shell",
+      "command": "claude",
+      "args": [
+        "--dangerously-skip-permissions",
+        "--model",
+        "claude-sonnet-4-6"
+      ],
+      "presentation": {
+        "panel": "new"
+      },
+      "group": "build",
+      "problemMatcher": [],
+      "options": {
+        "cwd": "/Users/admin/Work/drink_water"
+      }
+    }
+  ]
+}

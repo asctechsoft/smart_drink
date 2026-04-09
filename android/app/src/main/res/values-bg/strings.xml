@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Прогрес на водата с анимация на капка</string>
+    <string name="widget_small_b_desc">Прием на вода с лента за напредък</string>
+    <string name="widget_medium_a_desc">Отброяване до следващото напомняне</string>
+    <string name="widget_medium_b_desc">Днешният прием с бързо добавяне</string>
+    <string name="widget_large_desc">Пълно табло с история</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Персонализиран</string>
+    <string name="today_s_intake">Днешният прием</string>
+    <string name="no_records_today">Няма записи днес</string>
+    <string name="add_drink">Добави Напитка</string>
+    <string name="time_to_drink_water">Време е да пиете вода!</string>
+    <string name="water_tracking">Проследяване На Водата</string>
+    <string name="ongoing_desc">Известие за продължаващо проследяване на приема на вода</string>
+    <string name="drink_reminders">Напомняния За Пиене</string>
+    <string name="daily_desc">Ежедневни напомняния за пиене на вода</string>
+    <string name="its_time_to_drink">Време е да пиете</string>
+    <string name="some_water">вода</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Останете хидратирани за по-добър фокус и енергия!</string>
+    <string name="motivation_2">Вашето тяло се нуждае от вода, за да функционира оптимално!</string>
+    <string name="motivation_3">Чаша вода може да подобри настроението ви!</string>
+    <string name="motivation_4">Продължавай хидратационния си стрик!</string>
+    <string name="motivation_5">Водата е най-доброто гориво за мозъка ви!</string>
+    <string name="no_reminder_set">Няма зададено напомняне</string>
+    <string name="hours">ЧАСОВЕ</string>
+    <string name="minutes">МИНУТИ</string>
+    <string name="seconds">СЕКУНДИ</string>
+    <string name="exceeded_your_goal">Надвишихте целта си</string>
+    <string name="goal_completed">Целта е изпълнена!</string>
+</resources>

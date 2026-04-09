@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">ನೀರು ಪ್ರಗತಿ ಹನಿ ಆನಿಮೇಶನ್‌ೊಂದಿಗೆ</string>
+    <string name="widget_small_b_desc">ಪ್ರಗತಿ ಪಟ್ಟಿಯೊಂದಿಗೆ ನೀರಿನ ಸೇವನೆ</string>
+    <string name="widget_medium_a_desc">ಮುಂದಿನ ನೆನಪಿನ ಕೌಂಟ್ಡೌನ್</string>
+    <string name="widget_medium_b_desc">ಇಂದಿನ ಸೇವನೆ ತ್ವರಿತ ಸೇರಿಸುವಿಕೆ ಜೊತೆಗೆ</string>
+    <string name="widget_large_desc">ಇತಿಹಾಸದೊಂದಿಗೆ ಪೂರ್ಣ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">ಕಸ್ಟಮ್</string>
+    <string name="today_s_intake">ಇಂದಿನ ಸೇವನೆ</string>
+    <string name="no_records_today">ಇಂದು ಯಾವುದೇ ದಾಖಲೆಗಳಿಲ್ಲ</string>
+    <string name="add_drink">ಪಾನೀಯ ಸೇರಿಸಿ</string>
+    <string name="time_to_drink_water">ನೀರು ಕುಡಿಯುವ ಸಮಯವಾಗಿದೆ!</string>
+    <string name="water_tracking">ನೀರು ಟ್ರ್ಯಾಕಿಂಗ್</string>
+    <string name="ongoing_desc">ನಿರಂತರ ಜಲ ಸೇವನೆ ಟ್ರ್ಯಾಕಿಂಗ್ ಸೂಚನೆ</string>
+    <string name="drink_reminders">ನೀರು ಕುಡಿಯುವ ಸ್ಮರಣೆಗಳು</string>
+    <string name="daily_desc">ದೈನಂದಿನ ನೀರು ಕುಡಿಯುವ ಜ್ಞಾಪನೆಗಳು</string>
+    <string name="its_time_to_drink">ಕುಡಿಯುವ ಸಮಯವಾಗಿದೆ</string>
+    <string name="some_water">ಸ್ವಲ್ಪ ನೀರು</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">ಉತ್ತಮ ಗಮನ ಮತ್ತು ಶಕ್ತಿಗಾಗಿ ನೀರು ಕುಡಿಯಿರಿ!</string>
+    <string name="motivation_2">ನಿಮ್ಮ ದೇಹವು ಉತ್ತಮವಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸಲು ನೀರು ಅಗತ್ಯವಿದೆ!</string>
+    <string name="motivation_3">ಒಂದು ಗ್ಲಾಸ್ ನೀರು ನಿಮ್ಮ ಮೂಡ್ ಅನ್ನು ಹೆಚ್ಚಿಸಬಹುದು!</string>
+    <string name="motivation_4">ನಿಮ್ಮ ಜಲಾಹಾರ ಸ್ಟ್ರೀಕ್ ಅನ್ನು ಮುಂದುವರಿಸಿ!</string>
+    <string name="motivation_5">ನೀರು ನಿಮ್ಮ ಮೆದುಳಿಗೆ ಅತ್ಯುತ್ತಮ ಇಂಧನವಾಗಿದೆ!</string>
+    <string name="no_reminder_set">ಯಾವುದೇ ರಿಮೈಂಡರ್ ಹೊಂದಿಸಲಾಗಿಲ್ಲ</string>
+    <string name="hours">ಗಂಟೆಗಳು</string>
+    <string name="minutes">ನಿಮಿಷಗಳು</string>
+    <string name="seconds">ಸೆಕೆಂಡುಗಳು</string>
+    <string name="exceeded_your_goal">ನಿಮ್ಮ ಗುರಿಯನ್ನು ಮೀರಿದ್ದೀರಿ</string>
+    <string name="goal_completed">ಗುರಿ ಪೂರ್ಣಗೊಂಡಿದೆ!</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Vee edenemine tilga animatsiooniga</string>
+    <string name="widget_small_b_desc">Vee tarbimine koos edenemisribaga</string>
+    <string name="widget_medium_a_desc">Järgmise meeldetuletuse loendur</string>
+    <string name="widget_medium_b_desc">Tänane tarbimine kiire lisamisega</string>
+    <string name="widget_large_desc">Täielik armatuurlaud ajalooga</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Kohandatud</string>
+    <string name="today_s_intake">Täna tarbitud</string>
+    <string name="no_records_today">Täna pole kirjeid</string>
+    <string name="add_drink">Lisa Jook</string>
+    <string name="time_to_drink_water">Aeg juua vett!</string>
+    <string name="water_tracking">Vee Jälgimine</string>
+    <string name="ongoing_desc">Jätkuva vee tarbimise jälgimise teade</string>
+    <string name="drink_reminders">Joogimeeldetuletused</string>
+    <string name="daily_desc">Igapäevased veejoomise meeldetuletused</string>
+    <string name="its_time_to_drink">On aeg juua</string>
+    <string name="some_water">natuke vett</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Püsi hüdreerituna parema keskendumise ja energia nimel!</string>
+    <string name="motivation_2">Sinu keha vajab parimaks toimimiseks vett!</string>
+    <string name="motivation_3">Klaas vett võib su meeleolu tõsta!</string>
+    <string name="motivation_4">Hoia oma hüdratsioonistreak käimas!</string>
+    <string name="motivation_5">Vesi on parim kütus sinu ajule!</string>
+    <string name="no_reminder_set">Meeldetuletust pole määratud</string>
+    <string name="hours">TUNNID</string>
+    <string name="minutes">MINUTID</string>
+    <string name="seconds">SEKUNDID</string>
+    <string name="exceeded_your_goal">Ületasid oma eesmärki</string>
+    <string name="goal_completed">Eesmärk täidetud!</string>
+</resources>

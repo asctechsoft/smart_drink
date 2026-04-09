@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Прогресс воды с анимацией капли</string>
+    <string name="widget_small_b_desc">Потребление воды с индикатором прогресса</string>
+    <string name="widget_medium_a_desc">Обратный отсчёт до следующего напоминания</string>
+    <string name="widget_medium_b_desc">Сегодняшний приём с быстрым добавлением</string>
+    <string name="widget_large_desc">Полная панель управления с историей</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Пользовательский</string>
+    <string name="today_s_intake">Сегодняшнее потребление</string>
+    <string name="no_records_today">Сегодня нет записей</string>
+    <string name="add_drink">Добавить Напиток</string>
+    <string name="time_to_drink_water">Время пить воду!</string>
+    <string name="water_tracking">Отслеживание Воды</string>
+    <string name="ongoing_desc">Постоянное уведомление об отслеживании потребления воды</string>
+    <string name="drink_reminders">Напоминания О Питье</string>
+    <string name="daily_desc">Ежедневные напоминания о питье воды</string>
+    <string name="its_time_to_drink">Время пить</string>
+    <string name="some_water">немного воды</string>
+    <string name="ml">мл</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Пейте больше воды для лучшей концентрации и энергии!</string>
+    <string name="motivation_2">Вашему организму нужна вода для оптимальной работы!</string>
+    <string name="motivation_3">Стакан воды поднимет настроение!</string>
+    <string name="motivation_4">Продолжай свою серию гидратации!</string>
+    <string name="motivation_5">Вода - лучшее топливо для вашего мозга!</string>
+    <string name="no_reminder_set">Напоминание не установлено</string>
+    <string name="hours">ЧАСЫ</string>
+    <string name="minutes">МИНУТЫ</string>
+    <string name="seconds">СЕКУНДЫ</string>
+    <string name="exceeded_your_goal">Превысил свою цель</string>
+    <string name="goal_completed">Цель достигнута!</string>
+</resources>

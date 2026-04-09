@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Postęp wody z animacją kropli</string>
+    <string name="widget_small_b_desc">Spożycie wody z paskiem postępu</string>
+    <string name="widget_medium_a_desc">Odliczanie do następnego przypomnienia</string>
+    <string name="widget_medium_b_desc">Dzisiejsze spożycie z szybkim dodaniem</string>
+    <string name="widget_large_desc">Pełny pulpit z historią</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Niestandardowy</string>
+    <string name="today_s_intake">Dzisiejsze spożycie</string>
+    <string name="no_records_today">Brak rekordów na dziś</string>
+    <string name="add_drink">Dodaj Napój</string>
+    <string name="time_to_drink_water">Czas napić się wody!</string>
+    <string name="water_tracking">Śledzenie Wody</string>
+    <string name="ongoing_desc">Powiadomienie o bieżącym śledzeniu spożycia wody</string>
+    <string name="drink_reminders">Przypomnienia O Piciu</string>
+    <string name="daily_desc">Codzienne przypomnienia o piciu wody</string>
+    <string name="its_time_to_drink">Czas napić się</string>
+    <string name="some_water">trochę wody</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Dbaj o nawodnienie dla lepszego skupienia i energii!</string>
+    <string name="motivation_2">Twój organizm potrzebuje wody, aby jak najlepiej funkcjonować!</string>
+    <string name="motivation_3">Szklanka wody może poprawić twój nastrój!</string>
+    <string name="motivation_4">Kontynuuj swoją passę nawodnienia!</string>
+    <string name="motivation_5">Woda to najlepsze paliwo dla Twojego mózgu!</string>
+    <string name="no_reminder_set">Nie ustawiono przypomnienia</string>
+    <string name="hours">GODZINY</string>
+    <string name="minutes">MINUTY</string>
+    <string name="seconds">SEKUNDY</string>
+    <string name="exceeded_your_goal">Przekroczyłeś swój cel</string>
+    <string name="goal_completed">Cel ukończony!</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="clr_water_blue">#2196F3</color>
+    <color name="clr_water_light">#BBDEFB</color>
+    <color name="clr_progress_bg">#E0E0E0</color>
+    <color name="clr_white">#FFFFFF</color>
+    <color name="clr_text_dark">#FFFFFF</color>
+    <color name="clr_text_secondary">#BEC9C5</color>
+
+    <!-- Widget colors -->
+    <color name="widget_bg_dark">#FF0A1A3A</color>
+    <color name="widget_bg_dark_end">#FF0D2B5E</color>
+    <color name="widget_cyan">#FF00E0FF</color>
+    <color name="widget_blue_accent">#FF4FC3F7</color>
+    <color name="widget_text_secondary">#D9FFFFFF</color>
+    <color name="widget_text_muted">#A6FFFFFF</color>
+    <color name="widget_progress_track">#14FFFFFF</color>
+    <color name="widget_card_border">#24FFFFFF</color>
+    <color name="widget_btn_bg">#1FFFFFFF</color>
+    <color name="widget_badge_bg">#1FFFFFFF</color>
+    <color name="widget_text_disabled">#59FFFFFF</color>
+    <color name="widget_text_primary">#FFFFFF</color>
+</resources>

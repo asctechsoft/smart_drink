@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Napredak vode s animacijom kapljice</string>
+    <string name="widget_small_b_desc">Unos vode s trakom napretka</string>
+    <string name="widget_medium_a_desc">Odbrojavanje sljedećeg podsjetnika</string>
+    <string name="widget_medium_b_desc">Današnji unos s brzim dodavanjem</string>
+    <string name="widget_large_desc">Potpuna nadzorna ploča s poviješću</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Prilagođeno</string>
+    <string name="today_s_intake">Današnji unos</string>
+    <string name="no_records_today">Danas nema zapisa</string>
+    <string name="add_drink">Dodaj Piće</string>
+    <string name="time_to_drink_water">Vrijeme je za piće vode!</string>
+    <string name="water_tracking">Praćenje Vode</string>
+    <string name="ongoing_desc">Obavijest o praćenju kontinuiranog unosa vode</string>
+    <string name="drink_reminders">Podsjetnici Za Piće</string>
+    <string name="daily_desc">Dnevni podsjetnici za piće vode</string>
+    <string name="its_time_to_drink">Vrijeme je za piće</string>
+    <string name="some_water">malo vode</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Ostanite hidrirani za bolju koncentraciju i energiju!</string>
+    <string name="motivation_2">Vaše tijelo treba vodu da bi funkcioniralo na najbolji način!</string>
+    <string name="motivation_3">Čaša vode može poboljšati vaše raspoloženje!</string>
+    <string name="motivation_4">Nastavi svoj niz hidratacije!</string>
+    <string name="motivation_5">Voda je najbolje gorivo za vaš mozak!</string>
+    <string name="no_reminder_set">Podsjetnik nije postavljen</string>
+    <string name="hours">SATI</string>
+    <string name="minutes">MINUTE</string>
+    <string name="seconds">SEKUNDE</string>
+    <string name="exceeded_your_goal">Premašili ste svoj cilj</string>
+    <string name="goal_completed">Cilj ispunjen!</string>
+</resources>

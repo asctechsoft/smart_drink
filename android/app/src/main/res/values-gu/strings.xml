@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">પાણીની પ્રગતિ સાથે ડ્રોપ એનિમેશન</string>
+    <string name="widget_small_b_desc">પ્રોગ્રેસ બાર સાથે પાણીનું સેવન</string>
+    <string name="widget_medium_a_desc">આગામી યાદગીરી કાઉન્ટડાઉન</string>
+    <string name="widget_medium_b_desc">ઝડપી ઉમેરો સાથે આજનું સેવન</string>
+    <string name="widget_large_desc">ઇતિહાસ સાથે સંપૂર્ણ ડેશબોર્ડ</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">કસ્ટમ</string>
+    <string name="today_s_intake">આજનું સેવન</string>
+    <string name="no_records_today">આજે કોઈ રેકોર્ડ નથી</string>
+    <string name="add_drink">પીણું ઉમેરો</string>
+    <string name="time_to_drink_water">પાણી પીવાનો સમય છે!</string>
+    <string name="water_tracking">પાણી ટ્રેકિંગ</string>
+    <string name="ongoing_desc">ચાલુ પાણી સેવન ટ્રેકિંગ સૂચના</string>
+    <string name="drink_reminders">પાણી પીવાનું યાદ અપાવવું</string>
+    <string name="daily_desc">દૈનિક પાણી પીવાના રીમાઇન્ડર્સ</string>
+    <string name="its_time_to_drink">પીવાનો સમય છે</string>
+    <string name="some_water">થોડું પાણી</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">બહેતર ધ્યાન અને ઉર્જા માટે પાણી પીતા રહો!</string>
+    <string name="motivation_2">તમારા શરીરને શ્રેષ્ઠ રીતે કાર્ય કરવા માટે પાણીની જરૂર છે!</string>
+    <string name="motivation_3">એક ગ્લાસ પાણી તમારા મૂડને વધારી શકે છે!</string>
+    <string name="motivation_4">તમારી હાઇડ્રેશન સ્ટ્રીક ચાલુ રાખો!</string>
+    <string name="motivation_5">પાણી તમારા મગજ માટે શ્રેષ્ઠ બળતણ છે!</string>
+    <string name="no_reminder_set">કોઈ રિમાઇન્ડર સેટ નથી</string>
+    <string name="hours">કલાક</string>
+    <string name="minutes">મિનિટ</string>
+    <string name="seconds">સેકન્ડ</string>
+    <string name="exceeded_your_goal">તમારા લક્ષ્યને પાર કર્યું</string>
+    <string name="goal_completed">લક્ષ્ય પૂર્ણ!</string>
+</resources>

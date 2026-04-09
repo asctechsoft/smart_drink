@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Ջրի առաջընթաց կաթիլային անիմացիայով</string>
+    <string name="widget_small_b_desc">Ջրի ընդունում՝ առաջընթացի բարով</string>
+    <string name="widget_medium_a_desc">Հաջորդ հիշեցման հաշվարկը</string>
+    <string name="widget_medium_b_desc">Այսօրվա ընդունումը արագ ավելացմամբ</string>
+    <string name="widget_large_desc">Լրիվ վահանակ պատմությամբ</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Պատվերով</string>
+    <string name="today_s_intake">Այսօրվա ընդունումը</string>
+    <string name="no_records_today">Այսօր գրառումներ չկան</string>
+    <string name="add_drink">Ավելացնել Խմիչք</string>
+    <string name="time_to_drink_water">Ժամանակն է ջուր խմելու!</string>
+    <string name="water_tracking">Ջրի Հետևում</string>
+    <string name="ongoing_desc">Շարունակական ջրի խմման հետևման ծանուցում</string>
+    <string name="drink_reminders">Խմելու Հիշեցումներ</string>
+    <string name="daily_desc">Օրական ջուր խմելու հիշեցումներ</string>
+    <string name="its_time_to_drink">Ժամանակն է խմելու</string>
+    <string name="some_water">մի քիչ ջուր</string>
+    <string name="ml">մլ</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Մնացեք հիդրատացված՝ ավելի լավ կենտրոնացման և էներգիայի համար!</string>
+    <string name="motivation_2">Ձեր մարմինը ջրի կարիք ունի՝ լավագույնս գործելու համար!</string>
+    <string name="motivation_3">Մի բաժակ ջուր կարող է բարձրացնել քո տրամադրությունը!</string>
+    <string name="motivation_4">Շարունակիր քո հիդրատացման շարքը!</string>
+    <string name="motivation_5">Ջուրը լավագույն վառելիքն է ձեր ուղեղի համար!</string>
+    <string name="no_reminder_set">Հիշեցում չկա</string>
+    <string name="hours">ԺԱՄԵՐ</string>
+    <string name="minutes">ՐՈՊԵՆԵՐ</string>
+    <string name="seconds">ՎԱՅՐԿՅԱՆՆԵՐ</string>
+    <string name="exceeded_your_goal">Գերազանցեցիր քո նպատակը</string>
+    <string name="goal_completed">Նպատակն իրականացված է!</string>
+</resources>

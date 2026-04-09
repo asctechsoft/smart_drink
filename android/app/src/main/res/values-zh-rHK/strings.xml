@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">水滴動畫進度顯示</string>
+    <string name="widget_small_b_desc">飲水量進度條</string>
+    <string name="widget_medium_a_desc">下次提醒倒計時</string>
+    <string name="widget_medium_b_desc">今日快速添加攝取量</string>
+    <string name="widget_large_desc">完整儀表板及歷史記錄</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">自訂</string>
+    <string name="today_s_intake">今日攝取量</string>
+    <string name="no_records_today">今日無記錄</string>
+    <string name="add_drink">新增飲品</string>
+    <string name="time_to_drink_water">係時候飲水喇!</string>
+    <string name="water_tracking">飲水追蹤</string>
+    <string name="ongoing_desc">持續飲水量追蹤通知</string>
+    <string name="drink_reminders">飲水提醒</string>
+    <string name="daily_desc">每日飲水提醒</string>
+    <string name="its_time_to_drink">該喝水了</string>
+    <string name="some_water">喝點水</string>
+    <string name="ml">毫升</string>
+    <string name="oz">盎司</string>
+    <string name="motivation_1">保持水分，有助提升專注力和精力！</string>
+    <string name="motivation_2">你的身體需要水分才能發揮最佳功能！</string>
+    <string name="motivation_3">一杯水可以提振心情！</string>
+    <string name="motivation_4">保持你的補水連續紀錄！</string>
+    <string name="motivation_5">水是大腦的最佳燃料!</string>
+    <string name="no_reminder_set">未設定提醒</string>
+    <string name="hours">小時</string>
+    <string name="minutes">分鐘</string>
+    <string name="seconds">秒</string>
+    <string name="exceeded_your_goal">已超過你的目標</string>
+    <string name="goal_completed">目標完成！</string>
+</resources>

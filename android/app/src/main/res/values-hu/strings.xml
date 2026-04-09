@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Víz haladás csepp animációval</string>
+    <string name="widget_small_b_desc">Vízbevitel előrehaladási sávval</string>
+    <string name="widget_medium_a_desc">Következő emlékeztető visszaszámlálás</string>
+    <string name="widget_medium_b_desc">Mai bevitel gyors hozzáadással</string>
+    <string name="widget_large_desc">Teljes irányítópult előzményekkel</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Egyedi</string>
+    <string name="today_s_intake">Mai bevitel</string>
+    <string name="no_records_today">Ma nincs rekord</string>
+    <string name="add_drink">Ital Hozzáadása</string>
+    <string name="time_to_drink_water">Igyál vizet!</string>
+    <string name="water_tracking">Vízfogyasztás Követése</string>
+    <string name="ongoing_desc">Folyamatos vízfogyasztás-követési értesítés</string>
+    <string name="drink_reminders">Ivás Emlékeztetők</string>
+    <string name="daily_desc">Napi vízivás emlékeztetők</string>
+    <string name="its_time_to_drink">Igyál vizet</string>
+    <string name="some_water">egy kis vizet</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Maradj hidratált a jobb koncentráció és energia érdekében!</string>
+    <string name="motivation_2">A testednek vízre van szüksége, hogy a lehető legjobban működjön!</string>
+    <string name="motivation_3">Egy pohár víz feldobhatja a hangulatodat!</string>
+    <string name="motivation_4">Tartsd fenn a hidratációs sorozatodat!</string>
+    <string name="motivation_5">A víz a legjobb üzemanyag az agyadnak!</string>
+    <string name="no_reminder_set">Nincs emlékeztető beállítva</string>
+    <string name="hours">ÓRÁK</string>
+    <string name="minutes">PERC</string>
+    <string name="seconds">MÁSODPERC</string>
+    <string name="exceeded_your_goal">Túllépted a célodat</string>
+    <string name="goal_completed">Cél teljesítve!</string>
+</resources>

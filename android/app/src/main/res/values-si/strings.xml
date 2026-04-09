@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">බිංදු සජීවිකරණය සමඟ ජල ප්‍රගතිය</string>
+    <string name="widget_small_b_desc">ජල පරිභෝජනය සහ ප්‍රගති තීරුව</string>
+    <string name="widget_medium_a_desc">ඊළඟ සිහිකිරීම ගණනය</string>
+    <string name="widget_medium_b_desc">ඉක්මන් එකතු කිරීම සමඟ අද දින ගැනීම</string>
+    <string name="widget_large_desc">ඉතිහාස සහිත සම්පූර්ණ ඩෑෂ්බෝඩ්</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">අභිරුචි</string>
+    <string name="today_s_intake">අදගේ ආහාර පරිභෝජනය</string>
+    <string name="no_records_today">අද වාර්තා නැත</string>
+    <string name="add_drink">බීම එකතු කරන්න</string>
+    <string name="time_to_drink_water">වතුර බොන්න වෙලාව හරි!</string>
+    <string name="water_tracking">වතුර අනුගමනය</string>
+    <string name="ongoing_desc">නිතිපතා ජල පරිභෝජනය අධීක්ෂණ දැනුම්දීම</string>
+    <string name="drink_reminders">බීම මතක් කිරීම්</string>
+    <string name="daily_desc">දෛනික ජල බීම මතක් කිරීම්</string>
+    <string name="its_time_to_drink">බීමට වෙලාව හරි</string>
+    <string name="some_water">ටිකක් වතුර</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">වඩා හොඳ අවධානය සහ ශක්තිය සඳහා සජලනය වන්න!</string>
+    <string name="motivation_2">ඔබේ ශරීරය උපරිමයෙන් ක්‍රියා කිරීමට ජලය අවශ්‍යයි!</string>
+    <string name="motivation_3">එක් ග්ලාස් වතුරක් ඔබේ මනෝභාවය ඉහළ නංවයි!</string>
+    <string name="motivation_4">ඔබේ ජලාශන ස්ට්‍රීක් එක දිගටම තබාගන්න!</string>
+    <string name="motivation_5">ජලය ඔබේ මොළයට හොඳම ඉන්ධනයයි!</string>
+    <string name="no_reminder_set">සිහිකිරීමක් සකස් කර නැත</string>
+    <string name="hours">පැය</string>
+    <string name="minutes">මිනිත්තු</string>
+    <string name="seconds">තත්පර</string>
+    <string name="exceeded_your_goal">ඔබේ ඉලක්කය ඉක්මවා ගියි</string>
+    <string name="goal_completed">ඉලක්කය සම්පූර්ණයි!</string>
+</resources>

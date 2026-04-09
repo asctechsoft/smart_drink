@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/widget_bg_dark_rounded"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+
+    <ImageView
+        android:id="@+id/iv_glass"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/img_time_widget_medium"
+        android:contentDescription="Time" />
+
+    <!-- Percentage tag: Positioned absolutely to the left -->
+    <FrameLayout
+        android:id="@+id/layout_percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/iv_glass"
+        android:layout_marginTop="-20dp">
+
+        <ImageView
+            android:layout_width="58dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_bg_tag"
+            android:scaleType="fitXY" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="4dp"
+            android:paddingEnd="12dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/img_water"
+                android:layout_marginEnd="2dp" />
+
+            <TextView
+                android:id="@+id/tv_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                android:textColor="@color/clr_white"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Info row: centered next reminder -->
+    <LinearLayout
+        android:id="@+id/row_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_glass"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_next_reminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_reminder_set"
+            android:textColor="@color/clr_white"
+            android:textSize="14sp" 
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.1"/>
+    </LinearLayout>
+
+    <!-- Countdown timer -->
+    <LinearLayout
+        android:id="@+id/row_countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/row_info"
+        android:layout_marginTop="6dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!-- Hours -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_hour_1"
+                    android:layout_width="24dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/widget_digit_bg"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/clr_white"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tv_hour_2"
+                    android:layout_width="24dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="3dp"
+                    android:background="@drawable/widget_digit_bg"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/clr_white"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_label_hours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="@string/hours"
+                android:textColor="@color/clr_white"
+                android:textSize="10sp"
+                android:letterSpacing="0.1" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text=":"
+            android:textColor="@color/clr_white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Minutes -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_min_1"
+                    android:layout_width="24dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/widget_digit_bg"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/clr_white"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tv_min_2"
+                    android:layout_width="24dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="3dp"
+                    android:background="@drawable/widget_digit_bg"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/clr_white"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_label_minutes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="@string/minutes"
+                android:textColor="@color/clr_white"
+                android:textSize="10sp"
+                android:letterSpacing="0.1" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text=":"
+            android:textColor="@color/clr_white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Seconds -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_sec_1"
+                    android:layout_width="24dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/widget_digit_bg"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/clr_white"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/tv_sec_2"
+                    android:layout_width="24dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="3dp"
+                    android:background="@drawable/widget_digit_bg"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/clr_white"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_label_seconds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="@string/seconds"
+                android:textColor="@color/clr_white"
+                android:textSize="10sp"
+                android:letterSpacing="0.1" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Përparimi i ujit me animacion me rënie</string>
+    <string name="widget_small_b_desc">Marrja e ujit me shirit progresi</string>
+    <string name="widget_medium_a_desc">Numërimi mbrapsht i kujtuesit të ardhshëm</string>
+    <string name="widget_medium_b_desc">Marrja e sotme me shtim të shpejtë</string>
+    <string name="widget_large_desc">Paneli i plotë me historikun</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Me porosi</string>
+    <string name="today_s_intake">Marrja e sotme</string>
+    <string name="no_records_today">Nuk ka regjistrime sot</string>
+    <string name="add_drink">Shto Pije</string>
+    <string name="time_to_drink_water">Është koha për të pirë ujë!</string>
+    <string name="water_tracking">Ndjekja E Ujit</string>
+    <string name="ongoing_desc">Njoftim për ndjekjen e vazhdueshme të konsumimit të ujit</string>
+    <string name="drink_reminders">Kujtues Për Pijet</string>
+    <string name="daily_desc">Përkujtesa ditore për pirjen e ujit</string>
+    <string name="its_time_to_drink">Është koha për të pirë</string>
+    <string name="some_water">pak ujë</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Qëndro i hidratuar për fokus dhe energji më të mira!</string>
+    <string name="motivation_2">Trupi juaj ka nevojë për ujë për të funksionuar në mënyrën më të mirë!</string>
+    <string name="motivation_3">Një gotë ujë mund t\'ju përmirësojë humorin!</string>
+    <string name="motivation_4">Vazhdo serinë tënde të hidratimit!</string>
+    <string name="motivation_5">Uji është karburanti më i mirë për trurin tënd!</string>
+    <string name="no_reminder_set">Asnjë kujtesë e vendosur</string>
+    <string name="hours">ORË</string>
+    <string name="minutes">MINUTA</string>
+    <string name="seconds">SEKONDA</string>
+    <string name="exceeded_your_goal">Ke tejkaluar qëllimin tënd</string>
+    <string name="goal_completed">Qëllimi u arrit!</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">התקדמות מים עם אנימציית טיפה</string>
+    <string name="widget_small_b_desc">צריכת מים עם סרגל התקדמות</string>
+    <string name="widget_medium_a_desc">ספירה לאחור לתזכורת הבאה</string>
+    <string name="widget_medium_b_desc">צריכה של היום עם הוספה מהירה</string>
+    <string name="widget_large_desc">לוח מחוונים מלא עם היסטוריה</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">מותאם אישית</string>
+    <string name="today_s_intake">צריכת היום</string>
+    <string name="no_records_today">אין רשומות היום</string>
+    <string name="add_drink">הוסף משקה</string>
+    <string name="time_to_drink_water">הגיע הזמן לשתות מים!</string>
+    <string name="water_tracking">מעקב מים</string>
+    <string name="ongoing_desc">התראת מעקב מתמשך לצריכת מים</string>
+    <string name="drink_reminders">תזכורות שתייה</string>
+    <string name="daily_desc">תזכורות יומיות לשתיית מים</string>
+    <string name="its_time_to_drink">הגיע הזמן לשתות</string>
+    <string name="some_water">קצת מים</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">שמרו על הידרציה לריכוז ואנרגיה טובים יותר!</string>
+    <string name="motivation_2">הגוף שלך צריך מים כדי לתפקד במיטבו!</string>
+    <string name="motivation_3">כוס מים יכולה לשפר את מצב הרוח שלך!</string>
+    <string name="motivation_4">שמור על רצף ההידרציה שלך!</string>
+    <string name="motivation_5">מים הם הדלק הטוב ביותר למוח שלכם!</string>
+    <string name="no_reminder_set">לא הוגדרה תזכורת</string>
+    <string name="hours">שעות</string>
+    <string name="minutes">דקות</string>
+    <string name="seconds">שניות</string>
+    <string name="exceeded_your_goal">חרגת מהמטרה שלך</string>
+    <string name="goal_completed">המטרה הושלמה!</string>
+</resources>

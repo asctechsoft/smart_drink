@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Progression de l\'eau avec animation de goutte</string>
+    <string name="widget_small_b_desc">Consommation d\'eau avec barre de progression</string>
+    <string name="widget_medium_a_desc">Compte à rebours du prochain rappel</string>
+    <string name="widget_medium_b_desc">Apport d\'aujourd\'hui avec ajout rapide</string>
+    <string name="widget_large_desc">Tableau de bord complet avec historique</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Personnalisé</string>
+    <string name="today_s_intake">Apport d\'aujourd\'hui</string>
+    <string name="no_records_today">Pas d\'enregistrements aujourd\'hui</string>
+    <string name="add_drink">Ajouter Une Boisson</string>
+    <string name="time_to_drink_water">Il est temps de boire de l\'eau !</string>
+    <string name="water_tracking">Suivi De L\'eau</string>
+    <string name="ongoing_desc">Notification de suivi continu de l\'apport en eau</string>
+    <string name="drink_reminders">Rappels Pour Boire</string>
+    <string name="daily_desc">Rappels quotidiens pour boire de l\'eau</string>
+    <string name="its_time_to_drink">Il est temps de boire</string>
+    <string name="some_water">de l\'eau</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Restez hydraté pour une meilleure concentration et de l\'énergie !</string>
+    <string name="motivation_2">Votre corps a besoin d\'eau pour fonctionner au mieux !</string>
+    <string name="motivation_3">Un verre d\'eau peut améliorer votre humeur !</string>
+    <string name="motivation_4">Continue ta série d\'hydratation !</string>
+    <string name="motivation_5">L\'eau est le meilleur carburant pour votre cerveau !</string>
+    <string name="no_reminder_set">Aucun rappel défini</string>
+    <string name="hours">HEURES</string>
+    <string name="minutes">MINUTES</string>
+    <string name="seconds">SECONDES</string>
+    <string name="exceeded_your_goal">Objectif dépassé</string>
+    <string name="goal_completed">Objectif atteint !</string>
+</resources>

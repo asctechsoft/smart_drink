@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Water vordering met druppel animasie</string>
+    <string name="widget_small_b_desc">Waterinname met vorderingsbalk</string>
+    <string name="widget_medium_a_desc">Volgende herinnering aftelling</string>
+    <string name="widget_medium_b_desc">Vandag se inname met vinnige toevoeging</string>
+    <string name="widget_large_desc">Volledige dashboard met geskiedenis</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Pasgemaak</string>
+    <string name="today_s_intake">Vandag se inname</string>
+    <string name="no_records_today">Geen rekords vandag nie</string>
+    <string name="add_drink">Voeg Drank By</string>
+    <string name="time_to_drink_water">Tyd om water te drink!</string>
+    <string name="water_tracking">Wateropsporing</string>
+    <string name="ongoing_desc">Voortgesette waterinname-opsporing kennisgewing</string>
+    <string name="drink_reminders">Drinkherinneringe</string>
+    <string name="daily_desc">Daaglikse waterdrinkherinneringe</string>
+    <string name="its_time_to_drink">Tyd om te drink</string>
+    <string name="some_water">water</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Bly gehidreer vir beter fokus en energie!</string>
+    <string name="motivation_2">Jou liggaam het water nodig om op sy beste te funksioneer!</string>
+    <string name="motivation_3">\'N glas water kan jou bui opkikker!</string>
+    <string name="motivation_4">Hou jou hidrasie-streek aan!</string>
+    <string name="motivation_5">Water is die beste brandstof vir jou brein!</string>
+    <string name="no_reminder_set">Geen herinnering gestel nie</string>
+    <string name="hours">URE</string>
+    <string name="minutes">MINUTE</string>
+    <string name="seconds">SEKONDES</string>
+    <string name="exceeded_your_goal">Oorskry jou doelwit</string>
+    <string name="goal_completed">Doel voltooi!</string>
+</resources>
+

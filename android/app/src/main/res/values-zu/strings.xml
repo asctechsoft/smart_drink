@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Inqubekelaphambili yamanzi ngokugqwayiza kweconsi</string>
+    <string name="widget_small_b_desc">Ukusetshenziswa kwamanzi ngebha yentuthuko</string>
+    <string name="widget_medium_a_desc">Ukubala emuva kwesikhumbuzo esilandelayo</string>
+    <string name="widget_medium_b_desc">Ukudla kwanamuhla ngokungeza okusheshayo</string>
+    <string name="widget_large_desc">Ideshibhodi egcwele enomlando</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Ngokwezifiso</string>
+    <string name="today_s_intake">Okwanamuhla</string>
+    <string name="no_records_today">Akukho amarekhodi namhlanje</string>
+    <string name="add_drink">Engeza Isiphuzo</string>
+    <string name="time_to_drink_water">Isikhathi sokuphuza amanzi!</string>
+    <string name="water_tracking">Ukulandelela Amanzi</string>
+    <string name="ongoing_desc">Isaziso sokulandelela ukuthathwa kwamanzi okuqhubekayo</string>
+    <string name="drink_reminders">Izikhumbuzo Zokuphuza</string>
+    <string name="daily_desc">Izikhumbuzo zokuphuza amanzi nsuku zonke</string>
+    <string name="its_time_to_drink">Isikhathi sokuphuza</string>
+    <string name="some_water">amanzi amancane</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Hlala unamanzi ukuze ugxile kangcono futhi ube namandla!</string>
+    <string name="motivation_2">Umzimba wakho udinga amanzi ukuze usebenze kahle kakhulu!</string>
+    <string name="motivation_3">Ingilazi yamanzi ingathuthukisa isimo sakho sengqondo!</string>
+    <string name="motivation_4">Qhubeka ugcine umkhondo wokuphuza amanzi!</string>
+    <string name="motivation_5">Amanzi angumthombo ongcono kakhulu wengqondo yakho!</string>
+    <string name="no_reminder_set">Akukho isikhumbuzo esimiswe</string>
+    <string name="hours">AMAHORA</string>
+    <string name="minutes">IMIZUZU</string>
+    <string name="seconds">IMIZUZWANA</string>
+    <string name="exceeded_your_goal">Udlule umgomo wakho</string>
+    <string name="goal_completed">Umgomo uqediwe!</string>
+</resources>

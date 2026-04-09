@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Vatnsframvindu með dropahreyfingu</string>
+    <string name="widget_small_b_desc">Vatnsinntaka með framvindustiku</string>
+    <string name="widget_medium_a_desc">Niðurteljari næstu áminningar</string>
+    <string name="widget_medium_b_desc">Inntaka dagsins með fljótlegri viðbót</string>
+    <string name="widget_large_desc">Fullt mælaborð með sögu</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Sérsniðin</string>
+    <string name="today_s_intake">Inntaka dagsins</string>
+    <string name="no_records_today">Engar færslur í dag</string>
+    <string name="add_drink">Bæta Við Drykk</string>
+    <string name="time_to_drink_water">Það er kominn tími til að drekka vatn!</string>
+    <string name="water_tracking">Vatnsskráning</string>
+    <string name="ongoing_desc">Tilkynning um áframhaldandi vöktun á vatnsneyslu</string>
+    <string name="drink_reminders">Áminningar Um Drykki</string>
+    <string name="daily_desc">Daglegar áminningar um að drekka vatn</string>
+    <string name="its_time_to_drink">Það er kominn tími til að drekka</string>
+    <string name="some_water">lítið vatn</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Vertu vel vökvaður fyrir betri einbeitingu og orku!</string>
+    <string name="motivation_2">Líkaminn þinn þarf vatn til að virka sem best!</string>
+    <string name="motivation_3">Glas af vatni getur lyft skapi þínu!</string>
+    <string name="motivation_4">Haltu áfram vökvastrikunni þinni!</string>
+    <string name="motivation_5">Vatn er besta eldsneytið fyrir heilann þinn!</string>
+    <string name="no_reminder_set">Engin áminning stillt</string>
+    <string name="hours">KLUKKUSTUNDIR</string>
+    <string name="minutes">MÍNÚTUR</string>
+    <string name="seconds">SEKÚNDUR</string>
+    <string name="exceeded_your_goal">Yfir markmið þitt</string>
+    <string name="goal_completed">Markmið náð!</string>
+</resources>

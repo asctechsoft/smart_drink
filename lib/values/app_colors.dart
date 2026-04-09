@@ -236,4 +236,13 @@ class AppColors {
     begin: Alignment(-1, 0.7),
     end: Alignment(1, -0.7),
   );
+
+  static const Color waterWave1Dark = Color(0xFF014389);
+  static const Color waterWave2Dark = Color(0xFF005099);
+  static const Color waterWave3Dark = Color(0xFF005C9D);
+
+  static const Color waterWave3Light = Color(0xFF5DBCFF);
+  static const Color waterWave2Light = Color(0xFF82C5FF);
+  static const Color waterWave1Light = Color(0xFF8CC4FF);
 }
+

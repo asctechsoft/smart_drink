@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Kemajuan air dengan animasi titisan</string>
+    <string name="widget_small_b_desc">Pengambilan air dengan bar kemajuan</string>
+    <string name="widget_medium_a_desc">Kiraan mundur peringatan seterusnya</string>
+    <string name="widget_medium_b_desc">Pengambilan hari ini dengan tambah cepat</string>
+    <string name="widget_large_desc">Papan pemuka penuh dengan sejarah</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Tersuai</string>
+    <string name="today_s_intake">Pengambilan hari ini</string>
+    <string name="no_records_today">Tiada rekod hari ini</string>
+    <string name="add_drink">Tambah Minuman</string>
+    <string name="time_to_drink_water">Sudah tiba masanya untuk minum air!</string>
+    <string name="water_tracking">Penjejakan Air</string>
+    <string name="ongoing_desc">Pemberitahuan penjejakan pengambilan air berterusan</string>
+    <string name="drink_reminders">Peringatan Minum</string>
+    <string name="daily_desc">Peringatan minum air harian</string>
+    <string name="its_time_to_drink">Sudah tiba masanya untuk minum</string>
+    <string name="some_water">sedikit air</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Kekal terhidrat untuk fokus dan tenaga yang lebih baik!</string>
+    <string name="motivation_2">Badan anda memerlukan air untuk berfungsi dengan baik!</string>
+    <string name="motivation_3">Segelas air boleh meningkatkan mood anda!</string>
+    <string name="motivation_4">Teruskan streak hidrasi anda!</string>
+    <string name="motivation_5">Air adalah bahan api terbaik untuk otak anda!</string>
+    <string name="no_reminder_set">Tiada peringatan ditetapkan</string>
+    <string name="hours">JAM</string>
+    <string name="minutes">MINIT</string>
+    <string name="seconds">SAAT</string>
+    <string name="exceeded_your_goal">Melebihi matlamat anda</string>
+    <string name="goal_completed">Matlamat selesai!</string>
+</resources>

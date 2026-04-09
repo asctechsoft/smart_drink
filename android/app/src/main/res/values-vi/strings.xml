@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Tiến độ nước với hiệu ứng giọt nước</string>
+    <string name="widget_small_b_desc">Lượng nước uống với thanh tiến trình</string>
+    <string name="widget_medium_a_desc">Đếm ngược nhắc nhở tiếp theo</string>
+    <string name="widget_medium_b_desc">Lượng tiêu thụ hôm nay với thêm nhanh</string>
+    <string name="widget_large_desc">Bảng điều khiển đầy đủ với lịch sử</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Tùy chỉnh</string>
+    <string name="today_s_intake">Lượng tiêu thụ hôm nay</string>
+    <string name="no_records_today">Không có bản ghi hôm nay</string>
+    <string name="add_drink">Thêm Đồ Uống</string>
+    <string name="time_to_drink_water">Đã đến lúc uống nước!</string>
+    <string name="water_tracking">Theo Dõi Nước</string>
+    <string name="ongoing_desc">Thông báo theo dõi lượng nước uống liên tục</string>
+    <string name="drink_reminders">Nhắc Nhở Uống Nước</string>
+    <string name="daily_desc">Nhắc nhở uống nước hàng ngày</string>
+    <string name="its_time_to_drink">Đã đến lúc</string>
+    <string name="some_water">để uống nước</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Hãy uống đủ nước để tập trung tốt hơn và tràn đầy năng lượng!</string>
+    <string name="motivation_2">Cơ thể bạn cần nước để hoạt động tốt nhất!</string>
+    <string name="motivation_3">Một ly nước có thể cải thiện tâm trạng của bạn!</string>
+    <string name="motivation_4">Duy trì thói quen uống nước đều đặn!</string>
+    <string name="motivation_5">Nước là nhiên liệu tốt nhất cho não bộ!</string>
+    <string name="no_reminder_set">Chưa đặt nhắc nhở</string>
+    <string name="hours">GIỜ</string>
+    <string name="minutes">PHÚT</string>
+    <string name="seconds">GIÂY</string>
+    <string name="exceeded_your_goal">Vượt quá mục tiêu của bạn</string>
+    <string name="goal_completed">Mục tiêu đã hoàn thành!</string>
+</resources>

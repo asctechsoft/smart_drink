@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Maendeleo ya maji na uhuishaji wa tone</string>
+    <string name="widget_small_b_desc">Kunywa maji na bar ya maendeleo</string>
+    <string name="widget_medium_a_desc">Kuhesabu nyuma ya kumbusho la ijayo</string>
+    <string name="widget_medium_b_desc">Ulaji wa leo kwa kuongeza haraka</string>
+    <string name="widget_large_desc">Dashibodi kamili yenye historia</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Maalum</string>
+    <string name="today_s_intake">Ulaji wa leo</string>
+    <string name="no_records_today">Hakuna rekodi leo</string>
+    <string name="add_drink">Ongeza Kinywaji</string>
+    <string name="time_to_drink_water">Ni wakati wa kunywa maji!</string>
+    <string name="water_tracking">Ufuatiliaji Wa Maji</string>
+    <string name="ongoing_desc">Arifa ya kufuatilia unywaji wa maji inayoendelea</string>
+    <string name="drink_reminders">Vikumbusho Vya Kunywa</string>
+    <string name="daily_desc">Vikumbusho vya kunywa maji kila siku</string>
+    <string name="its_time_to_drink">Ni wakati wa kunywa</string>
+    <string name="some_water">maji kidogo</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Kunywa maji ili kuwa na umakini na nguvu zaidi!</string>
+    <string name="motivation_2">Mwili wako unahitaji maji ili kufanya kazi vizuri zaidi!</string>
+    <string name="motivation_3">Glasi ya maji inaweza kuboresha hali yako!</string>
+    <string name="motivation_4">Endelea na mfululizo wako wa kunywa maji!</string>
+    <string name="motivation_5">Maji ni mafuta bora kwa ubongo wako!</string>
+    <string name="no_reminder_set">Hakuna kumbusho limewekwa</string>
+    <string name="hours">SAA</string>
+    <string name="minutes">DAKIKA</string>
+    <string name="seconds">SEKUNDE</string>
+    <string name="exceeded_your_goal">Umezidi lengo lako</string>
+    <string name="goal_completed">Lengo limekamilika!</string>
+</resources>

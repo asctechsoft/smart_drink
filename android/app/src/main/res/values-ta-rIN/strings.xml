@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">துளி அனிமேஷனுடன் நீர் முன்னேற்றம்</string>
+    <string name="widget_small_b_desc">முன்னேற்றப் பட்டியுடன் நீர் உட்கொள்ளல்</string>
+    <string name="widget_medium_a_desc">அடுத்த நினைவூட்டல் எண்ணிக்கை</string>
+    <string name="widget_medium_b_desc">இன்றைய உட்கொள்ளல் விரைவான சேர்க்கையுடன்</string>
+    <string name="widget_large_desc">வரலாற்றுடன் முழு டாஷ்போர்டு</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">தனிப்பயன்</string>
+    <string name="today_s_intake">இன்றைய உட்கொள்ளல்</string>
+    <string name="no_records_today">இன்று பதிவுகள் இல்லை</string>
+    <string name="add_drink">பானம் சேர்க்கவும்</string>
+    <string name="time_to_drink_water">தண்ணீர் குடிக்க வேண்டிய நேரம்!</string>
+    <string name="water_tracking">நீர் கண்காணிப்பு</string>
+    <string name="ongoing_desc">தொடர்ச்சியான நீர் உட்கொள்ளல் கண்காணிப்பு அறிவிப்பு</string>
+    <string name="drink_reminders">பானம் நினைவூட்டல்கள்</string>
+    <string name="daily_desc">தினசரி தண்ணீர் குடிக்க நினைவூட்டல்கள்</string>
+    <string name="its_time_to_drink">குடிக்க வேண்டிய நேரம்</string>
+    <string name="some_water">சிறிது தண்ணீர்</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">சிறந்த கவனம் மற்றும் ஆற்றலுக்கு நீரேற்றமாக இருங்கள்!</string>
+    <string name="motivation_2">உங்கள் உடல் சிறப்பாக செயல்பட தண்ணீர் தேவை!</string>
+    <string name="motivation_3">ஒரு கிளாஸ் தண்ணீர் உங்கள் மனநிலையை உயர்த்தும்!</string>
+    <string name="motivation_4">உங்கள் நீரேற்றத்தை தொடருங்கள்!</string>
+    <string name="motivation_5">தண்ணீர் உங்கள் மூளைக்கு சிறந்த எரிபொருள்!</string>
+    <string name="no_reminder_set">நினைவூட்டல் அமைக்கப்படவில்லை</string>
+    <string name="hours">மணிநேரங்கள்</string>
+    <string name="minutes">நிமிடங்கள்</string>
+    <string name="seconds">வினாடிகள்</string>
+    <string name="exceeded_your_goal">உங்கள் இலக்கை மீறியது</string>
+    <string name="goal_completed">இலக்கு முடிந்தது!</string>
+</resources>

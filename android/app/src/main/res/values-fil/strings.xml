@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Progreso ng tubig na may animasyon ng patak</string>
+    <string name="widget_small_b_desc">Pag-inom ng tubig na may progress bar</string>
+    <string name="widget_medium_a_desc">Susunod na pagbibilang ng paalala</string>
+    <string name="widget_medium_b_desc">Intake ngayong araw na may mabilis na pagdagdag</string>
+    <string name="widget_large_desc">Buong dashboard na may kasaysayan</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Pasadya</string>
+    <string name="today_s_intake">Pagkuha ngayong araw</string>
+    <string name="no_records_today">Walang tala ngayon</string>
+    <string name="add_drink">Magdagdag Ng Inumin</string>
+    <string name="time_to_drink_water">Oras na para uminom ng tubig!</string>
+    <string name="water_tracking">Pagsubaybay Sa Tubig</string>
+    <string name="ongoing_desc">Patuloy na abiso sa pagsubaybay ng pag-inom ng tubig</string>
+    <string name="drink_reminders">Mga Paalala Sa Pag-inom</string>
+    <string name="daily_desc">Pang-araw-araw na paalala sa pag-inom ng tubig</string>
+    <string name="its_time_to_drink">Oras na para uminom</string>
+    <string name="some_water">ng kaunting tubig</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Manatiling hydrated para sa mas mahusay na pokus at enerhiya!</string>
+    <string name="motivation_2">Kailangan ng iyong katawan ng tubig upang gumana nang maayos!</string>
+    <string name="motivation_3">Isang baso ng tubig ay maaaring magpasigla sa iyong mood!</string>
+    <string name="motivation_4">Ipagpatuloy ang iyong hydration streak!</string>
+    <string name="motivation_5">Ang tubig ay ang pinakamahusay na gasolina para sa iyong utak!</string>
+    <string name="no_reminder_set">Walang naitakdang paalala</string>
+    <string name="hours">ORAS</string>
+    <string name="minutes">MINUTO</string>
+    <string name="seconds">SEGUNDO</string>
+    <string name="exceeded_your_goal">Lumampas sa iyong layunin</string>
+    <string name="goal_completed">Nakumpleto ang layunin!</string>
+</resources>

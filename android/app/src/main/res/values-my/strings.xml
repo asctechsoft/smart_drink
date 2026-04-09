@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Drop animation ဖြင့် ရေတိုးတက်မှု</string>
+    <string name="widget_small_b_desc">ရေသောက်မှုနှင့်တိုးတက်မှုဘား</string>
+    <string name="widget_medium_a_desc">နောက်တစ်ကြိမ် သတိပေးချက် ကာ운့ဒေါင်း</string>
+    <string name="widget_medium_b_desc">အမြန်ထည့်ခြင်းဖြင့် ယနေ့စားသုံးမှု</string>
+    <string name="widget_large_desc">မှတ်တမ်းနှင့်အတူ ဒက်ရှ်ဘုတ်အပြည့်အစုံ</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">စိတ်ကြိုက်</string>
+    <string name="today_s_intake">ယနေ့ စားသုံးမှု</string>
+    <string name="no_records_today">ယနေ့မှတ်တမ်းမရှိပါ။</string>
+    <string name="add_drink">သောက်စရာ ထည့်ရန်</string>
+    <string name="time_to_drink_water">ရေသောက်ရန်အချိန်ဖြစ်သည်!</string>
+    <string name="water_tracking">ရေ ခြေရာခံ</string>
+    <string name="ongoing_desc">ဆက်လက်ရေသောက်မှုစောင့်ကြည့်မှုအသိပေးချက်</string>
+    <string name="drink_reminders">သောက်ရန် သတိပေးချက်များ</string>
+    <string name="daily_desc">နေ့စဉ် ရေသောက်သတိပေးချက်များ</string>
+    <string name="its_time_to_drink">သောက်ရန်အချိန်ဖြစ်သည်</string>
+    <string name="some_water">ရေအနည်းငယ်</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">အာရုံစူးစိုက်မှုနှင့် စွမ်းအင်ကောင်းမွန်ရန် ရေဓာတ်ဖြည့်ထားပါ။</string>
+    <string name="motivation_2">သင့်ခန္ဓာကိုယ်က အကောင်းဆုံး လုပ်ဆောင်နိုင်ဖို့ ရေ လိုအပ်ပါတယ်!</string>
+    <string name="motivation_3">ရေတစ်ခွက်က သင့်စိတ်ခံစားချက်ကို မြှင့်တင်ပေးနိုင်ပါတယ်။</string>
+    <string name="motivation_4">ရေဓာတ်ဖြည့်ဆက်တိုက်ကို ဆက်လက်ထိန်းပါ။</string>
+    <string name="motivation_5">ရေသည်သင့် ဦးနှောက်အတွက်အကောင်းဆုံးလောင်စာဖြစ်သည်!</string>
+    <string name="no_reminder_set">သတိပေးချက် မထားပါ</string>
+    <string name="hours">နာရီ</string>
+    <string name="minutes">မိနစ်</string>
+    <string name="seconds">စက္ကန့်</string>
+    <string name="exceeded_your_goal">သင့်ပန်းတိုင်ကျော်လွန်ပြီး</string>
+    <string name="goal_completed">ပန်းတိုင်ပြီးပါပြီ။</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">డ్రాప్ యానిమేషన్‌తో నీటి పురోగతి</string>
+    <string name="widget_small_b_desc">ప్రోగ్రెస్ బార్‌తో నీటి తీసుకోవడం</string>
+    <string name="widget_medium_a_desc">తదుపరి రిమైండర్ కౌంట్‌డౌన్</string>
+    <string name="widget_medium_b_desc">త్వరిత జోడింపుతో ఈరోజు ఇంటేక్</string>
+    <string name="widget_large_desc">చరిత్రతో పూర్తి డాష్‌బోర్డ్</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">కస్టమ్</string>
+    <string name="today_s_intake">ఈరోజు తీసుకున్నది</string>
+    <string name="no_records_today">ఈ రోజు రికార్డులు లేవు</string>
+    <string name="add_drink">పానీయం జోడించండి</string>
+    <string name="time_to_drink_water">నీరు త్రాగడానికి సమయం వచ్చింది!</string>
+    <string name="water_tracking">నీటి ట్రాకింగ్</string>
+    <string name="ongoing_desc">కొనసాగుతున్న నీటి సేవన ట్రాకింగ్ నోటిఫికేషన్</string>
+    <string name="drink_reminders">పానీయాల గుర్తుచేయికలు</string>
+    <string name="daily_desc">రోజువారీ నీటి తాగు గుర్తింపులు</string>
+    <string name="its_time_to_drink">త్రాగడానికి సమయం</string>
+    <string name="some_water">కొంత నీరు</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">మంచి ఏకాగ్రత మరియు శక్తి కోసం శరీరాన్ని తడిగా ఉంచుకోండి!</string>
+    <string name="motivation_2">మీ శరీరం ఉత్తమంగా పనిచేయడానికి నీరు అవసరం!</string>
+    <string name="motivation_3">ఒక గ్లాసు నీరు మీ మానసిక స్థితిని మెరుగుపరచగలదు!</string>
+    <string name="motivation_4">మీ హైడ్రేషన్ స్ట్రీక్‌ను కొనసాగించండి!</string>
+    <string name="motivation_5">నీరు మీ మెదడుకు ఉత్తమ ఇంధనం!</string>
+    <string name="no_reminder_set">రిమైండర్ సెట్ చేయబడలేదు</string>
+    <string name="hours">గంటలు</string>
+    <string name="minutes">నిమిషాలు</string>
+    <string name="seconds">సెకన్లు</string>
+    <string name="exceeded_your_goal">మీ లక్ష్యాన్ని మించారు</string>
+    <string name="goal_completed">లక్ష్యం పూర్తయింది!</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_a_desc">Pokrok vody s animáciou kvapky</string>
+    <string name="widget_small_b_desc">Príjem vody s ukazovateľom priebehu</string>
+    <string name="widget_medium_a_desc">Odpočítavanie do ďalšieho pripomenutia</string>
+    <string name="widget_medium_b_desc">Dnešný príjem s rýchlym pridaním</string>
+    <string name="widget_large_desc">Kompletný dashboard s históriou</string>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="custom">Vlastné</string>
+    <string name="today_s_intake">Dnešný príjem</string>
+    <string name="no_records_today">Dnes žiadne záznamy</string>
+    <string name="add_drink">Pridať Nápoj</string>
+    <string name="time_to_drink_water">Čas napiť sa vody!</string>
+    <string name="water_tracking">Sledovanie Vody</string>
+    <string name="ongoing_desc">Notifikácia priebežného sledovania príjmu vody</string>
+    <string name="drink_reminders">Pripomienky Na Pitie</string>
+    <string name="daily_desc">Denné pripomienky na pitie vody</string>
+    <string name="its_time_to_drink">Čas napiť sa</string>
+    <string name="some_water">trochu vody</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">Zostaňte hydratovaní pre lepšie sústredenie a energiu!</string>
+    <string name="motivation_2">Vaše telo potrebuje vodu, aby fungovalo čo najlepšie!</string>
+    <string name="motivation_3">Pohár vody môže zlepšiť vašu náladu!</string>
+    <string name="motivation_4">Pokračuj v svojej hydratačnej šnúre!</string>
+    <string name="motivation_5">Voda je najlepšie palivo pre tvoj mozog!</string>
+    <string name="no_reminder_set">Žiadne pripomenutie nastavené</string>
+    <string name="hours">HODINY</string>
+    <string name="minutes">MINÚTY</string>
+    <string name="seconds">SEKUNDY</string>
+    <string name="exceeded_your_goal">Prekročili ste svoj cieľ</string>
+    <string name="goal_completed">Cieľ splnený!</string>
+</resources>

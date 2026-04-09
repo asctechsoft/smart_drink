@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SmartDrink AI</string>
+    <string name="time_to_drink_water">পানী খোৱাৰ সময় হৈছে!</string>
+    <string name="add_drink">পানী যোগ কৰক</string>
+    <string name="water_tracking">পানী খোৱাৰ ট্ৰেকাৰ</string>
+    <string name="ongoing_desc">দৈনিক পানী খোৱাৰ অগ্ৰগতি</string>
+    <string name="drink_reminders">পানী খোৱাৰ ৰিমাইণ্ডাৰ</string>
+    <string name="daily_desc">দৈনিক পানী খোৱাৰ ৰিমাইণ্ডাৰ আপোনাক অভ্যাস বজাই ৰখাত সহায় কৰে</string>
+    <string name="its_time_to_drink">খোৱাৰ সময় হৈছে</string>
+    <string name="some_water">কিছু পানী</string>
+    <string name="ml">ml</string>
+    <string name="oz">oz</string>
+    <string name="motivation_1">মনোযোগ আৰু শক্তিৰ বাবে পৰ্যাপ্ত পানী খাওক!</string>
+    <string name="motivation_2">আপোনাৰ শৰীৰৰ সৰ্বোত্তম কাৰ্যক্ষমতাৰ বাবে পানীৰ প্ৰয়োজন!</string>
+    <string name="motivation_3">এক গিলাচ পানীয়ে আপোনাৰ মেজাজ উন্নত কৰিব পাৰে!</string>
+    <string name="motivation_4">আপোনাৰ পানী খোৱাৰ অভ্যাস বজাই ৰাখক!</string>
+    <string name="motivation_5">মগজুৰ বাবে পানী হৈছে সৰ্বোত্তম ইন্ধন!</string>
+</resources>
