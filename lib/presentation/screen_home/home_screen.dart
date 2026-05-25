@@ -1,10 +1,10 @@
 import 'dart:ui';
 import 'package:dsp_base/app_material.dart';
 import 'package:smartdrinkai/controller/history_controller.dart';
-import 'package:smartdrinkai/presentation/screen_explore/explore_screen.dart';
 import 'package:smartdrinkai/presentation/screen_history/history_screen.dart';
 import 'package:smartdrinkai/presentation/screen_today/today_screen.dart';
 import 'package:smartdrinkai/presentation/screens_settings/settings_screen.dart';
+import 'package:smartdrinkai/presentation/screens_reminder/reminder_settings_screen.dart';
 import 'package:smartdrinkai/values/onboarding_theme.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final _screens = const [
     TodayScreen(),
     HistoryScreen(),
-    ExploreScreen(),
+    ReminderSettingsPage(),
     SettingsScreen(),
   ];
 
@@ -73,8 +73,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               _buildNavItem(
                 2,
-                'assets/images/svg/ic_explore_nav.svg',
-                'explore',
+                'assets/images/svg/ic_ring.svg',
+                'reminders',
                 context,
               ),
               _buildNavItem(
@@ -143,4 +143,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

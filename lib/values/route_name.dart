@@ -11,7 +11,7 @@ class RouteName {
   static const String home = '/home';
   static const String reminderSettings = '/reminder_settings';
   static const String addDrink = '/add_drink';
-  static const String articleDetail = '/article_detail';
+
   static const String widgetPreview = '/widget_preview';
   static const String themeSelection = '/theme_selection';
   static const String feedback = '/feedback';

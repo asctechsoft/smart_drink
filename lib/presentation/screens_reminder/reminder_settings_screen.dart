@@ -252,4 +252,3 @@ class _ModeSection extends StatelessWidget {
 }
 
 // // ─── Interval Mode Content ───────────────────────────────────────────────────
-

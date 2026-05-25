@@ -10,11 +10,13 @@ import 'controller/user_profile_controller.dart';
 import 'controller/today_controller.dart';
 import 'controller/history_controller.dart';
 import 'controller/settings_controller.dart';
+import 'controller/reminder_controller.dart';
 import 'values/app_theme.dart';
 import 'values/app_pages.dart';
 import 'values/route_name.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'services/storage/sqflite_web_helper.dart';
 
 void _ensureLocaleConfigured() {
   // 1. Try to load saved language first
@@ -68,6 +70,9 @@ Future<void> main() async {
   await commRunApp(
     () => DrinkWaterApp(initialThemeMode: initialThemeMode),
     onBindingInitialized: (widgetsBinding) async {
+      // 0. Configure sqflite for web (no-op on native)
+      await configureSqfliteForWeb();
+
       // 1. Firebase Initialization
       try {
         await Firebase.initializeApp();
@@ -82,10 +87,6 @@ Future<void> main() async {
 
       // 2. Initialize translations
       await CommLocalize.loadTranslations("lib/xml_strings", "strings.xml");
-      await CommLocalize.loadTranslations(
-        "lib/xml_strings",
-        "strings_explore.xml",
-      );
 
       // 3. Load saved theme
       final savedTheme = PrefAssist.getString(
@@ -128,9 +129,9 @@ class DrinkWaterApp extends StatelessWidget {
         Get.put(UserProfileController(), permanent: true);
         Get.put(TodayController(), permanent: true);
         Get.put(HistoryController(), permanent: true);
+        Get.put(ReminderController(), permanent: true);
       }),
       getPages: AppPages.pages,
     );
   }
 }
-

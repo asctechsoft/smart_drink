@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'schema.dart';
 
@@ -26,6 +27,16 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
+    if (kIsWeb) {
+      // On web: databaseFactory is already set to databaseFactoryFfiWeb
+      // by configureSqfliteForWeb() in main.dart — just pass the name.
+      return openDatabase(
+        DbSchema.dbName,
+        version: DbSchema.dbVersion,
+        onCreate: _onCreate,
+        onUpgrade: _onUpgrade,
+      );
+    }
     final dbPath = await getDatabasesPath();
     final path = '$dbPath/${DbSchema.dbName}';
     return openDatabase(

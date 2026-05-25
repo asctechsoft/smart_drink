@@ -13,7 +13,7 @@ import '../presentation/screens_onboarding/notification_permission_screen.dart';
 import '../presentation/screens_onboarding/daily_goal_screen.dart';
 import '../presentation/screen_home/home_screen.dart';
 import '../presentation/screen_today/add_drink_screen.dart';
-import '../presentation/screen_explore/components/article_detail_screen.dart';
+
 import '../presentation/screens_settings/widget_preview_screen.dart';
 import '../presentation/screens_settings/theme_screen.dart';
 import '../presentation/screens_settings/feedback_screen.dart';
@@ -55,10 +55,7 @@ class AppPages {
     ),
     GetPage(name: RouteName.home, page: () => const HomeScreen()),
     GetPage(name: RouteName.addDrink, page: () => const AddDrinkScreen()),
-    GetPage(
-      name: RouteName.articleDetail,
-      page: () => const ArticleDetailScreen(),
-    ),
+
     GetPage(
       name: RouteName.widgetPreview,
       page: () => const WidgetPreviewScreen(),

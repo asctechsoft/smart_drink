@@ -190,14 +190,12 @@ class TodayQuickActions extends StatelessWidget {
           ],
         ),
         const AppSpacerW(20),
-        _buildRadioIndicator(selected),
+        _buildRadioIndicator(selected, context),
       ],
     );
   }
 
-  Widget _buildRadioIndicator(bool selected) {
-    final context = Get.overlayContext ?? Get.context;
-    if (context == null) return const SizedBox.shrink();
+  Widget _buildRadioIndicator(bool selected, BuildContext context) {
     final ob = OnboardingTheme.of(context);
     return Container(
       width: 20,
