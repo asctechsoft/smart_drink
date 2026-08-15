@@ -2,7 +2,7 @@ import 'package:dsp_base/app_material.dart';
 import 'package:smartdrinkai/controller/settings_controller.dart';
 import 'package:smartdrinkai/controller/today_controller.dart';
 import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/presentation/common_components/water_cup_progress.dart';
+import 'package:smartdrinkai/presentation/common_components/water_human_progress.dart';
 import 'package:smartdrinkai/values/onboarding_theme.dart';
 
 import 'package:get/get.dart';
@@ -35,14 +35,13 @@ class TodayScreen extends StatelessWidget {
 
                       // Goal Volume Text
                       Obx(
-                        () => WaterCupProgress(
+                        () => WaterHumanProgress(
                           progress: controller.progress,
                           currentMl: controller.currentIntakeMl.value,
                           goalMl: controller.adjustedGoal,
                           volumeUnit:
                               Get.find<SettingsController>().volumeUnit.value,
                           width: 300,
-                          height: 300,
                         ),
                       ),
                       Obx(() => _buildGoalStatus(controller, context)),
