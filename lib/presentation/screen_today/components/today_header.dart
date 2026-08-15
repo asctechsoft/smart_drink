@@ -1,6 +1,5 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:smartdrinkai/values/onboarding_theme.dart';
-import 'package:smartdrinkai/controller/today_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -10,88 +9,83 @@ class TodayHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ob = OnboardingTheme.of(context);
-    final controller = Get.find<TodayController>();
     final now = DateTime.now();
 
-    return AppRow(
-      modifier: Modifier.padding(horizontal: 16, vertical: 12),
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 1,
-          child: AppText(
-            'Ngày ${now.day} Thg ${now.month}, ${now.year}',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: ob.textPrimary,
-              letterSpacing: 0.5,
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Obx(() {
-            final intake = controller.currentIntakeMl.value;
-            final goal = controller.adjustedGoal;
-            final remaining = (goal - intake) > 0 ? (goal - intake) : 0;
-
-            return AppColumn(
-              crossAxisAlignment: CrossAxisAlignment.end,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Left: date + subtitle
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                AppRow(
+                Row(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 2),
-                      child: Icon(
-                        Icons.check_circle,
-                        size: 14,
-                        color: ob.textPrimary.withOpacity(0.9),
+                    Text(
+                      'Ngày ${now.day} Thg ${now.month}, ${now.year}',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: ob.textPrimary,
+                        letterSpacing: 0.5,
                       ),
                     ),
-                    AppSpacerW4,
-                    Expanded(
-                      child: AppText(
-                        'Tổng lượng nước hấp thụ\nhôm nay',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.italic,
-                          color: ob.textPrimary.withOpacity(0.9),
-                        ),
-                      ),
+                    const SizedBox(width: 4),
+                    Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: ob.textPrimary,
+                      size: 20,
                     ),
                   ],
                 ),
-                AppSpacerH4,
-                AppText(
-                  '$intake ml',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF67B5E2),
-                    decoration: TextDecoration.underline,
-                    decorationColor: Color(0xFF67B5E2),
-                  ),
-                ),
-                AppSpacerH4,
-                AppText(
-                  'Mục tiêu hôm nay: $goal ml',
+                const SizedBox(height: 4),
+                Text(
+                  'Hôm nay hãy uống đủ nước nhé! 💧',
                   style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: ob.textPrimary,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    color: ob.textPrimary.withOpacity(0.7),
                   ),
                 ),
               ],
-            );
-          }),
+            ),
+          ),
+
+          // Right: icon buttons
+          _IconBtn(icon: Icons.notifications_outlined, onTap: () {}),
+          const SizedBox(width: 10),
+          _IconBtn(icon: Icons.trending_up_rounded, onTap: () {}),
+        ],
+      ),
+    );
+  }
+}
+
+class _IconBtn extends StatelessWidget {
+  const _IconBtn({required this.icon, required this.onTap});
+
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final ob = OnboardingTheme.of(context);
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: ob.bgOption,
+          border: Border.all(color: ob.borderTabHistory, width: 1),
         ),
-      ],
+        child: Icon(icon, color: ob.textPrimary, size: 20),
+      ),
     );
   }
 }

@@ -118,101 +118,103 @@ class _DrinkActionBarState extends State<DrinkActionBar> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          // Left: cup size
-          _SideButton(
-            icon: _presetIcons[_amountIndex],
-            label: 'Loại cốc'.tr,
-            onTap: _showCupSizeSheet,
-          ),
-          const SizedBox(width: 16),
-          // Middle: add drink control
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _CircleBtn(
-                      icon: Icons.remove_rounded,
-                      enabled: _amountIndex > 0,
-                      onTap: () => setState(() => _amountIndex--),
-                    ),
-                    const SizedBox(width: 8),
-                    GestureDetector(
-                      onTap: _addDrink,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              ob.accent,
-                              ob.accent.withValues(alpha: 0.75),
+      child: IntrinsicHeight(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Left: cup size
+            _SideButton(
+              icon: _presetIcons[_amountIndex],
+              label: 'Loại cốc'.tr,
+              onTap: _showCupSizeSheet,
+            ),
+            const SizedBox(width: 8),
+            // Middle: add drink control
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _CircleBtn(
+                        icon: Icons.remove_rounded,
+                        enabled: _amountIndex > 0,
+                        onTap: () => setState(() => _amountIndex--),
+                      ),
+                      const SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: _addDrink,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                ob.accent,
+                                ob.accent.withValues(alpha: 0.75),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(100),
+                            boxShadow: [
+                              BoxShadow(
+                                color: ob.accent.withValues(alpha: 0.4),
+                                blurRadius: 12,
+                                offset: const Offset(0, 4),
+                              ),
                             ],
                           ),
-                          borderRadius: BorderRadius.circular(100),
-                          boxShadow: [
-                            BoxShadow(
-                              color: ob.accent.withValues(alpha: 0.4),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            AppIcon(_presetIcons[_amountIndex], size: 20),
-                            const SizedBox(width: 6),
-                            Text(
-                              '+$amountLabel',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 0.5,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AppIcon(_presetIcons[_amountIndex], size: 20),
+                              const SizedBox(width: 6),
+                              Text(
+                                '+$amountLabel',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.5,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    _CircleBtn(
-                      icon: Icons.add_rounded,
-                      enabled: _amountIndex < _presets.length - 1,
-                      onTap: () => setState(() => _amountIndex++),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  _drinkType.label.tr,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ob.textSecondary,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.5,
+                      const SizedBox(width: 8),
+                      _CircleBtn(
+                        icon: Icons.add_rounded,
+                        enabled: _amountIndex < _presets.length - 1,
+                        onTap: () => setState(() => _amountIndex++),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 6),
+                  Text(
+                    _drinkType.label.tr,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: ob.textSecondary,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 16),
-          // Right: drink type
-          _SideButton(
-            imagePath: _drinkType.imagePath,
-            label: 'menu'.tr,
-            onTap: _showDrinkTypeSheet,
-          ),
-        ],
+            const SizedBox(width: 8),
+            // Right: drink type
+            _SideButton(
+              imagePath: _drinkType.imagePath,
+              label: 'menu'.tr,
+              onTap: _showDrinkTypeSheet,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -265,7 +267,7 @@ class _SideButton extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 11,
+                fontSize: 12,
                 color: ob.textSecondary,
                 fontWeight: FontWeight.w500,
               ),

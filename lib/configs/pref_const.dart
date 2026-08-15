@@ -34,5 +34,6 @@ class PrefConst {
   static const String isFullScreenIntentEnabled =
       'is_full_screen_intent_enabled';
   static const String isRated = 'is_rated';
+  static const String smartNotification = 'smart_notification';
 }
 

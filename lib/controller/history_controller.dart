@@ -6,7 +6,7 @@ import 'package:smartdrinkai/utils/date_utils.dart';
 import 'package:get/get.dart';
 import 'user_profile_controller.dart';
 
-enum HistoryViewMode { day, week, month }
+enum HistoryViewMode { day, week, month, year }
 
 class HistoryController extends GetxController {
   final DrinkDataService _drinkService = DrinkDataService();
@@ -18,16 +18,54 @@ class HistoryController extends GetxController {
   final RxInt totalMl = 0.obs;
   final RxInt goalMl = 2000.obs;
 
-  /// Computed total that always matches what the chart displays.
-  /// For week/month views it sums from [summaries]; for day view from [dayRecords].
   int get computedTotal {
     switch (viewMode.value) {
       case HistoryViewMode.day:
         return dayRecords.fold(0, (sum, r) => sum + r.amountMl);
       case HistoryViewMode.week:
       case HistoryViewMode.month:
+      case HistoryViewMode.year:
         return summaries.fold(0, (sum, s) => sum + s.totalMl);
     }
+  }
+
+  int get avgPerDayMl {
+    if (summaries.isEmpty) return 0;
+    final total = summaries.fold(0, (sum, s) => sum + s.totalMl);
+    return (total / summaries.length).round();
+  }
+
+  int get goalDaysCount {
+    return summaries.where((s) => s.goalMl > 0 && s.totalMl >= s.goalMl).length;
+  }
+
+  int get periodDayCount {
+    switch (viewMode.value) {
+      case HistoryViewMode.day:
+        return 1;
+      case HistoryViewMode.week:
+        return 7;
+      case HistoryViewMode.month:
+        final dt = selectedDate.value;
+        return DateTime(dt.year, dt.month + 1, 0).day;
+      case HistoryViewMode.year:
+        final dt = selectedDate.value;
+        return DateTime(dt.year + 1, 1, 1).difference(DateTime(dt.year, 1, 1)).inDays;
+    }
+  }
+
+  DailySummary? get maxDaySummary {
+    if (summaries.isEmpty) return null;
+    final nonZero = summaries.where((s) => s.totalMl > 0).toList();
+    if (nonZero.isEmpty) return null;
+    return nonZero.reduce((a, b) => a.totalMl >= b.totalMl ? a : b);
+  }
+
+  DailySummary? get minDaySummary {
+    if (summaries.isEmpty) return null;
+    final nonZero = summaries.where((s) => s.totalMl > 0).toList();
+    if (nonZero.isEmpty) return null;
+    return nonZero.reduce((a, b) => a.totalMl <= b.totalMl ? a : b);
   }
 
   Worker? _viewModeWorker;
@@ -72,6 +110,11 @@ class HistoryController extends GetxController {
         final daysInMonth = DateTime(dt.year, dt.month + 1, 0).day;
         goalMl.value = dailyGoal * daysInMonth;
         await _loadMonthData();
+      case HistoryViewMode.year:
+        final dt = selectedDate.value;
+        final daysInYear = DateTime(dt.year + 1, 1, 1).difference(DateTime(dt.year, 1, 1)).inDays;
+        goalMl.value = dailyGoal * daysInYear;
+        await _loadYearData();
     }
   }
 
@@ -104,22 +147,27 @@ class HistoryController extends GetxController {
     totalMl.value = data.fold(0, (sum, s) => sum + s.totalMl);
   }
 
+  Future<void> _loadYearData() async {
+    final start = AppDateUtils.startOfYear(selectedDate.value);
+    final end = AppDateUtils.endOfYear(selectedDate.value);
+    final data = await _drinkService.getSummariesBetween(
+      AppDateUtils.formatDateKey(start),
+      AppDateUtils.formatDateKey(end),
+    );
+    summaries.assignAll(data);
+    totalMl.value = data.fold(0, (sum, s) => sum + s.totalMl);
+  }
+
   void previousPeriod() {
     switch (viewMode.value) {
       case HistoryViewMode.day:
-        selectedDate.value = selectedDate.value.subtract(
-          const Duration(days: 1),
-        );
+        selectedDate.value = selectedDate.value.subtract(const Duration(days: 1));
       case HistoryViewMode.week:
-        selectedDate.value = selectedDate.value.subtract(
-          const Duration(days: 7),
-        );
+        selectedDate.value = selectedDate.value.subtract(const Duration(days: 7));
       case HistoryViewMode.month:
-        selectedDate.value = DateTime(
-          selectedDate.value.year,
-          selectedDate.value.month - 1,
-          1,
-        );
+        selectedDate.value = DateTime(selectedDate.value.year, selectedDate.value.month - 1, 1);
+      case HistoryViewMode.year:
+        selectedDate.value = DateTime(selectedDate.value.year - 1, 1, 1);
     }
   }
 
@@ -130,11 +178,9 @@ class HistoryController extends GetxController {
       case HistoryViewMode.week:
         selectedDate.value = selectedDate.value.add(const Duration(days: 7));
       case HistoryViewMode.month:
-        selectedDate.value = DateTime(
-          selectedDate.value.year,
-          selectedDate.value.month + 1,
-          1,
-        );
+        selectedDate.value = DateTime(selectedDate.value.year, selectedDate.value.month + 1, 1);
+      case HistoryViewMode.year:
+        selectedDate.value = DateTime(selectedDate.value.year + 1, 1, 1);
     }
   }
 
@@ -164,28 +210,20 @@ class HistoryController extends GetxController {
   bool get canGoNext {
     final now = DateTime.now();
     final sel = selectedDate.value;
-    final mode = viewMode.value;
-    switch (mode) {
+    switch (viewMode.value) {
       case HistoryViewMode.day:
-        return DateTime(
-          sel.year,
-          sel.month,
-          sel.day,
-        ).isBefore(DateTime(now.year, now.month, now.day));
+        return DateTime(sel.year, sel.month, sel.day)
+            .isBefore(DateTime(now.year, now.month, now.day));
       case HistoryViewMode.week:
         final selWeek = AppDateUtils.startOfWeek(sel);
         final nowWeek = AppDateUtils.startOfWeek(now);
-        return DateTime(
-          selWeek.year,
-          selWeek.month,
-          selWeek.day,
-        ).isBefore(DateTime(nowWeek.year, nowWeek.month, nowWeek.day));
+        return DateTime(selWeek.year, selWeek.month, selWeek.day)
+            .isBefore(DateTime(nowWeek.year, nowWeek.month, nowWeek.day));
       case HistoryViewMode.month:
-        return DateTime(
-          sel.year,
-          sel.month,
-          1,
-        ).isBefore(DateTime(now.year, now.month, 1));
+        return DateTime(sel.year, sel.month, 1)
+            .isBefore(DateTime(now.year, now.month, 1));
+      case HistoryViewMode.year:
+        return sel.year < now.year;
     }
   }
 
@@ -194,9 +232,7 @@ class HistoryController extends GetxController {
       case HistoryViewMode.day:
         final now = DateTime.now();
         final sel = selectedDate.value;
-        if (sel.year == now.year &&
-            sel.month == now.month &&
-            sel.day == now.day) {
+        if (sel.year == now.year && sel.month == now.month && sel.day == now.day) {
           return 'today';
         }
         return AppDateUtils.formatDateKey(selectedDate.value);
@@ -204,7 +240,8 @@ class HistoryController extends GetxController {
         return AppDateUtils.weekRange(selectedDate.value);
       case HistoryViewMode.month:
         return AppDateUtils.monthLabel(selectedDate.value);
+      case HistoryViewMode.year:
+        return AppDateUtils.yearLabel(selectedDate.value);
     }
   }
 }
-

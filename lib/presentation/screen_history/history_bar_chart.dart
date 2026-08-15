@@ -211,17 +211,25 @@ class _HistoryBarChartState extends State<HistoryBarChart> {
                             tooltipMargin: 2,
                             getTooltipColor: (_) => Colors.transparent,
                             getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                              String label;
+                              if (isOz) {
+                                label = '${rod.toY.toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '')}oz';
+                              } else {
+                                final ml = rod.toY.toInt();
+                                if (ml >= 1000) {
+                                  final l = ml / 1000.0;
+                                  label = '${l.toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '')}L';
+                                } else {
+                                  label = '${ml}ml';
+                                }
+                              }
                               return BarTooltipItem(
-                                isOz
-                                    ? rod.toY
-                                          .toStringAsFixed(1)
-                                          .replaceAll(RegExp(r'\.0$'), '')
-                                    : rod.toY.toInt().toString(),
+                                label,
                                 TextStyle(
-                                  color: ob.textSecondary,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 8,
-                                  letterSpacing: 0.5,
+                                  color: ob.textPrimary,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 9,
+                                  letterSpacing: 0.3,
                                 ),
                               );
                             },
@@ -325,11 +333,21 @@ class _HistoryBarChartState extends State<HistoryBarChart> {
         }
         return List.generate(daysInMonth, (i) {
           final day = i + 1;
-          return _barGroup(
-            day,
-            dailyData[day] ?? 0.0,
-            controller.viewMode.value,
-          );
+          return _barGroup(day, dailyData[day] ?? 0.0, controller.viewMode.value);
+        });
+
+      case HistoryViewMode.year:
+        final monthData = <int, double>{};
+        for (final s in controller.summaries) {
+          final parsed = DateTime.tryParse(s.dateKey);
+          if (parsed != null) {
+            double amt = s.totalMl.toDouble();
+            if (isOz) amt = UnitConverter.mlToOz(amt);
+            monthData[parsed.month] = (monthData[parsed.month] ?? 0) + amt;
+          }
+        }
+        return List.generate(12, (i) {
+          return _barGroup(i + 1, monthData[i + 1] ?? 0.0, controller.viewMode.value);
         });
     }
   }
@@ -352,9 +370,9 @@ class _HistoryBarChartState extends State<HistoryBarChart> {
 
   double _barWidth(HistoryViewMode mode) {
     if (mode == HistoryViewMode.month) return 10;
-    if (mode == HistoryViewMode.day)
-      return 10; // Nhỏ lại cho thoáng (từ 12 -> 6)
-    return 12; // Giữ nguyên cho tuần
+    if (mode == HistoryViewMode.day) return 10;
+    if (mode == HistoryViewMode.year) return 14;
+    return 12;
   }
 
   double _computeMaxY(List<BarChartGroupData> barGroups, bool isOz) {
@@ -387,6 +405,10 @@ class _HistoryBarChartState extends State<HistoryBarChart> {
       case HistoryViewMode.month:
         final day = value.toInt();
         text = day.toString().padLeft(2, '0');
+      case HistoryViewMode.year:
+        const months = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10','T11','T12'];
+        final m = value.toInt() - 1;
+        text = (m >= 0 && m < 12) ? months[m] : '';
     }
     return AppText(
       modifier: Modifier.padding(top: 4),

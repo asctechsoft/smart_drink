@@ -43,28 +43,6 @@
         "product"
       ]
     },
-    {
-      "name": "amobi_common",
-      "cwd": "amobi_common",
-      "request": "launch",
-      "type": "dart",
-      "program": "lib/main.dart"
-    },
-    {
-      "name": "amobi_common (profile mode)",
-      "cwd": "amobi_common",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "profile",
-      "program": "lib/main.dart"
-    },
-    {
-      "name": "amobi_common (release mode)",
-      "cwd": "amobi_common",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "release",
-      "program": "lib/main.dart"
-    }
+    
   ]
 }

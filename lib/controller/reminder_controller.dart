@@ -18,6 +18,7 @@ class ReminderController extends GetxController {
   final RxString soundEffect = PrefDefaults.soundEffect.obs;
   final RxBool soundEffectEnabled = true.obs;
   final RxBool vibrate = true.obs;
+  final RxBool smartNotification = true.obs;
   final RxList<int> repeatDays = <int>[1, 2, 3, 4, 5].obs;
   final RxInt intervalMinutes = 120.obs;
   final RxString sleepTimeStart = '23:00'.obs;
@@ -66,6 +67,8 @@ class ReminderController extends GetxController {
         PrefDefaults.soundEffectEnabled;
     vibrate.value =
         prefs.getBool(PrefConst.vibrateEnabled) ?? PrefDefaults.vibrateEnabled;
+    smartNotification.value =
+        prefs.getBool(PrefConst.smartNotification) ?? PrefDefaults.smartNotification;
     intervalMinutes.value =
         prefs.getInt(PrefConst.intervalMinutes) ?? PrefDefaults.intervalMinutes;
     sleepTimeStart.value =
@@ -137,6 +140,7 @@ class ReminderController extends GetxController {
     await prefs.setString(PrefConst.soundEffect, soundEffect.value);
     await prefs.setBool(PrefConst.soundEffectEnabled, soundEffectEnabled.value);
     await prefs.setBool(PrefConst.vibrateEnabled, vibrate.value);
+    await prefs.setBool(PrefConst.smartNotification, smartNotification.value);
     await prefs.setInt(PrefConst.intervalMinutes, intervalMinutes.value);
     await prefs.setString(PrefConst.sleepTimeStart, sleepTimeStart.value);
     await prefs.setString(PrefConst.sleepTimeEnd, sleepTimeEnd.value);
@@ -313,9 +317,10 @@ class ReminderController extends GetxController {
   String get intervalDisplay {
     final h = intervalMinutes.value ~/ 60;
     final m = intervalMinutes.value % 60;
-    if (h > 0 && m > 0)
+    if (h > 0 && m > 0) {
       return '$h ${h <= 1 ? 'hour'.tr : 'hours'.tr} $m ${'min'.tr}';
-    if (h > 0) return '$h ${h <= 1 ? 'hour'.tr : 'hours'.tr}';
+    }
+    if (h > 0) { return '$h ${h <= 1 ? 'hour'.tr : 'hours'.tr}'; }
     return '$m ${'min'.tr}';
   }
 }

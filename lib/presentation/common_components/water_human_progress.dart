@@ -2,11 +2,7 @@
 import "dart:ui" as ui;
 
 import "package:dsp_base/app_material.dart";
-import "package:smartdrinkai/utils/unit_converter.dart";
-import "package:smartdrinkai/values/app_colors.dart";
 import "package:flutter_svg/svg.dart";
-
-String _ltrIsolate(String text) => "\u2066$text\u2069";
 
 /// Human-body-shaped water level indicator. Water rises from feet to head
 /// as [progress] goes from 0.0 to 1.0, clipped to the human silhouette.
@@ -68,13 +64,19 @@ class _WaterHumanProgressState extends State<WaterHumanProgress>
       final svgSize = pictureInfo.size;
 
       // Scale the SVG picture to the display dimensions.
-      // Picture.toImage() does not auto-scale, so we wrap in a new recording.
+      // Inset by 3px so the mask is slightly smaller than the body silhouette —
+      // this keeps water from overlapping the outer glow/border of the body.
+      const inset = 3.0;
       final recorder = ui.PictureRecorder();
       final canvas = ui.Canvas(
         recorder,
         Rect.fromLTWH(0, 0, iW.toDouble(), iH.toDouble()),
       );
-      canvas.scale(iW / svgSize.width, iH / svgSize.height);
+      canvas.translate(inset, inset);
+      canvas.scale(
+        (iW - inset * 2) / svgSize.width,
+        (iH - inset * 2) / svgSize.height,
+      );
       canvas.drawPicture(pictureInfo.picture);
       pictureInfo.picture.dispose();
       final scaled = recorder.endRecording();
@@ -104,67 +106,28 @@ class _WaterHumanProgressState extends State<WaterHumanProgress>
       duration: const Duration(milliseconds: 1200),
       curve: Curves.easeOutCubic,
       builder: (context, animProgress, _) {
-        final displayMl = widget.progress > 0
-            ? (widget.currentMl * (animProgress / widget.progress)).toInt()
-            : 0;
+        return SizedBox(
+          width: bodyW,
+          height: bodyH,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              // Layer 1: Human body in natural teal colour (unfilled region).
+              SvgPicture.asset(_asset, fit: BoxFit.fill),
 
-        return AppColumn(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: bodyW,
-              height: bodyH,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  // Layer 1: Human body in natural teal colour (unfilled region).
-                  SvgPicture.asset(_asset, fit: BoxFit.fill),
-
-                  // Layer 2: Animated water rising from the feet, clipped to body shape.
-                  AnimatedBuilder(
-                    animation: _ripple,
-                    builder: (_, child) => CustomPaint(
-                      painter: _HumanWaterPainter(
-                        fillFraction: animProgress,
-                        phase: _ripple.value,
-                        maskImage: _maskImage,
-                      ),
-                    ),
+              // Layer 2: Animated water rising from the feet, clipped to body shape.
+              AnimatedBuilder(
+                animation: _ripple,
+                builder: (_, child) => CustomPaint(
+                  painter: _HumanWaterPainter(
+                    fillFraction: animProgress,
+                    phase: _ripple.value,
+                    maskImage: _maskImage,
                   ),
-                ],
+                ),
               ),
-            ),
-            SizedBox(height: 10 * widget.textScale),
-            AppRow(
-              mainAxisSize: MainAxisSize.min,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                AppText(
-                  UnitConverter.formatVolumeValue(
-                    displayMl.toDouble(),
-                    widget.volumeUnit,
-                  ),
-                  style: TextStyle(
-                    fontSize: 34 * widget.textScale,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.basic500,
-                    letterSpacing: 1,
-                    height: 1.2,
-                  ),
-                ),
-                AppSpacerW8,
-                AppText(
-                  "/ ${_ltrIsolate(UnitConverter.formatVolumeValueUnit(widget.goalMl.toDouble(), widget.volumeUnit))}",
-                  style: TextStyle(
-                    fontSize: 18 * widget.textScale,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.basic300,
-                    letterSpacing: 0.7,
-                  ),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

@@ -55,5 +55,18 @@ class AppDateUtils {
   static DateTime endOfMonth(DateTime date) {
     return DateTime(date.year, date.month + 1, 0);
   }
+
+  static DateTime startOfYear(DateTime date) => DateTime(date.year, 1, 1);
+  static DateTime endOfYear(DateTime date) => DateTime(date.year, 12, 31);
+  static String yearLabel(DateTime date) => date.year.toString();
+
+  static String viDayName(DateTime date) {
+    const days = ['Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy', 'Chủ nhật'];
+    return days[date.weekday - 1];
+  }
+
+  static String formatViDate(DateTime date) {
+    return '${date.day.toString().padLeft(2, '0')} Thg ${date.month}, ${date.year}';
+  }
 }
 

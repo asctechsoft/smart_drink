@@ -29,6 +29,7 @@ class TodayController extends GetxController with WidgetsBindingObserver {
   final RxList<DrinkRecord> todayRecords = <DrinkRecord>[].obs;
   final RxString nextReminderTime = ''.obs;
   final RxString reminderCountdown = ''.obs;
+  final RxInt streakDays = 0.obs;
 
   late final Worker _profileWorker;
   Worker? _languageWorker;
@@ -115,6 +116,7 @@ class TodayController extends GetxController with WidgetsBindingObserver {
     final records = await _drinkService.getTodayRecords();
     todayRecords.assignAll(records);
 
+    await _loadStreak();
     await _updateNextReminder();
     updateWidget();
     _ensureOngoingNotification();
@@ -205,6 +207,27 @@ class TodayController extends GetxController with WidgetsBindingObserver {
     if (times.isNotEmpty) {
       await NotificationChannel.syncReminders(times);
     }
+  }
+
+  Future<void> _loadStreak() async {
+    final today = DateTime.now();
+    final startDate = today.subtract(const Duration(days: 60));
+    final summaries = await _drinkService.getSummariesBetween(
+      AppDateUtils.formatDateKey(startDate),
+      AppDateUtils.formatDateKey(today),
+    );
+    summaries.sort((a, b) => b.dateKey.compareTo(a.dateKey));
+
+    int streak = 0;
+    var checkDate = today;
+    for (final summary in summaries) {
+      final expectedKey = AppDateUtils.formatDateKey(checkDate);
+      if (summary.dateKey != expectedKey) break;
+      if (summary.totalMl <= 0) break;
+      streak++;
+      checkDate = checkDate.subtract(const Duration(days: 1));
+    }
+    streakDays.value = streak;
   }
 
   Future<void> addDrink(

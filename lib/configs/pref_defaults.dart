@@ -28,5 +28,6 @@ class PrefDefaults {
   static const int notificationDailyHourNight = 21;
   static const bool isFullScreenIntentEnabled = true;
   static const String languageSelectionHistory = '';
+  static const bool smartNotification = true;
 }
 
