@@ -27,6 +27,16 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
+  final RxBool _showAllRecords = false.obs;
+
+  static bool _isSameDay(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
+
+  String _shortDayName(DateTime day) {
+    const viNames = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+    return viNames[day.weekday - 1];
+  }
+
   @override
   Widget build(BuildContext context) {
     final ob = OnboardingTheme.of(context);
@@ -36,11 +46,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
         backgroundColor: Colors.transparent,
         body: Padding(
           padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom + 10,
+            bottom: MediaQuery.of(context).padding.bottom + 80,
           ),
           child: SafeArea(
-          bottom: false,
-          child: Column(
+            bottom: false,
+            child: Column(
               children: [
                 // ── Header ──────────────────────────────────────────────
                 Padding(
@@ -57,9 +67,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         ),
                       ),
                       const Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          if (controller.viewMode.value == HistoryViewMode.day) {
+                      Obx(() {
+                        final isDay = controller.viewMode.value == HistoryViewMode.day;
+                        if (!isDay) return const SizedBox.shrink();
+                        return GestureDetector(
+                          onTap: () {
                             HistoryDatePicker.show(
                               context,
                               initialDate: controller.selectedDate.value,
@@ -67,24 +79,24 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             ).then((d) {
                               if (d != null) controller.selectedDate.value = d;
                             });
-                          }
-                        },
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: ob.bgOption,
-                            border: Border.all(color: ob.borderTabHistory, width: 1),
+                          },
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: ob.bgOption,
+                              border: Border.all(color: ob.borderTabHistory, width: 1),
+                            ),
+                            child: Icon(Icons.calendar_month_rounded, color: ob.textPrimary, size: 20),
                           ),
-                          child: Icon(Icons.calendar_month_rounded, color: ob.textPrimary, size: 20),
-                        ),
-                      ),
+                        );
+                      }),
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
 
                 // ── Segment tabs ─────────────────────────────────────────
                 Padding(
@@ -92,7 +104,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   child: Obx(() => _buildTabs(context, controller)),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
 
                 // ── Scrollable content ───────────────────────────────────
                 Expanded(
@@ -101,22 +113,37 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Period navigator
-                        HistoryPeriodSelector(
-                          controller: controller,
-                          onTitleTap: () {
-                            if (controller.viewMode.value == HistoryViewMode.day) {
-                              HistoryDatePicker.show(
-                                context,
-                                initialDate: controller.selectedDate.value,
-                                lastDate: DateTime.now(),
-                              ).then((d) {
-                                if (d != null) controller.selectedDate.value = d;
-                              });
-                            }
-                          },
-                        ),
-                        const SizedBox(height: 12),
+                        // Period navigator OR week day strip
+                        Obx(() {
+                          final isDay = controller.viewMode.value == HistoryViewMode.day;
+                          if (isDay) {
+                            return _buildDayWeekStrip(context, controller);
+                          }
+                          return HistoryPeriodSelector(
+                            controller: controller,
+                            onTitleTap: () {
+                              if (controller.viewMode.value == HistoryViewMode.day) {
+                                HistoryDatePicker.show(
+                                  context,
+                                  initialDate: controller.selectedDate.value,
+                                  lastDate: DateTime.now(),
+                                ).then((d) {
+                                  if (d != null) controller.selectedDate.value = d;
+                                });
+                              }
+                            },
+                          );
+                        }),
+
+                        // Date label (day view only)
+                        Obx(() {
+                          if (controller.viewMode.value != HistoryViewMode.day) {
+                            return const SizedBox.shrink();
+                          }
+                          return _buildDayDateLabel(context, controller);
+                        }),
+
+                        const SizedBox(height: 8),
 
                         // ── Chart card ───────────────────────────────────
                         Padding(
@@ -138,16 +165,19 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           ),
                         ),
 
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
 
-                        // ── Thống kê (week/month/year only) ─────────────
+                        // ── Stats section (all modes) ─────────────────────
                         Obx(() {
-                          if (controller.viewMode.value == HistoryViewMode.day) {
-                            return const SizedBox.shrink();
-                          }
+                          final isDay = controller.viewMode.value == HistoryViewMode.day;
+                          // Access reactive lists inside Obx for tracking
+                          final weekLen = controller.weekSummariesForDay.length;
+                          final summLen = controller.summaries.length;
+                          if (!isDay && summLen == 0) return const SizedBox.shrink();
+                          if (isDay && weekLen == 0) return const SizedBox.shrink();
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: _buildStatsSection(context, controller),
+                            child: _buildStatsSection(context, controller, isDay: isDay),
                           );
                         }),
 
@@ -156,39 +186,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           if (controller.viewMode.value != HistoryViewMode.day) {
                             return const SizedBox.shrink();
                           }
-                          if (controller.dayRecords.isEmpty) {
+                          // Force track both dayRecords and showAll toggle
+                          final recordCount = controller.dayRecords.length;
+                          final showAll = _showAllRecords.value;
+                          if (recordCount == 0) {
                             return _buildEmptyState(ob);
                           }
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                                child: Text(
-                                  'drink_history'.tr,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: ob.textPrimary,
-                                  ),
-                                ),
-                              ),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                                itemCount: controller.dayRecords.length,
-                                itemBuilder: (ctx, i) {
-                                  final record = controller.dayRecords[i];
-                                  return _DrinkItem(
-                                    record: record,
-                                    onEdit: () => _showEditDialog(context, controller, record),
-                                    onDelete: () => _showDeleteConfirm(context, controller, record),
-                                  );
-                                },
-                              ),
-                            ],
-                          );
+                          return _buildDayDrinkLog(context, controller, showAll: showAll, recordCount: recordCount);
                         }),
 
                         // ── Lịch sử uống nước (week/month/year) ─────────
@@ -224,7 +228,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     shrinkWrap: true,
                                     physics: const NeverScrollableScrollPhysics(),
                                     itemCount: sortedSummaries.length,
-                                    separatorBuilder: (_, __) => Divider(
+                                    separatorBuilder: (context2, i2) => Divider(
                                       height: 1,
                                       color: ob.borderTabHistory,
                                     ),
@@ -245,10 +249,258 @@ class _HistoryScreenState extends State<HistoryScreen> {
               ],
             ),
           ),
-          ),
         ),
+      ),
     );
   }
+
+  // ── Day week strip ─────────────────────────────────────────────────────────
+
+  Widget _buildDayWeekStrip(BuildContext context, HistoryController controller) {
+    final ob = OnboardingTheme.of(context);
+    final sel = controller.selectedDate.value;
+    final weekStart = AppDateUtils.startOfWeek(sel);
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final nowWeekStart = AppDateUtils.startOfWeek(now);
+    final canGoNext = weekStart.isBefore(nowWeekStart);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              controller.selectedDate.value = sel.subtract(const Duration(days: 7));
+            },
+            child: Container(
+              width: 32,
+              height: 32,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: ob.bgOption,
+                border: Border.all(color: ob.borderTabHistory, width: 1),
+              ),
+              child: Icon(Icons.chevron_left_rounded, size: 20, color: ob.textPrimary),
+            ),
+          ),
+          const SizedBox(width: 2),
+          ...List.generate(7, (i) {
+            final day = weekStart.add(Duration(days: i));
+            final dayOnly = DateTime(day.year, day.month, day.day);
+            final isSelected = _isSameDay(day, sel);
+            final isFuture = dayOnly.isAfter(today);
+            return Expanded(
+              child: GestureDetector(
+                onTap: isFuture ? null : () => controller.selectedDate.value = day,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      _shortDayName(day),
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: isSelected ? ob.accent : ob.textSecondary,
+                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      width: 32,
+                      height: 32,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: isSelected ? ob.accent : Colors.transparent,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        '${day.day}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                          color: isSelected
+                              ? Colors.white
+                              : (isFuture
+                                  ? ob.textSecondary.withValues(alpha: 0.35)
+                                  : ob.textPrimary),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+          const SizedBox(width: 2),
+          SizedBox(
+            width: 32,
+            height: 32,
+            child: canGoNext
+                ? GestureDetector(
+                    onTap: () {
+                      final next = sel.add(const Duration(days: 7));
+                      controller.selectedDate.value = next.isAfter(now) ? now : next;
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: ob.bgOption,
+                        border: Border.all(color: ob.borderTabHistory, width: 1),
+                      ),
+                      child: Icon(Icons.chevron_right_rounded, size: 20, color: ob.textPrimary),
+                    ),
+                  )
+                : const SizedBox(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ── Day date label ─────────────────────────────────────────────────────────
+
+  Widget _buildDayDateLabel(BuildContext context, HistoryController controller) {
+    final ob = OnboardingTheme.of(context);
+    final sel = controller.selectedDate.value;
+    final dayName = AppDateUtils.viDayName(sel);
+    final label = '$dayName, ${sel.day} Thg ${sel.month}, ${sel.year}';
+
+    return GestureDetector(
+      onTap: () => HistoryDatePicker.show(
+        context,
+        initialDate: sel,
+        lastDate: DateTime.now(),
+      ).then((d) {
+        if (d != null) controller.selectedDate.value = d;
+      }),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: ob.textPrimary,
+              ),
+            ),
+            const SizedBox(width: 6),
+            Icon(Icons.calendar_month_outlined, size: 16, color: ob.textSecondary),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ── Day drink log ──────────────────────────────────────────────────────────
+
+  Widget _buildDayDrinkLog(
+    BuildContext context,
+    HistoryController controller, {
+    required bool showAll,
+    required int recordCount,
+  }) {
+    final ob = OnboardingTheme.of(context);
+    final records = controller.dayRecords;
+    final maxVisible = showAll ? recordCount : recordCount.clamp(0, 4);
+    final hasMore = recordCount > 4;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+          child: Row(
+            children: [
+              Text(
+                'drink_history'.tr,
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                  color: ob.textPrimary,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                'Tổng ${records.length} lần uống',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: ob.switchActive,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Container(
+            decoration: BoxDecoration(
+              color: ob.bgOption,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              children: [
+                for (int i = 0; i < maxVisible; i++) ...[
+                  if (i > 0)
+                    Divider(height: 1, color: ob.divider, indent: 68, endIndent: 0),
+                  _NewDrinkItem(
+                    record: records[i],
+                    onTap: () => _showRecordOptions(context, controller, records[i]),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+        if (hasMore) ...[
+          const SizedBox(height: 8),
+          GestureDetector(
+            onTap: () => _showAllRecords.value = !_showAllRecords.value,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                decoration: BoxDecoration(
+                  color: ob.bgOption,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: ob.borderTabHistory, width: 1),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      showAll ? 'Thu gọn' : 'Xem tất cả',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: ob.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Icon(
+                      showAll ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
+                      size: 18,
+                      color: ob.textPrimary,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+        const SizedBox(height: 12),
+      ],
+    );
+  }
+
+  // ── Tabs ───────────────────────────────────────────────────────────────────
 
   Widget _buildTabs(BuildContext context, HistoryController controller) {
     final ob = OnboardingTheme.of(context);
@@ -300,29 +552,86 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
+  // ── Chart stats ────────────────────────────────────────────────────────────
+
   Widget _buildChartStats(BuildContext context, HistoryController controller) {
     final ob = OnboardingTheme.of(context);
     final volumeUnit = Get.find<SettingsController>().volumeUnit.value;
     final isDay = controller.viewMode.value == HistoryViewMode.day;
 
     if (isDay) {
-      // Day view: just total
-      return Column(
+      final total = controller.computedTotal;
+      final goal = controller.goalMl.value;
+      final totalFmt = UnitConverter.formatVolumeValue(total.toDouble(), volumeUnit);
+      final goalFmt = UnitConverter.formatVolumeValue(goal.toDouble(), volumeUnit);
+      final pct = goal > 0 ? ((total / goal) * 100).clamp(0, 100).round() : 0;
+
+      return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('total'.tr, style: TextStyle(fontSize: 13, color: ob.textPrimary.withValues(alpha: 0.6))),
-          const SizedBox(height: 2),
-          Row(
-            children: [
-              Text(
-                UnitConverter.formatVolumeValue(controller.computedTotal.toDouble(), volumeUnit),
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: ob.switchActive),
-              ),
-              Text(
-                ' / ${UnitConverter.formatVolume(controller.goalMl.value.toDouble(), volumeUnit)}',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: ob.textPrimary),
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Tổng lượng nước',
+                  style: TextStyle(fontSize: 12, color: ob.textPrimary.withValues(alpha: 0.6)),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  totalFmt,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: ob.switchActive),
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Text(
+                      'Mục tiêu: $goalFmt',
+                      style: TextStyle(fontSize: 12, color: ob.textSecondary),
+                    ),
+                    const SizedBox(width: 4),
+                    Icon(Icons.edit_outlined, size: 12, color: ob.textSecondary),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Hoàn thành',
+                  style: TextStyle(fontSize: 12, color: ob.textPrimary.withValues(alpha: 0.6)),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  '$pct%',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: ob.switchActive),
+                ),
+                if (pct >= 100) ...[
+                  const SizedBox(height: 4),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: ob.switchActive.withValues(alpha: 0.5),
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Text(
+                      'Đã đạt mục tiêu! 🎉',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: ob.switchActive,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ),
         ],
       );
@@ -369,16 +678,36 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
-  Widget _buildStatsSection(BuildContext context, HistoryController controller) {
+  // ── Stats section ──────────────────────────────────────────────────────────
+
+  Widget _buildStatsSection(
+    BuildContext context,
+    HistoryController controller, {
+    bool isDay = false,
+  }) {
     final ob = OnboardingTheme.of(context);
     final volumeUnit = Get.find<SettingsController>().volumeUnit.value;
-    final goalDays = controller.goalDaysCount;
-    final periodDays = controller.summaries.length;
+
+    final int goalDays;
+    final int periodDays;
+    final DailySummary? maxS;
+    final DailySummary? minS;
+
+    if (isDay) {
+      goalDays = controller.dayViewGoalDays;
+      periodDays = controller.weekSummariesForDay.length;
+      maxS = controller.dayViewMaxSummary;
+      minS = controller.dayViewMinSummary;
+    } else {
+      goalDays = controller.goalDaysCount;
+      periodDays = controller.summaries.length;
+      maxS = controller.maxDaySummary;
+      minS = controller.minDaySummary;
+    }
+
     final streakDays = Get.isRegistered<TodayController>()
         ? Get.find<TodayController>().streakDays.value
         : 0;
-    final maxS = controller.maxDaySummary;
-    final minS = controller.minDaySummary;
 
     String maxVal = '--';
     String maxDay = '';
@@ -401,18 +730,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Thống kê',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: ob.textPrimary),
-        ),
-        const SizedBox(height: 12),
+        if (!isDay) ...[
+          Text(
+            'Thống kê',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: ob.textPrimary),
+          ),
+          const SizedBox(height: 12),
+        ],
         Row(
           children: [
             Expanded(
               child: _StatBlock(
                 emoji: '🎯',
-                label: 'Ngày đạt mục tiêu',
-                value: '$goalDays/$periodDays',
+                label: 'Đạt mục tiêu',
+                value: '$goalDays/$periodDays ngày',
                 ob: ob,
               ),
             ),
@@ -427,13 +758,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 8),
         Row(
           children: [
             Expanded(
               child: _StatBlock(
                 emoji: '⭐',
-                label: 'Ngày uống nhiều nhất',
+                label: 'Uống nhiều nhất',
                 value: maxVal,
                 sub: maxDay,
                 ob: ob,
@@ -443,7 +774,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             Expanded(
               child: _StatBlock(
                 emoji: '💧',
-                label: 'Ngày uống ít nhất',
+                label: 'Uống ít nhất',
                 value: minVal,
                 sub: minDay,
                 ob: ob,
@@ -451,7 +782,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 12),
       ],
     );
   }
@@ -472,6 +803,58 @@ class _HistoryScreenState extends State<HistoryScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  // ── Record options bottom sheet ────────────────────────────────────────────
+
+  void _showRecordOptions(
+    BuildContext context,
+    HistoryController controller,
+    DrinkRecord record,
+  ) {
+    final ob = OnboardingTheme.of(context);
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: ob.bgOption,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(top: 12, bottom: 8),
+                decoration: BoxDecoration(
+                  color: ob.divider,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.edit_outlined, color: ob.textPrimary),
+                title: Text('edit_drink'.tr, style: TextStyle(color: ob.textPrimary)),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _showEditDialog(context, controller, record);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.delete_outline, color: AppColors.danger300),
+                title: Text('delete_drink'.tr, style: const TextStyle(color: AppColors.danger300)),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _showDeleteConfirm(context, controller, record);
+                },
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -616,7 +999,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 }
 
-// ─── Stat block (Thống kê cards) ─────────────────────────────────────────────
+// ─── Stat block ────────────────────────────────────────────────────────────────
 
 class _StatBlock extends StatelessWidget {
   const _StatBlock({
@@ -670,7 +1053,7 @@ class _StatBlock extends StatelessWidget {
   }
 }
 
-// ─── Daily summary item ───────────────────────────────────────────────────────
+// ─── Daily summary item ────────────────────────────────────────────────────────
 
 class _SummaryItem extends StatelessWidget {
   const _SummaryItem({required this.summary});
@@ -682,7 +1065,9 @@ class _SummaryItem extends StatelessWidget {
     final ob = OnboardingTheme.of(context);
     final volumeUnit = Get.find<SettingsController>().volumeUnit.value;
     DateTime? dt;
-    try { dt = DateTime.parse(summary.dateKey); } catch (_) {}
+    try {
+      dt = DateTime.parse(summary.dateKey);
+    } catch (_) {}
     final dateStr = dt != null ? AppDateUtils.formatViDate(dt) : summary.dateKey;
     final totalVal = UnitConverter.formatVolumeValue(summary.totalMl.toDouble(), volumeUnit);
     final goalVal = UnitConverter.formatVolumeValue(summary.goalMl.toDouble(), volumeUnit);
@@ -744,14 +1129,13 @@ class _SummaryItem extends StatelessWidget {
   }
 }
 
-// ─── Drink item (day view) ────────────────────────────────────────────────────
+// ─── New drink item (day view redesign) ───────────────────────────────────────
 
-class _DrinkItem extends StatelessWidget {
-  const _DrinkItem({required this.record, this.onEdit, this.onDelete});
+class _NewDrinkItem extends StatelessWidget {
+  const _NewDrinkItem({required this.record, this.onTap});
 
   final DrinkRecord record;
-  final VoidCallback? onEdit;
-  final VoidCallback? onDelete;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -769,47 +1153,56 @@ class _DrinkItem extends StatelessWidget {
     final displayMl = record.originalAmountMl > 0 ? record.originalAmountMl : record.amountMl.toDouble();
     final amountDisplay = UnitConverter.formatVolumeValueUnit(displayMl, volumeUnit);
 
-    return Container(
-      padding: const EdgeInsets.fromLTRB(12, 16, 12, 16),
-      margin: const EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-        color: ob.bgOption,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          AppText(
-            timeStr,
-            modifier: Modifier.background(color: ob.bgTimeCycle, radius: 100).padding(horizontal: 8, vertical: 8),
-            style: TextStyle(fontSize: 9, fontWeight: FontWeight.w400, color: ob.textPrimary, letterSpacing: 0.6),
-          ),
-          AppSpacerW8,
-          Image.asset(type.imagePath, width: 24, height: 24, fit: BoxFit.contain),
-          AppSpacerW4,
-          Expanded(
-            child: AppText(
-              type.label.tr,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: ob.textPrimary, letterSpacing: 0.5),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: ob.switchActive.withValues(alpha: 0.12),
+              ),
+              padding: const EdgeInsets.all(10),
+              child: Image.asset(type.imagePath, fit: BoxFit.contain),
             ),
-          ),
-          AppRow(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppRow(
-                modifier: Modifier.appClickable(onTap: onEdit, radius: 16).padding(vertical: 4, horizontal: 2),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppText(
-                    amountDisplay,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: ob.textActiveBottomNavBar, letterSpacing: 0.5),
+                  Text(
+                    timeStr,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: ob.textPrimary,
+                    ),
                   ),
-                  AppSpacerW4,
-                  AppIcon('assets/images/svg/ic_edit_water.svg', size: 16, tint: ob.textActiveBottomNavBar),
+                  const SizedBox(height: 2),
+                  Text(
+                    type.label.tr,
+                    style: TextStyle(fontSize: 12, color: ob.textSecondary),
+                  ),
                 ],
               ),
-              AppIcon('assets/images/svg/ic_remove.svg', size: 16, clickZone: 32, tint: AppColors.danger500, onClick: onDelete),
-            ],
-          ),
-        ],
+            ),
+            Text(
+              amountDisplay,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: ob.textPrimary,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Icon(Icons.chevron_right_rounded, size: 18, color: ob.textSecondary),
+          ],
+        ),
       ),
     );
   }

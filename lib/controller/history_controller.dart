@@ -15,6 +15,7 @@ class HistoryController extends GetxController {
   final Rx<DateTime> selectedDate = DateTime.now().obs;
   final RxList<DrinkRecord> dayRecords = <DrinkRecord>[].obs;
   final RxList<DailySummary> summaries = <DailySummary>[].obs;
+  final RxList<DailySummary> weekSummariesForDay = <DailySummary>[].obs;
   final RxInt totalMl = 0.obs;
   final RxInt goalMl = 2000.obs;
 
@@ -52,6 +53,21 @@ class HistoryController extends GetxController {
         final dt = selectedDate.value;
         return DateTime(dt.year + 1, 1, 1).difference(DateTime(dt.year, 1, 1)).inDays;
     }
+  }
+
+  int get dayViewGoalDays =>
+      weekSummariesForDay.where((s) => s.goalMl > 0 && s.totalMl >= s.goalMl).length;
+
+  DailySummary? get dayViewMaxSummary {
+    final nonZero = weekSummariesForDay.where((s) => s.totalMl > 0).toList();
+    if (nonZero.isEmpty) return null;
+    return nonZero.reduce((a, b) => a.totalMl >= b.totalMl ? a : b);
+  }
+
+  DailySummary? get dayViewMinSummary {
+    final nonZero = weekSummariesForDay.where((s) => s.totalMl > 0).toList();
+    if (nonZero.isEmpty) return null;
+    return nonZero.reduce((a, b) => a.totalMl <= b.totalMl ? a : b);
   }
 
   DailySummary? get maxDaySummary {
@@ -123,6 +139,14 @@ class HistoryController extends GetxController {
     final records = await _drinkService.getRecordsByDate(dateKey);
     dayRecords.assignAll(records);
     totalMl.value = records.fold(0, (sum, r) => sum + r.amountMl);
+
+    final weekStart = AppDateUtils.startOfWeek(selectedDate.value);
+    final weekEnd = AppDateUtils.endOfWeek(selectedDate.value);
+    final weekData = await _drinkService.getSummariesBetween(
+      AppDateUtils.formatDateKey(weekStart),
+      AppDateUtils.formatDateKey(weekEnd),
+    );
+    weekSummariesForDay.assignAll(weekData);
   }
 
   Future<void> _loadWeekData() async {

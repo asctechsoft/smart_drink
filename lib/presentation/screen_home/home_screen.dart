@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:dsp_base/app_material.dart';
 import 'package:smartdrinkai/controller/history_controller.dart';
 import 'package:smartdrinkai/presentation/screen_history/history_screen.dart';
@@ -28,6 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
     SettingsScreen(),
   ];
 
+  static const _pillH = 68.0;
+  static const _sideMargin = 20.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,108 +40,162 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildBottomNavBar(BuildContext context) {
-    final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final systemPadding = MediaQuery.of(context).padding.bottom;
     final ob = OnboardingTheme.of(context);
 
-    return ClipRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-        child: Container(
-          height: 80 + bottomPadding,
-          padding: EdgeInsets.only(bottom: bottomPadding),
-          decoration: BoxDecoration(
-            color: ob.bgBottomNavBar,
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: Color(0xFF3E8DFD).withValues(alpha: 0.15),
-            //     blurRadius: 24,
-            //   ),
-            // ],
-          ),
-          child: AppRowCentered(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              _buildNavItem(
-                0,
-                'assets/images/svg/ic_today_nav.svg',
-                'today',
-                context,
-              ),
-              _buildNavItem(
-                1,
-                'assets/images/svg/ic_history_nav.svg',
-                'history',
-                context,
-              ),
-              _buildNavItem(
-                2,
-                'assets/images/svg/ic_ring.svg',
-                'reminders',
-                context,
-              ),
-              _buildNavItem(
-                3,
-                'assets/images/svg/ic_setting_nav.svg',
-                'settings',
-                context,
-              ),
-            ],
-          ),
+    return SizedBox(
+      height: systemPadding + _pillH + 8,
+      child: Container(
+        margin: const EdgeInsets.only(
+          left: _sideMargin,
+          right: _sideMargin,
+          bottom: 8,
+        ),
+        decoration: BoxDecoration(
+          color: ob.bgBottomNavBar,
+          borderRadius: BorderRadius.circular(_pillH / 2),
+          border: Border.all(color: ob.borderTabHistory, width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.10),
+              blurRadius: 24,
+              offset: const Offset(0, -4),
+            ),
+          ],
+        ),
+        padding: EdgeInsets.only(bottom: systemPadding),
+        child: Row(
+          children: [
+            _PillNavItem(
+              index: 0,
+              icon: 'assets/images/svg/ic_today_nav.svg',
+              label: 'today'.tr,
+              currentIndex: _currentIndex,
+              ob: ob,
+              onTap: () => setState(() => _currentIndex = 0),
+            ),
+            _PillNavItem(
+              index: 1,
+              icon: 'assets/images/svg/ic_history_nav.svg',
+              label: 'history'.tr,
+              currentIndex: _currentIndex,
+              ob: ob,
+              onTap: () {
+                setState(() => _currentIndex = 1);
+                if (Get.isRegistered<HistoryController>()) {
+                  Get.find<HistoryController>().loadData();
+                }
+              },
+            ),
+            _PillNavItem(
+              index: 2,
+              icon: 'assets/images/svg/ic_ring.svg',
+              label: 'reminders'.tr,
+              currentIndex: _currentIndex,
+              ob: ob,
+              onTap: () => setState(() => _currentIndex = 2),
+            ),
+            _PillNavItem(
+              index: 3,
+              icon: 'assets/images/svg/ic_setting_nav.svg',
+              label: 'settings'.tr,
+              currentIndex: _currentIndex,
+              ob: ob,
+              onTap: () => setState(() => _currentIndex = 3),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Pill Nav Item ────────────────────────────────────────────────────────────
+
+class _PillNavItem extends StatelessWidget {
+  final int index;
+  final String icon;
+  final String label;
+  final int currentIndex;
+  final OnboardingTheme ob;
+  final VoidCallback onTap;
+
+  const _PillNavItem({
+    required this.index,
+    required this.icon,
+    required this.label,
+    required this.currentIndex,
+    required this.ob,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isActive = currentIndex == index;
+    final color = isActive ? ob.textActiveBottomNavBar : ob.textBottomNavBar;
+
+    return Expanded(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Center(
+          child: isActive ? _activeItem(color) : _inactiveItem(color),
         ),
       ),
     );
   }
 
-  Widget _buildNavItem(
-    int index,
-    String icon,
-    String label,
-    BuildContext context,
-  ) {
-    final ob = OnboardingTheme.of(context);
-    final isActive = _currentIndex == index;
-    final color = isActive ? ob.textActiveBottomNavBar : ob.textBottomNavBar;
-
-    return Expanded(
-      child: Center(
-        child: AppColumnCentered(
-          modifier:
-              Modifier //
-                  .appClickable(
-                    onTap: () {
-                      setState(() => _currentIndex = index);
-                      if (index == 1 && Get.isRegistered<HistoryController>()) {
-                        Get.find<HistoryController>().loadData();
-                      }
-                    },
-                    radius: 100,
-                  )
-                  .size(68),
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              icon,
-              width: 24,
-              height: 24,
-              colorFilter: ColorFilter.mode(color, BlendMode.modulate),
-            ),
-            AppSpacerH4,
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: AppText(
-                label.tr,
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: isActive ? FontWeight.w700 : FontWeight.w600,
-                  color: color,
-                  letterSpacing: 0.5,
-                ),
-              ),
-            ),
-          ],
+  Widget _activeItem(Color color) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SvgPicture.asset(
+          icon,
+          width: 22,
+          height: 22,
+          colorFilter: ColorFilter.mode(color, BlendMode.modulate),
         ),
-      ),
+        const SizedBox(height: 3),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w700,
+            color: color,
+            letterSpacing: 0.3,
+          ),
+        ),
+        const SizedBox(height: 3),
+        Container(
+          width: 4,
+          height: 4,
+          decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+        ),
+      ],
+    );
+  }
+
+  Widget _inactiveItem(Color color) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SvgPicture.asset(
+          icon,
+          width: 22,
+          height: 22,
+          colorFilter: ColorFilter.mode(color, BlendMode.modulate),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w500,
+            color: color,
+            letterSpacing: 0.3,
+          ),
+        ),
+      ],
     );
   }
 }

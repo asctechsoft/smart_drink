@@ -16,7 +16,7 @@ class ReminderSettingsPage extends StatelessWidget {
     return OnboardingBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Obx(() {
+        body: Builder(builder: (context) {
           final ob = OnboardingTheme.of(context);
           return SafeArea(
             bottom: false,
@@ -70,23 +70,6 @@ class _Header extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
       child: Row(
         children: [
-          GestureDetector(
-            onTap: () => Get.back(),
-            child: Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: ob.bgOption,
-              ),
-              child: Icon(
-                Icons.arrow_back_ios_new_rounded,
-                size: 18,
-                color: ob.textPrimary,
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
           Expanded(
             child: Text(
               'Nhắc nhở',
@@ -100,10 +83,14 @@ class _Header extends StatelessWidget {
           GestureDetector(
             onTap: () => _showAddDialog(context, ctrl),
             child: Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: ob.accent),
-              child: const Icon(Icons.add, size: 20, color: Colors.white),
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: ob.bgOption,
+                border: Border.all(color: ob.borderTabHistory, width: 1),
+              ),
+              child: Icon(Icons.add, size: 20, color: ob.textPrimary),
             ),
           ),
         ],
@@ -215,9 +202,9 @@ class _DailySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final schedules = ctrl.standardSchedules;
-
-    return Column(
+    return Obx(() {
+      final schedules = ctrl.standardSchedules;
+      return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -252,6 +239,7 @@ class _DailySection extends StatelessWidget {
         ),
       ],
     );
+    });
   }
 }
 
@@ -395,7 +383,7 @@ class _SettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Obx(() => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -483,7 +471,7 @@ class _SettingsSection extends StatelessWidget {
           ),
         ),
       ],
-    );
+    ));
   }
 }
 
