@@ -89,8 +89,9 @@ class _HistoryBarChartState extends State<HistoryBarChart> {
     return Obx(() {
       final isOz = settings.volumeUnit.value == 'oz';
       final barGroups = _buildBarGroups(controller, isOz);
-      final maxY = _computeMaxY(barGroups, isOz);
-      final interval = _getYInterval(maxY, isOz);
+      final rawMax = _rawMaxValue(barGroups, isOz);
+      final interval = _getYInterval(rawMax, isOz);
+      final maxY = _computeMaxY(rawMax, interval);
       final viewMode = controller.viewMode.value;
 
       return LayoutBuilder(
@@ -270,20 +271,22 @@ class _HistoryBarChartState extends State<HistoryBarChart> {
     );
   }
 
-  double _getYInterval(double maxY, bool isOz) {
+  double _getYInterval(double rawMax, bool isOz) {
     if (isOz) {
-      if (maxY <= 50) return 2;
-      if (maxY <= 100) return 20;
-      if (maxY <= 200) return 50;
-      if (maxY <= 500) return 100;
+      if (rawMax <= 20) return 2;
+      if (rawMax <= 50) return 10;
+      if (rawMax <= 100) return 20;
+      if (rawMax <= 250) return 50;
+      if (rawMax <= 500) return 100;
       return 200;
     }
-    if (maxY <= 200) return 10;
-    if (maxY <= 500) return 30;
-    if (maxY <= 1200) return 160;
-    if (maxY <= 3000) return 500;
-    if (maxY <= 6000) return 1000;
-    if (maxY <= 12000) return 2000;
+    if (rawMax <= 100) return 20;
+    if (rawMax <= 250) return 50;
+    if (rawMax <= 600) return 100;
+    if (rawMax <= 1500) return 200;
+    if (rawMax <= 3000) return 500;
+    if (rawMax <= 6000) return 1000;
+    if (rawMax <= 12000) return 2000;
     return 5000;
   }
 
@@ -375,14 +378,19 @@ class _HistoryBarChartState extends State<HistoryBarChart> {
     return 12;
   }
 
-  double _computeMaxY(List<BarChartGroupData> barGroups, bool isOz) {
+  double _rawMaxValue(List<BarChartGroupData> barGroups, bool isOz) {
     double maxVal = isOz ? 10 : 200;
     for (final group in barGroups) {
       for (final rod in group.barRods) {
         if (rod.toY > maxVal) maxVal = rod.toY;
       }
     }
-    return maxVal * 1.2;
+    return maxVal;
+  }
+
+  double _computeMaxY(double rawMax, double interval) {
+    final steps = (rawMax / interval).ceil() + 1;
+    return steps * interval;
   }
 
   Widget _bottomTitle(double value, HistoryController controller) {

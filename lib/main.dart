@@ -2,6 +2,7 @@ import 'package:dsp_base/comm_app.dart';
 import 'package:dsp_base/app_localize.dart';
 import 'package:dsp_base/convenience_imports.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'configs/pref_const.dart';
@@ -72,6 +73,12 @@ Future<void> main() async {
     onBindingInitialized: (widgetsBinding) async {
       // 0. Configure sqflite for web (no-op on native)
       await configureSqfliteForWeb();
+
+      // Lock orientation to portrait only
+      await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
 
       // 1. Firebase Initialization
       try {
