@@ -1,10 +1,10 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:smartdrinkai/controller/onboarding_controller.dart';
 import 'package:smartdrinkai/presentation/common_components/gender_card.dart';
+import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
 import 'package:smartdrinkai/presentation/common_components/onboarding_progress_bar.dart';
+import 'package:smartdrinkai/presentation/common_components/onboarding_step_header.dart';
 import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/presentation/common_components/water_wave_background.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
 import 'package:smartdrinkai/values/route_name.dart';
 import 'package:get/get.dart';
 
@@ -14,63 +14,60 @@ class GenderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<OnboardingController>();
-    final ob = OnboardingTheme.of(context);
-    return WaterWaveBackground(
+    return OnboardingBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(90),
-          child: OnboardingProgressBar(
-            currentStep: 1,
-            totalSteps: 4,
-            onBack: () => Get.back(),
-          ),
-        ),
         body: SafeArea(
           child: AppColumn(
-            modifier: Modifier.paddingAll(24),
             children: [
-              AppText(
-                'select_your_gender'.tr,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: ob.textPrimary,
-                  letterSpacing: 0.5,
-                ),
+              OnboardingProgressBar(
+                currentStep: 1,
+                totalSteps: 6,
+                onBack: () => Get.back(),
               ),
-              AppSpacerH(80),
-              Obx(
-                () => AppRow(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              Expanded(
+                child: AppColumn(
+                  modifier: Modifier.paddingAll(24),
                   children: [
-                    GenderCard(
-                      label: 'male',
-                      icon: 'assets/images/webp/ic_male.webp',
-                      isSelected: controller.gender.value == 'male',
-                      onTap: () => controller.gender.value = 'male',
+                    OnboardingStepHeader(
+                      title: 'select_your_gender'.tr,
+                      subtitle: 'personalize_your_water_needs'.tr,
                     ),
-                    AppSpacerW20,
-                    GenderCard(
-                      label: 'female',
-                      icon: 'assets/images/webp/ic_female.webp',
-                      isSelected: controller.gender.value == 'female',
-                      onTap: () => controller.gender.value = 'female',
+                    AppSpacerH40,
+                    Obx(
+                      () => AppRow(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GenderCard(
+                            label: 'male',
+                            icon: 'assets/images/webp/img_men.webp',
+                            isSelected: controller.gender.value == 'male',
+                            onTap: () => controller.gender.value = 'male',
+                          ),
+                          AppSpacerW16,
+                          GenderCard(
+                            label: 'female',
+                            icon: 'assets/images/webp/img_women.webp',
+                            isSelected: controller.gender.value == 'female',
+                            onTap: () => controller.gender.value = 'female',
+                          ),
+                        ],
+                      ),
                     ),
+                    const Spacer(),
+                    PrimaryButton(
+                      text: 'next'.tr,
+                      width: double.infinity,
+                      useGradient: true,
+                      onPressed: () {
+                        controller.nextStep();
+                        Get.toNamed(RouteName.onboardingHeight);
+                      },
+                    ),
+                    AppSpacerH20,
                   ],
                 ),
               ),
-              const Spacer(),
-              PrimaryButton(
-                text: 'next'.tr,
-                width: double.infinity,
-                useGradient: true,
-                onPressed: () {
-                  controller.nextStep();
-                  Get.toNamed(RouteName.onboardingWeight);
-                },
-              ),
-              AppSpacerH20,
             ],
           ),
         ),
@@ -78,4 +75,3 @@ class GenderScreen extends StatelessWidget {
     );
   }
 }
-

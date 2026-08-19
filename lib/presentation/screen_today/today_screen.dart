@@ -2,6 +2,7 @@ import 'package:dsp_base/app_material.dart';
 import 'package:smartdrinkai/controller/settings_controller.dart';
 import 'package:smartdrinkai/controller/today_controller.dart';
 import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
+import 'package:smartdrinkai/values/app_colors.dart';
 import 'package:smartdrinkai/values/onboarding_theme.dart';
 
 import 'package:get/get.dart';
@@ -81,6 +82,7 @@ class TodayScreen extends StatelessWidget {
         color: ob.bgOption,
         borderRadius: BorderRadius.circular(100),
         border: Border.all(color: ob.borderTabHistory, width: 1),
+        boxShadow: ob.cardGlowShadow,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -244,6 +246,7 @@ class _StatCard extends StatelessWidget {
         color: bg,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: border, width: 1),
+        boxShadow: AppColors.cardGlowShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

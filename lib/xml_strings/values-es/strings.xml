@@ -210,4 +210,15 @@
     <string name="the_target_cannot_exceed">El objetivo no puede exceder %1$s</string>
     <string name="drink">Beber</string>
     <string name="coming_soon">Próximamente</string>
+    <string name="personalize_your_water_needs">This information helps personalize your water needs</string>
+    <string name="helps_remind_you_to_drink_water">Helps remind you to drink water properly during the day</string>
+    <string name="weather_question">How is the weather in your country</string>
+    <string name="weather_question_highlight">right now?</string>
+    <string name="weather_hint">The hotter the weather, the more water you need to drink each day</string>
+    <string name="building_schedule_title">Building your water schedule</string>
+    <string name="building_schedule_highlight">personalized for you...</string>
+    <string name="building_schedule_subtitle">We are analyzing your information to build the most suitable plan</string>
+    <string name="step_calculating_water_needs">Calculating daily water needs</string>
+    <string name="step_analyzing_habits">Analyzing your daily habits</string>
+    <string name="step_building_schedule">Building your personal water schedule...</string>
 </resources>

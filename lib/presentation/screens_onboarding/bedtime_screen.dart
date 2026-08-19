@@ -1,11 +1,11 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:smartdrinkai/controller/onboarding_controller.dart';
+import 'package:smartdrinkai/presentation/common_components/circular_time_picker.dart';
+import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
 import 'package:smartdrinkai/presentation/common_components/onboarding_progress_bar.dart';
+import 'package:smartdrinkai/presentation/common_components/onboarding_step_header.dart';
 import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/presentation/common_components/water_wave_background.dart';
-import 'package:smartdrinkai/presentation/common_components/wheel_time_picker.dart';
 import 'package:smartdrinkai/utils/toast_utils.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
 import 'package:smartdrinkai/values/route_name.dart';
 import 'package:get/get.dart';
 
@@ -15,59 +15,52 @@ class BedtimeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<OnboardingController>();
-    final ob = OnboardingTheme.of(context);
-    return WaterWaveBackground(
+    return OnboardingBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(90),
-          child: OnboardingProgressBar(
-            currentStep: 4,
-            totalSteps: 4,
-            onBack: () => Get.back(),
-          ),
-        ),
         body: SafeArea(
           child: AppColumn(
-            modifier: Modifier.paddingAll(24),
             children: [
-              AppText(
-                'what_time_do_you_go_to_bed'.tr,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: ob.textPrimary,
-                  letterSpacing: 0.5,
+              OnboardingProgressBar(
+                currentStep: 6,
+                totalSteps: 6,
+                onBack: () => Get.back(),
+              ),
+              Expanded(
+                child: AppColumn(
+                  modifier: Modifier.paddingAll(24),
+                  children: [
+                    OnboardingStepHeader(
+                      title: 'what_time_do_you_go_to_bed'.tr,
+                      subtitle: 'helps_remind_you_to_drink_water'.tr,
+                    ),
+                    AppSpacerH40,
+                    CircularTimePicker(
+                      initialTime: controller.bedTime.value,
+                      isNight: true,
+                      onChanged: (time) => controller.bedTime.value = time,
+                    ),
+                    const Spacer(),
+                    PrimaryButton(
+                      text: 'start'.tr,
+                      width: double.infinity,
+                      useGradient: true,
+                      onPressed: () {
+                        if (controller.wakeUpTime.value ==
+                            controller.bedTime.value) {
+                          ToastUtils.showToast(
+                            context,
+                            'wake_up_and_bedtime_cannot_be_same'.tr,
+                          );
+                          return;
+                        }
+                        Get.toNamed(RouteName.onboardingBuildingSchedule);
+                      },
+                    ),
+                    AppSpacerH20,
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
-              AppSpacerH(48),
-
-              Obx(
-                () => WheelTimePicker(
-                  initialTime: controller.bedTime.value,
-                  onChanged: (time) => controller.bedTime.value = time,
-                  colorBorder: ob.bgOnboarding,
-                ),
-              ),
-              const Spacer(),
-              PrimaryButton(
-                text: 'next'.tr,
-                width: double.infinity,
-                useGradient: true,
-                onPressed: () {
-                  // Kiểm tra thời gian ngủ # thời gia dậy
-                  if (controller.wakeUpTime.value == controller.bedTime.value) {
-                    ToastUtils.showToast(
-                      context,
-                      'wake_up_and_bedtime_cannot_be_same'.tr,
-                    );
-                    return;
-                  }
-                  Get.toNamed(RouteName.onboardingReminder);
-                },
-              ),
-              AppSpacerH20,
             ],
           ),
         ),
@@ -75,4 +68,3 @@ class BedtimeScreen extends StatelessWidget {
     );
   }
 }
-

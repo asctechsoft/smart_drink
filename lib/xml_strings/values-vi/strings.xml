@@ -210,4 +210,15 @@
     <string name="the_target_cannot_exceed">Mục tiêu không thể vượt quá %1$s</string>
     <string name="drink">Uống</string>
     <string name="coming_soon">Sắp ra mắt</string>
+    <string name="personalize_your_water_needs">Thông tin này giúp cá nhân hóa nhu cầu nước của bạn</string>
+    <string name="helps_remind_you_to_drink_water">Giúp nhắc nhở bạn uống nước hợp lý hơn trong ngày</string>
+    <string name="weather_question">Thời tiết ở quốc gia của bạn hiện tại</string>
+    <string name="weather_question_highlight">thế nào?</string>
+    <string name="weather_hint">Thời tiết càng nóng, lượng nước bạn cần uống mỗi ngày càng nhiều</string>
+    <string name="building_schedule_title">Đang tạo lịch uống nước</string>
+    <string name="building_schedule_highlight">cá nhân cho bạn...</string>
+    <string name="building_schedule_subtitle">Chúng tôi đang phân tích thông tin của bạn để xây dựng lịch trình phù hợp nhất</string>
+    <string name="step_calculating_water_needs">Tính toán nhu cầu nước hàng ngày</string>
+    <string name="step_analyzing_habits">Phân tích thói quen sinh hoạt</string>
+    <string name="step_building_schedule">Xây dựng lịch uống nước cá nhân...</string>
 </resources>

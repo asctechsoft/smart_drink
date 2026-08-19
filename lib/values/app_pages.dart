@@ -3,14 +3,15 @@ import '../controller/onboarding_controller.dart';
 import '../controller/reminder_controller.dart';
 import '../controller/languages_controller.dart';
 import '../presentation/screen_splash/splash_screen.dart';
+import '../presentation/screens_onboarding/language_selection_screen.dart';
 import '../presentation/screens_onboarding/welcome_screen.dart';
 import '../presentation/screens_onboarding/gender_screen.dart';
+import '../presentation/screens_onboarding/height_screen.dart';
 import '../presentation/screens_onboarding/weight_screen.dart';
+import '../presentation/screens_onboarding/weather_screen.dart';
 import '../presentation/screens_onboarding/wakeup_screen.dart';
 import '../presentation/screens_onboarding/bedtime_screen.dart';
-import '../presentation/screens_onboarding/reminder_settings_screen.dart';
-import '../presentation/screens_onboarding/notification_permission_screen.dart';
-import '../presentation/screens_onboarding/daily_goal_screen.dart';
+import '../presentation/screens_onboarding/building_schedule_screen.dart';
 import '../presentation/screen_home/home_screen.dart';
 import '../presentation/screen_today/add_drink_screen.dart';
 
@@ -28,6 +29,13 @@ class AppPages {
   static final pages = [
     GetPage(name: RouteName.splash, page: () => const SplashScreen()),
     GetPage(
+      name: RouteName.onboardingLanguage,
+      page: () => const LanguageSelectionScreen(),
+      binding: BindingsBuilder(() {
+        Get.put(LanguagesController());
+      }),
+    ),
+    GetPage(
       name: RouteName.welcome,
       page: () => const WelcomeScreen(),
       binding: BindingsBuilder(() {
@@ -35,23 +43,20 @@ class AppPages {
       }),
     ),
     GetPage(name: RouteName.onboardingGender, page: () => const GenderScreen()),
+    GetPage(name: RouteName.onboardingHeight, page: () => const HeightScreen()),
     GetPage(name: RouteName.onboardingWeight, page: () => const WeightScreen()),
+    GetPage(
+      name: RouteName.onboardingWeather,
+      page: () => const WeatherScreen(),
+    ),
     GetPage(name: RouteName.onboardingWakeup, page: () => const WakeupScreen()),
     GetPage(
       name: RouteName.onboardingBedtime,
       page: () => const BedtimeScreen(),
     ),
     GetPage(
-      name: RouteName.onboardingReminder,
-      page: () => const OnboardingReminderSettingsScreen(),
-    ),
-    GetPage(
-      name: RouteName.onboardingNotification,
-      page: () => const NotificationPermissionScreen(),
-    ),
-    GetPage(
-      name: RouteName.onboardingDailyGoal,
-      page: () => const DailyGoalScreen(),
+      name: RouteName.onboardingBuildingSchedule,
+      page: () => const BuildingScheduleScreen(),
     ),
     GetPage(name: RouteName.home, page: () => const HomeScreen()),
     GetPage(name: RouteName.addDrink, page: () => const AddDrinkScreen()),

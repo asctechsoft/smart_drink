@@ -38,6 +38,14 @@ dev_dependencies:
     sdk: flutter
 
   pedantic_mono: any
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/webp/logo_app_v2.webp"
+  min_sdk_android: 21
+  remove_alpha_ios: true
+
 flutter:
   uses-material-design: true
 

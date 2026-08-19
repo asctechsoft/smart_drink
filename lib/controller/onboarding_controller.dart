@@ -1,6 +1,7 @@
 import 'package:smartdrinkai/configs/pref_const.dart';
 import 'package:smartdrinkai/models/data_models/user_profile.dart';
 import 'package:smartdrinkai/models/ui_models/reminder_mode.dart';
+import 'package:smartdrinkai/models/ui_models/weather_condition.dart';
 import 'package:smartdrinkai/services/native/notification_channel.dart';
 import 'package:smartdrinkai/utils/water_calculation.dart';
 import 'package:smartdrinkai/values/route_name.dart';
@@ -13,8 +14,11 @@ import 'user_profile_controller.dart';
 class OnboardingController extends GetxController {
   final RxInt currentStep = 0.obs;
   final RxString gender = 'female'.obs;
+  final RxDouble height = 165.0.obs;
+  final RxString heightUnit = 'cm'.obs;
   final RxDouble weight = 60.0.obs;
   final RxString weightUnit = 'kg'.obs;
+  final Rx<WeatherCondition> weather = WeatherCondition.normal.obs;
   final RxString wakeUpTime = '07:00'.obs;
   final RxString bedTime = '22:00'.obs;
   final RxInt intervalMinutes = 90.obs;
@@ -34,6 +38,17 @@ class OnboardingController extends GetxController {
     weightUnit.value = unit;
   }
 
+  void updateHeightUnit(String unit) {
+    if (heightUnit.value == unit) return;
+
+    if (unit == 'm') {
+      height.value = height.value / 100;
+    } else {
+      height.value = height.value * 100;
+    }
+    heightUnit.value = unit;
+  }
+
   void updateVolumeUnit(String unit) {
     if (volumeUnit.value == unit) return;
 
@@ -45,7 +60,7 @@ class OnboardingController extends GetxController {
     volumeUnit.value = unit;
   }
 
-  static const int totalSteps = 4;
+  static const int totalSteps = 6;
 
   void nextStep() {
     if (currentStep.value < totalSteps) {
@@ -64,7 +79,11 @@ class OnboardingController extends GetxController {
     if (weightUnit.value == 'lb') {
       weightKg = weight.value * 0.453592;
     }
-    dailyGoalMl.value = WaterCalculation.calculateDailyGoal(weightKg: weightKg);
+    dailyGoalMl.value = WaterCalculation.calculateDailyGoal(
+      weightKg: weightKg,
+      gender: gender.value,
+      weather: weather.value,
+    );
   }
 
   /// Derive reminder schedule times from the user's onboarding settings.
@@ -113,8 +132,11 @@ class OnboardingController extends GetxController {
     try {
       final profile = UserProfile(
         gender: gender.value,
+        height: height.value,
+        heightUnit: heightUnit.value,
         weight: weight.value,
         weightUnit: weightUnit.value,
+        weatherCondition: weather.value.name,
         wakeUpTime: wakeUpTime.value,
         bedTime: bedTime.value,
         dailyGoalMl: dailyGoalMl.value,

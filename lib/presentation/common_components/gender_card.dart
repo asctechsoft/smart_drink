@@ -1,11 +1,10 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
 import 'package:get/utils.dart';
 
 class GenderCard extends StatelessWidget {
   final String label;
-  final String icon; // asset path, e.g. 'assets/images/webp/ic_male.webp'
+  final String icon; // asset path, e.g. 'assets/images/webp/img_men.webp'
   final bool isSelected;
   final VoidCallback onTap;
 
@@ -19,38 +18,49 @@ class GenderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-    final isLight = Theme.of(context).brightness == Brightness.light;
-    final cardBg = isLight ? AppColors.basic300 : AppColors.neutral300;
-    final borderSelected = ob.switchActive;
-    final borderUnselected = ob.borderReminderPill;
-    final accentColor = ob.switchActive;
-
-    return AppColumn(
-      modifier: Modifier.clickable(onTap)
-          .width(140)
-          .height(166)
-          .background(color: cardBg, radius: 12)
-          .border(
-            color: isSelected ? borderSelected : borderUnselected,
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        width: 148,
+        height: 208,
+        decoration: BoxDecoration(
+          color: AppColors.neutral500.withValues(alpha: isSelected ? 0.2 : 0.16),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected
+                ? AppColors.basic500
+                : AppColors.basic500.withValues(alpha: 0.2),
             width: isSelected ? 2 : 1,
-            radius: 12,
-          )
-          .padding(vertical: 4),
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AppIcon(icon, size: 120),
-        AppSpacerH10,
-        AppText(
-          label.tr,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: isSelected ? accentColor : ob.textPrimary,
           ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: AppColors.basic500.withValues(alpha: 0.55),
+                    blurRadius: 18,
+                    spreadRadius: 1,
+                  ),
+                ]
+              : null,
         ),
-      ],
+        child: AppColumn(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppIcon(icon, size: 116),
+            AppSpacerH4,
+            AppText(
+              label.tr,
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: isSelected
+                    ? AppColors.basic500
+                    : AppColors.basic500.withValues(alpha: 0.7),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
-

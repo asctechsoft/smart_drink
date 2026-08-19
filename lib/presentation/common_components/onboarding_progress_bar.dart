@@ -1,5 +1,5 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:smartdrinkai/values/app_colors.dart';
 
 class OnboardingProgressBar extends StatelessWidget {
   final int currentStep;
@@ -15,69 +15,125 @@ class OnboardingProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-    final activeColor = ob.switchActive;
-    final inactiveColor = ob.bgOptionSelected;
-    final foregroundColor = ob.textPrimary;
-
-    return Stack(
-      alignment: Alignment.center,
+    return AppColumn(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Center: dots
-        Align(
-          alignment: Alignment.center,
-          child: AppRow(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(totalSteps, (index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: Container(
-                  width: 28,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: index < currentStep ? activeColor : inactiveColor,
-                    borderRadius: BorderRadius.circular(4),
+        SizedBox(
+          height: 48,
+          width: double.infinity,
+          child: onBack == null
+              ? null
+              : Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.only(start: 4),
+                    child: AppIcon(
+                      'assets/images/svg/ic_back_left.svg',
+                      tint: AppColors.basic500,
+                      autoMirror: true,
+                      size: 24,
+                      onClick: onBack,
+                    ),
                   ),
                 ),
-              );
-            }),
-          ),
         ),
-        // Left: back button - Adjusted to 4px because AppIcon has built-in 12px padding (clickZone 48 - size 24) / 2
-        // So 4px padding + 12px built-in = 16px visual gap
-        if (onBack != null)
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: Padding(
-              padding: const EdgeInsetsDirectional.only(start: 4),
-              child: AppIcon(
-                'assets/images/svg/ic_back_left.svg',
-                tint: foregroundColor,
-                autoMirror: true,
-                size: 24,
-                onClick: onBack,
-              ),
-            ),
-          ),
-        // Right: step count text - 16px gap
-        Align(
-          alignment: AlignmentDirectional.centerEnd,
-          child: Padding(
-            padding: const EdgeInsetsDirectional.only(end: 16),
-            child: AppText(
-              '$currentStep/$totalSteps',
-              style: TextStyle(
-                color: foregroundColor,
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                letterSpacing: 0.5,
-              ),
-            ),
-          ),
+        AppSpacerH8,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 44),
+          child: _StepTrack(currentStep: currentStep, totalSteps: totalSteps),
         ),
       ],
     );
   }
 }
 
+class _StepTrack extends StatelessWidget {
+  final int currentStep;
+  final int totalSteps;
+
+  const _StepTrack({required this.currentStep, required this.totalSteps});
+
+  @override
+  Widget build(BuildContext context) {
+    final children = <Widget>[];
+    for (var i = 0; i < totalSteps; i++) {
+      children.add(
+        _StepDot(reached: i < currentStep, isCurrent: i == currentStep - 1),
+      );
+      if (i < totalSteps - 1) {
+        children.add(Expanded(child: _StepLine(active: i < currentStep - 1)));
+      }
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: children,
+    );
+  }
+}
+
+class _StepDot extends StatelessWidget {
+  final bool reached;
+  final bool isCurrent;
+
+  const _StepDot({required this.reached, required this.isCurrent});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = isCurrent ? 12.0 : 9.0;
+    return SizedBox(
+      width: 16,
+      height: 16,
+      child: Center(
+        child: Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: reached
+                ? AppColors.basic500
+                : AppColors.basic500.withValues(alpha: 0.28),
+            boxShadow: reached
+                ? [
+                    BoxShadow(
+                      color: AppColors.basic500.withValues(
+                        alpha: isCurrent ? 0.9 : 0.5,
+                      ),
+                      blurRadius: isCurrent ? 14 : 8,
+                      spreadRadius: isCurrent ? 2 : 0,
+                    ),
+                  ]
+                : null,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _StepLine extends StatelessWidget {
+  final bool active;
+
+  const _StepLine({required this.active});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: active ? 3 : 2,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(2),
+        color: active
+            ? AppColors.basic500
+            : AppColors.basic500.withValues(alpha: 0.22),
+        boxShadow: active
+            ? [
+                BoxShadow(
+                  color: AppColors.basic500.withValues(alpha: 0.65),
+                  blurRadius: 8,
+                ),
+              ]
+            : null,
+      ),
+    );
+  }
+}

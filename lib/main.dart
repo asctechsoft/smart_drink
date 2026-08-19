@@ -80,6 +80,10 @@ Future<void> main() async {
         DeviceOrientation.portraitDown,
       ]);
 
+      // Draw behind the status and navigation bars so the app's gradient
+      // background runs edge to edge. Screens rely on SafeArea for insets.
+      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
       // 1. Firebase Initialization
       try {
         await Firebase.initializeApp();

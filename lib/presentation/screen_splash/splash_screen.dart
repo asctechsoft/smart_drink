@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (onboarded) {
       Get.offAllNamed(RouteName.home);
     } else {
-      Get.offAllNamed(RouteName.welcome);
+      Get.offAllNamed(RouteName.onboardingLanguage);
     }
   }
 

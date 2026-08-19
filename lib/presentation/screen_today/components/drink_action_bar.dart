@@ -5,6 +5,7 @@ import 'package:smartdrinkai/models/ui_models/drink_type.dart';
 import 'package:smartdrinkai/presentation/common_components/primary_bottom_sheet.dart';
 import 'package:smartdrinkai/utils/toast_utils.dart';
 import 'package:smartdrinkai/utils/unit_converter.dart';
+import 'package:smartdrinkai/values/app_colors.dart';
 import 'package:smartdrinkai/values/onboarding_theme.dart';
 import 'package:get/get.dart';
 
@@ -135,63 +136,10 @@ class _DrinkActionBarState extends State<DrinkActionBar> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _CircleBtn(
-                        icon: Icons.remove_rounded,
-                        enabled: _amountIndex > 0,
-                        onTap: () => setState(() => _amountIndex--),
-                      ),
-                      const SizedBox(width: 8),
-                      GestureDetector(
-                        onTap: _addDrink,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                ob.accent,
-                                ob.accent.withValues(alpha: 0.75),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(100),
-                            boxShadow: [
-                              BoxShadow(
-                                color: ob.accent.withValues(alpha: 0.4),
-                                blurRadius: 12,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              AppIcon(_presetIcons[_amountIndex], size: 20),
-                              const SizedBox(width: 6),
-                              Text(
-                                '+$amountLabel',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.5,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      _CircleBtn(
-                        icon: Icons.add_rounded,
-                        enabled: _amountIndex < _presets.length - 1,
-                        onTap: () => setState(() => _amountIndex++),
-                      ),
-                    ],
+                  _AddDrinkPill(
+                    icon: _presetIcons[_amountIndex],
+                    label: '+$amountLabel',
+                    onTap: _addDrink,
                   ),
                   const SizedBox(height: 6),
                   Text(
@@ -212,6 +160,74 @@ class _DrinkActionBarState extends State<DrinkActionBar> {
               imagePath: _drinkType.imagePath,
               label: 'menu'.tr,
               onTap: _showDrinkTypeSheet,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Add drink pill (centre) ─────────────────────────────────────────────────
+
+class _AddDrinkPill extends StatelessWidget {
+  final String icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const _AddDrinkPill({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        height: 56,
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        decoration: BoxDecoration(
+          gradient: AppColors.gradientAccentPill,
+          borderRadius: BorderRadius.circular(28),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.cardGlow.withValues(alpha: 0.35),
+              blurRadius: 16,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            AppIcon(icon, size: 26),
+            const SizedBox(width: 12),
+            Container(
+              width: 1,
+              height: 24,
+              color: AppColors.basic500.withValues(alpha: 0.35),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: AppTextAutoResize(
+                label,
+                maxLines: 1,
+                minFontSize: 12,
+                style: const TextStyle(
+                  color: AppColors.basic500,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.5,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            const Icon(
+              Icons.chevron_right_rounded,
+              size: 24,
+              color: AppColors.basic500,
             ),
           ],
         ),
@@ -241,12 +257,13 @@ class _SideButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 64,
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        width: 68,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
         decoration: BoxDecoration(
           color: ob.bgOption,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: ob.borderTabHistory, width: 1),
+          boxShadow: ob.cardGlowShadow,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -273,44 +290,6 @@ class _SideButton extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-// ─── Circle ±  button ────────────────────────────────────────────────────────
-
-class _CircleBtn extends StatelessWidget {
-  final IconData icon;
-  final bool enabled;
-  final VoidCallback onTap;
-
-  const _CircleBtn({
-    required this.icon,
-    required this.enabled,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-    return GestureDetector(
-      onTap: enabled ? onTap : null,
-      child: Container(
-        width: 28,
-        height: 28,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: ob.bgOption,
-          border: Border.all(color: ob.borderTabHistory, width: 1),
-        ),
-        child: Icon(
-          icon,
-          size: 16,
-          color: enabled
-              ? ob.textPrimary
-              : ob.textSecondary.withValues(alpha: 0.35),
         ),
       ),
     );

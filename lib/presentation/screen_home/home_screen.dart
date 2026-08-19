@@ -46,10 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return SizedBox(
       height: systemPadding + _pillH + 8,
       child: Container(
-        margin: const EdgeInsets.only(
+        // The system inset sits below the pill, not inside it, so the pill keeps
+        // its own height instead of stretching behind the navigation buttons.
+        margin: EdgeInsets.only(
           left: _sideMargin,
           right: _sideMargin,
-          bottom: 8,
+          bottom: 8 + systemPadding,
         ),
         decoration: BoxDecoration(
           color: ob.bgBottomNavBar,
@@ -63,7 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        padding: EdgeInsets.only(bottom: systemPadding),
         child: Row(
           children: [
             _PillNavItem(

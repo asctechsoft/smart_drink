@@ -1,5 +1,6 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:smartdrinkai/values/app_colors.dart';
+import 'package:smartdrinkai/values/onboarding_theme.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;
@@ -38,7 +39,7 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (useGradient) {
-      final isLight = Theme.of(context).brightness == Brightness.light;
+      final isLight = OnboardingTheme.of(context).isLight;
       final gradientStart = isLight
           ? AppColors.onboardingLightButtonStart
           : AppColors.onboardingButtonStart;
@@ -116,7 +117,7 @@ class PrimaryButton extends StatelessWidget {
 
     // Outlined mode (Cancel style)
     if (outlined) {
-      final isLight = Theme.of(context).brightness == Brightness.light;
+      final isLight = OnboardingTheme.of(context).isLight;
       final accentColor = isLight
           ? AppColors.primary500Light
           : AppColors.primary500Dark;

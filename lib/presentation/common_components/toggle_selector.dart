@@ -1,4 +1,5 @@
 import 'package:dsp_base/app_material.dart';
+import 'package:smartdrinkai/values/app_colors.dart';
 import 'package:smartdrinkai/values/onboarding_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -10,6 +11,10 @@ class ToggleSelector extends StatelessWidget {
   final double? itemWidth;
   final bool isExpanded;
 
+  /// Styles the selector for the app's gradient backgrounds: a dark translucent
+  /// track with a bright gradient pill on the selected option.
+  final bool onGradient;
+
   const ToggleSelector({
     super.key,
     required this.options,
@@ -18,16 +23,23 @@ class ToggleSelector extends StatelessWidget {
     this.icons,
     this.itemWidth,
     this.isExpanded = false,
+    this.onGradient = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final ob = OnboardingTheme.of(context);
+    final trackColor = onGradient
+        ? AppColors.neutral500.withValues(alpha: 0.35)
+        : ob.bgToggle;
+    final trackBorder = onGradient
+        ? AppColors.basic500.withValues(alpha: 0.12)
+        : ob.borderTabHistory;
+
     return AppRow(
-      modifier: Modifier.background(
-        color: ob.bgToggle,
-        radius: 48,
-      ).border(color: ob.borderTabHistory, width: 1, radius: 48).paddingAll(4),
+      modifier: Modifier.background(color: trackColor, radius: 48)
+          .border(color: trackBorder, width: 1, radius: 48)
+          .paddingAll(4),
       mainAxisSize: isExpanded ? MainAxisSize.max : MainAxisSize.min,
       children: List.generate(options.length, (index) {
         final isSelected = index == selectedIndex;
@@ -39,7 +51,9 @@ class ToggleSelector extends StatelessWidget {
                     onTrue: (m) => m.width(itemWidth ?? 100),
                   )
                   .background(
-                    color: isSelected ? ob.switchActive : Colors.transparent,
+                    color: isSelected && !onGradient
+                        ? ob.switchActive
+                        : Colors.transparent,
                     radius: 48,
                   )
                   .padding(horizontal: 24, vertical: 10),
@@ -54,15 +68,27 @@ class ToggleSelector extends StatelessWidget {
               options[index],
               style: TextStyle(
                 fontSize: 16,
-                color: isSelected ? ob.textToggleActive : ob.textPrimary,
+                color: onGradient
+                    ? (isSelected
+                          ? AppColors.basic500
+                          : AppColors.basic500.withValues(alpha: 0.65))
+                    : (isSelected ? ob.textToggleActive : ob.textPrimary),
                 fontWeight: FontWeight.w600,
               ),
             ),
           ],
         );
+        if (onGradient && isSelected) {
+          childWidget = DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: AppColors.gradientAccentPill,
+              borderRadius: BorderRadius.circular(48),
+            ),
+            child: childWidget,
+          );
+        }
         return isExpanded ? Expanded(child: childWidget) : childWidget;
       }),
     );
   }
 }
-

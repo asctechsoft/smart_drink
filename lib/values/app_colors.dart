@@ -153,15 +153,44 @@ class AppColors {
   static const Color bgHeaderIAP = Color(0xFF1B4577);
 
   static const LinearGradient gradientBgDark = LinearGradient(
-    colors: [Color(0xFF000428), Color(0xFF004E92)],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF42CDA8), Color(0xFF1575CE), Color(0xFF0B58D6)],
   );
 
   static const LinearGradient gradientBgLight = LinearGradient(
-    colors: [Color(0xFFA1C4FD), Color(0xFFC2E9FB)],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF42CDA8), Color(0xFF1575CE), Color(0xFF0B58D6)],
+  );
+
+  /// Outline and halo shared by the cards sitting on the app gradient.
+  static const Color cardBorder = Color(0xFF168DE2);
+  static const Color cardGlow = Color(0xFF00CFFF);
+
+  static List<BoxShadow> get cardGlowShadow => [
+    BoxShadow(
+      color: cardGlow.withValues(alpha: 0.10),
+      blurRadius: 12,
+    ),
+  ];
+
+  /// Highlighted words inside onboarding headlines.
+  static const Color accentTeal = Color(0xFF57DCC0);
+
+  /// Filled radio / check mark on a selected list row.
+  static const LinearGradient gradientRadioSelected = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF4BA6F5), Color(0xFF1E6FE0)],
+  );
+
+  /// Bright teal-to-blue fill for the primary pills that sit on the app
+  /// gradient: the selected toggle segment and the add-drink button.
+  static const LinearGradient gradientAccentPill = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [Color(0xFF5FD9C0), Color(0xFF1E7FE0)],
   );
 
   static const Color bottomSheetBgDark = Color(0xFF002E64);
@@ -236,13 +265,5 @@ class AppColors {
     begin: Alignment(-1, 0.7),
     end: Alignment(1, -0.7),
   );
-
-  static const Color waterWave1Dark = Color(0xFF014389);
-  static const Color waterWave2Dark = Color(0xFF005099);
-  static const Color waterWave3Dark = Color(0xFF005C9D);
-
-  static const Color waterWave3Light = Color(0xFF5DBCFF);
-  static const Color waterWave2Light = Color(0xFF82C5FF);
-  static const Color waterWave1Light = Color(0xFF8CC4FF);
 }
 

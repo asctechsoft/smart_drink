@@ -1,7 +1,7 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:smartdrinkai/presentation/common_components/bottom_safe_area.dart';
 import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/presentation/common_components/water_wave_background.dart';
+import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
 import 'package:smartdrinkai/utils/toast_utils.dart';
 import 'package:smartdrinkai/values/app_colors.dart';
 import 'package:smartdrinkai/values/onboarding_theme.dart';
@@ -23,20 +23,12 @@ class PremiumScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WaterWaveBackground(
+    return OnboardingBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: Stack(
             children: [
-              // // Wave decoration at bottom
-              // Positioned(
-              //   left: 0,
-              //   right: 0,
-              //   bottom: 0,
-              //   height: 200,
-              //   child: CustomPaint(painter: _WavePainter()),
-              // ),
               AppColumn(
                 modifier: Modifier.padding(horizontal: 16),
                 children: [
@@ -418,63 +410,5 @@ class _ComparisonTableState extends State<_ComparisonTable> {
       ),
     );
   }
-}
-
-// ─── Wave Painter ────────────────────────────────────────────────────────────
-
-class _WavePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint1 = Paint()
-      ..color = const Color(0xFF004E92).withValues(alpha: 0.5)
-      ..style = PaintingStyle.fill;
-
-    final path1 = Path()
-      ..moveTo(0, size.height * 0.5)
-      ..quadraticBezierTo(
-        size.width * 0.25,
-        size.height * 0.3,
-        size.width * 0.5,
-        size.height * 0.5,
-      )
-      ..quadraticBezierTo(
-        size.width * 0.75,
-        size.height * 0.7,
-        size.width,
-        size.height * 0.4,
-      )
-      ..lineTo(size.width, size.height)
-      ..lineTo(0, size.height)
-      ..close();
-
-    canvas.drawPath(path1, paint1);
-
-    final paint2 = Paint()
-      ..color = const Color(0xFF1565C0).withValues(alpha: 0.3)
-      ..style = PaintingStyle.fill;
-
-    final path2 = Path()
-      ..moveTo(0, size.height * 0.7)
-      ..quadraticBezierTo(
-        size.width * 0.3,
-        size.height * 0.5,
-        size.width * 0.6,
-        size.height * 0.7,
-      )
-      ..quadraticBezierTo(
-        size.width * 0.85,
-        size.height * 0.85,
-        size.width,
-        size.height * 0.6,
-      )
-      ..lineTo(size.width, size.height)
-      ..lineTo(0, size.height)
-      ..close();
-
-    canvas.drawPath(path2, paint2);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 

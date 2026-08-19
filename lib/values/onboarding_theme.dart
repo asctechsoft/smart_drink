@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
-/// Resolves onboarding colors based on the current brightness.
+/// Resolves the app's foreground colors.
+///
+/// Every screen sits on one fixed gradient (see [AppColors.gradientBgDark]), so
+/// these colors no longer follow the platform brightness — the light palette is
+/// dark-on-dark and unreadable there. The flag is kept so the palette can be
+/// made responsive again if the background ever becomes theme-dependent.
 class OnboardingTheme {
   final bool isLight;
   const OnboardingTheme._(this.isLight);
 
-  factory OnboardingTheme.of(BuildContext context) {
-    return OnboardingTheme._(Theme.of(context).brightness == Brightness.light);
-  }
+  factory OnboardingTheme.of(BuildContext context) =>
+      const OnboardingTheme._(false);
 
   Color get accent =>
       isLight ? AppColors.primary500Light : AppColors.primary500;
@@ -150,18 +154,12 @@ class OnboardingTheme {
       ? AppColors.primary500Light.withValues(alpha: 0.25)
       : AppColors.primary500Dark.withValues(alpha: 0.15);
 
+  /// Outline shared by the cards and pills laid over the app gradient.
   Color get borderTabHistory => isLight
       ? AppColors.primary500Dark.withValues(alpha: 0.35)
-      : AppColors.primary500Dark.withValues(alpha: 0.15);
+      : AppColors.cardBorder.withValues(alpha: 0.55);
 
-  Color get waterWave1 => isLight
-      ? AppColors.waterWave1Light.withValues(alpha: 0.2)
-      : AppColors.waterWave1Dark.withValues(alpha: 0.2);
-  Color get waterWave2 => isLight
-      ? AppColors.waterWave2Light.withValues(alpha: 0.5)
-      : AppColors.waterWave2Dark.withValues(alpha: 0.2);
-  Color get waterWave3 => isLight
-      ? AppColors.waterWave3Light.withValues(alpha: 0.5)
-      : AppColors.waterWave3Dark.withValues(alpha: 0.25);
+  /// Soft halo that lifts those cards off the gradient.
+  List<BoxShadow> get cardGlowShadow => AppColors.cardGlowShadow;
 }
 
