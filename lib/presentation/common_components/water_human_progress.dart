@@ -4,7 +4,7 @@ import "dart:ui" as ui;
 import "package:dsp_base/app_material.dart";
 import "package:flutter_svg/svg.dart";
 
-/// Human-body-shaped water level indicator. Water rises from feet to head
+/// Human-body-shaped water level indicator. Water rises from feet to headsửa
 /// as [progress] goes from 0.0 to 1.0, clipped to the human silhouette.
 /// The same ml / goal readout as WaterCupProgress appears below.
 class WaterHumanProgress extends StatefulWidget {

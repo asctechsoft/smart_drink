@@ -29,5 +29,6 @@ class PrefDefaults {
   static const bool isFullScreenIntentEnabled = true;
   static const String languageSelectionHistory = '';
   static const bool smartNotification = true;
+  static const String selectedAvatar = 'human_1';
 }
 

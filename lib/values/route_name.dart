@@ -18,5 +18,7 @@ class RouteName {
   static const String feedback = '/feedback';
   static const String languageSelection = '/language_selection';
   static const String premium = '/premium';
+  static const String streak = '/streak';
+  static const String avatarSelection = '/avatar_selection';
 }
 

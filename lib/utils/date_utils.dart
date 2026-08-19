@@ -31,13 +31,13 @@ class AppDateUtils {
     final start = date.subtract(Duration(days: date.weekday - 1));
     final end = start.add(const Duration(days: 6));
     final loc = Get.locale?.languageCode;
-    final fmt = DateFormat('MMM dd', loc);
+    final fmt = DateFormat('d MMM', loc);
     return '${fmt.format(start)} – ${fmt.format(end)}, ${end.year}';
   }
 
   static String monthLabel(DateTime date) {
     final loc = Get.locale?.languageCode;
-    return DateFormat('MMMM yyyy', loc).format(date);
+    return DateFormat('MMMM, y', loc).format(date);
   }
 
   static DateTime startOfWeek(DateTime date) {

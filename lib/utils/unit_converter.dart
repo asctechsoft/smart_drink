@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class UnitConverter {
   static double mlToOz(double ml) => ml * 0.033814;
@@ -26,6 +27,31 @@ class UnitConverter {
       return '$val oz';
     }
     return '${ml.round()} ml';
+  }
+
+  /// Same as [formatVolumeValueUnit] but with locale-aware thousand
+  /// separators, for the large period totals on the history screen
+  /// ("43.250 ml" in Vietnamese, "43,250 ml" in English).
+  static String formatVolumeGrouped(double ml, String unit) {
+    final locale = Get.locale?.toString();
+    if (unit == 'oz') {
+      final oz = mlToOz(ml);
+      final fmt = NumberFormat('#,##0.#', locale);
+      return '${fmt.format(oz)} oz';
+    }
+    return '${NumberFormat('#,##0', locale).format(ml.round())} ml';
+  }
+
+  /// Compact axis label for large values: 20000 -> "20K".
+  static String formatCompact(double value) {
+    if (value.abs() >= 1000) {
+      final k = value / 1000;
+      final text = k
+          .toStringAsFixed(k.abs() < 10 ? 1 : 0)
+          .replaceAll(RegExp(r'\.0$'), '');
+      return '${text}K';
+    }
+    return value.round().toString();
   }
 
   static String formatVolume(double ml, String unit) {

@@ -30,14 +30,84 @@ class HistoryController extends GetxController {
     }
   }
 
+  /// Goal for a single day, taken from the profile.
+  int get dailyGoalMl =>
+      Get.find<UserProfileController>().profile.value.dailyGoalMl;
+
+  /// The goal that applied on the day [s] was recorded; summaries written
+  /// before the field existed fall back to today's goal.
+  int _goalFor(DailySummary s) => s.goalMl > 0 ? s.goalMl : dailyGoalMl;
+
+  /// Average over every day in the period, not just the days with a record —
+  /// a week with one 2.8L day averages 400 ml/day, not 2.800 ml/day.
   int get avgPerDayMl {
-    if (summaries.isEmpty) return 0;
-    final total = summaries.fold(0, (sum, s) => sum + s.totalMl);
-    return (total / summaries.length).round();
+    final days = periodDayCount;
+    if (days <= 0) return 0;
+    return (computedTotal / days).round();
   }
 
-  int get goalDaysCount {
-    return summaries.where((s) => s.goalMl > 0 && s.totalMl >= s.goalMl).length;
+  int get goalDaysCount =>
+      summaries.where((s) => s.totalMl >= _goalFor(s)).length;
+
+  /// Number of drinks logged on the selected day.
+  int get dayDrinkCount => dayRecords.length;
+
+  /// Hour of day (0–23) -> ml logged in that hour, for the day chart.
+  Map<int, int> get hourlyTotals {
+    final map = <int, int>{};
+    for (final r in dayRecords) {
+      final hour = r.timestamp.hour;
+      map[hour] = (map[hour] ?? 0) + r.amountMl;
+    }
+    return map;
+  }
+
+  /// Twelve entries, index 0 = January, holding each month's total for the
+  /// selected year.
+  List<int> get monthlyTotals {
+    final totals = List<int>.filled(12, 0);
+    for (final s in summaries) {
+      final dt = DateTime.tryParse(s.dateKey);
+      if (dt == null || dt.year != selectedDate.value.year) continue;
+      totals[dt.month - 1] += s.totalMl;
+    }
+    return totals;
+  }
+
+  /// Months of the selected year whose total reached that month's goal.
+  int get goalMonthsCount {
+    final year = selectedDate.value.year;
+    final totals = monthlyTotals;
+    var count = 0;
+    for (var m = 1; m <= 12; m++) {
+      final daysInMonth = DateTime(year, m + 1, 0).day;
+      if (totals[m - 1] >= dailyGoalMl * daysInMonth) count++;
+    }
+    return count;
+  }
+
+  /// Strongest month of the selected year as (1-based month, ml), or null when
+  /// nothing was logged.
+  MapEntry<int, int>? get bestMonth {
+    final totals = monthlyTotals;
+    var bestIndex = -1;
+    for (var i = 0; i < 12; i++) {
+      if (totals[i] > 0 && (bestIndex < 0 || totals[i] > totals[bestIndex])) {
+        bestIndex = i;
+      }
+    }
+    if (bestIndex < 0) return null;
+    return MapEntry(bestIndex + 1, totals[bestIndex]);
+  }
+
+  /// Months of the selected year that have not happened yet — drawn as empty
+  /// columns on the year chart.
+  bool isFutureMonth(int month) {
+    final now = DateTime.now();
+    final year = selectedDate.value.year;
+    if (year > now.year) return true;
+    if (year < now.year) return false;
+    return month > now.month;
   }
 
   int get periodDayCount {

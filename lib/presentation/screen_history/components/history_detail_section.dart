@@ -1,0 +1,242 @@
+import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
+import 'package:smartdrinkai/controller/settings_controller.dart';
+import 'package:smartdrinkai/models/data_models/daily_summary.dart';
+import 'package:smartdrinkai/models/data_models/drink_record.dart';
+import 'package:smartdrinkai/models/ui_models/drink_type.dart';
+import 'package:smartdrinkai/utils/date_utils.dart';
+import 'package:smartdrinkai/utils/unit_converter.dart';
+import 'package:smartdrinkai/values/onboarding_theme.dart';
+
+import 'history_section.dart';
+
+/// "Lịch sử chi tiết" heading. On the period tabs it collapses the list; on the
+/// day tab the list is always open and [onToggle] is null.
+class HistoryDetailHeader extends StatelessWidget {
+  const HistoryDetailHeader({
+    super.key,
+    required this.title,
+    this.expanded = true,
+    this.onToggle,
+  });
+
+  final String title;
+  final bool expanded;
+  final VoidCallback? onToggle;
+
+  @override
+  Widget build(BuildContext context) {
+    final ob = OnboardingTheme.of(context);
+    return GestureDetector(
+      onTap: onToggle,
+      behavior: HitTestBehavior.opaque,
+      child: HistorySectionTitle(
+        title,
+        trailing: onToggle == null
+            ? null
+            : Icon(
+                expanded
+                    ? Icons.keyboard_arrow_up_rounded
+                    : Icons.keyboard_arrow_down_rounded,
+                size: 22,
+                color: ob.textPrimary.withValues(alpha: 0.8),
+              ),
+      ),
+    );
+  }
+}
+
+/// One logged drink: type icon, time, amount. Swiping left reveals edit and
+/// delete, matching the behaviour the day list had before the redesign.
+class DrinkRecordRow extends StatelessWidget {
+  const DrinkRecordRow({
+    super.key,
+    required this.record,
+    required this.onEdit,
+    required this.onDelete,
+  });
+
+  final DrinkRecord record;
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    final ob = OnboardingTheme.of(context);
+    final settings = Get.find<SettingsController>();
+    final type = DrinkType.values.firstWhere(
+      (t) => t.name == record.drinkType,
+      orElse: () => DrinkType.water,
+    );
+    final timeStr = UnitConverter.formatTime(
+      '${record.timestamp.hour.toString().padLeft(2, '0')}:'
+      '${record.timestamp.minute.toString().padLeft(2, '0')}',
+      settings.timeFormat.value,
+    );
+    final displayMl = record.originalAmountMl > 0
+        ? record.originalAmountMl
+        : record.amountMl.toDouble();
+    final amount = UnitConverter.formatVolumeValueUnit(
+      displayMl,
+      settings.volumeUnit.value,
+    );
+
+    return Slidable(
+      key: ValueKey(
+        'record-${record.id ?? record.timestamp.microsecondsSinceEpoch}',
+      ),
+      endActionPane: ActionPane(
+        motion: const DrawerMotion(),
+        extentRatio: 0.4,
+        children: [
+          SlidableAction(
+            onPressed: (_) => onEdit(),
+            backgroundColor: Colors.transparent,
+            foregroundColor: ob.textPrimary,
+            icon: Icons.edit_outlined,
+          ),
+          SlidableAction(
+            onPressed: (_) => onDelete(),
+            backgroundColor: Colors.transparent,
+            foregroundColor: ob.textPrimary,
+            icon: Icons.delete_outline,
+          ),
+        ],
+      ),
+      child: HistoryCard(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        child: Row(
+          children: [
+            Container(
+              width: 36,
+              height: 36,
+              padding: const EdgeInsets.all(7),
+              decoration: BoxDecoration(
+                color: ob.switchActive.withValues(alpha: 0.14),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Image.asset(type.imagePath, fit: BoxFit.contain),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                timeStr,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: ob.textPrimary,
+                ),
+              ),
+            ),
+            Text(
+              amount,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: ob.textPrimary.withValues(alpha: 0.9),
+              ),
+            ),
+            const SizedBox(width: 6),
+            Icon(
+              Icons.chevron_right_rounded,
+              size: 20,
+              color: ob.textPrimary.withValues(alpha: 0.45),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// One row inside the week / month / year detail list: a period label, what
+/// was drunk against that period's goal, and a progress bar. The week and
+/// month tabs pass single days; the year tab passes whole months.
+class PeriodSummaryRow extends StatelessWidget {
+  const PeriodSummaryRow({
+    super.key,
+    required this.label,
+    required this.totalMl,
+    required this.goalMl,
+  });
+
+  final String label;
+  final int totalMl;
+  final int goalMl;
+
+  /// Builds a row for one stored day, falling back to today's goal when the
+  /// summary predates the stored-goal column.
+  factory PeriodSummaryRow.fromSummary(
+    DailySummary summary,
+    int fallbackGoalMl,
+  ) {
+    final date = DateTime.tryParse(summary.dateKey);
+    return PeriodSummaryRow(
+      label: date != null
+          ? AppDateUtils.formatViDate(date)
+          : summary.dateKey,
+      totalMl: summary.totalMl,
+      goalMl: summary.goalMl > 0 ? summary.goalMl : fallbackGoalMl,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ob = OnboardingTheme.of(context);
+    final unit = Get.find<SettingsController>().volumeUnit.value;
+    final progress = goalMl > 0 ? (totalMl / goalMl).clamp(0.0, 1.0) : 0.0;
+    final dateLabel = label;
+
+    return HistoryCard(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  dateLabel,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: ob.textPrimary,
+                  ),
+                ),
+              ),
+              Text(
+                UnitConverter.formatVolumeGrouped(totalMl.toDouble(), unit),
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: ob.switchActive,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                '${(progress * 100).round()}%',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: ob.textPrimary.withValues(alpha: 0.7),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: LinearProgressIndicator(
+              value: progress,
+              minHeight: 4,
+              backgroundColor: ob.textPrimary.withValues(alpha: 0.12),
+              valueColor: AlwaysStoppedAnimation<Color>(ob.switchActive),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

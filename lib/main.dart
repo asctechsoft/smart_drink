@@ -12,6 +12,7 @@ import 'controller/today_controller.dart';
 import 'controller/history_controller.dart';
 import 'controller/settings_controller.dart';
 import 'controller/reminder_controller.dart';
+import 'controller/avatar_controller.dart';
 import 'values/app_theme.dart';
 import 'values/app_pages.dart';
 import 'values/route_name.dart';
@@ -141,6 +142,7 @@ class DrinkWaterApp extends StatelessWidget {
         Get.put(TodayController(), permanent: true);
         Get.put(HistoryController(), permanent: true);
         Get.put(ReminderController(), permanent: true);
+        Get.put(AvatarController(), permanent: true);
       }),
       getPages: AppPages.pages,
     );

@@ -1,24 +1,29 @@
 import 'package:dsp_base/app_material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:smartdrinkai/controller/history_controller.dart';
 import 'package:smartdrinkai/controller/settings_controller.dart';
 import 'package:smartdrinkai/controller/today_controller.dart';
-import 'package:smartdrinkai/models/data_models/daily_summary.dart';
 import 'package:smartdrinkai/models/data_models/drink_record.dart';
 import 'package:smartdrinkai/models/ui_models/drink_type.dart';
 import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
 import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/utils/date_utils.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:smartdrinkai/presentation/common_components/primary_dialog.dart';
+import 'package:smartdrinkai/presentation/screens_settings/settings_bottom_sheets.dart';
+import 'package:smartdrinkai/utils/date_utils.dart';
 import 'package:smartdrinkai/utils/toast_utils.dart';
-import 'package:get/get.dart';
-import 'history_bar_chart.dart';
-import 'components/history_period_selector.dart';
+import 'package:smartdrinkai/utils/unit_converter.dart';
+import 'package:smartdrinkai/values/onboarding_theme.dart';
+
+import 'components/history_charts.dart';
 import 'components/history_date_picker.dart';
+import 'components/history_detail_section.dart';
+import 'components/history_nav_bar.dart';
+import 'components/history_section.dart';
+import 'components/history_summary_tiles.dart';
+import 'components/day_progress_card.dart';
+import 'components/period_overview_card.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -28,20 +33,17 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-  final RxBool _showAllRecords = false.obs;
+  /// The detail list starts collapsed on the period tabs, as in the design.
+  final RxBool _detailExpanded = false.obs;
 
-  static bool _isSameDay(DateTime a, DateTime b) =>
-      a.year == b.year && a.month == b.month && a.day == b.day;
+  static const EdgeInsets _hPad = EdgeInsets.symmetric(horizontal: 16);
 
-  String _shortDayName(DateTime day) {
-    const viNames = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
-    return viNames[day.weekday - 1];
-  }
+  String? get _locale => Get.locale?.toString();
 
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
     final controller = Get.find<HistoryController>();
+
     return OnboardingBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -53,235 +55,26 @@ class _HistoryScreenState extends State<HistoryScreen> {
             bottom: false,
             child: Column(
               children: [
-                // ── Header ──────────────────────────────────────────────
+                _buildHeader(context, controller),
+                const SizedBox(height: 14),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-                  child: Row(
-                    children: [
-                      Text(
-                        'history'.tr,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          color: ob.textPrimary,
-                          letterSpacing: 0.3,
-                        ),
-                      ),
-                      const Spacer(),
-                      Obx(() {
-                        final isDay =
-                            controller.viewMode.value == HistoryViewMode.day;
-                        if (!isDay) return const SizedBox.shrink();
-                        return GestureDetector(
-                          onTap: () {
-                            HistoryDatePicker.show(
-                              context,
-                              initialDate: controller.selectedDate.value,
-                              lastDate: DateTime.now(),
-                            ).then((d) {
-                              if (d != null) controller.selectedDate.value = d;
-                            });
-                          },
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: ob.bgOption,
-                              border: Border.all(
-                                color: ob.borderTabHistory,
-                                width: 1,
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.calendar_month_rounded,
-                              color: ob.textPrimary,
-                              size: 20,
-                            ),
-                          ),
-                        );
-                      }),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 12),
-
-                // ── Segment tabs ─────────────────────────────────────────
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: _hPad,
                   child: Obx(() => _buildTabs(context, controller)),
                 ),
-
-                const SizedBox(height: 10),
-
-                // ── Scrollable content ───────────────────────────────────
+                const SizedBox(height: 8),
                 Expanded(
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.zero,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Period navigator OR week day strip
-                        Obx(() {
-                          final isDay =
-                              controller.viewMode.value == HistoryViewMode.day;
-                          if (isDay) {
-                            return _buildDayWeekStrip(context, controller);
-                          }
-                          return HistoryPeriodSelector(
-                            controller: controller,
-                            onTitleTap: () {
-                              if (controller.viewMode.value ==
-                                  HistoryViewMode.day) {
-                                HistoryDatePicker.show(
-                                  context,
-                                  initialDate: controller.selectedDate.value,
-                                  lastDate: DateTime.now(),
-                                ).then((d) {
-                                  if (d != null)
-                                    controller.selectedDate.value = d;
-                                });
-                              }
-                            },
-                          );
-                        }),
-
-                        // Date label (day view only)
-                        Obx(() {
-                          if (controller.viewMode.value !=
-                              HistoryViewMode.day) {
-                            return const SizedBox.shrink();
-                          }
-                          return _buildDayDateLabel(context, controller);
-                        }),
-
-                        const SizedBox(height: 8),
-
-                        // ── Chart card ───────────────────────────────────
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: ob.bgReminderOption,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Obx(
-                                  () => _buildChartStats(context, controller),
-                                ),
-                                const SizedBox(height: 16),
-                                const SizedBox(
-                                  height: 130,
-                                  child: HistoryBarChart(),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        // ── Stats section (week/month/year only) ──────────
-                        Obx(() {
-                          final isDay =
-                              controller.viewMode.value == HistoryViewMode.day;
-                          if (isDay) return const SizedBox.shrink();
-                          final summLen = controller.summaries.length;
-                          if (summLen == 0) return const SizedBox.shrink();
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: _buildStatsSection(
-                              context,
-                              controller,
-                              isDay: isDay,
-                            ),
-                          );
-                        }),
-
-                        // ── Drink records (day view) ─────────────────────
-                        Obx(() {
-                          if (controller.viewMode.value !=
-                              HistoryViewMode.day) {
-                            return const SizedBox.shrink();
-                          }
-                          // Force track both dayRecords and showAll toggle
-                          final recordCount = controller.dayRecords.length;
-                          final showAll = _showAllRecords.value;
-                          if (recordCount == 0) {
-                            return _buildEmptyState(ob);
-                          }
-                          return _buildDayDrinkLog(
-                            context,
-                            controller,
-                            showAll: showAll,
-                            recordCount: recordCount,
-                          );
-                        }),
-
-                        // ── Lịch sử uống nước (week/month/year) ─────────
-                        Obx(() {
-                          if (controller.viewMode.value ==
-                              HistoryViewMode.day) {
-                            return const SizedBox.shrink();
-                          }
-                          final sortedSummaries = controller.summaries.toList()
-                            ..sort((a, b) => b.dateKey.compareTo(a.dateKey));
-                          if (sortedSummaries.isEmpty)
-                            return _buildEmptyState(ob);
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                  16,
-                                  0,
-                                  16,
-                                  12,
-                                ),
-                                child: Text(
-                                  'Lịch sử uống nước',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: ob.textPrimary,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: ob.bgReminderOption,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: ListView.separated(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: sortedSummaries.length,
-                                    separatorBuilder: (context2, i2) => Divider(
-                                      height: 1,
-                                      color: ob.borderTabHistory,
-                                    ),
-                                    itemBuilder: (ctx, i) => _SummaryItem(
-                                      summary: sortedSummaries[i],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                            ],
-                          );
-                        }),
-                      ],
-                    ),
-                  ),
+                  child: Obx(() {
+                    switch (controller.viewMode.value) {
+                      case HistoryViewMode.day:
+                        return _buildDayTab(context, controller);
+                      case HistoryViewMode.week:
+                        return _buildWeekTab(context, controller);
+                      case HistoryViewMode.month:
+                        return _buildMonthTab(context, controller);
+                      case HistoryViewMode.year:
+                        return _buildYearTab(context, controller);
+                    }
+                  }),
                 ),
               ],
             ),
@@ -291,299 +84,58 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
-  // ── Day week strip ─────────────────────────────────────────────────────────
+  // ── Header & tabs ──────────────────────────────────────────────────────────
 
-  Widget _buildDayWeekStrip(
-    BuildContext context,
-    HistoryController controller,
-  ) {
+  Widget _buildHeader(BuildContext context, HistoryController controller) {
     final ob = OnboardingTheme.of(context);
-    final sel = controller.selectedDate.value;
-    final weekStart = AppDateUtils.startOfWeek(sel);
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final nowWeekStart = AppDateUtils.startOfWeek(now);
-    final canGoNext = weekStart.isBefore(nowWeekStart);
-
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
       child: Row(
         children: [
+          Text(
+            'history'.tr,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: ob.textPrimary,
+              letterSpacing: 0.3,
+            ),
+          ),
+          const Spacer(),
+          // Jumps the whole screen back to the current period; the date picker
+          // lives on the label in the nav bar below.
           GestureDetector(
-            onTap: () {
-              controller.selectedDate.value = sel.subtract(
-                const Duration(days: 7),
-              );
-            },
+            onTap: controller.backToToday,
+            behavior: HitTestBehavior.opaque,
             child: Container(
-              width: 32,
-              height: 32,
-              alignment: Alignment.center,
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: ob.bgOption,
                 border: Border.all(color: ob.borderTabHistory, width: 1),
               ),
               child: Icon(
-                Icons.chevron_left_rounded,
+                Icons.calendar_month_rounded,
+                color: ob.textPrimary,
                 size: 20,
-                color: ob.textPrimary,
               ),
             ),
-          ),
-          const SizedBox(width: 2),
-          ...List.generate(7, (i) {
-            final day = weekStart.add(Duration(days: i));
-            final dayOnly = DateTime(day.year, day.month, day.day);
-            final isSelected = _isSameDay(day, sel);
-            final isFuture = dayOnly.isAfter(today);
-            return Expanded(
-              child: GestureDetector(
-                onTap: isFuture
-                    ? null
-                    : () => controller.selectedDate.value = day,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _shortDayName(day),
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: isSelected ? ob.accent : ob.textSecondary,
-                        fontWeight: isSelected
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      width: 32,
-                      height: 32,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: isSelected ? ob.accent : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        '${day.day}',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: isSelected
-                              ? FontWeight.w700
-                              : FontWeight.w500,
-                          color: isSelected
-                              ? Colors.white
-                              : (isFuture
-                                    ? ob.textSecondary.withValues(alpha: 0.35)
-                                    : ob.textPrimary),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }),
-          const SizedBox(width: 2),
-          SizedBox(
-            width: 32,
-            height: 32,
-            child: canGoNext
-                ? GestureDetector(
-                    onTap: () {
-                      final next = sel.add(const Duration(days: 7));
-                      controller.selectedDate.value = next.isAfter(now)
-                          ? now
-                          : next;
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: ob.bgOption,
-                        border: Border.all(
-                          color: ob.borderTabHistory,
-                          width: 1,
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.chevron_right_rounded,
-                        size: 20,
-                        color: ob.textPrimary,
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
           ),
         ],
       ),
     );
   }
-
-  // ── Day date label ─────────────────────────────────────────────────────────
-
-  Widget _buildDayDateLabel(
-    BuildContext context,
-    HistoryController controller,
-  ) {
-    final ob = OnboardingTheme.of(context);
-    final sel = controller.selectedDate.value;
-    final dayName = AppDateUtils.viDayName(sel);
-    final label = '$dayName, ${sel.day} Thg ${sel.month}, ${sel.year}';
-
-    return GestureDetector(
-      onTap: () =>
-          HistoryDatePicker.show(
-            context,
-            initialDate: sel,
-            lastDate: DateTime.now(),
-          ).then((d) {
-            if (d != null) controller.selectedDate.value = d;
-          }),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: ob.textPrimary,
-              ),
-            ),
-            const SizedBox(width: 6),
-            Icon(
-              Icons.calendar_month_outlined,
-              size: 16,
-              color: ob.textSecondary,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ── Day drink log ──────────────────────────────────────────────────────────
-
-  Widget _buildDayDrinkLog(
-    BuildContext context,
-    HistoryController controller, {
-    required bool showAll,
-    required int recordCount,
-  }) {
-    final ob = OnboardingTheme.of(context);
-    final records = controller.dayRecords;
-    final maxVisible = showAll ? recordCount : recordCount.clamp(0, 4);
-    final hasMore = recordCount > 4;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-          child: Row(
-            children: [
-              Text(
-                'drink_history'.tr,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: ob.textPrimary,
-                ),
-              ),
-              const Spacer(),
-              Text(
-                'Tổng ${records.length} lần uống',
-                style: TextStyle(
-                  fontSize: 13,
-                  color: ob.switchActive,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              for (int i = 0; i < maxVisible; i++) ...[
-                if (i > 0) const SizedBox(height: 2),
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(i == 0 ? 16 : 0),
-                    topRight: Radius.circular(i == 0 ? 16 : 0),
-                    bottomLeft: Radius.circular(i == maxVisible - 1 ? 16 : 0),
-                    bottomRight: Radius.circular(i == maxVisible - 1 ? 16 : 0),
-                  ),
-                  child: _NewDrinkItem(
-                    record: records[i],
-                    onEdit: () =>
-                        _showEditDialog(context, controller, records[i]),
-                    onDelete: () => controller.deleteRecord(records[i]),
-                  ),
-                ),
-              ],
-            ],
-          ),
-        ),
-        if (hasMore) ...[
-          const SizedBox(height: 8),
-          GestureDetector(
-            onTap: () => _showAllRecords.value = !_showAllRecords.value,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                decoration: BoxDecoration(
-                  color: ob.bgOption,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: ob.borderTabHistory, width: 1),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      showAll ? 'Thu gọn' : 'Xem tất cả',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: ob.textPrimary,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Icon(
-                      showAll
-                          ? Icons.keyboard_arrow_up_rounded
-                          : Icons.keyboard_arrow_down_rounded,
-                      size: 18,
-                      color: ob.textPrimary,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-        const SizedBox(height: 12),
-      ],
-    );
-  }
-
-  // ── Tabs ───────────────────────────────────────────────────────────────────
 
   Widget _buildTabs(BuildContext context, HistoryController controller) {
     final ob = OnboardingTheme.of(context);
-    final modes = [
+    const modes = [
       (HistoryViewMode.day, 'day'),
       (HistoryViewMode.week, 'week'),
       (HistoryViewMode.month, 'month'),
       (HistoryViewMode.year, 'year'),
     ];
+
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
@@ -593,14 +145,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
       ),
       child: Row(
         children: modes.map((entry) {
-          final mode = entry.$1;
-          final key = entry.$2;
-          final isSelected = controller.viewMode.value == mode;
-          final raw = key.tr;
-          final label = raw[0].toUpperCase() + raw.substring(1);
+          final isSelected = controller.viewMode.value == entry.$1;
+          final raw = entry.$2.tr;
           return Expanded(
             child: GestureDetector(
-              onTap: () => controller.viewMode.value = mode,
+              onTap: () {
+                _detailExpanded.value = false;
+                controller.viewMode.value = entry.$1;
+              },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -609,13 +161,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: Text(
-                  label,
+                  raw.isEmpty ? raw : raw[0].toUpperCase() + raw.substring(1),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: isSelected ? ob.textToggleActive : ob.textPrimary,
-                    letterSpacing: 0.5,
+                    letterSpacing: 0.3,
                   ),
                 ),
               ),
@@ -626,290 +178,428 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
-  // ── Chart stats ────────────────────────────────────────────────────────────
+  // ── Day tab ────────────────────────────────────────────────────────────────
 
-  Widget _buildChartStats(BuildContext context, HistoryController controller) {
+  Widget _buildDayTab(BuildContext context, HistoryController controller) {
     final ob = OnboardingTheme.of(context);
-    final volumeUnit = Get.find<SettingsController>().volumeUnit.value;
-    final isDay = controller.viewMode.value == HistoryViewMode.day;
-
-    if (isDay) {
-      final total = controller.computedTotal;
-      final goal = controller.goalMl.value;
-      final totalFmt = UnitConverter.formatVolumeValue(
-        total.toDouble(),
-        volumeUnit,
-      );
-      final goalFmt = UnitConverter.formatVolumeValue(
-        goal.toDouble(),
-        volumeUnit,
-      );
-      final pct = goal > 0 ? ((total / goal) * 100).clamp(0, 100).round() : 0;
-
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Tổng lượng nước',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ob.textPrimary.withValues(alpha: 0.6),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  totalFmt,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    color: ob.switchActive,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    Text(
-                      'Mục tiêu: $goalFmt',
-                      style: TextStyle(fontSize: 12, color: ob.textSecondary),
-                    ),
-                    const SizedBox(width: 4),
-                    Icon(
-                      Icons.edit_outlined,
-                      size: 12,
-                      color: ob.textSecondary,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Hoàn thành',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ob.textPrimary.withValues(alpha: 0.6),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '$pct%',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    color: ob.switchActive,
-                  ),
-                ),
-                if (pct >= 100) ...[
-                  const SizedBox(height: 4),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: ob.switchActive.withValues(alpha: 0.5),
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: Text(
-                      'Đã đạt mục tiêu! 🎉',
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: ob.switchActive,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ],
-      );
-    }
-
-    // Week/month/year: avg + total side by side
-    final avg = controller.avgPerDayMl;
+    final unit = Get.find<SettingsController>().volumeUnit.value;
     final total = controller.computedTotal;
-    return Row(
+    final goal = controller.dailyGoalMl;
+    final progress = goal > 0 ? (total / goal).clamp(0.0, 1.0) : 0.0;
+    final selected = controller.selectedDate.value;
+
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
       children: [
-        Expanded(
+        HistoryNavBar(
+          label: DateFormat('EEEE, d MMM, y', _locale).format(selected),
+          onPrevious: controller.previousPeriod,
+          onNext: controller.nextPeriod,
+          canGoNext: controller.canGoNext,
+          trailingIcon: Icons.calendar_today_rounded,
+          onLabelTap: () => _pickDate(context, controller),
+        ),
+        const SizedBox(height: 12),
+        DayProgressCard(
+          totalLabel: UnitConverter.formatVolumeValue(total.toDouble(), unit),
+          goalLabel: UnitConverter.formatVolumeValue(goal.toDouble(), unit),
+          unit: unit,
+          progress: progress,
+        ),
+        const SizedBox(height: 14),
+        HistoryCard(
+          padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Trung bình mỗi ngày',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ob.textPrimary.withValues(alpha: 0.6),
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                UnitConverter.formatVolumeValue(avg.toDouble(), volumeUnit),
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  color: ob.textPrimary,
-                ),
+              HistorySectionTitle('by_hour'.tr),
+              const SizedBox(height: 10),
+              DayHourlyChart(
+                hourlyTotals: controller.hourlyTotals,
+                isOz: unit == 'oz',
               ),
             ],
           ),
         ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Tổng lượng nước',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ob.textPrimary.withValues(alpha: 0.6),
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                UnitConverter.formatVolumeValue(total.toDouble(), volumeUnit),
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  color: ob.textPrimary,
-                ),
-              ),
-            ],
+        const SizedBox(height: 20),
+        HistorySectionTitle('day_summary'.tr),
+        const SizedBox(height: 12),
+        HistorySummaryTiles(
+          tiles: [
+            HistorySummaryTile(
+              icon: Icons.water_drop_rounded,
+              iconColor: ob.switchActive,
+              value: UnitConverter.formatVolumeGrouped(total.toDouble(), unit),
+              caption: 'total_volume'.tr,
+            ),
+            HistorySummaryTile(
+              icon: Icons.star_rounded,
+              iconColor: const Color(0xFFFACA1F),
+              value: '${controller.dayDrinkCount} ${'unit_times'.tr}',
+              caption: 'drink_count'.tr,
+            ),
+            HistorySummaryTile(
+              icon: Icons.track_changes_rounded,
+              iconColor: const Color(0xFF4ADE80),
+              value: UnitConverter.formatVolumeGrouped(goal.toDouble(), unit),
+              caption: 'goal'.tr,
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        HistoryDetailHeader(title: 'detail_history'.tr),
+        const SizedBox(height: 12),
+        if (controller.dayRecords.isEmpty)
+          _buildEmptyState(ob)
+        else
+          for (final record in controller.dayRecords) ...[
+            DrinkRecordRow(
+              record: record,
+              onEdit: () => _showEditDialog(context, controller, record),
+              onDelete: () => controller.deleteRecord(record),
+            ),
+            const SizedBox(height: 8),
+          ],
+      ],
+    );
+  }
+
+  // ── Week tab ───────────────────────────────────────────────────────────────
+
+  Widget _buildWeekTab(BuildContext context, HistoryController controller) {
+    final ob = OnboardingTheme.of(context);
+    final unit = Get.find<SettingsController>().volumeUnit.value;
+    final total = controller.computedTotal;
+    final goal = controller.dailyGoalMl;
+
+    // Seven slots, Monday first, so an untracked day still holds its place.
+    final dailyTotals = List<int>.filled(7, 0);
+    for (final s in controller.summaries) {
+      final dt = DateTime.tryParse(s.dateKey);
+      if (dt == null) continue;
+      dailyTotals[dt.weekday - 1] += s.totalMl;
+    }
+
+    final best = controller.maxDaySummary;
+
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
+      children: [
+        HistoryNavBar(
+          label: AppDateUtils.weekRange(controller.selectedDate.value),
+          onPrevious: controller.previousPeriod,
+          onNext: controller.nextPeriod,
+          canGoNext: controller.canGoNext,
+        ),
+        const SizedBox(height: 12),
+        PeriodOverviewCard(
+          totalLabel: 'week_total'.tr,
+          totalValue: UnitConverter.formatVolumeGrouped(
+            total.toDouble(),
+            unit,
           ),
+          averageLine: 'avg_per_day_value'.trParams({
+            'args1': UnitConverter.formatVolumeGrouped(
+              controller.avgPerDayMl.toDouble(),
+              unit,
+            ),
+          }),
+          goalValue: UnitConverter.formatVolumeValueUnit(goal.toDouble(), unit),
+          onEditGoal: () => showDailyGoalSheet(context),
+          chart: WeekBarChart(
+            dailyTotals: dailyTotals,
+            dailyGoal: goal,
+            isOz: unit == 'oz',
+          ),
+        ),
+        const SizedBox(height: 20),
+        HistorySectionTitle('week_summary'.tr),
+        const SizedBox(height: 12),
+        _buildPeriodTiles(
+          context,
+          total: total,
+          unit: unit,
+          goalReached: '${controller.goalDaysCount}/7 ${'unit_days'.tr}',
+          average: controller.avgPerDayMl,
+        ),
+        const SizedBox(height: 20),
+        HistorySectionTitle('best_day'.tr),
+        const SizedBox(height: 12),
+        HistoryHighlightCard(
+          label: best == null
+              ? '--'
+              : _formatDate(best.dateKey, 'EEEE'),
+          value: best == null
+              ? '--'
+              : UnitConverter.formatVolumeGrouped(
+                  best.totalMl.toDouble(),
+                  unit,
+                ),
+        ),
+        const SizedBox(height: 20),
+        ..._buildCollapsibleDetail(
+          context,
+          rows: _dailyRows(controller),
+          emptyState: _buildEmptyState(ob),
         ),
       ],
     );
   }
 
-  // ── Stats section ──────────────────────────────────────────────────────────
+  // ── Month tab ──────────────────────────────────────────────────────────────
 
-  Widget _buildStatsSection(
-    BuildContext context,
-    HistoryController controller, {
-    bool isDay = false,
-  }) {
+  Widget _buildMonthTab(BuildContext context, HistoryController controller) {
     final ob = OnboardingTheme.of(context);
-    final volumeUnit = Get.find<SettingsController>().volumeUnit.value;
+    final unit = Get.find<SettingsController>().volumeUnit.value;
+    final total = controller.computedTotal;
+    final goal = controller.dailyGoalMl;
+    final selected = controller.selectedDate.value;
+    final daysInMonth = DateTime(selected.year, selected.month + 1, 0).day;
 
-    final int goalDays;
-    final int periodDays;
-    final DailySummary? maxS;
-    final DailySummary? minS;
-
-    if (isDay) {
-      goalDays = controller.dayViewGoalDays;
-      periodDays = controller.weekSummariesForDay.length;
-      maxS = controller.dayViewMaxSummary;
-      minS = controller.dayViewMinSummary;
-    } else {
-      goalDays = controller.goalDaysCount;
-      periodDays = controller.summaries.length;
-      maxS = controller.maxDaySummary;
-      minS = controller.minDaySummary;
+    final dailyTotals = List<int>.filled(daysInMonth, 0);
+    for (final s in controller.summaries) {
+      final dt = DateTime.tryParse(s.dateKey);
+      if (dt == null || dt.month != selected.month) continue;
+      dailyTotals[dt.day - 1] += s.totalMl;
     }
 
-    final streakDays = Get.isRegistered<TodayController>()
-        ? Get.find<TodayController>().streakDays.value
-        : 0;
+    final best = controller.maxDaySummary;
 
-    String maxVal = '--';
-    String maxDay = '';
-    String minVal = '--';
-    String minDay = '';
-
-    if (maxS != null) {
-      maxVal = UnitConverter.formatVolumeValue(
-        maxS.totalMl.toDouble(),
-        volumeUnit,
-      );
-      try {
-        maxDay = AppDateUtils.viDayName(DateTime.parse(maxS.dateKey));
-      } catch (_) {}
-    }
-    if (minS != null) {
-      minVal = UnitConverter.formatVolumeValue(
-        minS.totalMl.toDouble(),
-        volumeUnit,
-      );
-      try {
-        minDay = AppDateUtils.viDayName(DateTime.parse(minS.dateKey));
-      } catch (_) {}
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
       children: [
-        if (!isDay) ...[
-          Text(
-            'Thống kê',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: ob.textPrimary,
-            ),
-          ),
-          const SizedBox(height: 12),
-        ],
-        Row(
-          children: [
-            Expanded(
-              child: _StatBlock(
-                emoji: '🎯',
-                label: 'Đạt mục tiêu',
-                value: '$goalDays/$periodDays ngày',
-                ob: ob,
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: _StatBlock(
-                emoji: '🔥',
-                label: 'Chuỗi ngày hiện tại',
-                value: '$streakDays ngày',
-                ob: ob,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: _StatBlock(
-                emoji: '⭐',
-                label: 'Uống nhiều nhất',
-                value: maxVal,
-                sub: maxDay,
-                ob: ob,
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: _StatBlock(
-                emoji: '💧',
-                label: 'Uống ít nhất',
-                value: minVal,
-                sub: minDay,
-                ob: ob,
-              ),
-            ),
-          ],
+        HistoryNavBar(
+          label: AppDateUtils.monthLabel(selected),
+          onPrevious: controller.previousPeriod,
+          onNext: controller.nextPeriod,
+          canGoNext: controller.canGoNext,
+          trailingIcon: Icons.keyboard_arrow_down_rounded,
+          onLabelTap: () => _pickDate(context, controller),
         ),
         const SizedBox(height: 12),
+        PeriodOverviewCard(
+          totalLabel: 'month_total'.tr,
+          totalValue: UnitConverter.formatVolumeGrouped(
+            total.toDouble(),
+            unit,
+          ),
+          averageLine: 'avg_per_day_value'.trParams({
+            'args1': UnitConverter.formatVolumeGrouped(
+              controller.avgPerDayMl.toDouble(),
+              unit,
+            ),
+          }),
+          goalValue: UnitConverter.formatVolumeValueUnit(goal.toDouble(), unit),
+          onEditGoal: () => showDailyGoalSheet(context),
+          chart: MonthLineChart(
+            dailyTotals: dailyTotals,
+            dailyGoal: goal,
+            isOz: unit == 'oz',
+          ),
+        ),
+        const SizedBox(height: 20),
+        HistorySectionTitle('month_summary'.tr),
+        const SizedBox(height: 12),
+        _buildPeriodTiles(
+          context,
+          total: total,
+          unit: unit,
+          goalReached:
+              '${controller.goalDaysCount}/$daysInMonth ${'unit_days'.tr}',
+          average: controller.avgPerDayMl,
+        ),
+        const SizedBox(height: 20),
+        HistorySectionTitle('best_day'.tr),
+        const SizedBox(height: 12),
+        HistoryHighlightCard(
+          label: best == null ? '--' : _formatDate(best.dateKey, 'd MMMM'),
+          value: best == null
+              ? '--'
+              : UnitConverter.formatVolumeGrouped(
+                  best.totalMl.toDouble(),
+                  unit,
+                ),
+        ),
+        const SizedBox(height: 20),
+        ..._buildCollapsibleDetail(
+          context,
+          rows: _dailyRows(controller),
+          emptyState: _buildEmptyState(ob),
+        ),
       ],
     );
+  }
+
+  // ── Year tab ───────────────────────────────────────────────────────────────
+
+  Widget _buildYearTab(BuildContext context, HistoryController controller) {
+    final ob = OnboardingTheme.of(context);
+    final unit = Get.find<SettingsController>().volumeUnit.value;
+    final total = controller.computedTotal;
+    final dailyGoal = controller.dailyGoalMl;
+    final year = controller.selectedDate.value.year;
+    final monthlyTotals = controller.monthlyTotals;
+
+    final monthlyGoals = [
+      for (var m = 1; m <= 12; m++) dailyGoal * DateTime(year, m + 1, 0).day,
+    ];
+    final yearGoal = monthlyGoals.reduce((a, b) => a + b);
+
+    final best = controller.bestMonth;
+
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
+      children: [
+        HistoryNavBar(
+          label: '$year',
+          onPrevious: controller.previousPeriod,
+          onNext: controller.nextPeriod,
+          canGoNext: controller.canGoNext,
+          trailingIcon: Icons.keyboard_arrow_down_rounded,
+          onLabelTap: () => _pickDate(context, controller),
+        ),
+        const SizedBox(height: 12),
+        PeriodOverviewCard(
+          totalLabel: 'year_total'.tr,
+          totalValue: UnitConverter.formatVolumeGrouped(
+            total.toDouble(),
+            unit,
+          ),
+          averageLine: 'avg_per_day_value'.trParams({
+            'args1': UnitConverter.formatVolumeGrouped(
+              controller.avgPerDayMl.toDouble(),
+              unit,
+            ),
+          }),
+          goalValue: UnitConverter.formatVolumeValueUnit(
+            dailyGoal.toDouble(),
+            unit,
+          ),
+          onEditGoal: () => showDailyGoalSheet(context),
+          chart: YearBarChart(
+            monthlyTotals: monthlyTotals,
+            monthlyGoals: monthlyGoals,
+            isFutureMonth: controller.isFutureMonth,
+            goalLabel: 'goal_with_value'.trParams({
+              'args1': UnitConverter.formatVolumeGrouped(
+                yearGoal.toDouble(),
+                unit,
+              ),
+            }),
+            isOz: unit == 'oz',
+          ),
+        ),
+        const SizedBox(height: 20),
+        HistorySectionTitle('year_summary'.tr),
+        const SizedBox(height: 12),
+        _buildPeriodTiles(
+          context,
+          total: total,
+          unit: unit,
+          goalReached:
+              '${controller.goalMonthsCount}/12 ${'unit_months'.tr}',
+          average: controller.avgPerDayMl,
+        ),
+        const SizedBox(height: 20),
+        HistorySectionTitle('best_month'.tr),
+        const SizedBox(height: 12),
+        HistoryHighlightCard(
+          label: best == null
+              ? '--'
+              : DateFormat('MMMM', _locale).format(DateTime(year, best.key)),
+          value: best == null
+              ? '--'
+              : UnitConverter.formatVolumeGrouped(
+                  best.value.toDouble(),
+                  unit,
+                ),
+        ),
+        const SizedBox(height: 20),
+        ..._buildCollapsibleDetail(
+          context,
+          rows: [
+            for (var m = 1; m <= 12; m++)
+              if (monthlyTotals[m - 1] > 0)
+                PeriodSummaryRow(
+                  label: DateFormat(
+                    'MMMM',
+                    _locale,
+                  ).format(DateTime(year, m)),
+                  totalMl: monthlyTotals[m - 1],
+                  goalMl: monthlyGoals[m - 1],
+                ),
+          ],
+          emptyState: _buildEmptyState(ob),
+        ),
+      ],
+    );
+  }
+
+  // ── Shared pieces ──────────────────────────────────────────────────────────
+
+  Widget _buildPeriodTiles(
+    BuildContext context, {
+    required int total,
+    required String unit,
+    required String goalReached,
+    required int average,
+  }) {
+    final ob = OnboardingTheme.of(context);
+    return HistorySummaryTiles(
+      tiles: [
+        HistorySummaryTile(
+          icon: Icons.water_drop_rounded,
+          iconColor: ob.switchActive,
+          value: UnitConverter.formatVolumeGrouped(total.toDouble(), unit),
+          caption: 'total_volume'.tr,
+        ),
+        HistorySummaryTile(
+          icon: Icons.star_rounded,
+          iconColor: const Color(0xFFFACA1F),
+          value: goalReached,
+          caption: 'goal_reached'.tr,
+        ),
+        HistorySummaryTile(
+          icon: Icons.trending_up_rounded,
+          iconColor: const Color(0xFF4ADE80),
+          value: UnitConverter.formatVolumeGrouped(average.toDouble(), unit),
+          caption: 'avg_per_day'.tr,
+        ),
+      ],
+    );
+  }
+
+  List<PeriodSummaryRow> _dailyRows(HistoryController controller) {
+    final sorted = controller.summaries.where((s) => s.totalMl > 0).toList()
+      ..sort((a, b) => b.dateKey.compareTo(a.dateKey));
+    return [
+      for (final s in sorted)
+        PeriodSummaryRow.fromSummary(s, controller.dailyGoalMl),
+    ];
+  }
+
+  /// Heading plus the rows it hides, so the period tabs open with the summary
+  /// visible rather than a long list.
+  List<Widget> _buildCollapsibleDetail(
+    BuildContext context, {
+    required List<Widget> rows,
+    required Widget emptyState,
+  }) {
+    final expanded = _detailExpanded.value;
+    return [
+      HistoryDetailHeader(
+        title: 'detail_history'.tr,
+        expanded: expanded,
+        onToggle: () => _detailExpanded.value = !expanded,
+      ),
+      if (expanded) ...[
+        const SizedBox(height: 12),
+        if (rows.isEmpty)
+          emptyState
+        else
+          for (final row in rows) ...[row, const SizedBox(height: 8)],
+      ],
+    ];
   }
 
   Widget _buildEmptyState(OnboardingTheme ob) {
@@ -924,12 +614,33 @@ class _HistoryScreenState extends State<HistoryScreen> {
           const SizedBox(height: 12),
           Text(
             'no_records_found'.tr,
-            style: TextStyle(fontSize: 14, color: ob.bgDrag),
+            style: TextStyle(
+              fontSize: 14,
+              color: ob.textPrimary.withValues(alpha: 0.6),
+            ),
           ),
         ],
       ),
     );
   }
+
+  String _formatDate(String dateKey, String pattern) {
+    final dt = DateTime.tryParse(dateKey);
+    if (dt == null) return dateKey;
+    return DateFormat(pattern, _locale).format(dt);
+  }
+
+  void _pickDate(BuildContext context, HistoryController controller) {
+    HistoryDatePicker.show(
+      context,
+      initialDate: controller.selectedDate.value,
+      lastDate: DateTime.now(),
+    ).then((picked) {
+      if (picked != null) controller.selectedDate.value = picked;
+    });
+  }
+
+  // ── Edit dialog ────────────────────────────────────────────────────────────
 
   void _showEditDialog(
     BuildContext context,
@@ -941,11 +652,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
     final displayMl = record.originalAmountMl > 0
         ? record.originalAmountMl
         : record.amountMl.toDouble();
-    final initialValueStr = UnitConverter.formatVolumeValue(
-      displayMl,
-      volumeUnit,
+    final textController = TextEditingController(
+      text: UnitConverter.formatVolumeValue(displayMl, volumeUnit),
     );
-    final textController = TextEditingController(text: initialValueStr);
     final focusNode = FocusNode();
 
     Future.delayed(
@@ -1027,32 +736,32 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       enabled: textController.text.trim().isNotEmpty,
                       onPressed: () {
                         final val = double.tryParse(textController.text);
-                        if (val != null && val > 0) {
-                          Navigator.pop(ctx);
-                          final type = DrinkType.values.firstWhere(
-                            (t) => t.name == record.drinkType,
-                            orElse: () => DrinkType.water,
-                          );
-                          final double valInMl = isOz
-                              ? UnitConverter.ozToMl(val)
-                              : val;
-                          final effectiveWater =
-                              (valInMl * type.waterPercent / 100).round();
-                          final todayController = Get.find<TodayController>();
-                          final intakeWithoutThis =
-                              todayController.currentIntakeMl.value -
-                              record.amountMl;
-                          if (intakeWithoutThis + effectiveWater > 8000) {
-                            ToastUtils.showLimitToast(context);
-                            return;
-                          }
-                          controller.updateRecord(
-                            record.copyWith(
-                              amountMl: effectiveWater,
-                              originalAmountMl: valInMl,
-                            ),
-                          );
+                        if (val == null || val <= 0) return;
+                        Navigator.pop(ctx);
+
+                        final type = DrinkType.values.firstWhere(
+                          (t) => t.name == record.drinkType,
+                          orElse: () => DrinkType.water,
+                        );
+                        final valInMl = isOz
+                            ? UnitConverter.ozToMl(val)
+                            : val;
+                        final effectiveWater =
+                            (valInMl * type.waterPercent / 100).round();
+                        final todayController = Get.find<TodayController>();
+                        final intakeWithoutThis =
+                            todayController.currentIntakeMl.value -
+                            record.amountMl;
+                        if (intakeWithoutThis + effectiveWater > 8000) {
+                          ToastUtils.showLimitToast(context);
+                          return;
                         }
+                        controller.updateRecord(
+                          record.copyWith(
+                            amountMl: effectiveWater,
+                            originalAmountMl: valInMl,
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -1066,288 +775,3 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 }
 
-// ─── Stat block ────────────────────────────────────────────────────────────────
-
-class _StatBlock extends StatelessWidget {
-  const _StatBlock({
-    required this.emoji,
-    required this.label,
-    required this.value,
-    this.sub,
-    required this.ob,
-  });
-
-  final String emoji;
-  final String label;
-  final String value;
-  final String? sub;
-  final OnboardingTheme ob;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: ob.bgOption,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(emoji, style: const TextStyle(fontSize: 22)),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: ob.textPrimary.withValues(alpha: 0.6),
-                    height: 1.2,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: ob.textPrimary,
-                    height: 1,
-                  ),
-                ),
-                if (sub != null && sub!.isNotEmpty)
-                  Text(
-                    sub!,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: ob.textPrimary.withValues(alpha: 0.6),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Daily summary item ────────────────────────────────────────────────────────
-
-class _SummaryItem extends StatelessWidget {
-  const _SummaryItem({required this.summary});
-
-  final DailySummary summary;
-
-  @override
-  Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-    final volumeUnit = Get.find<SettingsController>().volumeUnit.value;
-    DateTime? dt;
-    try {
-      dt = DateTime.parse(summary.dateKey);
-    } catch (_) {}
-    final dateStr = dt != null
-        ? AppDateUtils.formatViDate(dt)
-        : summary.dateKey;
-    final totalVal = UnitConverter.formatVolumeValue(
-      summary.totalMl.toDouble(),
-      volumeUnit,
-    );
-    final goalVal = UnitConverter.formatVolumeValue(
-      summary.goalMl.toDouble(),
-      volumeUnit,
-    );
-    final pct = summary.goalMl > 0
-        ? ((summary.totalMl / summary.goalMl) * 100).clamp(0, 100).toInt()
-        : 0;
-    final progress = summary.goalMl > 0
-        ? (summary.totalMl / summary.goalMl).clamp(0.0, 1.0)
-        : 0.0;
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                dateStr,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: ob.textPrimary,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const Spacer(),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: totalVal,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF67B5E2),
-                      ),
-                    ),
-                    TextSpan(
-                      text: ' / $goalVal',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: ob.textPrimary.withValues(alpha: 0.6),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              Text(
-                '$pct%',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: ob.textPrimary,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Icon(
-                Icons.chevron_right_rounded,
-                size: 18,
-                color: ob.textPrimary.withValues(alpha: 0.4),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: LinearProgressIndicator(
-              value: progress,
-              minHeight: 4,
-              backgroundColor: ob.borderTabHistory,
-              valueColor: const AlwaysStoppedAnimation(Color(0xFF4DC0FC)),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── New drink item (day view redesign) ───────────────────────────────────────
-
-class _NewDrinkItem extends StatelessWidget {
-  const _NewDrinkItem({
-    required this.record,
-    required this.onEdit,
-    required this.onDelete,
-  });
-
-  final DrinkRecord record;
-  final VoidCallback onEdit;
-  final VoidCallback onDelete;
-
-  @override
-  Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-    final type = DrinkType.values.firstWhere(
-      (t) => t.name == record.drinkType,
-      orElse: () => DrinkType.water,
-    );
-    final timeFormat = Get.find<SettingsController>().timeFormat.value;
-    final timeStr = UnitConverter.formatTime(
-      '${record.timestamp.hour.toString().padLeft(2, '0')}:${record.timestamp.minute.toString().padLeft(2, '0')}',
-      timeFormat,
-    );
-    final volumeUnit = Get.find<SettingsController>().volumeUnit.value;
-    final displayMl = record.originalAmountMl > 0
-        ? record.originalAmountMl
-        : record.amountMl.toDouble();
-    final amountDisplay = UnitConverter.formatVolumeValueUnit(
-      displayMl,
-      volumeUnit,
-    );
-
-    return Container(
-      color: ob.bgOption,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      child: Row(
-        children: [
-          Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: ob.switchActive.withValues(alpha: 0.12),
-            ),
-            padding: const EdgeInsets.all(8),
-            child: Image.asset(type.imagePath, fit: BoxFit.contain),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  timeStr,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: ob.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  type.label.tr,
-                  style: TextStyle(fontSize: 12, color: ob.textSecondary),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: 160,
-            height: 44,
-            child: Slidable(
-              key: ValueKey(
-                'amount-${record.id ?? record.timestamp.microsecondsSinceEpoch}',
-              ),
-              endActionPane: ActionPane(
-                motion: const DrawerMotion(),
-                extentRatio: 0.5,
-                children: [
-                  SlidableAction(
-                    onPressed: (_) => onEdit(),
-                    backgroundColor: Colors.transparent,
-                    foregroundColor: Colors.white,
-                    icon: Icons.edit_outlined,
-                  ),
-                  SlidableAction(
-                    onPressed: (_) => onDelete(),
-                    backgroundColor: Colors.transparent,
-                    foregroundColor: Colors.white,
-                    icon: Icons.delete_outline,
-                  ),
-                ],
-              ),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  amountDisplay,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: ob.textPrimary,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

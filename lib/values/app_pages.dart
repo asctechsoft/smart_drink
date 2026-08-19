@@ -21,6 +21,10 @@ import '../presentation/screens_settings/feedback_screen.dart';
 import '../presentation/screens_settings/language_screen.dart';
 import '../presentation/screens_settings/premium_screen.dart';
 import '../presentation/screens_reminder/reminder_settings_screen.dart';
+import '../presentation/screen_streak/streak_screen.dart';
+import '../presentation/screen_avatar/avatar_screen.dart';
+import '../controller/streak_controller.dart';
+
 import 'route_name.dart';
 
 class AppPages {
@@ -73,6 +77,14 @@ class AppPages {
         Get.put(ReminderController());
       }),
     ),
+    GetPage(
+      name: RouteName.streak,
+      page: () => const StreakScreen(),
+      binding: BindingsBuilder(() {
+        Get.put(StreakController());
+      }),
+    ),
+    GetPage(name: RouteName.avatarSelection, page: () => const AvatarScreen()),
     GetPage(name: RouteName.feedback, page: () => const FeedbackScreen()),
     GetPage(name: RouteName.premium, page: () => const PremiumScreen()),
     GetPage(
