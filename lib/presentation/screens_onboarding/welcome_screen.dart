@@ -18,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
             modifier: Modifier.paddingAll(24),
             children: [
               AppSpacerH44,
-              AppIcon('assets/images/webp/img_logo_splash.webp', size: 300),
+              AppIcon('assets/images/webp/logo_app_v2.webp', size: 300),
               AppText(
                 "im_here_to_help_you".tr,
                 style: const TextStyle(

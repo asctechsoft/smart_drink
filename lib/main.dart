@@ -122,7 +122,7 @@ class DrinkWaterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CommApp(
-      title: 'drink_water'.tr,
+      title: 'Aquvia',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
