@@ -52,6 +52,17 @@ class HistoryController extends GetxController {
   /// Number of drinks logged on the selected day.
   int get dayDrinkCount => dayRecords.length;
 
+  /// HH:mm of the most recent drink on the selected day, or null if none.
+  String? get lastDrinkTime {
+    if (dayRecords.isEmpty) return null;
+    final last = dayRecords.reduce(
+      (a, b) => a.timestamp.isAfter(b.timestamp) ? a : b,
+    );
+    final h = last.timestamp.hour.toString().padLeft(2, '0');
+    final m = last.timestamp.minute.toString().padLeft(2, '0');
+    return '$h:$m';
+  }
+
   /// Hour of day (0–23) -> ml logged in that hour, for the day chart.
   Map<int, int> get hourlyTotals {
     final map = <int, int>{};

@@ -39,77 +39,82 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (useGradient) {
-      final isLight = OnboardingTheme.of(context).isLight;
-      final gradientStart = isLight
-          ? AppColors.onboardingLightButtonStart
-          : AppColors.onboardingButtonStart;
-      final gradientEnd = isLight
-          ? AppColors.onboardingLightButtonEnd
-          : AppColors.onboardingButtonEnd;
-      final disabledColor = isLight
-          ? AppColors.onboardingLightAccent.withValues(alpha: 0.3)
-          : AppColors.onboardingAccent.withValues(alpha: 0.3);
-      final borderColor = isLight
-          ? AppColors.primary500Light.withValues(alpha: 0.25)
-          : AppColors.primary500Dark.withValues(alpha: 0.25);
+      final disabledColor = AppColors.btnCyanStart.withValues(alpha: 0.3);
 
       return Container(
         decoration: BoxDecoration(
-          color: Colors.transparent,
           borderRadius: BorderRadius.circular(100),
-          border: Border.all(color: borderColor, width: 2),
+          boxShadow: enabled
+              ? [
+                  BoxShadow(
+                    color: AppColors.btnCyanGlow.withValues(alpha: 0.45),
+                    blurRadius: 18,
+                    spreadRadius: 2,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : null,
         ),
         child: SizedBox(
           width: width,
           height: height,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: enabled
-                  ? LinearGradient(
-                      begin: const Alignment(-1, 0.7),
-                      end: const Alignment(1, -0.7),
-                      colors: [gradientStart, gradientEnd],
-                    )
-                  : null,
-              color: enabled ? null : disabledColor,
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Stack(
-                alignment: Alignment.center,
-                fit: StackFit.passthrough,
-                children: [
-                  if (backgroundDecorations != null) ...backgroundDecorations!,
-                  MaterialButton(
-                    onPressed: enabled ? onPressed : null,
-                    minWidth: width ?? 0,
-                    height: height,
-                    padding: padding,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (leading != null) ...[leading!, AppSpacerW8],
-                        _buildText(
-                          text,
-                          textStyle ??
-                              const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
+          child: Stack(
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: enabled
+                      ? const LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [AppColors.btnCyanStart, AppColors.btnCyanEnd],
+                        )
+                      : null,
+                  color: enabled ? null : disabledColor,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    fit: StackFit.passthrough,
+                    children: [
+                      if (backgroundDecorations != null) ...backgroundDecorations!,
+                      MaterialButton(
+                        onPressed: enabled ? onPressed : null,
+                        minWidth: width ?? 0,
+                        height: height,
+                        padding: padding ?? EdgeInsets.zero,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
                         ),
-                        if (trailing != null) ...[AppSpacerW8, trailing!],
-                      ],
-                    ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            if (leading != null) ...[leading!, AppSpacerW8],
+                            _buildText(
+                              text,
+                              textStyle ??
+                                  const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.btnCyanText,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              if (trailing != null)
+                Positioned(
+                  right: 16,
+                  top: 0,
+                  bottom: 0,
+                  child: Center(child: trailing!),
+                ),
+            ],
           ),
         ),
       );

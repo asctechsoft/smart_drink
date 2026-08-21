@@ -47,7 +47,7 @@ class ToastUtils {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppIcon('assets/images/webp/logo_app_v2.webp', size: 24),
+            AppIcon('assets/images/png/logo_app_v3.png', size: 24),
             AppSpacerW4,
             Flexible(
               child: AppText(

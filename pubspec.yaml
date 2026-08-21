@@ -30,6 +30,8 @@ dependencies:
     path: ./dsp_base
 
   firebase_core: any
+  firebase_auth: any
+  google_sign_in: ^6.2.2
   audioplayers: ^6.6.0
   confetti: ^0.8.0
 dev_dependencies:
@@ -42,7 +44,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/webp/logo_app_v2.webp"
+  image_path: "assets/images/png/logo_app_v3.png"
   min_sdk_android: 21
   remove_alpha_ios: true
 
@@ -52,6 +54,7 @@ flutter:
   assets:
     - assets/images/webp/
     - assets/images/svg/
+    - assets/images/png/
     - assets/audio/
     - lib/xml_strings/values/
     - lib/xml_strings/values-af/
@@ -140,15 +143,15 @@ flutter:
     
 
   fonts:
-    - family: Baloo2
+    - family: PlusJakartaSans
       fonts:
-        - asset: assets/fonts/Baloo2-Regular.ttf
+        - asset: assets/fonts/PlusJakartaSans-Regular.ttf
           weight: 400
-        - asset: assets/fonts/Baloo2-Medium.ttf
+        - asset: assets/fonts/PlusJakartaSans-Medium.ttf
           weight: 500
-        - asset: assets/fonts/Baloo2-SemiBold.ttf
+        - asset: assets/fonts/PlusJakartaSans-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/Baloo2-Bold.ttf
+        - asset: assets/fonts/PlusJakartaSans-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Baloo2-ExtraBold.ttf
-          weight: 800
+        - asset: assets/fonts/PlusJakartaSans-Italic.ttf
+          style: italic

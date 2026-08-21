@@ -11,16 +11,15 @@ class HistorySectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
     return Row(
       children: [
         Expanded(
           child: Text(
             title,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.w700,
-              color: ob.textPrimary,
+              color: Colors.white60,
             ),
           ),
         ),
@@ -43,10 +42,9 @@ class HistoryCard extends StatelessWidget {
     return Container(
       padding: padding ?? const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ob.bgOption,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: ob.borderTabHistory, width: 1),
-        boxShadow: ob.cardGlowShadow,
+        color: Colors.white.withValues(alpha: 0.07),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
       child: child,
     );

@@ -40,7 +40,7 @@ class HistoryDetailHeader extends StatelessWidget {
                 expanded
                     ? Icons.keyboard_arrow_up_rounded
                     : Icons.keyboard_arrow_down_rounded,
-                size: 22,
+                size: 14,
                 color: ob.textPrimary.withValues(alpha: 0.8),
               ),
       ),
@@ -48,8 +48,6 @@ class HistoryDetailHeader extends StatelessWidget {
   }
 }
 
-/// One logged drink: type icon, time, amount. Swiping left reveals edit and
-/// delete, matching the behaviour the day list had before the redesign.
 class DrinkRecordRow extends StatelessWidget {
   const DrinkRecordRow({
     super.key,
@@ -94,13 +92,13 @@ class DrinkRecordRow extends StatelessWidget {
           SlidableAction(
             onPressed: (_) => onEdit(),
             backgroundColor: Colors.transparent,
-            foregroundColor: ob.textPrimary,
+            foregroundColor: Color(0xFF96D2A8),
             icon: Icons.edit_outlined,
           ),
           SlidableAction(
             onPressed: (_) => onDelete(),
             backgroundColor: Colors.transparent,
-            foregroundColor: ob.textPrimary,
+            foregroundColor: Colors.red,
             icon: Icons.delete_outline,
           ),
         ],
@@ -109,40 +107,52 @@ class DrinkRecordRow extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         child: Row(
           children: [
-            Container(
-              width: 36,
-              height: 36,
-              padding: const EdgeInsets.all(7),
-              decoration: BoxDecoration(
-                color: ob.switchActive.withValues(alpha: 0.14),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Image.asset(type.imagePath, fit: BoxFit.contain),
+            Image.asset(
+              type.imagePath,
+              fit: BoxFit.contain,
+              width: 24,
+              height: 24,
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
             Expanded(
               child: Text(
                 timeStr,
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: ob.textPrimary,
                 ),
               ),
             ),
-            Text(
-              amount,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: ob.textPrimary.withValues(alpha: 0.9),
+            SizedBox(
+              width: 64,
+              child: Text(
+                amount,
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: ob.textPrimary.withValues(alpha: 0.9),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            SizedBox(
+              width: 88,
+              child: Text(
+                type.label.tr,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: ob.textPrimary.withValues(alpha: 0.6),
+                ),
               ),
             ),
             const SizedBox(width: 6),
             Icon(
               Icons.chevron_right_rounded,
-              size: 20,
-              color: ob.textPrimary.withValues(alpha: 0.45),
+              size: 24,
+              color: Color(0xFF96D2A8),
             ),
           ],
         ),
@@ -174,9 +184,7 @@ class PeriodSummaryRow extends StatelessWidget {
   ) {
     final date = DateTime.tryParse(summary.dateKey);
     return PeriodSummaryRow(
-      label: date != null
-          ? AppDateUtils.formatViDate(date)
-          : summary.dateKey,
+      label: date != null ? AppDateUtils.formatViDate(date) : summary.dateKey,
       totalMl: summary.totalMl,
       goalMl: summary.goalMl > 0 ? summary.goalMl : fallbackGoalMl,
     );

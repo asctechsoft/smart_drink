@@ -27,13 +27,8 @@
     <string name="hour">ساعة</string>
     <string name="minute">دقيقة</string>
     <string name="min">دقيقة</string>
-    <string name="you_ll_get_reminder_on_time">ستتلقى تذكيرًا في الوقت المحدد</string>
     <string name="allow">السماح</string>
-    <string name="daily_water_drinking_goal">الهدف اليومي لشرب الماء</string>
     <string name="start">ابدأ</string>
-    <string name="set_daily_goal">تعيين هدف يومي</string>
-    <string name="stay_hydrated">ابقَ رطبًا</string>
-    <string name="track_your_water_intake">تتبع تناولك للماء</string>
     <string name="no_reminder_set">لم يتم تعيين تذكير</string>
     <string name="next_reminder">التذكير التالي %1$s</string>
     <string name="exceeded_your_goal">تجاوزت هدفك</string>
@@ -53,7 +48,6 @@
     <string name="normal">عادي</string>
     <string name="warm">دافئ</string>
     <string name="hot">حار</string>
-    <string name="enable_reminder">تفعيل التذكير</string>
     <string name="time_12_hour">وقت 12 ساعة</string>
     <string name="time_24_hour">الوقت بنظام 24 ساعة</string>
     <string name="follow_the_system">اتبع النظام</string>
@@ -65,13 +59,7 @@
     <string name="friday">الجمعة</string>
     <string name="saturday">السبت</string>
     <string name="sunday">الأحد</string>
-    <string name="sound_and_effect">الصوت والتأثيرات</string>
     <string name="standard_mode">الوضع القياسي</string>
-    <string name="based_on_your_sleep_and_meal_schedule">بناءً على جدول نومك ووجباتك</string>
-    <string name="interval_mode">وضع الفاصل الزمني</string>
-    <string name="remind_you_at_fixed_intervals">يذكرك في فترات زمنية ثابتة</string>
-    <string name="custom_mode">الوضع المخصص</string>
-    <string name="customize_all_reminders_by_yourself">قم بتخصيص جميع التذكيرات بنفسك</string>
     <string name="bedtime">وقت النوم</string>
     <string name="reminders">التذكيرات</string>
     <string name="sleep_time_start">بدء وقت النوم</string>
@@ -188,14 +176,10 @@
     <string name="total">الإجمالي</string>
     <string name="week">أسبوع</string>
     <string name="ok">موافق</string>
-    <string name="do_you_want_to_delete">هل تريد حذف هذا العنصر من قائمة السجل؟</string>
-    <string name="back_to_today">العودة إلى اليوم</string>
     <string name="cancel">إلغاء</string>
     <string name="custom">مخصص</string>
     <string name="day">يوم</string>
     <string name="delete">حذف</string>
-    <string name="delete_drink">حذف المشروب؟</string>
-    <string name="drink_history">سجل الشرب</string>
     <string name="edit_drink">تعديل المشروب</string>
     <string name="history">التاريخ</string>
     <string name="no_records_found">لم يتم العثور على سجلات</string>
@@ -203,9 +187,7 @@
     <string name="system_soft">سيستم سوفت</string>
     <string name="submit">إرسال</string>
     <string name="wake_up_and_bedtime_cannot_be_same">يجب أن يختلف وقت الاستيقاظ ووقت النوم</string>
-    <string name="wake_up_cannot_be_after_bedtime">يجب أن يكون الاستيقاظ قبل وقت النوم</string>
     <string name="sleep_start_end_cannot_be_same">يجب أن تختلف البداية والنهاية</string>
-    <string name="sleep_start_cannot_be_after_end">يجب أن يكون البدء قبل الانتهاء</string>
     <string name="interval_min_5">يجب أن تكون الفترة لا تقل عن 5 دقائق</string>
     <string name="the_target_cannot_exceed">لا يمكن أن يتجاوز الهدف %1$s</string>
     <string name="drink">مشروب</string>
@@ -221,4 +203,16 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
+    <string name="this_week">This Week</string>
+    <string name="percent_goal">goal</string>
+    <string name="avg_per_day">Avg/day</string>
+    <string name="goal_days">Goal days</string>
+    <string name="week_chart">Weekly Chart</string>
+    <string name="by_day">By day</string>
+    <string name="total_drink_count">Total drinks</string>
+    <string name="best_time_range">Best time</string>
+    <string name="streak_done">Streak done</string>
+    <string name="exceeded_goal">Exceeded</string>
+    <string name="goal_reached">Reached</string>
+    <string name="not_reached">Not reached</string>
 </resources>

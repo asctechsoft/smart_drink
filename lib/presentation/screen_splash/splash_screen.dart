@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                AppIcon('assets/images/webp/logo_app_v2.webp', size: 100),
+                AppIcon('assets/images/png/logo_app_v3.png', size: 100),
                 AppSpacerH16,
                 AppText(
                   "Aquvia",

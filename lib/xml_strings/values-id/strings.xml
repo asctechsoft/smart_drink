@@ -27,13 +27,8 @@
     <string name="hour">jam</string>
     <string name="minute">menit</string>
     <string name="min">menit</string>
-    <string name="you_ll_get_reminder_on_time">Anda akan mendapat pengingat tepat waktu</string>
     <string name="allow">Izinkan</string>
-    <string name="daily_water_drinking_goal">Tujuan minum air harian</string>
     <string name="start">Mulai</string>
-    <string name="set_daily_goal">Tetapkan Tujuan Harian</string>
-    <string name="stay_hydrated">Tetap terhidrasi</string>
-    <string name="track_your_water_intake">Lacak asupan air anda</string>
     <string name="no_reminder_set">Tidak ada pengingat yang disetel</string>
     <string name="next_reminder">Pengingat berikutnya %1$s</string>
     <string name="exceeded_your_goal">Melebihi tujuan anda</string>
@@ -53,7 +48,6 @@
     <string name="normal">Normal</string>
     <string name="warm">Hangat</string>
     <string name="hot">Panas</string>
-    <string name="enable_reminder">Aktifkan Pengingat</string>
     <string name="time_12_hour">waktu 12 jam</string>
     <string name="time_24_hour">waktu 24 jam</string>
     <string name="follow_the_system">Ikuti sistem</string>
@@ -65,13 +59,7 @@
     <string name="friday">Jumat</string>
     <string name="saturday">Sabtu</string>
     <string name="sunday">Minggu</string>
-    <string name="sound_and_effect">Suara &amp; Efek</string>
     <string name="standard_mode">Mode Standar</string>
-    <string name="based_on_your_sleep_and_meal_schedule">Berdasarkan jadwal tidur dan makan anda</string>
-    <string name="interval_mode">Mode Interval</string>
-    <string name="remind_you_at_fixed_intervals">Mengingatkan anda pada interval tetap</string>
-    <string name="custom_mode">Mode Kustom</string>
-    <string name="customize_all_reminders_by_yourself">Sesuaikan semua pengingat sendiri</string>
     <string name="bedtime">Waktu tidur</string>
     <string name="reminders">Pengingat</string>
     <string name="sleep_time_start">Mulai waktu tidur</string>
@@ -188,14 +176,10 @@
     <string name="total">Total</string>
     <string name="week">Minggu</string>
     <string name="ok">OK</string>
-    <string name="do_you_want_to_delete">Apakah anda ingin menghapus item ini dari daftar riwayat?</string>
-    <string name="back_to_today">Kembali ke hari ini</string>
     <string name="cancel">Batal</string>
     <string name="custom">Kustom</string>
     <string name="day">Hari</string>
     <string name="delete">Hapus</string>
-    <string name="delete_drink">Hapus Minuman?</string>
-    <string name="drink_history">Riwayat Minuman</string>
     <string name="edit_drink">Sunting Minuman</string>
     <string name="history">Sejarah</string>
     <string name="no_records_found">Tidak ada catatan yang ditemukan</string>
@@ -203,9 +187,7 @@
     <string name="system_soft">Sistem Soft</string>
     <string name="submit">Kirim</string>
     <string name="wake_up_and_bedtime_cannot_be_same">Waktu bangun dan waktu tidur harus berbeda</string>
-    <string name="wake_up_cannot_be_after_bedtime">Bangun harus sebelum tidur</string>
     <string name="sleep_start_end_cannot_be_same">Mulai dan akhir harus berbeda</string>
-    <string name="sleep_start_cannot_be_after_end">Mulai harus sebelum akhir</string>
     <string name="interval_min_5">Interval harus minimal 5 menit</string>
     <string name="the_target_cannot_exceed">Target tidak boleh melebihi %1$s</string>
     <string name="drink">Minum</string>
@@ -221,4 +203,16 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
+    <string name="this_week">This Week</string>
+    <string name="percent_goal">goal</string>
+    <string name="avg_per_day">Avg/day</string>
+    <string name="goal_days">Goal days</string>
+    <string name="week_chart">Weekly Chart</string>
+    <string name="by_day">By day</string>
+    <string name="total_drink_count">Total drinks</string>
+    <string name="best_time_range">Best time</string>
+    <string name="streak_done">Streak done</string>
+    <string name="exceeded_goal">Exceeded</string>
+    <string name="goal_reached">Reached</string>
+    <string name="not_reached">Not reached</string>
 </resources>

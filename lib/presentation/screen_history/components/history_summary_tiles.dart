@@ -24,10 +24,9 @@ class HistorySummaryTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
       decoration: BoxDecoration(
-        color: ob.bgOption,
+        color: Colors.white.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: ob.borderTabHistory, width: 1),
-        boxShadow: ob.cardGlowShadow,
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

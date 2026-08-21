@@ -4,7 +4,7 @@ import 'app_colors.dart';
 class AppTheme {
   static ThemeData get light => ThemeData(
     useMaterial3: true,
-    fontFamily: 'Baloo2',
+    fontFamily: 'PlusJakartaSans',
     brightness: Brightness.light,
     colorSchemeSeed: AppColors.primary,
     scaffoldBackgroundColor: AppColors.backgroundLight,
@@ -57,7 +57,7 @@ class AppTheme {
 
   static ThemeData get dark => ThemeData(
     useMaterial3: true,
-    fontFamily: 'Baloo2',
+    fontFamily: 'PlusJakartaSans',
     brightness: Brightness.dark,
     colorSchemeSeed: AppColors.primary,
     scaffoldBackgroundColor: AppColors.onboardingGradientStart,

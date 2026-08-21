@@ -27,13 +27,8 @@
     <string name="hour">saa</string>
     <string name="minute">dakika</string>
     <string name="min">dakika</string>
-    <string name="you_ll_get_reminder_on_time">Utapokea ukumbusho kwa wakati</string>
     <string name="allow">Ruhusu</string>
-    <string name="daily_water_drinking_goal">Lengo la kunywa maji kila siku</string>
     <string name="start">Anza</string>
-    <string name="set_daily_goal">Weka Lengo La Kila Siku</string>
-    <string name="stay_hydrated">Kaa umejaa maji</string>
-    <string name="track_your_water_intake">Fuatilia ulaji wako wa maji</string>
     <string name="no_reminder_set">Hakuna ukumbusho uliowekwa</string>
     <string name="next_reminder">Kumbusho la ijayo %1$s</string>
     <string name="exceeded_your_goal">Umezidi lengo lako</string>
@@ -53,7 +48,6 @@
     <string name="normal">Kawaida</string>
     <string name="warm">Joto</string>
     <string name="hot">Moto</string>
-    <string name="enable_reminder">Wezesha Kumbusho</string>
     <string name="time_12_hour">saa 12</string>
     <string name="time_24_hour">saa 24</string>
     <string name="follow_the_system">Fuata mfumo</string>
@@ -65,13 +59,7 @@
     <string name="friday">Ijumaa</string>
     <string name="saturday">Jumamosi</string>
     <string name="sunday">Jumapili</string>
-    <string name="sound_and_effect">Sauti Na Athari</string>
     <string name="standard_mode">Hali Ya Kawaida</string>
-    <string name="based_on_your_sleep_and_meal_schedule">Kulingana na ratiba yako ya usingizi na milo</string>
-    <string name="interval_mode">Hali Ya Kipindi</string>
-    <string name="remind_you_at_fixed_intervals">Kukukumbusha kwa vipindi vilivyowekwa</string>
-    <string name="custom_mode">Hali Maalum</string>
-    <string name="customize_all_reminders_by_yourself">Binafsisha vikumbusho vyote kwa mwenyewe</string>
     <string name="bedtime">Wakati wa kulala</string>
     <string name="reminders">Kumbusho</string>
     <string name="sleep_time_start">Muda wa kulala kuanza</string>
@@ -188,14 +176,10 @@
     <string name="total">Jumla</string>
     <string name="week">Wiki</string>
     <string name="ok">Sawa</string>
-    <string name="do_you_want_to_delete">Je, unataka kufuta kipengee hiki kutoka kwenye orodha ya historia?</string>
-    <string name="back_to_today">Rudi leo</string>
     <string name="cancel">Ghairi</string>
     <string name="custom">Iliyobinafsishwa</string>
     <string name="day">Siku</string>
     <string name="delete">Futa</string>
-    <string name="delete_drink">Futa Kinywaji?</string>
-    <string name="drink_history">Historia Ya Kunywa</string>
     <string name="edit_drink">Hariri Kinywaji</string>
     <string name="history">Historia</string>
     <string name="no_records_found">Hakuna rekodi zilizopatikana</string>
@@ -203,9 +187,7 @@
     <string name="system_soft">Mfumo Laini</string>
     <string name="submit">Wasilisha</string>
     <string name="wake_up_and_bedtime_cannot_be_same">Kuamka na wakati wa kulala lazima kutofautiana</string>
-    <string name="wake_up_cannot_be_after_bedtime">Kuamka lazima iwe kabla ya kulala</string>
     <string name="sleep_start_end_cannot_be_same">Mwanzo na mwisho lazima ziwe tofauti</string>
-    <string name="sleep_start_cannot_be_after_end">Anza lazima iwe kabla ya mwisho</string>
     <string name="interval_min_5">Kipindi lazima kiwe angalau dakika 5</string>
     <string name="the_target_cannot_exceed">Lengo haliwezi kuzidi %1$s</string>
     <string name="drink">Kunywa</string>
@@ -221,4 +203,16 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
+    <string name="this_week">This Week</string>
+    <string name="percent_goal">goal</string>
+    <string name="avg_per_day">Avg/day</string>
+    <string name="goal_days">Goal days</string>
+    <string name="week_chart">Weekly Chart</string>
+    <string name="by_day">By day</string>
+    <string name="total_drink_count">Total drinks</string>
+    <string name="best_time_range">Best time</string>
+    <string name="streak_done">Streak done</string>
+    <string name="exceeded_goal">Exceeded</string>
+    <string name="goal_reached">Reached</string>
+    <string name="not_reached">Not reached</string>
 </resources>

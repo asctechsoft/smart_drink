@@ -27,13 +27,8 @@
     <string name="hour">сат</string>
     <string name="minute">минута</string>
     <string name="min">мин</string>
-    <string name="you_ll_get_reminder_on_time">Добићете подсетник на време</string>
     <string name="allow">Дозволи</string>
-    <string name="daily_water_drinking_goal">Дневни циљ уноса воде</string>
     <string name="start">Старт</string>
-    <string name="set_daily_goal">Постави Дневни Циљ</string>
-    <string name="stay_hydrated">Останите хидрирани</string>
-    <string name="track_your_water_intake">Пратите унос воде</string>
     <string name="no_reminder_set">Није постављен подсетник</string>
     <string name="next_reminder">Следећи подсетник %1$s</string>
     <string name="exceeded_your_goal">Премашили сте циљ</string>
@@ -53,7 +48,6 @@
     <string name="normal">Нормално</string>
     <string name="warm">Топло</string>
     <string name="hot">Вруће</string>
-    <string name="enable_reminder">Омогући Подсетник</string>
     <string name="time_12_hour">12-часовно време</string>
     <string name="time_24_hour">24-часовно време</string>
     <string name="follow_the_system">Пратите систем</string>
@@ -65,13 +59,7 @@
     <string name="friday">Петак</string>
     <string name="saturday">Субота</string>
     <string name="sunday">Недеља</string>
-    <string name="sound_and_effect">Звук И Ефекат</string>
     <string name="standard_mode">Стандардни Режим</string>
-    <string name="based_on_your_sleep_and_meal_schedule">На основу вашег распореда спавања и оброка</string>
-    <string name="interval_mode">Режим Интервала</string>
-    <string name="remind_you_at_fixed_intervals">Подсећа те у фиксним интервалима</string>
-    <string name="custom_mode">Прилагођени Режим</string>
-    <string name="customize_all_reminders_by_yourself">Прилагодите све подсетнике сами</string>
     <string name="bedtime">Време за спавање</string>
     <string name="reminders">Подсетници</string>
     <string name="sleep_time_start">Почетак времена спавања</string>
@@ -188,14 +176,10 @@
     <string name="total">Укупно</string>
     <string name="week">Недеља</string>
     <string name="ok">ОК</string>
-    <string name="do_you_want_to_delete">Да ли желите да избришете ову ставку са листе историје?</string>
-    <string name="back_to_today">Назад на данас</string>
     <string name="cancel">Откажи</string>
     <string name="custom">Прилагођено</string>
     <string name="day">Дан</string>
     <string name="delete">Обриши</string>
-    <string name="delete_drink">Избрисати Пиће?</string>
-    <string name="drink_history">Историја Пића</string>
     <string name="edit_drink">Уреди Пиће</string>
     <string name="history">Историја</string>
     <string name="no_records_found">Нема пронађених записа</string>
@@ -203,9 +187,7 @@
     <string name="system_soft">Систем Софт</string>
     <string name="submit">Пошаљи</string>
     <string name="wake_up_and_bedtime_cannot_be_same">Буђење и време за спавање морају бити различити</string>
-    <string name="wake_up_cannot_be_after_bedtime">Буђење мора бити пре спавања</string>
     <string name="sleep_start_end_cannot_be_same">Почетак и крај морају се разликовати</string>
-    <string name="sleep_start_cannot_be_after_end">Почетак мора бити пре краја</string>
     <string name="interval_min_5">Интервал мора бити најмање 5 минута</string>
     <string name="the_target_cannot_exceed">Циљ не може премашити %1$s</string>
     <string name="drink">Пиће</string>
@@ -221,4 +203,16 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
+    <string name="this_week">This Week</string>
+    <string name="percent_goal">goal</string>
+    <string name="avg_per_day">Avg/day</string>
+    <string name="goal_days">Goal days</string>
+    <string name="week_chart">Weekly Chart</string>
+    <string name="by_day">By day</string>
+    <string name="total_drink_count">Total drinks</string>
+    <string name="best_time_range">Best time</string>
+    <string name="streak_done">Streak done</string>
+    <string name="exceeded_goal">Exceeded</string>
+    <string name="goal_reached">Reached</string>
+    <string name="not_reached">Not reached</string>
 </resources>

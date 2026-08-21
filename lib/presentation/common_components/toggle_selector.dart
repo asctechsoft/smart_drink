@@ -10,6 +10,7 @@ class ToggleSelector extends StatelessWidget {
   final List<String>? icons;
   final double? itemWidth;
   final bool isExpanded;
+  final bool compact;
 
   /// Styles the selector for the app's gradient backgrounds: a dark translucent
   /// track with a bright gradient pill on the selected option.
@@ -24,6 +25,7 @@ class ToggleSelector extends StatelessWidget {
     this.itemWidth,
     this.isExpanded = false,
     this.onGradient = false,
+    this.compact = false,
   });
 
   @override
@@ -48,7 +50,7 @@ class ToggleSelector extends StatelessWidget {
               Modifier.appClickable(onTap: () => onChanged(index), radius: 48)
                   .conditional(
                     !isExpanded,
-                    onTrue: (m) => m.width(itemWidth ?? 100),
+                    onTrue: (m) => m.width(itemWidth ?? (compact ? 68 : 100)),
                   )
                   .background(
                     color: isSelected && !onGradient
@@ -56,7 +58,10 @@ class ToggleSelector extends StatelessWidget {
                         : Colors.transparent,
                     radius: 48,
                   )
-                  .padding(horizontal: 24, vertical: 10),
+                  .padding(
+                    horizontal: compact ? 12 : 24,
+                    vertical: compact ? 7 : 10,
+                  ),
           mainAxisSize: isExpanded ? MainAxisSize.max : MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -67,7 +72,7 @@ class ToggleSelector extends StatelessWidget {
             AppText(
               options[index],
               style: TextStyle(
-                fontSize: 16,
+                fontSize: compact ? 13 : 16,
                 color: onGradient
                     ? (isSelected
                           ? AppColors.basic500

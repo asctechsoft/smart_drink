@@ -27,13 +27,8 @@
     <string name="hour">ora</string>
     <string name="minute">minuto</string>
     <string name="min">min</string>
-    <string name="you_ll_get_reminder_on_time">Riceverai un promemoria puntuale</string>
     <string name="allow">Consenti</string>
-    <string name="daily_water_drinking_goal">Obiettivo giornaliero di assunzione d\'acqua</string>
     <string name="start">Inizio</string>
-    <string name="set_daily_goal">Imposta Obiettivo Giornaliero</string>
-    <string name="stay_hydrated">Rimani idratato</string>
-    <string name="track_your_water_intake">Tieni traccia dell\'assunzione di acqua</string>
     <string name="no_reminder_set">Nessun promemoria impostato</string>
     <string name="next_reminder">Prossimo promemoria %1$s</string>
     <string name="exceeded_your_goal">Superato il tuo obiettivo</string>
@@ -53,7 +48,6 @@
     <string name="normal">Normale</string>
     <string name="warm">Caldo</string>
     <string name="hot">Caldo</string>
-    <string name="enable_reminder">Abilita Promemoria</string>
     <string name="time_12_hour">orario a 12 ore</string>
     <string name="time_24_hour">24 ore su 24</string>
     <string name="follow_the_system">Segui il sistema</string>
@@ -65,13 +59,7 @@
     <string name="friday">Venerdì</string>
     <string name="saturday">Sabato</string>
     <string name="sunday">Domenica</string>
-    <string name="sound_and_effect">Suono E Effetto</string>
     <string name="standard_mode">Modalità Standard</string>
-    <string name="based_on_your_sleep_and_meal_schedule">In base al tuo programma di sonno e pasti</string>
-    <string name="interval_mode">Modalità Intervallo</string>
-    <string name="remind_you_at_fixed_intervals">Ti ricorda a intervalli fissi</string>
-    <string name="custom_mode">Modalità Personalizzata</string>
-    <string name="customize_all_reminders_by_yourself">Personalizza tutti i promemoria da solo</string>
     <string name="bedtime">Ora di andare a letto</string>
     <string name="reminders">Promemoria</string>
     <string name="sleep_time_start">Inizio orario di sonno</string>
@@ -188,14 +176,10 @@
     <string name="total">Totale</string>
     <string name="week">Settimana</string>
     <string name="ok">OK</string>
-    <string name="do_you_want_to_delete">Vuoi eliminare questo elemento dall\'elenco della cronologia?</string>
-    <string name="back_to_today">Torna a oggi</string>
     <string name="cancel">Annulla</string>
     <string name="custom">Personalizzato</string>
     <string name="day">Giorno</string>
     <string name="delete">Elimina</string>
-    <string name="delete_drink">Eliminare La Bevanda?</string>
-    <string name="drink_history">Cronologia Bevande</string>
     <string name="edit_drink">Modifica Bevanda</string>
     <string name="history">Storia</string>
     <string name="no_records_found">Nessun record trovato</string>
@@ -203,9 +187,7 @@
     <string name="system_soft">System Soft</string>
     <string name="submit">Invia</string>
     <string name="wake_up_and_bedtime_cannot_be_same">L\'ora di sveglia e l\'ora di coricarsi devono essere diverse</string>
-    <string name="wake_up_cannot_be_after_bedtime">Il risveglio deve essere prima dell\'orario di andare a letto</string>
     <string name="sleep_start_end_cannot_be_same">L\'inizio e la fine devono essere diversi</string>
-    <string name="sleep_start_cannot_be_after_end">L\'inizio deve essere prima della fine</string>
     <string name="interval_min_5">L\'intervallo deve essere di almeno 5 minuti</string>
     <string name="the_target_cannot_exceed">L\'obiettivo non può superare %1$s</string>
     <string name="drink">Bevanda</string>
@@ -221,4 +203,16 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
+    <string name="this_week">This Week</string>
+    <string name="percent_goal">goal</string>
+    <string name="avg_per_day">Avg/day</string>
+    <string name="goal_days">Goal days</string>
+    <string name="week_chart">Weekly Chart</string>
+    <string name="by_day">By day</string>
+    <string name="total_drink_count">Total drinks</string>
+    <string name="best_time_range">Best time</string>
+    <string name="streak_done">Streak done</string>
+    <string name="exceeded_goal">Exceeded</string>
+    <string name="goal_reached">Reached</string>
+    <string name="not_reached">Not reached</string>
 </resources>

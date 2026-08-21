@@ -12,7 +12,20 @@
           "package_name": "com.dsp.smartdrinkai"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "879252460066-8g9uji9isi5cuh72ou1tc9c26kko0ljs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dsp.smartdrinkai",
+            "certificate_hash": "e170c83d1e6dd967827e313125dd2455aa1e0c4e"
+          }
+        },
+        {
+          "client_id": "879252460066-5hrnv2279qmfia2951tu74sdhqnhuq8r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBsaTPOJO4BIo13WXQCSeoWmdUSK8COycI"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879252460066-5hrnv2279qmfia2951tu74sdhqnhuq8r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

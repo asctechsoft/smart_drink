@@ -27,13 +27,8 @@
     <string name="hour">сағат</string>
     <string name="minute">минут</string>
     <string name="min">мин</string>
-    <string name="you_ll_get_reminder_on_time">Сіз уақытында ескерту аласыз</string>
     <string name="allow">Рұқсат беру</string>
-    <string name="daily_water_drinking_goal">Күнделікті су ішу мақсаты</string>
     <string name="start">Бастау</string>
-    <string name="set_daily_goal">Күнделікті Мақсат Орнату</string>
-    <string name="stay_hydrated">Су ішуді ұмытпаңыз</string>
-    <string name="track_your_water_intake">Су ішуіңізді бақылаңыз</string>
     <string name="no_reminder_set">Ескертпе орнатылмаған</string>
     <string name="next_reminder">Келесі еске салғыш %1$s</string>
     <string name="exceeded_your_goal">Мақсатыңыздан асып түсті</string>
@@ -53,7 +48,6 @@
     <string name="normal">Қалыпты</string>
     <string name="warm">Жылы</string>
     <string name="hot">Ыстық</string>
-    <string name="enable_reminder">Еске Салғышты Қосу</string>
     <string name="time_12_hour">12 сағаттық уақыт</string>
     <string name="time_24_hour">24 сағаттық уақыт</string>
     <string name="follow_the_system">Жүйені ұстан</string>
@@ -65,13 +59,7 @@
     <string name="friday">Жұма</string>
     <string name="saturday">Сенбі</string>
     <string name="sunday">Жексенбі</string>
-    <string name="sound_and_effect">Дыбыс Және Эффект</string>
     <string name="standard_mode">Стандартты Режим</string>
-    <string name="based_on_your_sleep_and_meal_schedule">Ұйқы мен тамақтану кестеңізге негізделген</string>
-    <string name="interval_mode">Аралық Режимі</string>
-    <string name="remind_you_at_fixed_intervals">Белгіленген аралықтарда еске салу</string>
-    <string name="custom_mode">Таңдамалы Режим</string>
-    <string name="customize_all_reminders_by_yourself">Барлық ескертулерді өзіңіз баптаңыз</string>
     <string name="bedtime">Ұйқы уақыты</string>
     <string name="reminders">Еске салғыштар</string>
     <string name="sleep_time_start">Ұйқы уақыты басталады</string>
@@ -188,14 +176,10 @@
     <string name="total">Барлығы</string>
     <string name="week">Апта</string>
     <string name="ok">ЖАРАЙДЫ</string>
-    <string name="do_you_want_to_delete">Бұл элементті тарих тізімінен жойғыңыз келе ме?</string>
-    <string name="back_to_today">Бүгінге оралу</string>
     <string name="cancel">Болдырмау</string>
     <string name="custom">Тапсырыс бойынша</string>
     <string name="day">Күн</string>
     <string name="delete">Жою</string>
-    <string name="delete_drink">Сусынды Жою Керек Пе?</string>
-    <string name="drink_history">Сусын Тарихы</string>
     <string name="edit_drink">Сусынды Өңдеу</string>
     <string name="history">Тарих</string>
     <string name="no_records_found">Жазбалар табылмады</string>
@@ -203,9 +187,7 @@
     <string name="system_soft">Жүйе Жұмсақ</string>
     <string name="submit">Жіберу</string>
     <string name="wake_up_and_bedtime_cannot_be_same">Ояну және ұйықтау уақыты әртүрлі болуы керек</string>
-    <string name="wake_up_cannot_be_after_bedtime">Тұру уақыты жату уақытынан бұрын болуы керек</string>
     <string name="sleep_start_end_cannot_be_same">Басталуы мен аяқталуы әртүрлі болуы керек</string>
-    <string name="sleep_start_cannot_be_after_end">Бастау аяқталудан бұрын болуы керек</string>
     <string name="interval_min_5">Аралық кем дегенде 5 минут болуы керек</string>
     <string name="the_target_cannot_exceed">Мақсат %1$s-ден аспауы керек</string>
     <string name="drink">Іш</string>
@@ -221,4 +203,16 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
+    <string name="this_week">This Week</string>
+    <string name="percent_goal">goal</string>
+    <string name="avg_per_day">Avg/day</string>
+    <string name="goal_days">Goal days</string>
+    <string name="week_chart">Weekly Chart</string>
+    <string name="by_day">By day</string>
+    <string name="total_drink_count">Total drinks</string>
+    <string name="best_time_range">Best time</string>
+    <string name="streak_done">Streak done</string>
+    <string name="exceeded_goal">Exceeded</string>
+    <string name="goal_reached">Reached</string>
+    <string name="not_reached">Not reached</string>
 </resources>

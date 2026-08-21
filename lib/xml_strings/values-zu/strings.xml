@@ -27,13 +27,8 @@
     <string name="hour">ihora</string>
     <string name="minute">umzuzu</string>
     <string name="min">min</string>
-    <string name="you_ll_get_reminder_on_time">Uzothola isikhumbuzo ngesikhathi</string>
     <string name="allow">Vumela</string>
-    <string name="daily_water_drinking_goal">Umgomo wokuphuza amanzi wansuku zonke</string>
     <string name="start">Qala</string>
-    <string name="set_daily_goal">Setha Umgomo Wansuku Zonke</string>
-    <string name="stay_hydrated">Hlala unamanzi</string>
-    <string name="track_your_water_intake">Landela ukusetshenziswa kwakho kwamanzi</string>
     <string name="no_reminder_set">Akukho isikhumbuzo esibekwe</string>
     <string name="next_reminder">Isikhumbuzo esilandelayo %1$s</string>
     <string name="exceeded_your_goal">Uweqe umgomo wakho</string>
@@ -53,7 +48,6 @@
     <string name="normal">Okuvamile</string>
     <string name="warm">Fudumele</string>
     <string name="hot">Shisayo</string>
-    <string name="enable_reminder">Vumela Isikhumbuzo</string>
     <string name="time_12_hour">isikhathi samahora angu-12</string>
     <string name="time_24_hour">isikhathi samahora angama-24</string>
     <string name="follow_the_system">Landela uhlelo</string>
@@ -65,13 +59,7 @@
     <string name="friday">Ulwesihlanu</string>
     <string name="saturday">Umgqibelo</string>
     <string name="sunday">Usonto</string>
-    <string name="sound_and_effect">Umsindo Nomphumela</string>
     <string name="standard_mode">Imodi Ejwayelekile</string>
-    <string name="based_on_your_sleep_and_meal_schedule">Ngokweshedyuli yakho yokulala nokudla</string>
-    <string name="interval_mode">Imodi Yesikhawu</string>
-    <string name="remind_you_at_fixed_intervals">Kukhumbuze ngezikhathi ezinqunyiwe</string>
-    <string name="custom_mode">Imodi Yangokwezifiso</string>
-    <string name="customize_all_reminders_by_yourself">Lungisa zonke izikhumbuzo ngokwakho</string>
     <string name="bedtime">Isikhathi sokulala</string>
     <string name="reminders">Izikhumbuzo</string>
     <string name="sleep_time_start">Isikhathi sokulala siqala</string>
@@ -188,14 +176,10 @@
     <string name="total">Iyonke</string>
     <string name="week">Isonto</string>
     <string name="ok">Kulungile</string>
-    <string name="do_you_want_to_delete">Uyafuna ukususa le nto ohlwini lomlando?</string>
-    <string name="back_to_today">Buyela namhla</string>
     <string name="cancel">Khansela</string>
     <string name="custom">Ngokwezifiso</string>
     <string name="day">Usuku</string>
     <string name="delete">Susa</string>
-    <string name="delete_drink">Susa Isiphuzo?</string>
-    <string name="drink_history">Umlando Wokuphuza</string>
     <string name="edit_drink">Hlela Isiphuzo</string>
     <string name="history">Umlando</string>
     <string name="no_records_found">Azikho amarekhodi atholakele</string>
@@ -203,9 +187,7 @@
     <string name="system_soft">Isistimu Ethambile</string>
     <string name="submit">Thumela</string>
     <string name="wake_up_and_bedtime_cannot_be_same">Isikhathi sokuvuka nesikhathi sokulala kumele zihluke</string>
-    <string name="wake_up_cannot_be_after_bedtime">Ukuvuka kufanele kube ngaphambi kokulala</string>
     <string name="sleep_start_end_cannot_be_same">Isiqalo nesiphetho kufanele zihluke</string>
-    <string name="sleep_start_cannot_be_after_end">Isiqalo kufanele sibe ngaphambi kokuphela</string>
     <string name="interval_min_5">Isikhawu kufanele sibe okungenani imizuzu emi-5</string>
     <string name="the_target_cannot_exceed">Ithagethi ayikwazi ukudlula u-%1$s</string>
     <string name="drink">Phuza</string>
@@ -221,4 +203,16 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
+    <string name="this_week">This Week</string>
+    <string name="percent_goal">goal</string>
+    <string name="avg_per_day">Avg/day</string>
+    <string name="goal_days">Goal days</string>
+    <string name="week_chart">Weekly Chart</string>
+    <string name="by_day">By day</string>
+    <string name="total_drink_count">Total drinks</string>
+    <string name="best_time_range">Best time</string>
+    <string name="streak_done">Streak done</string>
+    <string name="exceeded_goal">Exceeded</string>
+    <string name="goal_reached">Reached</string>
+    <string name="not_reached">Not reached</string>
 </resources>

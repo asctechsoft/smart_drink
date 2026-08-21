@@ -27,13 +27,8 @@
     <string name="hour">orë</string>
     <string name="minute">minutë</string>
     <string name="min">min</string>
-    <string name="you_ll_get_reminder_on_time">Do të merrni një kujtesë në kohë</string>
     <string name="allow">Lejo</string>
-    <string name="daily_water_drinking_goal">Qëllimi ditor i pirjes së ujit</string>
     <string name="start">Filloni</string>
-    <string name="set_daily_goal">Vendos Qëllim Ditor</string>
-    <string name="stay_hydrated">Qëndro i hidratuar</string>
-    <string name="track_your_water_intake">Ndjekni marrjen e ujit tuaj</string>
     <string name="no_reminder_set">Asnjë kujtesë e vendosur</string>
     <string name="next_reminder">Përkujtues tjetër %1$s</string>
     <string name="exceeded_your_goal">Ke tejkaluar objektivin tënd</string>
@@ -53,7 +48,6 @@
     <string name="normal">Normal</string>
     <string name="warm">Ngrohtë</string>
     <string name="hot">Nxehtë</string>
-    <string name="enable_reminder">Aktivizo Kujtesën</string>
     <string name="time_12_hour">koha 12-orëshe</string>
     <string name="time_24_hour">24-orëshe</string>
     <string name="follow_the_system">Ndjek sistemin</string>
@@ -65,13 +59,7 @@
     <string name="friday">E premte</string>
     <string name="saturday">E shtunë</string>
     <string name="sunday">E diel</string>
-    <string name="sound_and_effect">Tingull &amp; Efekt</string>
     <string name="standard_mode">Modaliteti Standard</string>
-    <string name="based_on_your_sleep_and_meal_schedule">Bazuar në orarin tuaj të gjumit dhe vakteve</string>
-    <string name="interval_mode">Modaliteti I Intervalit</string>
-    <string name="remind_you_at_fixed_intervals">Të të rikujtojë në intervale të fiksuara</string>
-    <string name="custom_mode">Modaliteti I Personalizuar</string>
-    <string name="customize_all_reminders_by_yourself">Personalizojini vetë të gjitha përkujtuesit</string>
     <string name="bedtime">Ora e gjumit</string>
     <string name="reminders">Kujtues</string>
     <string name="sleep_time_start">Fillimi i kohës së gjumit</string>
@@ -188,14 +176,10 @@
     <string name="total">Gjithsej</string>
     <string name="week">Javë</string>
     <string name="ok">OK</string>
-    <string name="do_you_want_to_delete">A dëshironi të fshini këtë artikull nga lista e historikut?</string>
-    <string name="back_to_today">Kthehu te sotja</string>
     <string name="cancel">Anulo</string>
     <string name="custom">Me porosi</string>
     <string name="day">Ditë</string>
     <string name="delete">Fshi</string>
-    <string name="delete_drink">Fshij Pijen?</string>
-    <string name="drink_history">Historia E Pijeve</string>
     <string name="edit_drink">Ndrysho Pijen</string>
     <string name="history">Historiku</string>
     <string name="no_records_found">Nuk u gjet asnjë regjistrim</string>
@@ -203,9 +187,7 @@
     <string name="system_soft">Sistem Soft</string>
     <string name="submit">Dërgo</string>
     <string name="wake_up_and_bedtime_cannot_be_same">Ora e zgjimit dhe ora e gjumit duhet të jenë të ndryshme</string>
-    <string name="wake_up_cannot_be_after_bedtime">Zgjimi duhet të jetë para gjumit</string>
     <string name="sleep_start_end_cannot_be_same">Fillimi dhe fundi duhet të jenë të ndryshëm</string>
-    <string name="sleep_start_cannot_be_after_end">Fillimi duhet të jetë para fundit</string>
     <string name="interval_min_5">Intervali duhet të jetë të paktën 5 minuta</string>
     <string name="the_target_cannot_exceed">Objektivi nuk mund të kalojë %1$s</string>
     <string name="drink">Pije</string>
@@ -221,4 +203,16 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
+    <string name="this_week">This Week</string>
+    <string name="percent_goal">goal</string>
+    <string name="avg_per_day">Avg/day</string>
+    <string name="goal_days">Goal days</string>
+    <string name="week_chart">Weekly Chart</string>
+    <string name="by_day">By day</string>
+    <string name="total_drink_count">Total drinks</string>
+    <string name="best_time_range">Best time</string>
+    <string name="streak_done">Streak done</string>
+    <string name="exceeded_goal">Exceeded</string>
+    <string name="goal_reached">Reached</string>
+    <string name="not_reached">Not reached</string>
 </resources>

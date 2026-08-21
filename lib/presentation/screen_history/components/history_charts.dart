@@ -4,6 +4,7 @@ import 'package:dsp_base/app_material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:smartdrinkai/utils/unit_converter.dart';
 import 'package:smartdrinkai/values/app_colors.dart';
 import 'package:smartdrinkai/values/onboarding_theme.dart';
@@ -81,11 +82,7 @@ class _Axis {
       math.max(reference, floor) * headroom,
       divisions: divisions,
     );
-    return _Axis(
-      maxY: maxY,
-      interval: maxY / divisions,
-      showGoal: showGoal,
-    );
+    return _Axis(maxY: maxY, interval: maxY / divisions, showGoal: showGoal);
   }
 }
 
@@ -137,11 +134,8 @@ FlGridData _grid(BuildContext context, double interval) {
     show: true,
     drawVerticalLine: false,
     horizontalInterval: interval,
-    getDrawingHorizontalLine: (_) => FlLine(
-      color: ob.textPrimary.withValues(alpha: 0.12),
-      strokeWidth: 0.6,
-      dashArray: const [4, 4],
-    ),
+    getDrawingHorizontalLine: (_) =>
+        FlLine(color: ob.textPrimary.withValues(alpha: 0.12), strokeWidth: 0.6),
   );
 }
 
@@ -209,89 +203,128 @@ BarTouchData _valueLabels(
 
 // ─── Day: intake per hour ──────────────────────────────────────────────────────
 
-/// "Theo giờ" — one thin bar per hour of the selected day.
+/// "Theo giờ" — one bar per hour of the selected day, with stats footer.
 class DayHourlyChart extends StatelessWidget {
   const DayHourlyChart({
     super.key,
     required this.hourlyTotals,
     required this.isOz,
+    this.dailyGoal = 0,
   });
 
   /// Hour of day (0–23) -> ml.
   final Map<int, int> hourlyTotals;
   final bool isOz;
+  final int dailyGoal;
 
-  /// Window of hours to plot. Defaults to a waking-hours window and widens to
-  /// cover any drink logged outside it.
-  (int, int) get _range {
-    var first = 6;
-    var last = 22;
-    for (final entry in hourlyTotals.entries) {
-      if (entry.value <= 0) continue;
-      if (entry.key < first) first = entry.key;
-      if (entry.key > last) last = entry.key;
+  double _convert(int ml) =>
+      isOz ? UnitConverter.mlToOz(ml.toDouble()) : ml.toDouble();
+
+  String _hhmm(int hour) => '${hour.toString().padLeft(2, '0')}:00';
+
+  /// Peak hour (highest value). Returns null if no data.
+  int? get _peakHour {
+    int? best;
+    for (var h = 0; h < 24; h++) {
+      final v = hourlyTotals[h] ?? 0;
+      if (v > 0 && (best == null || v > (hourlyTotals[best] ?? 0))) best = h;
     }
-    return (first, last);
+    return best;
+  }
+
+  /// Lowest non-zero hour. Returns null if no data.
+  int? get _lowestHour {
+    int? worst;
+    for (var h = 0; h < 24; h++) {
+      final v = hourlyTotals[h] ?? 0;
+      if (v > 0 && (worst == null || v < (hourlyTotals[worst] ?? 0))) worst = h;
+    }
+    return worst;
   }
 
   @override
   Widget build(BuildContext context) {
     final ob = OnboardingTheme.of(context);
-    final (first, last) = _range;
-
-    double convert(int ml) =>
-        isOz ? UnitConverter.mlToOz(ml.toDouble()) : ml.toDouble();
 
     var rawMax = 0.0;
-    for (final ml in hourlyTotals.values) {
-      final v = convert(ml);
+    for (var h = 0; h < 24; h++) {
+      final v = _convert(hourlyTotals[h] ?? 0);
       if (v > rawMax) rawMax = v;
     }
-    // No goal on this chart; the floor keeps an empty day from collapsing to
-    // a 0–2 axis.
-    final axis = _Axis.fit(
-      rawMax,
-      0,
-      divisions: 2,
-      headroom: 1.0,
-      floor: isOz ? 8 : 200,
+    final hoursWithData = hourlyTotals.values.where((v) => v > 0).length;
+    // Y axis is scaled to the full daily goal so the goal line sits near the top
+    // and every hour's bar reads against the real target — not a per-hour
+    // fraction of it. Axis ceiling always lands above the goal.
+    final goalY = _convert(dailyGoal);
+    final reference = math.max(rawMax, dailyGoal > 0 ? goalY : 0.0);
+    final maxY = _ChartStyle.niceMax(
+      math.max(reference, isOz ? 8 : 100) * 1.05,
+      divisions: 5,
     );
-    final maxY = axis.maxY;
-    final interval = axis.interval;
+    final interval = maxY / 5;
+    final showGoal = dailyGoal > 0;
 
     final groups = <BarChartGroupData>[
-      for (var h = first; h <= last; h++)
+      for (var h = 0; h < 24; h++)
         BarChartGroupData(
           x: h,
+          showingTooltipIndicators: (hourlyTotals[h] ?? 0) > 0 ? [0] : [],
           barRods: [
             BarChartRodData(
-              toY: convert(hourlyTotals[h] ?? 0),
+              toY: _convert(hourlyTotals[h] ?? 0),
               gradient: _ChartStyle.barGradient,
-              width: 7,
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(100),
-              ),
+              width: 10,
+              borderRadius: BorderRadius.zero,
             ),
           ],
         ),
     ];
 
+    // Total for average calculation (hoursWithData already computed above)
+    final totalMl = hourlyTotals.values.fold(0, (s, v) => s + v);
+    final avgPerHour = hoursWithData > 0 ? totalMl ~/ hoursWithData : 0;
+
+    final peak = _peakHour;
+    final lowest = _lowestHour;
+    final peakLabel = peak != null
+        ? '${_hhmm(peak)} – ${_hhmm((peak + 1) % 24)}'
+        : '--';
+    final lowestLabel = lowest != null
+        ? '${_hhmm(lowest)} – ${_hhmm((lowest + 1) % 24)}'
+        : '--';
+
+    final goalLineLabel = dailyGoal > 0
+        ? '${'goal'.tr} ${UnitConverter.formatVolumeGrouped(dailyGoal.toDouble(), isOz ? 'oz' : 'ml')}'
+        : '';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _AxisUnitLabel(unit: isOz ? 'oz' : 'ml'),
-        const SizedBox(height: 6),
         SizedBox(
-          height: 150,
+          child: Text(
+            'Unit (${isOz ? 'oz' : 'ml'})',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 10, color: Colors.white70),
+          ),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 190,
           child: BarChart(
             BarChartData(
               alignment: BarChartAlignment.spaceAround,
               maxY: maxY,
               minY: 0,
               barGroups: groups,
+              extraLinesData: showGoal
+                  ? _goalLineTeal(context, goalY, goalLineLabel)
+                  : ExtraLinesData(),
               gridData: _grid(context, interval),
               borderData: _bottomBorderOnly(context),
-              barTouchData: BarTouchData(enabled: false),
+              barTouchData: _valueLabels(
+                context,
+                format: (v) => v > 0 ? v.round().toString() : '',
+              ),
               titlesData: FlTitlesData(
                 show: true,
                 rightTitles: const AxisTitles(
@@ -305,32 +338,167 @@ class DayHourlyChart extends StatelessWidget {
                     showTitles: true,
                     reservedSize: 34,
                     interval: interval,
-                    getTitlesWidget: (value, meta) => Padding(
-                      padding: const EdgeInsets.only(right: 6),
-                      child: _axisValue(context, value),
-                    ),
+                    getTitlesWidget: (value, meta) {
+                      final label = value <= 0 ? '0' : value.round().toString();
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 4),
+                        child: Text(
+                          label,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(fontSize: 10, color: Colors.white70),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    reservedSize: 20,
-                    getTitlesWidget: (value, meta) => Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Text(
-                        value.toInt().toString().padLeft(2, '0'),
-                        style: TextStyle(
-                          fontSize: 8,
-                          color: ob.textPrimary.withValues(alpha: 0.6),
+                    reservedSize: 30,
+                    getTitlesWidget: (value, meta) {
+                      final h = value.toInt();
+                      if (h % 4 != 0) return const SizedBox.shrink();
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 28, top: 5),
+                        child: Text(
+                          _hhmm(h),
+                          style: TextStyle(fontSize: 10, color: Colors.white70),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ),
               ),
             ),
             duration: Duration.zero,
           ),
+        ),
+        const SizedBox(height: 8),
+        _HourlyStats(
+          avgLabel:
+              '${UnitConverter.formatVolumeValue(_convert(avgPerHour), isOz ? 'oz' : 'ml')} ${isOz ? 'oz' : 'ml'}/h',
+          peakLabel: peakLabel,
+          lowestLabel: lowestLabel,
+        ),
+      ],
+    );
+  }
+}
+
+ExtraLinesData _goalLineTeal(BuildContext context, double goal, String label) {
+  return ExtraLinesData(
+    horizontalLines: [
+      HorizontalLine(
+        y: goal,
+        color: _ChartStyle.goalLine.withValues(alpha: 0.7),
+        strokeWidth: 1,
+        dashArray: const [5, 4],
+      ),
+    ],
+  );
+}
+
+class _HourlyStats extends StatelessWidget {
+  const _HourlyStats({
+    required this.avgLabel,
+    required this.peakLabel,
+    required this.lowestLabel,
+  });
+
+  final String avgLabel;
+  final String peakLabel;
+  final String lowestLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final ob = OnboardingTheme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.07),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: _StatChip(
+              icon: Icons.trending_down_rounded,
+              iconColor: const Color(0xFFFF6B6B),
+              label: 'lowest_hour'.tr,
+              value: lowestLabel,
+            ),
+          ),
+          Container(
+            width: 1,
+            height: 36,
+            color: ob.textPrimary.withValues(alpha: 0.12),
+          ),
+          Expanded(
+            child: _StatChip(
+              icon: Icons.water_rounded,
+              iconColor: AppColors.accentTeal,
+              label: 'avg_per_hour'.tr,
+              value: avgLabel,
+            ),
+          ),
+          Container(
+            width: 1,
+            height: 36,
+            color: ob.textPrimary.withValues(alpha: 0.12),
+          ),
+          Expanded(
+            child: _StatChip(
+              icon: Icons.trending_up_rounded,
+              iconColor: AppColors.primary500Dark,
+              label: 'peak_hour'.tr,
+              value: peakLabel,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatChip extends StatelessWidget {
+  const _StatChip({
+    required this.icon,
+    required this.iconColor,
+    required this.label,
+    required this.value,
+  });
+
+  final IconData icon;
+  final Color iconColor;
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(icon, size: 24, color: iconColor),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 12,
+            color: Colors.white60,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Text(
+          value,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: AppColors.primary500Dark,
+          ),
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );
@@ -412,9 +580,8 @@ class WeekBarChart extends StatelessWidget {
               borderData: _bottomBorderOnly(context),
               barTouchData: _valueLabels(
                 context,
-                format: (v) => isOz
-                    ? v.toStringAsFixed(0)
-                    : v.round().toString(),
+                format: (v) =>
+                    isOz ? v.toStringAsFixed(0) : v.round().toString(),
               ),
               titlesData: FlTitlesData(
                 show: true,

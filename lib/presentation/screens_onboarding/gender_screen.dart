@@ -23,7 +23,7 @@ class GenderScreen extends StatelessWidget {
               OnboardingProgressBar(
                 currentStep: 1,
                 totalSteps: 6,
-                onBack: () => Get.back(),
+                onBack: null,
               ),
               Expanded(
                 child: AppColumn(

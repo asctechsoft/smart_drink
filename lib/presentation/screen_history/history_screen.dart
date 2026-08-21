@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:smartdrinkai/controller/history_controller.dart';
 import 'package:smartdrinkai/controller/settings_controller.dart';
 import 'package:smartdrinkai/controller/today_controller.dart';
+import 'package:smartdrinkai/models/data_models/daily_summary.dart';
 import 'package:smartdrinkai/models/data_models/drink_record.dart';
 import 'package:smartdrinkai/models/ui_models/drink_type.dart';
 import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
@@ -24,6 +25,7 @@ import 'components/history_section.dart';
 import 'components/history_summary_tiles.dart';
 import 'components/day_progress_card.dart';
 import 'components/period_overview_card.dart';
+import 'components/week_widgets.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -112,8 +114,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
               height: 40,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: ob.bgOption,
-                border: Border.all(color: ob.borderTabHistory, width: 1),
+                color: Colors.white.withValues(alpha: 0.07),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
               ),
               child: Icon(
                 Icons.calendar_month_rounded,
@@ -128,7 +130,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   Widget _buildTabs(BuildContext context, HistoryController controller) {
-    final ob = OnboardingTheme.of(context);
     const modes = [
       (HistoryViewMode.day, 'day'),
       (HistoryViewMode.week, 'week'),
@@ -139,9 +140,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: ob.bgOption,
-        borderRadius: BorderRadius.circular(100),
-        border: Border.all(color: ob.borderTabHistory, width: 1),
+        color: Colors.white.withValues(alpha: 0.07),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
       child: Row(
         children: modes.map((entry) {
@@ -157,8 +158,25 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 duration: const Duration(milliseconds: 200),
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 decoration: BoxDecoration(
-                  color: isSelected ? ob.accent : Colors.transparent,
-                  borderRadius: BorderRadius.circular(100),
+                  gradient: isSelected
+                      ? const LinearGradient(
+                          colors: [Color(0xFF1575CE), Color(0xFF0B58D6)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        )
+                      : null,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(
+                            color: const Color(
+                              0xFF1575CE,
+                            ).withValues(alpha: 0.40),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ]
+                      : null,
                 ),
                 child: Text(
                   raw.isEmpty ? raw : raw[0].toUpperCase() + raw.substring(1),
@@ -166,7 +184,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: isSelected ? ob.textToggleActive : ob.textPrimary,
+                    color: isSelected
+                        ? Colors.white
+                        : Colors.white.withValues(alpha: 0.60),
                     letterSpacing: 0.3,
                   ),
                 ),
@@ -191,24 +211,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
       children: [
-        HistoryNavBar(
-          label: DateFormat('EEEE, d MMM, y', _locale).format(selected),
-          onPrevious: controller.previousPeriod,
-          onNext: controller.nextPeriod,
-          canGoNext: controller.canGoNext,
-          trailingIcon: Icons.calendar_today_rounded,
-          onLabelTap: () => _pickDate(context, controller),
-        ),
-        const SizedBox(height: 12),
         DayProgressCard(
           totalLabel: UnitConverter.formatVolumeValue(total.toDouble(), unit),
           goalLabel: UnitConverter.formatVolumeValue(goal.toDouble(), unit),
           unit: unit,
           progress: progress,
+          dateLabel: DateFormat('d MMMM, y', _locale).format(selected),
+          drinkCount: controller.dayDrinkCount,
+          lastDrinkTime: controller.lastDrinkTime,
         ),
         const SizedBox(height: 14),
         HistoryCard(
-          padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -217,34 +231,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
               DayHourlyChart(
                 hourlyTotals: controller.hourlyTotals,
                 isOz: unit == 'oz',
+                dailyGoal: goal,
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 20),
-        HistorySectionTitle('day_summary'.tr),
-        const SizedBox(height: 12),
-        HistorySummaryTiles(
-          tiles: [
-            HistorySummaryTile(
-              icon: Icons.water_drop_rounded,
-              iconColor: ob.switchActive,
-              value: UnitConverter.formatVolumeGrouped(total.toDouble(), unit),
-              caption: 'total_volume'.tr,
-            ),
-            HistorySummaryTile(
-              icon: Icons.star_rounded,
-              iconColor: const Color(0xFFFACA1F),
-              value: '${controller.dayDrinkCount} ${'unit_times'.tr}',
-              caption: 'drink_count'.tr,
-            ),
-            HistorySummaryTile(
-              icon: Icons.track_changes_rounded,
-              iconColor: const Color(0xFF4ADE80),
-              value: UnitConverter.formatVolumeGrouped(goal.toDouble(), unit),
-              caption: 'goal'.tr,
-            ),
-          ],
         ),
         const SizedBox(height: 20),
         HistoryDetailHeader(title: 'detail_history'.tr),
@@ -267,12 +257,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
   // ── Week tab ───────────────────────────────────────────────────────────────
 
   Widget _buildWeekTab(BuildContext context, HistoryController controller) {
-    final ob = OnboardingTheme.of(context);
     final unit = Get.find<SettingsController>().volumeUnit.value;
+    final isOz = unit == 'oz';
     final total = controller.computedTotal;
     final goal = controller.dailyGoalMl;
+    final selected = controller.selectedDate.value;
 
-    // Seven slots, Monday first, so an untracked day still holds its place.
     final dailyTotals = List<int>.filled(7, 0);
     for (final s in controller.summaries) {
       final dt = DateTime.tryParse(s.dateKey);
@@ -280,68 +270,65 @@ class _HistoryScreenState extends State<HistoryScreen> {
       dailyTotals[dt.weekday - 1] += s.totalMl;
     }
 
+    final totalDrinkCount =
+        controller.summaries.fold(0, (acc, s) => acc + s.drinkCount);
+
     final best = controller.maxDaySummary;
+    final bestDayLabel =
+        best == null ? '--' : _formatDate(best.dateKey, 'EEE');
+
+    // Monday of the selected week
+    final monday = selected.subtract(Duration(days: selected.weekday - 1));
+    String dateKey(int offset) {
+      final d = monday.add(Duration(days: offset));
+      return '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+    }
+
+    final weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
       children: [
-        HistoryNavBar(
-          label: AppDateUtils.weekRange(controller.selectedDate.value),
-          onPrevious: controller.previousPeriod,
-          onNext: controller.nextPeriod,
-          canGoNext: controller.canGoNext,
+        WeekOverviewCard(
+          weekLabel: AppDateUtils.weekRange(selected),
+          totalMl: total,
+          weekGoalMl: goal * 7,
+          avgPerDayMl: controller.avgPerDayMl,
+          goalDaysCount: controller.goalDaysCount,
+          bestDayLabel: bestDayLabel,
+          isOz: isOz,
         ),
+        const SizedBox(height: 14),
+        WeekChartCard(
+          dailyTotals: dailyTotals,
+          dailyGoal: goal,
+          totalDrinkCount: totalDrinkCount,
+          streak: 0,
+          isOz: isOz,
+        ),
+        const SizedBox(height: 20),
+        HistorySectionTitle('detail_history'.tr),
         const SizedBox(height: 12),
-        PeriodOverviewCard(
-          totalLabel: 'week_total'.tr,
-          totalValue: UnitConverter.formatVolumeGrouped(
-            total.toDouble(),
-            unit,
-          ),
-          averageLine: 'avg_per_day_value'.trParams({
-            'args1': UnitConverter.formatVolumeGrouped(
-              controller.avgPerDayMl.toDouble(),
-              unit,
-            ),
+        for (var i = 0; i < 7; i++) ...[
+          Builder(builder: (ctx) {
+            final dk = dateKey(i);
+            final dayDate = monday.add(Duration(days: i));
+            final summary = controller.summaries
+                    .where((s) => s.dateKey == dk)
+                    .firstOrNull ??
+                DailySummary(dateKey: dk, goalMl: goal);
+            final weekdayLabel = weekdays[i].tr;
+            final dateLabel =
+                DateFormat('d MMMM', _locale).format(dayDate);
+            return WeekDayRow(
+              summary: summary,
+              weekdayLabel: weekdayLabel,
+              dateLabel: dateLabel,
+              isOz: isOz,
+            );
           }),
-          goalValue: UnitConverter.formatVolumeValueUnit(goal.toDouble(), unit),
-          onEditGoal: () => showDailyGoalSheet(context),
-          chart: WeekBarChart(
-            dailyTotals: dailyTotals,
-            dailyGoal: goal,
-            isOz: unit == 'oz',
-          ),
-        ),
-        const SizedBox(height: 20),
-        HistorySectionTitle('week_summary'.tr),
-        const SizedBox(height: 12),
-        _buildPeriodTiles(
-          context,
-          total: total,
-          unit: unit,
-          goalReached: '${controller.goalDaysCount}/7 ${'unit_days'.tr}',
-          average: controller.avgPerDayMl,
-        ),
-        const SizedBox(height: 20),
-        HistorySectionTitle('best_day'.tr),
-        const SizedBox(height: 12),
-        HistoryHighlightCard(
-          label: best == null
-              ? '--'
-              : _formatDate(best.dateKey, 'EEEE'),
-          value: best == null
-              ? '--'
-              : UnitConverter.formatVolumeGrouped(
-                  best.totalMl.toDouble(),
-                  unit,
-                ),
-        ),
-        const SizedBox(height: 20),
-        ..._buildCollapsibleDetail(
-          context,
-          rows: _dailyRows(controller),
-          emptyState: _buildEmptyState(ob),
-        ),
+          const SizedBox(height: 8),
+        ],
       ],
     );
   }
@@ -379,10 +366,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         const SizedBox(height: 12),
         PeriodOverviewCard(
           totalLabel: 'month_total'.tr,
-          totalValue: UnitConverter.formatVolumeGrouped(
-            total.toDouble(),
-            unit,
-          ),
+          totalValue: UnitConverter.formatVolumeGrouped(total.toDouble(), unit),
           averageLine: 'avg_per_day_value'.trParams({
             'args1': UnitConverter.formatVolumeGrouped(
               controller.avgPerDayMl.toDouble(),
@@ -461,10 +445,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         const SizedBox(height: 12),
         PeriodOverviewCard(
           totalLabel: 'year_total'.tr,
-          totalValue: UnitConverter.formatVolumeGrouped(
-            total.toDouble(),
-            unit,
-          ),
+          totalValue: UnitConverter.formatVolumeGrouped(total.toDouble(), unit),
           averageLine: 'avg_per_day_value'.trParams({
             'args1': UnitConverter.formatVolumeGrouped(
               controller.avgPerDayMl.toDouble(),
@@ -496,8 +477,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           context,
           total: total,
           unit: unit,
-          goalReached:
-              '${controller.goalMonthsCount}/12 ${'unit_months'.tr}',
+          goalReached: '${controller.goalMonthsCount}/12 ${'unit_months'.tr}',
           average: controller.avgPerDayMl,
         ),
         const SizedBox(height: 20),
@@ -509,10 +489,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               : DateFormat('MMMM', _locale).format(DateTime(year, best.key)),
           value: best == null
               ? '--'
-              : UnitConverter.formatVolumeGrouped(
-                  best.value.toDouble(),
-                  unit,
-                ),
+              : UnitConverter.formatVolumeGrouped(best.value.toDouble(), unit),
         ),
         const SizedBox(height: 20),
         ..._buildCollapsibleDetail(
@@ -521,10 +498,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             for (var m = 1; m <= 12; m++)
               if (monthlyTotals[m - 1] > 0)
                 PeriodSummaryRow(
-                  label: DateFormat(
-                    'MMMM',
-                    _locale,
-                  ).format(DateTime(year, m)),
+                  label: DateFormat('MMMM', _locale).format(DateTime(year, m)),
                   totalMl: monthlyTotals[m - 1],
                   goalMl: monthlyGoals[m - 1],
                 ),
@@ -743,9 +717,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           (t) => t.name == record.drinkType,
                           orElse: () => DrinkType.water,
                         );
-                        final valInMl = isOz
-                            ? UnitConverter.ozToMl(val)
-                            : val;
+                        final valInMl = isOz ? UnitConverter.ozToMl(val) : val;
                         final effectiveWater =
                             (valInMl * type.waterPercent / 100).round();
                         final todayController = Get.find<TodayController>();
@@ -774,4 +746,3 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 }
-

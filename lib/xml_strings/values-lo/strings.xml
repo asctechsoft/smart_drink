@@ -27,13 +27,8 @@
     <string name="hour">ຊົ່ວໂມງ</string>
     <string name="minute">ນາທີ</string>
     <string name="min">ນາທີ</string>
-    <string name="you_ll_get_reminder_on_time">ທ່ານຈະໄດ້ຮັບການເຕືອນເວລາ</string>
     <string name="allow">ອະນຸຍາດ</string>
-    <string name="daily_water_drinking_goal">ເປົ້າໝາຍການດື່ມນ້ຳປະຈຳວັນ</string>
     <string name="start">ເລີ່ມ</string>
-    <string name="set_daily_goal">ຕັ້ງເປົ້າໝາຍປະຈຳວັນ</string>
-    <string name="stay_hydrated">ດື່ມນ້ຳໃຫ້ພໍ</string>
-    <string name="track_your_water_intake">ຕິດຕາມການດື່ມນ້ຳຂອງທ່ານ</string>
     <string name="no_reminder_set">ບໍ່ມີການເຕືອນ</string>
     <string name="next_reminder">ເຕືອນຕໍ່ໄປ %1$s</string>
     <string name="exceeded_your_goal">ເກີນເປົ້າໝາຍຂອງເຈົ້າ</string>
@@ -53,7 +48,6 @@
     <string name="normal">ປົກກະຕິ</string>
     <string name="warm">ອຸ່ນ</string>
     <string name="hot">ຮ້ອນ</string>
-    <string name="enable_reminder">ເປີດໃຊ້ການແຈ້ງເຕືອນ</string>
     <string name="time_12_hour">ເວລາ 12 ຊົ່ວໂມງ</string>
     <string name="time_24_hour">ເວລາ 24 ຊົ່ວໂມງ</string>
     <string name="follow_the_system">ປະຕິບັດຕາມລະບົບ</string>
@@ -65,13 +59,7 @@
     <string name="friday">ວັນສຸກ</string>
     <string name="saturday">ວັນເສົາ</string>
     <string name="sunday">ວັນອາທິດ</string>
-    <string name="sound_and_effect">ສຽງແລະຜົນກະທົບ</string>
     <string name="standard_mode">ໂໝດມາດຕະຖານ</string>
-    <string name="based_on_your_sleep_and_meal_schedule">ອີງຕາມຕາຕະລາງການນອນແລະອາຫານຂອງທ່ານ</string>
-    <string name="interval_mode">ໂໝດໄລຍະຫ່າງ</string>
-    <string name="remind_you_at_fixed_intervals">ເຕືອນ​ທ່ານ​ໃນ​ໄລ​ຍະ​ທີ່​ກໍາ​ນົດ​ໄວ້​</string>
-    <string name="custom_mode">ໂໝດກຳນົດເອງ</string>
-    <string name="customize_all_reminders_by_yourself">ປັບແຕ່ງການແຈ້ງເຕືອນທັງໝົດດ້ວຍຕົວທ່ານເອງ</string>
     <string name="bedtime">ເວລານອນ</string>
     <string name="reminders">ການແຈ້ງເຕືອນ</string>
     <string name="sleep_time_start">ເວລານອນເລີ່ມຕົ້ນ</string>
@@ -188,14 +176,10 @@
     <string name="total">ລວມ</string>
     <string name="week">ອາທິດ</string>
     <string name="ok">ຕົກລົງ</string>
-    <string name="do_you_want_to_delete">ທ່ານຕ້ອງການລຶບລາຍການນີ້ຈາກລາຍການປະຫວັດບໍ່?</string>
-    <string name="back_to_today">ກັບມື້ນີ້</string>
     <string name="cancel">ຍົກເລີກ</string>
     <string name="custom">ກຳນົດເອງ</string>
     <string name="day">ມື້</string>
     <string name="delete">ລຶບ</string>
-    <string name="delete_drink">ລຶບເຄື່ອງດື່ມບໍ?</string>
-    <string name="drink_history">ປະຫວັດການດື່ມ</string>
     <string name="edit_drink">ແກ້ໄຂເຄື່ອງດື່ມ</string>
     <string name="history">ປະຫວັດສາດ</string>
     <string name="no_records_found">ບໍ່ພົບບັນທຶກ</string>
@@ -203,9 +187,7 @@
     <string name="system_soft">ລະບົບ ຊອບແວ</string>
     <string name="submit">ສົ່ງ</string>
     <string name="wake_up_and_bedtime_cannot_be_same">ການຕື່ນນອນແລະເວລານອນຕ້ອງແຕກຕ່າງກັນ</string>
-    <string name="wake_up_cannot_be_after_bedtime">ຕ້ອງຕື່ນກ່ອນເວລານອນ</string>
     <string name="sleep_start_end_cannot_be_same">ເລີ່ມຕົ້ນແລະສິ້ນສຸດຕ້ອງແຕກຕ່າງກັນ</string>
-    <string name="sleep_start_cannot_be_after_end">ເລີ່ມຕ້ອງກ່ອນສິ້ນສຸດ</string>
     <string name="interval_min_5">ຊ່ວງເວລາຕ້ອງຢ່າງນ້ອຍ 5 ນາທີ</string>
     <string name="the_target_cannot_exceed">ເປົ້າໝາຍບໍ່ສາມາດເກີນ %1$s</string>
     <string name="drink">ດື່ມ</string>
@@ -221,4 +203,16 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
+    <string name="this_week">This Week</string>
+    <string name="percent_goal">goal</string>
+    <string name="avg_per_day">Avg/day</string>
+    <string name="goal_days">Goal days</string>
+    <string name="week_chart">Weekly Chart</string>
+    <string name="by_day">By day</string>
+    <string name="total_drink_count">Total drinks</string>
+    <string name="best_time_range">Best time</string>
+    <string name="streak_done">Streak done</string>
+    <string name="exceeded_goal">Exceeded</string>
+    <string name="goal_reached">Reached</string>
+    <string name="not_reached">Not reached</string>
 </resources>

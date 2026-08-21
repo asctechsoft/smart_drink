@@ -27,13 +27,8 @@
     <string name="hour">שעה</string>
     <string name="minute">דקה</string>
     <string name="min">מינימום</string>
-    <string name="you_ll_get_reminder_on_time">תקבל תזכורת בזמן</string>
     <string name="allow">אפשר</string>
-    <string name="daily_water_drinking_goal">מטרת שתיית מים יומית</string>
     <string name="start">התחל</string>
-    <string name="set_daily_goal">הגדר יעד יומי</string>
-    <string name="stay_hydrated">שמור על הידרציה</string>
-    <string name="track_your_water_intake">עקוב אחר צריכת המים שלך</string>
     <string name="no_reminder_set">אין תזכורת מוגדרת</string>
     <string name="next_reminder">תזכורת הבאה %1$s</string>
     <string name="exceeded_your_goal">עברת את היעד שלך</string>
@@ -53,7 +48,6 @@
     <string name="normal">רגיל</string>
     <string name="warm">חם</string>
     <string name="hot">חם</string>
-    <string name="enable_reminder">הפעל תזכורת</string>
     <string name="time_12_hour">פורמט זמן של 12 שעות</string>
     <string name="time_24_hour">זמן 24 שעות</string>
     <string name="follow_the_system">עקוב אחר המערכת</string>
@@ -65,13 +59,7 @@
     <string name="friday">יום שישי</string>
     <string name="saturday">שבת</string>
     <string name="sunday">יום ראשון</string>
-    <string name="sound_and_effect">צליל ואפקט</string>
     <string name="standard_mode">מצב סטנדרטי</string>
-    <string name="based_on_your_sleep_and_meal_schedule">מבוסס על לוח השינה והארוחות שלך</string>
-    <string name="interval_mode">מצב מרווח</string>
-    <string name="remind_you_at_fixed_intervals">תזכיר לך במרווחי זמן קבועים</string>
-    <string name="custom_mode">מצב מותאם אישית</string>
-    <string name="customize_all_reminders_by_yourself">התאם אישית את כל התזכורות בעצמך</string>
     <string name="bedtime">שעת השינה</string>
     <string name="reminders">תזכורות</string>
     <string name="sleep_time_start">התחלת זמן שינה</string>
@@ -188,14 +176,10 @@
     <string name="total">סה"כ</string>
     <string name="week">שבוע</string>
     <string name="ok">אוקיי</string>
-    <string name="do_you_want_to_delete">האם ברצונך למחוק פריט זה מרשימת ההיסטוריה?</string>
-    <string name="back_to_today">חזרה להיום</string>
     <string name="cancel">בטל</string>
     <string name="custom">מותאם אישית</string>
     <string name="day">יום</string>
     <string name="delete">מחק</string>
-    <string name="delete_drink">למחוק את המשקה?</string>
-    <string name="drink_history">היסטוריית שתייה</string>
     <string name="edit_drink">ערוך משקה</string>
     <string name="history">היסטוריה</string>
     <string name="no_records_found">לא נמצאו רשומות</string>
@@ -203,9 +187,7 @@
     <string name="system_soft">סיסטם סופט</string>
     <string name="submit">שלח</string>
     <string name="wake_up_and_bedtime_cannot_be_same">השכמה ושעת השינה חייבים להיות שונים</string>
-    <string name="wake_up_cannot_be_after_bedtime">ההשכמה חייבת להיות לפני השינה</string>
     <string name="sleep_start_end_cannot_be_same">התחלה וסיום חייבים להיות שונים</string>
-    <string name="sleep_start_cannot_be_after_end">ההתחלה חייבת להיות לפני הסוף</string>
     <string name="interval_min_5">המרווח חייב להיות לפחות 5 דקות</string>
     <string name="the_target_cannot_exceed">היעד לא יכול לעלות על %1$s</string>
     <string name="drink">שתה</string>
@@ -221,4 +203,16 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
+    <string name="this_week">This Week</string>
+    <string name="percent_goal">goal</string>
+    <string name="avg_per_day">Avg/day</string>
+    <string name="goal_days">Goal days</string>
+    <string name="week_chart">Weekly Chart</string>
+    <string name="by_day">By day</string>
+    <string name="total_drink_count">Total drinks</string>
+    <string name="best_time_range">Best time</string>
+    <string name="streak_done">Streak done</string>
+    <string name="exceeded_goal">Exceeded</string>
+    <string name="goal_reached">Reached</string>
+    <string name="not_reached">Not reached</string>
 </resources>

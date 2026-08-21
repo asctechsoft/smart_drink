@@ -93,6 +93,12 @@ class AppColors {
 
   static const Color backgroundLightSheetBg = Color(0xFF000428);
 
+  // Cyan gradient button (new design)
+  static const Color btnCyanStart = Color(0xFF50D1F0);
+  static const Color btnCyanEnd = Color(0xFF83EFF3);
+  static const Color btnCyanText = Color(0xFF0B2C78);
+  static const Color btnCyanGlow = Color(0xFF6FE8F5);
+
   static const Color primary500Dark = Color(0xFF00E0FF);
   static const Color primary400Dark = Color(0xFF3AE6FF);
   static const Color primary300Dark = Color(0xFF75EBFF);
@@ -155,13 +161,21 @@ class AppColors {
   static const LinearGradient gradientBgDark = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF42CDA8), Color(0xFF1575CE), Color(0xFF0B58D6)],
+    colors: [
+      Color.fromARGB(255, 11, 39, 32),
+      Color(0xFF1575CE),
+      Color(0xFF0B58D6),
+    ],
   );
 
   static const LinearGradient gradientBgLight = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF42CDA8), Color(0xFF1575CE), Color(0xFF0B58D6)],
+    colors: [
+      Color(0xFF0B58D6),
+      Color.fromARGB(255, 34, 24, 109),
+      Color.fromARGB(255, 34, 24, 109),
+    ],
   );
 
   /// Outline and halo shared by the cards sitting on the app gradient.
@@ -169,10 +183,7 @@ class AppColors {
   static const Color cardGlow = Color(0xFF00CFFF);
 
   static List<BoxShadow> get cardGlowShadow => [
-    BoxShadow(
-      color: cardGlow.withValues(alpha: 0.10),
-      blurRadius: 12,
-    ),
+    BoxShadow(color: cardGlow.withValues(alpha: 0.10), blurRadius: 12),
   ];
 
   /// Highlighted words inside onboarding headlines.
@@ -266,4 +277,3 @@ class AppColors {
     end: Alignment(1, -0.7),
   );
 }
-

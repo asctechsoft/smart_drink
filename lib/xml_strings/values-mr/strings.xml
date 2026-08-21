@@ -27,13 +27,8 @@
     <string name="hour">तास</string>
     <string name="minute">मिनिट</string>
     <string name="min">किमान</string>
-    <string name="you_ll_get_reminder_on_time">तुम्हाला वेळेवर स्मरणपत्र मिळेल</string>
     <string name="allow">परवानगी द्या</string>
-    <string name="daily_water_drinking_goal">दैनिक पाणी पिण्याचे लक्ष्य</string>
     <string name="start">सुरू करा</string>
-    <string name="set_daily_goal">दैनिक लक्ष्य सेट करा</string>
-    <string name="stay_hydrated">हायड्रेटेड रहा</string>
-    <string name="track_your_water_intake">तुमचे पाणी सेवन ट्रॅक करा</string>
     <string name="no_reminder_set">कोणताही रिमाइंडर सेट केलेला नाही</string>
     <string name="next_reminder">पुढील स्मरणपत्र %1$s</string>
     <string name="exceeded_your_goal">तुमचे लक्ष्य ओलांडले</string>
@@ -53,7 +48,6 @@
     <string name="normal">सामान्य</string>
     <string name="warm">उबदार</string>
     <string name="hot">गरम</string>
-    <string name="enable_reminder">स्मरणपत्र सक्षम करा</string>
     <string name="time_12_hour">12-तास वेळ</string>
     <string name="time_24_hour">२४ तासांचा वेळ</string>
     <string name="follow_the_system">प्रणालीचे अनुसरण करा</string>
@@ -65,13 +59,7 @@
     <string name="friday">शुक्रवार</string>
     <string name="saturday">शनिवार</string>
     <string name="sunday">रविवार</string>
-    <string name="sound_and_effect">ध्वनी आणि प्रभाव</string>
     <string name="standard_mode">मानक मोड</string>
-    <string name="based_on_your_sleep_and_meal_schedule">तुमच्या झोप आणि जेवणाच्या वेळापत्रकावर आधारित</string>
-    <string name="interval_mode">अंतराल मोड</string>
-    <string name="remind_you_at_fixed_intervals">निश्चित अंतराने आठवण करा</string>
-    <string name="custom_mode">सानुकूल मोड</string>
-    <string name="customize_all_reminders_by_yourself">सर्व स्मरणपत्रे स्वतः सानुकूल करा</string>
     <string name="bedtime">झोपेची वेळ</string>
     <string name="reminders">स्मरणपत्रे</string>
     <string name="sleep_time_start">झोपेचा वेळ सुरू</string>
@@ -188,14 +176,10 @@
     <string name="total">एकूण</string>
     <string name="week">आठवडा</string>
     <string name="ok">ठीक आहे</string>
-    <string name="do_you_want_to_delete">तुम्हाला इतिहास यादीतून हे आयटम काढून टाकायचे आहे का?</string>
-    <string name="back_to_today">आज परत</string>
     <string name="cancel">रद्द करा</string>
     <string name="custom">सानुकूल</string>
     <string name="day">दिवस</string>
     <string name="delete">हटवा</string>
-    <string name="delete_drink">पेय हटवायचे का?</string>
-    <string name="drink_history">पेय इतिहास</string>
     <string name="edit_drink">पेय संपादित करा</string>
     <string name="history">इतिहास</string>
     <string name="no_records_found">रेकॉर्ड सापडले नाही</string>
@@ -203,9 +187,7 @@
     <string name="system_soft">सिस्टम सॉफ्ट</string>
     <string name="submit">सबमिट करा</string>
     <string name="wake_up_and_bedtime_cannot_be_same">उठण्याचा वेळ आणि झोपण्याचा वेळ वेगळे असावेत</string>
-    <string name="wake_up_cannot_be_after_bedtime">झोपेच्या वेळेपूर्वी जागे होणे आवश्यक आहे</string>
     <string name="sleep_start_end_cannot_be_same">सुरुवात आणि शेवट वेगळे असणे आवश्यक आहे</string>
-    <string name="sleep_start_cannot_be_after_end">सुरुवात समाप्तीपूर्वी असावी</string>
     <string name="interval_min_5">अंतराल कमीतकमी ५ मिनिटांचा असावा</string>
     <string name="the_target_cannot_exceed">लक्ष्य %1$s पेक्षा जास्त असू शकत नाही</string>
     <string name="drink">प्या</string>
@@ -221,4 +203,16 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
+    <string name="this_week">This Week</string>
+    <string name="percent_goal">goal</string>
+    <string name="avg_per_day">Avg/day</string>
+    <string name="goal_days">Goal days</string>
+    <string name="week_chart">Weekly Chart</string>
+    <string name="by_day">By day</string>
+    <string name="total_drink_count">Total drinks</string>
+    <string name="best_time_range">Best time</string>
+    <string name="streak_done">Streak done</string>
+    <string name="exceeded_goal">Exceeded</string>
+    <string name="goal_reached">Reached</string>
+    <string name="not_reached">Not reached</string>
 </resources>

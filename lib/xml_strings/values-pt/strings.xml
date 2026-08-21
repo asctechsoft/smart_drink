@@ -27,13 +27,8 @@
     <string name="hour">hora</string>
     <string name="minute">minuto</string>
     <string name="min">min</string>
-    <string name="you_ll_get_reminder_on_time">Você receberá um lembrete no horário</string>
     <string name="allow">Permitir</string>
-    <string name="daily_water_drinking_goal">Meta diária de consumo de água</string>
     <string name="start">Iniciar</string>
-    <string name="set_daily_goal">Definir Meta Diária</string>
-    <string name="stay_hydrated">Mantenha-se hidratado</string>
-    <string name="track_your_water_intake">Acompanhe sua ingestão de água</string>
     <string name="no_reminder_set">Nenhum lembrete definido</string>
     <string name="next_reminder">Próximo lembrete %1$s</string>
     <string name="exceeded_your_goal">Superou sua meta</string>
@@ -53,7 +48,6 @@
     <string name="normal">Normal</string>
     <string name="warm">Quente</string>
     <string name="hot">Quente</string>
-    <string name="enable_reminder">Ativar Lembrete</string>
     <string name="time_12_hour">horário de 12 horas</string>
     <string name="time_24_hour">horário de 24 horas</string>
     <string name="follow_the_system">Siga o sistema</string>
@@ -65,13 +59,7 @@
     <string name="friday">Sexta-feira</string>
     <string name="saturday">Sábado</string>
     <string name="sunday">Domingo</string>
-    <string name="sound_and_effect">Som E Efeito</string>
     <string name="standard_mode">Modo Padrão</string>
-    <string name="based_on_your_sleep_and_meal_schedule">Com base no seu horário de sono e refeições</string>
-    <string name="interval_mode">Modo Intervalo</string>
-    <string name="remind_you_at_fixed_intervals">Lembrar você em intervalos fixos</string>
-    <string name="custom_mode">Modo Personalizado</string>
-    <string name="customize_all_reminders_by_yourself">Personalize todos os lembretes você mesmo</string>
     <string name="bedtime">Hora de dormir</string>
     <string name="reminders">Lembretes</string>
     <string name="sleep_time_start">Início do horário de sono</string>
@@ -188,14 +176,10 @@
     <string name="total">Total</string>
     <string name="week">Semana</string>
     <string name="ok">OK</string>
-    <string name="do_you_want_to_delete">Deseja excluir este item da lista de histórico?</string>
-    <string name="back_to_today">Voltar para hoje</string>
     <string name="cancel">Cancelar</string>
     <string name="custom">Personalizado</string>
     <string name="day">Dia</string>
     <string name="delete">Excluir</string>
-    <string name="delete_drink">Excluir Bebida?</string>
-    <string name="drink_history">Histórico De Bebidas</string>
     <string name="edit_drink">Editar Bebida</string>
     <string name="history">Histórico</string>
     <string name="no_records_found">Nenhum registro encontrado</string>
@@ -203,9 +187,7 @@
     <string name="system_soft">Sistema Soft</string>
     <string name="submit">Enviar</string>
     <string name="wake_up_and_bedtime_cannot_be_same">A hora de acordar e de dormir devem ser diferentes</string>
-    <string name="wake_up_cannot_be_after_bedtime">O despertar deve ser antes de dormir</string>
     <string name="sleep_start_end_cannot_be_same">O início e o fim devem ser diferentes</string>
-    <string name="sleep_start_cannot_be_after_end">O início deve ser antes do fim</string>
     <string name="interval_min_5">O intervalo deve ser de pelo menos 5 minutos</string>
     <string name="the_target_cannot_exceed">O alvo não pode exceder %1$s</string>
     <string name="drink">Bebida</string>
@@ -221,4 +203,16 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
+    <string name="this_week">This Week</string>
+    <string name="percent_goal">goal</string>
+    <string name="avg_per_day">Avg/day</string>
+    <string name="goal_days">Goal days</string>
+    <string name="week_chart">Weekly Chart</string>
+    <string name="by_day">By day</string>
+    <string name="total_drink_count">Total drinks</string>
+    <string name="best_time_range">Best time</string>
+    <string name="streak_done">Streak done</string>
+    <string name="exceeded_goal">Exceeded</string>
+    <string name="goal_reached">Reached</string>
+    <string name="not_reached">Not reached</string>
 </resources>

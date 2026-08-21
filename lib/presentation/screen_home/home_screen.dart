@@ -4,7 +4,6 @@ import 'package:smartdrinkai/presentation/screen_history/history_screen.dart';
 import 'package:smartdrinkai/presentation/screen_today/today_screen.dart';
 import 'package:smartdrinkai/presentation/screens_settings/settings_screen.dart';
 import 'package:smartdrinkai/presentation/screens_reminder/reminder_settings_screen.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -28,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   static const _pillH = 68.0;
-  static const _sideMargin = 20.0;
 
   @override
   Widget build(BuildContext context) {
@@ -41,71 +39,69 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildBottomNavBar(BuildContext context) {
     final systemPadding = MediaQuery.of(context).padding.bottom;
-    final ob = OnboardingTheme.of(context);
 
-    return SizedBox(
-      height: systemPadding + _pillH + 8,
-      child: Container(
-        // The system inset sits below the pill, not inside it, so the pill keeps
-        // its own height instead of stretching behind the navigation buttons.
-        margin: EdgeInsets.only(
-          left: _sideMargin,
-          right: _sideMargin,
-          bottom: 8 + systemPadding,
+    return Container(
+      height: systemPadding + _pillH,
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFF1575CE), Color(0xFF0B58D6)],
         ),
-        decoration: BoxDecoration(
-          color: ob.bgBottomNavBar,
-          borderRadius: BorderRadius.circular(_pillH / 2),
-          border: Border.all(color: ob.borderTabHistory, width: 1),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.10),
-              blurRadius: 24,
-              offset: const Offset(0, -4),
-            ),
-          ],
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
         ),
-        child: Row(
-          children: [
-            _PillNavItem(
-              index: 0,
-              icon: 'assets/images/svg/ic_today_nav.svg',
-              label: 'today'.tr,
-              currentIndex: _currentIndex,
-              ob: ob,
-              onTap: () => setState(() => _currentIndex = 0),
-            ),
-            _PillNavItem(
-              index: 1,
-              icon: 'assets/images/svg/ic_history_nav.svg',
-              label: 'history'.tr,
-              currentIndex: _currentIndex,
-              ob: ob,
-              onTap: () {
-                setState(() => _currentIndex = 1);
-                if (Get.isRegistered<HistoryController>()) {
-                  Get.find<HistoryController>().loadData();
-                }
-              },
-            ),
-            _PillNavItem(
-              index: 2,
-              icon: 'assets/images/svg/ic_ring.svg',
-              label: 'reminders'.tr,
-              currentIndex: _currentIndex,
-              ob: ob,
-              onTap: () => setState(() => _currentIndex = 2),
-            ),
-            _PillNavItem(
-              index: 3,
-              icon: 'assets/images/svg/ic_setting_nav.svg',
-              label: 'settings'.tr,
-              currentIndex: _currentIndex,
-              ob: ob,
-              onTap: () => setState(() => _currentIndex = 3),
-            ),
-          ],
-        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color.fromARGB(
+              255,
+              48,
+              44,
+              111,
+            ).withValues(alpha: 0.2),
+            blurRadius: 16,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      padding: EdgeInsets.only(bottom: systemPadding),
+      child: Row(
+        children: [
+          _PillNavItem(
+            index: 0,
+            icon: 'assets/images/svg/ic_today_tabbar.svg',
+            label: 'today'.tr,
+            currentIndex: _currentIndex,
+            onTap: () => setState(() => _currentIndex = 0),
+          ),
+          _PillNavItem(
+            index: 1,
+            icon: 'assets/images/svg/ic_history_tabbar.svg',
+            label: 'history'.tr,
+            currentIndex: _currentIndex,
+            onTap: () {
+              setState(() => _currentIndex = 1);
+              if (Get.isRegistered<HistoryController>()) {
+                Get.find<HistoryController>().loadData();
+              }
+            },
+          ),
+          _PillNavItem(
+            index: 2,
+            icon: 'assets/images/svg/ic_ring_tabbar.svg',
+            label: 'reminders'.tr,
+            currentIndex: _currentIndex,
+            onTap: () => setState(() => _currentIndex = 2),
+          ),
+          _PillNavItem(
+            index: 3,
+            icon: 'assets/images/svg/ic_setting_tabbar.svg',
+            label: 'settings'.tr,
+            currentIndex: _currentIndex,
+            onTap: () => setState(() => _currentIndex = 3),
+          ),
+        ],
       ),
     );
   }
@@ -118,85 +114,70 @@ class _PillNavItem extends StatelessWidget {
   final String icon;
   final String label;
   final int currentIndex;
-  final OnboardingTheme ob;
   final VoidCallback onTap;
+
+  static const _activeColor = Color(0xFF2EF6F6);
+  static const _inactiveColor = Color(0xFF97BEE9);
 
   const _PillNavItem({
     required this.index,
     required this.icon,
     required this.label,
     required this.currentIndex,
-    required this.ob,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final isActive = currentIndex == index;
-    final color = isActive ? ob.textActiveBottomNavBar : ob.textBottomNavBar;
+    final color = isActive ? _activeColor : _inactiveColor;
 
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: Center(
-          child: isActive ? _activeItem(color) : _inactiveItem(color),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(
+                icon,
+                width: 24,
+                height: 24,
+                colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                  color: color,
+                  letterSpacing: 0.3,
+                ),
+              ),
+              const SizedBox(height: 4),
+              if (isActive)
+                Container(
+                  width: 40,
+                  height: 2,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(999),
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF20C4FA), Color(0xFF31DFF2)],
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xFF25D7F4).withValues(alpha: 0.35),
+                        blurRadius: 12,
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
-    );
-  }
-
-  Widget _activeItem(Color color) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SvgPicture.asset(
-          icon,
-          width: 22,
-          height: 22,
-          colorFilter: ColorFilter.mode(color, BlendMode.modulate),
-        ),
-        const SizedBox(height: 3),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w700,
-            color: color,
-            letterSpacing: 0.3,
-          ),
-        ),
-        const SizedBox(height: 3),
-        Container(
-          width: 4,
-          height: 4,
-          decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-        ),
-      ],
-    );
-  }
-
-  Widget _inactiveItem(Color color) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SvgPicture.asset(
-          icon,
-          width: 22,
-          height: 22,
-          colorFilter: ColorFilter.mode(color, BlendMode.modulate),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w500,
-            color: color,
-            letterSpacing: 0.3,
-          ),
-        ),
-      ],
     );
   }
 }
