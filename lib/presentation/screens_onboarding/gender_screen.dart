@@ -55,14 +55,17 @@ class GenderScreen extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    PrimaryButton(
-                      text: 'next'.tr,
-                      width: double.infinity,
-                      useGradient: true,
-                      onPressed: () {
-                        controller.nextStep();
-                        Get.toNamed(RouteName.onboardingHeight);
-                      },
+                    Obx(
+                      () => PrimaryButton(
+                        text: 'next'.tr,
+                        width: double.infinity,
+                        useGradient: true,
+                        enabled: controller.gender.value.isNotEmpty,
+                        onPressed: () {
+                          controller.nextStep();
+                          Get.toNamed(RouteName.onboardingHeight);
+                        },
+                      ),
                     ),
                     AppSpacerH20,
                   ],

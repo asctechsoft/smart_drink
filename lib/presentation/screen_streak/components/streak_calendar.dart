@@ -23,9 +23,9 @@ class StreakCalendar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       decoration: BoxDecoration(
-        color: ob.bgOption,
+        color: Colors.white.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: ob.borderTabHistory, width: 1),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
         boxShadow: ob.cardGlowShadow,
       ),
       child: Obx(() {
@@ -213,7 +213,7 @@ class _DayCell extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 44,
+      height: 36,
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -238,17 +238,6 @@ class _DayCell extends StatelessWidget {
                 ),
               ),
             ),
-            if (_isToday && inMonth) ...[
-              const SizedBox(height: 3),
-              Container(
-                width: 4,
-                height: 4,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primary500Dark,
-                ),
-              ),
-            ],
           ],
         ),
       ),

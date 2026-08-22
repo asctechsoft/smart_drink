@@ -14,8 +14,9 @@ class WaterHumanProgress extends StatefulWidget {
     required this.goalMl,
     super.key,
     this.volumeUnit = "ml",
-    this.width = 280,
+    this.width = 200,
     this.textScale = 1.0,
+    this.isFemale = false,
   });
 
   final double progress; // 0.0 to 1.0
@@ -25,10 +26,12 @@ class WaterHumanProgress extends StatefulWidget {
   final double width;
   final double textScale;
 
-  // human.svg viewBox: 130 x 298
-  static const double _vbW = 130;
-  static const double _vbH = 298;
-  static const double svgAspect = _vbH / _vbW; // ~2.292
+  /// Female uses women.svg (viewBox 83×298); male uses human.svg (130×298).
+  final bool isFemale;
+
+  /// Male silhouette aspect (human.svg 298/130). Kept for layouts that size a
+  /// male body prop, e.g. the organ diagram.
+  static const double svgAspect = 298 / 130; // ~2.292
 
   @override
   State<WaterHumanProgress> createState() => _WaterHumanProgressState();
@@ -39,27 +42,48 @@ class _WaterHumanProgressState extends State<WaterHumanProgress>
   late final AnimationController _ripple;
   ui.Image? _maskImage;
 
-  static const _asset = "assets/images/svg/human.svg";
+  // Silhouette + its viewBox, switched by gender. Both the outline and the
+  // clipped water rise must use the same asset/geometry.
+  String get _asset => widget.isFemale
+      ? "assets/images/svg/women.svg"
+      : "assets/images/svg/human.svg";
+  double get vbW => widget.isFemale ? 83 : 130;
+  double get vbH => 298;
+  double get _svgAspect => vbH / vbW;
 
   @override
   void initState() {
     super.initState();
     _ripple = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
-    )..repeat();
+      duration: const Duration(milliseconds: 1600),
+    );
+    // Wave motion temporarily disabled for smoothness — water level still shows
+    // statically. Re-enable with `..repeat()` above.
     _loadMask();
+  }
+
+  @override
+  void didUpdateWidget(WaterHumanProgress old) {
+    super.didUpdateWidget(old);
+    // Gender changed → rebuild the water-clip mask from the new silhouette.
+    if (old.isFemale != widget.isFemale) {
+      _maskImage?.dispose();
+      _maskImage = null;
+      _loadMask();
+    }
   }
 
   // Rasterises human.svg at display size for use as alpha mask in _HumanWaterPainter.
   // Water animates immediately; clip is applied once mask is ready.
   Future<void> _loadMask() async {
     final bodyW = _bodyWidth;
-    final bodyH = bodyW * WaterHumanProgress.svgAspect;
+    final bodyH = bodyW * _svgAspect;
     final iW = bodyW.toInt().clamp(60, 600);
     final iH = bodyH.toInt().clamp(60, 1400);
+    final asset = _asset;
     try {
-      const loader = SvgAssetLoader(_asset);
+      final loader = SvgAssetLoader(asset);
       final pictureInfo = await vg.loadPicture(loader, null);
       final svgSize = pictureInfo.size;
 
@@ -94,12 +118,16 @@ class _WaterHumanProgressState extends State<WaterHumanProgress>
     super.dispose();
   }
 
-  double get _bodyWidth => widget.width * 0.45;
+  // Keep the silhouette HEIGHT constant across genders (both viewBoxes are 298
+  // tall); derive width from the gender aspect so the female body stays slim
+  // instead of being stretched to the male width.
+  double get _bodyHeight => widget.width * 0.45 * WaterHumanProgress.svgAspect;
+  double get _bodyWidth => _bodyHeight / _svgAspect;
 
   @override
   Widget build(BuildContext context) {
     final bodyW = _bodyWidth;
-    final bodyH = bodyW * WaterHumanProgress.svgAspect;
+    final bodyH = bodyW * _svgAspect;
 
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(begin: 0, end: widget.progress.clamp(0.0, 1.0)),
@@ -123,6 +151,8 @@ class _WaterHumanProgressState extends State<WaterHumanProgress>
                     fillFraction: animProgress,
                     phase: _ripple.value,
                     maskImage: _maskImage,
+                    vbW: vbW,
+                    vbH: vbH,
                   ),
                 ),
               ),
@@ -144,6 +174,8 @@ class _HumanWaterPainter extends CustomPainter {
   _HumanWaterPainter({
     required this.fillFraction,
     required this.phase,
+    required this.vbW,
+    required this.vbH,
     this.maskImage,
   });
 
@@ -151,9 +183,11 @@ class _HumanWaterPainter extends CustomPainter {
   final double phase;
   final ui.Image? maskImage;
 
-  static const int _segments = 48;
-  static const double _vbW = WaterHumanProgress._vbW;
-  static const double _vbH = WaterHumanProgress._vbH;
+  /// Silhouette viewBox, gender-dependent (male 130×298, female 83×298).
+  final double vbW;
+  final double vbH;
+
+  static const int _segments = 32;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -165,10 +199,10 @@ class _HumanWaterPainter extends CustomPainter {
 
     // Draw in viewBox space so wave parameters are SVG-coordinate-relative.
     canvas.save();
-    canvas.scale(size.width / _vbW, size.height / _vbH);
+    canvas.scale(size.width / vbW, size.height / vbH);
 
     final bob = sin(phase * 2 * pi) * 3.0 * fill;
-    final surfaceY = _vbH * (1 - fill) + bob;
+    final surfaceY = vbH * (1 - fill) + bob;
     final amplitude = (4.0 + 4.5 * fill) * (fill < 0.06 ? fill / 0.06 : 1.0);
 
     // Back wave: lighter, slightly higher, drifts right.
@@ -184,7 +218,7 @@ class _HumanWaterPainter extends CustomPainter {
           colors: [Color(0xFF4DC0FC), Color(0xFF4D92FF)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-        ).createShader(Rect.fromLTWH(0, surfaceY, _vbW, _vbH - surfaceY))
+        ).createShader(Rect.fromLTWH(0, surfaceY, vbW, vbH - surfaceY))
         ..style = PaintingStyle.fill,
     );
 
@@ -196,7 +230,7 @@ class _HumanWaterPainter extends CustomPainter {
           colors: [Color(0xFF00A1FB), Color(0xFF0063FF)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-        ).createShader(Rect.fromLTWH(0, surfaceY, _vbW, _vbH - surfaceY))
+        ).createShader(Rect.fromLTWH(0, surfaceY, vbW, vbH - surfaceY))
         ..style = PaintingStyle.fill,
     );
 
@@ -212,20 +246,16 @@ class _HumanWaterPainter extends CustomPainter {
     canvas.restore();
 
     // Clip water to the human body: dstIn keeps only pixels where the
-    // rasterised SVG (maskImage) is opaque.
+    // rasterised SVG (maskImage) is opaque. Applied directly inside the outer
+    // layer — no second saveLayer — since saveLayer is the costly per-frame op.
     final mask = maskImage;
     if (mask != null) {
-      canvas.saveLayer(
-        Offset.zero & size,
-        Paint()..blendMode = BlendMode.dstIn,
-      );
       canvas.drawImageRect(
         mask,
         Rect.fromLTWH(0, 0, mask.width.toDouble(), mask.height.toDouble()),
         Offset.zero & size,
-        Paint(),
+        Paint()..blendMode = BlendMode.dstIn,
       );
-      canvas.restore();
     }
 
     canvas.restore();
@@ -238,8 +268,8 @@ class _HumanWaterPainter extends CustomPainter {
     double shift,
   ) {
     return _waveLine(baseY, amplitude, waveCount, shift)
-      ..lineTo(_vbW, _vbH)
-      ..lineTo(0, _vbH)
+      ..lineTo(vbW, vbH)
+      ..lineTo(0, vbH)
       ..close();
   }
 
@@ -251,8 +281,8 @@ class _HumanWaterPainter extends CustomPainter {
   ) {
     final path = Path()..moveTo(0, baseY + sin(shift) * amplitude);
     for (var i = 1; i <= _segments; i++) {
-      final x = _vbW * i / _segments;
-      final angle = (x / _vbW) * waveCount * 2 * pi + shift;
+      final x = vbW * i / _segments;
+      final angle = (x / vbW) * waveCount * 2 * pi + shift;
       path.lineTo(x, baseY + sin(angle) * amplitude);
     }
     return path;
@@ -262,5 +292,6 @@ class _HumanWaterPainter extends CustomPainter {
   bool shouldRepaint(covariant _HumanWaterPainter old) =>
       old.fillFraction != fillFraction ||
       old.phase != phase ||
-      old.maskImage != maskImage;
+      old.maskImage != maskImage ||
+      old.vbW != vbW;
 }

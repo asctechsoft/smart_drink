@@ -36,5 +36,6 @@ class PrefConst {
   static const String isRated = 'is_rated';
   static const String smartNotification = 'smart_notification';
   static const String selectedAvatar = 'selected_avatar';
+  static const String streakDialogShownDate = 'streak_dialog_shown_date';
 }
 

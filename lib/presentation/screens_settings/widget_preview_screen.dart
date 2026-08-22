@@ -1029,8 +1029,6 @@ class _LargeWidget extends StatelessWidget {
         return const Color(0xFFFFCCBC);
       case DrinkType.juice:
         return const Color(0xFFFFE082);
-      case DrinkType.soup:
-        return const Color(0xFFC5E1A5);
       case DrinkType.coffee:
         return const Color(0xFFBCAAA4);
       case DrinkType.beer:
@@ -1039,6 +1037,8 @@ class _LargeWidget extends StatelessWidget {
         return const Color(0xFFEF9A9A);
       case DrinkType.strongDrinks:
         return const Color(0xFFE57373);
+      default:
+        return const Color(0xFF4FC3F7);
     }
   }
 
@@ -1340,4 +1340,3 @@ class _MiniAddDrinkButton extends StatelessWidget {
     );
   }
 }
-

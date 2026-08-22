@@ -61,15 +61,18 @@ class WeatherScreen extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    PrimaryButton(
-                      text: 'next'.tr,
-                      width: double.infinity,
-                      useGradient: true,
-                      onPressed: () {
-                        controller.calculateGoalFromWeight();
-                        controller.nextStep();
-                        Get.toNamed(RouteName.onboardingWakeup);
-                      },
+                    Obx(
+                      () => PrimaryButton(
+                        text: 'next'.tr,
+                        width: double.infinity,
+                        useGradient: true,
+                        enabled: controller.weather.value != null,
+                        onPressed: () {
+                          controller.calculateGoalFromWeight();
+                          controller.nextStep();
+                          Get.toNamed(RouteName.onboardingWakeup);
+                        },
+                      ),
                     ),
                     AppSpacerH20,
                   ],

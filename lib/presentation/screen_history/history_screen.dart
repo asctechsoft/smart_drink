@@ -269,12 +269,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
       dailyTotals[dt.weekday - 1] += s.totalMl;
     }
 
-    final totalDrinkCount =
-        controller.summaries.fold(0, (acc, s) => acc + s.drinkCount);
+    final totalDrinkCount = controller.summaries.fold(
+      0,
+      (acc, s) => acc + s.drinkCount,
+    );
 
     final best = controller.maxDaySummary;
-    final bestDayLabel =
-        best == null ? '--' : _formatDate(best.dateKey, 'EEE');
+    final bestDayLabel = best == null ? '--' : _formatDate(best.dateKey, 'EEE');
 
     // Monday of the selected week
     final monday = selected.subtract(Duration(days: selected.weekday - 1));
@@ -309,23 +310,25 @@ class _HistoryScreenState extends State<HistoryScreen> {
         HistorySectionTitle('detail_history'.tr),
         const SizedBox(height: 12),
         for (var i = 0; i < 7; i++) ...[
-          Builder(builder: (ctx) {
-            final dk = dateKey(i);
-            final dayDate = monday.add(Duration(days: i));
-            final summary = controller.summaries
-                    .where((s) => s.dateKey == dk)
-                    .firstOrNull ??
-                DailySummary(dateKey: dk, goalMl: goal);
-            final weekdayLabel = weekdays[i].tr;
-            final dateLabel =
-                DateFormat('d MMMM', _locale).format(dayDate);
-            return WeekDayRow(
-              summary: summary,
-              weekdayLabel: weekdayLabel,
-              dateLabel: dateLabel,
-              isOz: isOz,
-            );
-          }),
+          Builder(
+            builder: (ctx) {
+              final dk = dateKey(i);
+              final dayDate = monday.add(Duration(days: i));
+              final summary =
+                  controller.summaries
+                      .where((s) => s.dateKey == dk)
+                      .firstOrNull ??
+                  DailySummary(dateKey: dk, goalMl: goal);
+              final weekdayLabel = weekdays[i].tr;
+              final dateLabel = DateFormat('d MMMM', _locale).format(dayDate);
+              return WeekDayRow(
+                summary: summary,
+                weekdayLabel: weekdayLabel,
+                dateLabel: dateLabel,
+                isOz: isOz,
+              );
+            },
+          ),
           const SizedBox(height: 8),
         ],
       ],
@@ -388,10 +391,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
           dailyTotals: dailyTotals,
           dailyGoal: goal,
           maxMl: best?.totalMl ?? 0,
-          maxDayLabel: best == null ? '--' : _formatDate(best.dateKey, 'd MMMM'),
+          maxDayLabel: best == null
+              ? '--'
+              : _formatDate(best.dateKey, 'd MMMM'),
           minMl: worst?.totalMl ?? 0,
-          minDayLabel:
-              worst == null ? '--' : _formatDate(worst.dateKey, 'd MMMM'),
+          minDayLabel: worst == null
+              ? '--'
+              : _formatDate(worst.dateKey, 'd MMMM'),
           avgPerDayMl: controller.avgPerDayMl,
           isOz: isOz,
         ),
@@ -422,8 +428,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
       for (var m = 1; m <= 12; m++) dailyGoal * DateTime(year, m + 1, 0).day,
     ];
     final yearGoal = monthlyGoals.reduce((a, b) => a + b);
-    final daysInYear =
-        DateTime(year + 1, 1, 1).difference(DateTime(year, 1, 1)).inDays;
+    final daysInYear = DateTime(
+      year + 1,
+      1,
+      1,
+    ).difference(DateTime(year, 1, 1)).inDays;
 
     // Best / worst / average across months that actually have data.
     var maxMl = 0, minMl = 0, maxMonth = 0, minMonth = 0, monthsWithData = 0;
@@ -459,8 +468,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       }
     }
 
-    String monthLabel(int m) =>
-        'Tháng $m'; // TODO: dịch sau
+    String monthLabel(int m) => 'Tháng $m'; // TODO: dịch sau
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
@@ -499,10 +507,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           isOz: isOz,
         ),
         const SizedBox(height: 14),
-        YearGoalRateCard(
-          monthlyRates: monthlyRates,
-          targetPct: 75,
-        ),
+        YearGoalRateCard(monthlyRates: monthlyRates, targetPct: 75),
       ],
     );
   }
@@ -517,7 +522,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AppIcon('assets/images/svg/ic_no_record.svg', size: 80),
+          AppIcon('assets/images/webp/img_not_found_history.webp', size: 90),
           const SizedBox(height: 12),
           Text(
             'no_records_found'.tr,

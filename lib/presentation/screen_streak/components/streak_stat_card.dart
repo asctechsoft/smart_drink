@@ -8,16 +8,12 @@ class StreakStatCard extends StatelessWidget {
     super.key,
     required this.title,
     required this.value,
-    required this.caption,
-    required this.icon,
-    required this.iconColor,
+    required this.iconPath,
   });
 
   final String title;
   final String value;
-  final String caption;
-  final IconData icon;
-  final Color iconColor;
+  final String iconPath;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +22,9 @@ class StreakStatCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: ob.bgOption,
+        color: Colors.white.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: ob.borderTabHistory, width: 1),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
         boxShadow: ob.cardGlowShadow,
       ),
       child: Column(
@@ -47,6 +43,26 @@ class StreakStatCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    width: 1,
+                  ),
+                ),
+                child: Center(
+                  child: Image.asset(
+                    iconPath,
+                    width: 22,
+                    height: 22,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,26 +77,8 @@ class StreakStatCard extends StatelessWidget {
                         color: ob.textPrimary,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      caption,
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                        color: ob.textPrimary.withValues(alpha: 0.6),
-                      ),
-                    ),
                   ],
                 ),
-              ),
-              Container(
-                width: 38,
-                height: 38,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: iconColor.withValues(alpha: 0.18),
-                ),
-                child: Icon(icon, size: 20, color: iconColor),
               ),
             ],
           ),

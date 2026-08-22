@@ -25,19 +25,21 @@ class GenderCard extends StatelessWidget {
         width: 148,
         height: 208,
         decoration: BoxDecoration(
-          color: AppColors.neutral500.withValues(alpha: isSelected ? 0.2 : 0.16),
+          color: AppColors.neutral500.withValues(
+            alpha: isSelected ? 0.2 : 0.16,
+          ),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected
-                ? AppColors.basic500
+                ? AppColors.basic500.withValues(alpha: 0.6)
                 : AppColors.basic500.withValues(alpha: 0.2),
             width: isSelected ? 2 : 1,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: AppColors.basic500.withValues(alpha: 0.55),
-                    blurRadius: 18,
+                    color: AppColors.basic500.withValues(alpha: 0.15),
+                    blurRadius: 8,
                     spreadRadius: 1,
                   ),
                 ]

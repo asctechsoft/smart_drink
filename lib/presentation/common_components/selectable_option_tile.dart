@@ -25,19 +25,21 @@ class SelectableOptionTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: AppColors.neutral500.withValues(alpha: isSelected ? 0.3 : 0.22),
+          color: AppColors.neutral500.withValues(
+            alpha: isSelected ? 0.3 : 0.22,
+          ),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected
-                ? AppColors.primary500Dark
+                ? AppColors.basic500.withValues(alpha: 0.6)
                 : AppColors.basic500.withValues(alpha: 0.14),
             width: isSelected ? 1.8 : 1,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: AppColors.primary500Dark.withValues(alpha: 0.4),
-                    blurRadius: 14,
+                    color: AppColors.basic500.withValues(alpha: 0.15),
+                    blurRadius: 8,
                     spreadRadius: 1,
                   ),
                 ]
@@ -85,11 +87,7 @@ class RadioMark extends StatelessWidget {
           shape: BoxShape.circle,
           gradient: AppColors.gradientRadioSelected,
         ),
-        child: Icon(
-          Icons.check,
-          size: size * 0.62,
-          color: AppColors.basic500,
-        ),
+        child: Icon(Icons.check, size: size * 0.62, color: AppColors.basic500),
       );
     }
     return Container(

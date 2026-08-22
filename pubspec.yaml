@@ -55,6 +55,8 @@ flutter:
     - assets/images/webp/
     - assets/images/svg/
     - assets/images/png/
+    - assets/images/cup_type/
+    - assets/images/menu/
     - assets/audio/
     - lib/xml_strings/values/
     - lib/xml_strings/values-af/

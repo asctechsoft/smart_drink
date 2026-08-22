@@ -44,9 +44,9 @@ class TodayHeader extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Ngày ${now.day} Thg ${now.month}, ${now.year}',
+                  'Hôm nay hãy uống đủ nước nhé! 💧',
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight: FontWeight.w400,
                     color: ob.textPrimary.withValues(alpha: 0.7),
                   ),
@@ -107,7 +107,6 @@ class _CircleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
@@ -115,9 +114,12 @@ class _CircleButton extends StatelessWidget {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: ob.bgOption,
-          border: Border.all(color: ob.borderTabHistory, width: 1),
+          color: Colors.white.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.2),
+            width: 1,
+          ),
         ),
         clipBehavior: Clip.antiAlias,
         child: child,

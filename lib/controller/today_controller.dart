@@ -31,22 +31,33 @@ class TodayController extends GetxController with WidgetsBindingObserver {
   final RxString nextReminderTime = ''.obs;
   final RxString reminderCountdown = ''.obs;
   final RxInt streakDays = 0.obs;
+  // Emits previousStreak when streak just incremented for the first time today.
+  final Rx<int?> streakIncreasedEvent = Rx<int?>(null);
 
   // Drink-action state shared between the top stat row (cup size / menu) and the
   // add-drink bar. Kept here so both widgets read and mutate the same choice.
-  static const amountPresets = [150, 200, 300, 500, 700];
-  static const amountPresetIcons = [
-    'assets/images/svg/ic_water_capacity_150.svg',
-    'assets/images/svg/ic_water_capacity_200.svg',
-    'assets/images/svg/ic_water_capacity_300.svg',
-    'assets/images/svg/ic_water_capacity_500.svg',
-    'assets/images/svg/ic_water_capacity_700.svg',
+  static const amountPresets = [150, 200, 300, 500, 600, 700];
+  static const cupImages = [
+    'assets/images/cup_type/img_type_cup_150.webp',
+    'assets/images/cup_type/img_type_cup_200.webp',
+    'assets/images/cup_type/img_type_cup_300.webp',
+    'assets/images/cup_type/img_type_cup_500.webp',
+    'assets/images/cup_type/img_type_cup_600.webp',
+    'assets/images/cup_type/img_type_cup_700.webp',
+  ];
+  static const cupTitles = [
+    'Ly nhỏ',
+    'Ly thường',
+    'Ly lớn',
+    'Cốc sứ',
+    'Bình thể thao',
+    'Bình lắc',
   ];
   final RxInt selectedAmountIndex = 1.obs; // default 200ml
   final Rx<DrinkType> selectedDrinkType = DrinkType.water.obs;
 
   int get currentAmount => amountPresets[selectedAmountIndex.value];
-  String get currentAmountIcon => amountPresetIcons[selectedAmountIndex.value];
+  String get currentCupImage => cupImages[selectedAmountIndex.value];
 
   late final Worker _profileWorker;
   Worker? _languageWorker;
@@ -256,8 +267,8 @@ class TodayController extends GetxController with WidgetsBindingObserver {
     if (actVolume <= 0)
       return; // Guard: reject invalid original capacity, but allow 0 hydration amount
 
-    // Ghi nhớ lượng nước TRƯỚC khi uống thêm
     final wasBelowGoal = currentIntakeMl.value < adjustedGoal;
+    final prevStreak = streakDays.value;
 
     await _drinkService.addDrink(
       amountMl: amountMl,
@@ -268,9 +279,19 @@ class TodayController extends GetxController with WidgetsBindingObserver {
     await loadTodayData();
     _refreshHistoryIfNeeded();
 
-    // Nếu lúc nãy chưa đạt mốc, mà bây giờ đạt hoặc vượt mốc -> Bắn pháo hoa!
     if (wasBelowGoal && currentIntakeMl.value >= adjustedGoal) {
       LoadingUtils.showConfetti();
+    }
+
+    // Show streak dialog once per day when streak increments.
+    if (streakDays.value > prevStreak) {
+      final prefs = await SharedPreferences.getInstance();
+      final todayKey = AppDateUtils.todayKey();
+      final shownDate = prefs.getString(PrefConst.streakDialogShownDate) ?? '';
+      if (shownDate != todayKey) {
+        await prefs.setString(PrefConst.streakDialogShownDate, todayKey);
+        streakIncreasedEvent.value = prevStreak;
+      }
     }
   }
 

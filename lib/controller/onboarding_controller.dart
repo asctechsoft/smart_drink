@@ -13,12 +13,12 @@ import 'user_profile_controller.dart';
 
 class OnboardingController extends GetxController {
   final RxInt currentStep = 0.obs;
-  final RxString gender = 'female'.obs;
+  final RxString gender = ''.obs;
   final RxDouble height = 165.0.obs;
   final RxString heightUnit = 'cm'.obs;
   final RxDouble weight = 60.0.obs;
   final RxString weightUnit = 'kg'.obs;
-  final Rx<WeatherCondition> weather = WeatherCondition.normal.obs;
+  final Rx<WeatherCondition?> weather = Rx<WeatherCondition?>(null);
   final RxString wakeUpTime = '07:00'.obs;
   final RxString bedTime = '22:00'.obs;
   final RxInt intervalMinutes = 90.obs;
@@ -82,7 +82,7 @@ class OnboardingController extends GetxController {
     dailyGoalMl.value = WaterCalculation.calculateDailyGoal(
       weightKg: weightKg,
       gender: gender.value,
-      weather: weather.value,
+      weather: weather.value ?? WeatherCondition.normal,
     );
   }
 
@@ -136,7 +136,7 @@ class OnboardingController extends GetxController {
         heightUnit: heightUnit.value,
         weight: weight.value,
         weightUnit: weightUnit.value,
-        weatherCondition: weather.value.name,
+        weatherCondition: (weather.value ?? WeatherCondition.normal).name,
         wakeUpTime: wakeUpTime.value,
         bedTime: bedTime.value,
         dailyGoalMl: dailyGoalMl.value,

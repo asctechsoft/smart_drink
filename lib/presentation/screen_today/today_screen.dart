@@ -1,7 +1,9 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:smartdrinkai/controller/settings_controller.dart';
 import 'package:smartdrinkai/controller/today_controller.dart';
+import 'package:smartdrinkai/controller/user_profile_controller.dart';
 import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
+import 'package:smartdrinkai/presentation/screen_today/components/streak_dialog.dart';
 import 'package:smartdrinkai/values/app_colors.dart';
 import 'package:smartdrinkai/values/onboarding_theme.dart';
 
@@ -10,88 +12,146 @@ import 'package:smartdrinkai/presentation/screen_today/components/today_header.d
 import 'package:smartdrinkai/presentation/screen_today/components/drink_action_bar.dart';
 import 'package:smartdrinkai/presentation/common_components/water_human_progress.dart';
 
-class TodayScreen extends StatelessWidget {
+class TodayScreen extends StatefulWidget {
   const TodayScreen({super.key});
+
+  @override
+  State<TodayScreen> createState() => _TodayScreenState();
+}
+
+class _TodayScreenState extends State<TodayScreen> {
+  Worker? _streakWorker;
+
+  @override
+  void initState() {
+    super.initState();
+    final controller = Get.find<TodayController>();
+    _streakWorker = ever(controller.streakIncreasedEvent, (prev) {
+      if (prev != null && mounted) {
+        showStreakDialog(
+          context,
+          previousStreak: prev,
+          currentStreak: controller.streakDays.value,
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _streakWorker?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<TodayController>();
-    return OnboardingBackground(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom + 10,
-          ),
-          child: SafeArea(
-            bottom: false,
-            child: Column(
-              children: [
-                // Header
-                TodayHeader(),
+    // Decode the cup artwork ahead of time so opening the cup-size sheet
+    // doesn't hitch on first image load.
+    for (final p in TodayController.cupImages) {
+      precacheImage(AssetImage(p), context);
+    }
+    // Cache the whole screen as one layer so that while a bottom sheet slides
+    // up (and its scrim fades in), this screen isn't re-rasterised every frame
+    // — that re-composite of the SVG body + gradient was the source of the jank.
+    return RepaintBoundary(
+      child: OnboardingBackground(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).padding.bottom + 10,
+            ),
+            child: SafeArea(
+              bottom: false,
+              child: Column(
+                children: [
+                  // Header
+                  TodayHeader(),
 
-                // Figure fills the flexible middle; the top info overlays its
-                // upper body and the remaining pill floats at the bottom, so
-                // the whole screen fits without scrolling.
-                Expanded(
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 6, bottom: 60),
-                          child: Obx(
-                            () => FittedBox(
-                              fit: BoxFit.contain,
-                              alignment: Alignment.topCenter,
-                              child: WaterHumanProgress(
-                                progress: controller.progress,
-                                currentMl: controller.currentIntakeMl.value,
-                                goalMl: controller.adjustedGoal,
-                                volumeUnit: Get.find<SettingsController>()
-                                    .volumeUnit
-                                    .value,
-                                width: 300,
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 12),
+                              // Fixed height + generous width so the figure scales
+                              // by HEIGHT, not width — the slim female silhouette
+                              // stays slim instead of being blown up to fill the
+                              // width like the male one.
+                              child: SizedBox(
+                                width: 260,
+                                height: 360,
+                                child: RepaintBoundary(
+                                  child: Obx(
+                                    () => FittedBox(
+                                      fit: BoxFit.contain,
+                                      child: WaterHumanProgress(
+                                        progress: controller.progress,
+                                        currentMl:
+                                            controller.currentIntakeMl.value,
+                                        goalMl: controller.adjustedGoal,
+                                        volumeUnit:
+                                            Get.find<SettingsController>()
+                                                .volumeUnit
+                                                .value,
+                                        width: 300,
+                                        isFemale:
+                                            Get.find<UserProfileController>()
+                                                .profile
+                                                .value
+                                                .gender ==
+                                            'female',
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        child: Obx(() => _buildTopInfo(controller, context)),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Obx(
-                          () => Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              _buildGoalStatus(controller, context),
-                              Center(
-                                child: _buildRemainingPill(controller, context),
-                              ),
-                            ],
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          child: Obx(() => _buildTopInfo(controller, context)),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Obx(
+                            () => Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                _buildGoalStatus(controller, context),
+                                Center(
+                                  child: _buildRemainingPill(
+                                    controller,
+                                    context,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Obx(() => _buildStatusCards(controller, context)),
-                ),
-                const SizedBox(height: 12),
-                // Drink action bar: +amount
-                const DrinkActionBar(),
-                const SizedBox(height: 4),
-              ],
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Obx(() => _buildStatusCards(controller, context)),
+                  ),
+                  const SizedBox(height: 20),
+                  // Drink action bar: +amount
+                  const DrinkActionBar(),
+                  const SizedBox(height: 32),
+                ],
+              ),
             ),
           ),
         ),
@@ -108,9 +168,9 @@ class TodayScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
-        color: ob.bgOption,
+        color: Colors.white.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(100),
-        border: Border.all(color: ob.borderTabHistory, width: 1),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
         boxShadow: ob.cardGlowShadow,
       ),
       child: Row(
@@ -161,10 +221,13 @@ class TodayScreen extends StatelessWidget {
           '${h.toString().padLeft(2, '0')}:${lastDrink.timestamp.minute.toString().padLeft(2, '0')}';
     }
 
-    TextStyle labelStyle() =>
-        TextStyle(fontSize: 13, color: ob.textPrimary.withValues(alpha: 0.7));
+    TextStyle labelStyle() => TextStyle(
+      fontSize: 16,
+      color: Colors.white60,
+      fontWeight: FontWeight.w600,
+    );
     TextStyle valueStyle() => TextStyle(
-      fontSize: 15,
+      fontSize: 14,
       fontWeight: FontWeight.w700,
       color: ob.textPrimary,
     );
@@ -208,7 +271,7 @@ class TodayScreen extends StatelessWidget {
         children: [
           Expanded(
             child: _ActionCard(
-              svgIcon: controller.currentAmountIcon,
+              imagePath: controller.currentCupImage,
               label: 'Loại cốc',
               onTap: () => showCupSizeSheet(context),
             ),
@@ -216,20 +279,25 @@ class TodayScreen extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: _StatCard(
-              emoji: '🔥',
+              iconWidget: Image.asset(
+                'assets/images/webp/img_drink_streak.webp',
+                width: 24,
+                height: 24,
+                fit: BoxFit.contain,
+              ),
               label: 'Streak',
               value: '${controller.streakDays.value}',
               unit: 'ngày',
-              bg: ob.bgOption,
-              border: ob.borderTabHistory,
-              textColor: ob.textPrimary,
+              bg: Colors.white.withValues(alpha: 0.07),
+              border: Colors.white.withValues(alpha: 0.1),
+              textColor: Colors.white,
             ),
           ),
           const SizedBox(width: 8),
           Expanded(
             child: _ActionCard(
               imagePath: controller.selectedDrinkType.value.imagePath,
-              label: 'menu',
+              label: 'Menu',
               onTap: () => showDrinkTypeSheet(context),
             ),
           ),
@@ -279,7 +347,7 @@ class TodayScreen extends StatelessWidget {
 
 class _StatCard extends StatelessWidget {
   const _StatCard({
-    this.emoji,
+    this.iconWidget,
     required this.label,
     required this.value,
     required this.unit,
@@ -288,7 +356,7 @@ class _StatCard extends StatelessWidget {
     required this.textColor,
   });
 
-  final String? emoji;
+  final Widget? iconWidget;
   final String label;
   final String value;
   final String unit;
@@ -304,7 +372,6 @@ class _StatCard extends StatelessWidget {
         color: bg,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: border, width: 1),
-        boxShadow: AppColors.cardGlowShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -314,46 +381,50 @@ class _StatCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 16,
-                height: 16,
-                child: Center(
-                  child: Text(
-                    emoji ?? '',
-                    style: const TextStyle(fontSize: 13, height: 1),
-                  ),
-                ),
-              ),
+              SizedBox(width: 24, height: 24, child: Center(child: iconWidget)),
               const SizedBox(width: 4),
               Text(
                 label,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                   height: 1,
-                  color: textColor.withValues(alpha: 0.6),
+                  color: Colors.white60,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 4),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w700,
-              color: textColor,
-              height: 1,
-            ),
-          ),
-          if (unit.isNotEmpty)
-            Text(
-              unit,
-              style: TextStyle(
-                fontSize: 12,
-                height: 1,
-                color: textColor.withValues(alpha: 0.5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  color: textColor,
+                  height: 1,
+                ),
               ),
-            ),
+              if (unit.isNotEmpty) ...[
+                const SizedBox(width: 3),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  child: Text(
+                    unit,
+                    style: TextStyle(
+                      fontSize: 12,
+                      height: 1,
+                      color: Colors.white60,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
         ],
       ),
     );
@@ -364,14 +435,12 @@ class _StatCard extends StatelessWidget {
 
 class _ActionCard extends StatelessWidget {
   const _ActionCard({
-    this.svgIcon,
-    this.imagePath,
+    required this.imagePath,
     required this.label,
     required this.onTap,
   });
 
-  final String? svgIcon;
-  final String? imagePath;
+  final String imagePath;
   final String label;
   final VoidCallback onTap;
 
@@ -384,23 +453,14 @@ class _ActionCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
-          color: ob.bgOption,
+          color: Colors.white.withValues(alpha: 0.07),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: ob.borderTabHistory, width: 1),
-          boxShadow: AppColors.cardGlowShadow,
+          border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (imagePath != null)
-              Image.asset(
-                imagePath!,
-                width: 26,
-                height: 26,
-                fit: BoxFit.contain,
-              )
-            else if (svgIcon != null)
-              AppIcon(svgIcon!, size: 26, tint: ob.iconPill),
+            Image.asset(imagePath, width: 26, height: 26, fit: BoxFit.contain),
             const SizedBox(height: 6),
             Text(
               label,
@@ -408,9 +468,9 @@ class _ActionCard extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 12,
-                color: ob.textPrimary.withValues(alpha: 0.7),
-                fontWeight: FontWeight.w500,
+                fontSize: 14,
+                color: Colors.white60,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ],

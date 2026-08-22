@@ -54,35 +54,31 @@ class StreakScreen extends StatelessWidget {
                 const SizedBox(height: 14),
                 // IntrinsicHeight bounds the row so the two cards can stretch
                 // to a shared height inside the unbounded scroll view.
-                IntrinsicHeight(
-                  child: Obx(
-                    () => Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: StreakStatCard(
-                            title: 'streak_total_days_tracked'.tr,
-                            value: '${controller.totalDaysTracked.value}',
-                            caption: 'streak_keep_building_habit'.tr,
-                            icon: Icons.calendar_month_rounded,
-                            iconColor: const Color(0xFF4ADE80),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: StreakStatCard(
-                            title: 'streak_longest_streak'.tr,
-                            value: '${controller.longestStreak.value}',
-                            caption: 'streak_your_record'.tr,
-                            icon: Icons.emoji_events_rounded,
-                            iconColor: const Color(0xFFFACA1F),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 14),
+                // IntrinsicHeight(
+                //   child: Obx(
+                //     () => Row(
+                //       crossAxisAlignment: CrossAxisAlignment.stretch,
+                //       children: [
+                //         Expanded(
+                //           child: StreakStatCard(
+                //             title: 'streak_total_days_tracked'.tr,
+                //             value: '${controller.totalDaysTracked.value}',
+                //             iconPath: 'assets/images/webp/ic_calendar.webp',
+                //           ),
+                //         ),
+                //         const SizedBox(width: 12),
+                //         Expanded(
+                //           child: StreakStatCard(
+                //             title: 'streak_longest_streak'.tr,
+                //             value: '${controller.longestStreak.value}',
+                //             iconPath: 'assets/images/webp/ic_cup_streak.webp',
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(height: 14),
                 StreakCalendar(controller: controller),
                 const SizedBox(height: 14),
                 StreakWeekOverview(controller: controller),

@@ -30,7 +30,6 @@ class DrinkActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
     final controller = Get.find<TodayController>();
     final unit = Get.find<SettingsController>().volumeUnit.value;
 
@@ -41,25 +40,11 @@ class DrinkActionBar extends StatelessWidget {
           controller.currentAmount.toDouble(),
           unit,
         );
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _AddDrinkPill(
-              icon: controller.currentAmountIcon,
-              label: '+$amountLabel',
-              onTap: () => _addDrink(context),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              controller.selectedDrinkType.value.label.tr,
-              style: TextStyle(
-                fontSize: 14,
-                color: ob.textSecondary,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 0.5,
-              ),
-            ),
-          ],
+        return _AddDrinkPill(
+          imagePath: controller.currentCupImage,
+          label: '+$amountLabel',
+          drinkName: controller.selectedDrinkType.value.label.tr,
+          onTap: () => _addDrink(context),
         );
       }),
     );
@@ -84,46 +69,51 @@ void showCupSizeSheet(BuildContext context) {
       builder: (ctx, setS) {
         final ob = OnboardingTheme.of(ctx);
         final unit = Get.find<SettingsController>().volumeUnit.value;
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: ob.bgOption,
-            border: Border.all(color: ob.borderReminderPill, width: 1),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: GridView.count(
-            padding: EdgeInsets.zero,
-            crossAxisCount: 3,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 1.4,
-            children: List.generate(TodayController.amountPresets.length, (i) {
-              final isSelected = tempIndex == i;
-              return _VolumeButton(
-                label: UnitConverter.formatVolumeValueUnit(
-                  TodayController.amountPresets[i].toDouble(),
-                  unit,
-                ),
-                icon: TodayController.amountPresetIcons[i],
-                isSelected: isSelected,
-                onTap: () => setS(() => tempIndex = i),
-              );
-            }),
-          ),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Chọn kiểu cốc và dung tích phù hợp',
+              style: TextStyle(
+                fontSize: 13,
+                color: ob.textPrimary.withValues(alpha: 0.6),
+              ),
+            ),
+            const SizedBox(height: 16),
+            GridView.count(
+              padding: EdgeInsets.zero,
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              childAspectRatio: 1.95,
+              children: List.generate(TodayController.amountPresets.length, (i) {
+                return _CupCard(
+                  image: TodayController.cupImages[i],
+                  volume: UnitConverter.formatVolumeValueUnit(
+                    TodayController.amountPresets[i].toDouble(),
+                    unit,
+                  ),
+                  isSelected: tempIndex == i,
+                  onTap: () => setS(() => tempIndex = i),
+                );
+              }),
+            ),
+          ],
         );
       },
     ),
   );
 }
 
-/// Opens the drink-type picker and stores the choice on [TodayController].
+/// Opens the drink-type picker (searchable grid with hydration %) and stores
+/// the choice on [TodayController].
 void showDrinkTypeSheet(BuildContext context) {
   final controller = Get.find<TodayController>();
   PrimaryBottomSheet.show(
     context: context,
-    title: 'drink_type'.tr,
+    title: 'Loại đồ uống',
     showSubmitButton: false,
     content: _DrinkTypePicker(
       selected: controller.selectedDrinkType.value,
@@ -138,13 +128,15 @@ void showDrinkTypeSheet(BuildContext context) {
 // ─── Add drink pill (centre) ─────────────────────────────────────────────────
 
 class _AddDrinkPill extends StatelessWidget {
-  final String icon;
+  final String imagePath;
   final String label;
+  final String drinkName;
   final VoidCallback onTap;
 
   const _AddDrinkPill({
-    required this.icon,
+    required this.imagePath,
     required this.label,
+    required this.drinkName,
     required this.onTap,
   });
 
@@ -155,6 +147,7 @@ class _AddDrinkPill extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       child: Container(
         height: 56,
+        width: Get.width * 0.8,
         padding: const EdgeInsets.symmetric(horizontal: 14),
         decoration: BoxDecoration(
           gradient: AppColors.gradientAccentPill,
@@ -170,7 +163,7 @@ class _AddDrinkPill extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AppIcon(icon, size: 26),
+            Image.asset(imagePath, width: 30, height: 30, fit: BoxFit.contain),
             const SizedBox(width: 12),
             Container(
               width: 1,
@@ -180,7 +173,7 @@ class _AddDrinkPill extends StatelessWidget {
             const SizedBox(width: 12),
             Flexible(
               child: AppTextAutoResize(
-                label,
+                '$label  -  $drinkName',
                 maxLines: 1,
                 minFontSize: 12,
                 textAlign: TextAlign.center,
@@ -199,59 +192,78 @@ class _AddDrinkPill extends StatelessWidget {
   }
 }
 
-// ─── Cup size grid button ─────────────────────────────────────────────────────
+// ─── Cup type card ────────────────────────────────────────────────────────────
 
-class _VolumeButton extends StatelessWidget {
-  final String label;
-  final String icon;
+class _CupCard extends StatelessWidget {
+  final String image;
+  final String volume;
   final bool isSelected;
   final VoidCallback onTap;
 
-  const _VolumeButton({
-    required this.label,
-    required this.icon,
+  const _CupCard({
+    required this.image,
+    required this.volume,
     required this.isSelected,
     required this.onTap,
   });
 
+  static const _cyan = Color(0xFF4FC3F7);
+
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(8),
-        onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? _cyan.withValues(alpha: 0.10)
+              : Colors.white.withValues(alpha: 0.04),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
             color: isSelected
-                ? ob.accent.withValues(alpha: 0.15)
-                : ob.bgDrinkItem,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: isSelected ? ob.accent : Colors.transparent,
-              width: 1.5,
-            ),
+                ? _cyan
+                : Colors.white.withValues(alpha: 0.1),
+            width: isSelected ? 1.6 : 1,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AppIcon(
-                icon,
-                size: 24,
-                tint: isSelected ? ob.accent : ob.iconAmountWater,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: isSelected ? ob.accent : ob.iconAmountWater,
-                  fontWeight: FontWeight.w500,
+          boxShadow: isSelected
+              ? [BoxShadow(color: _cyan.withValues(alpha: 0.35), blurRadius: 12)]
+              : null,
+        ),
+        child: Stack(
+          alignment: Alignment.centerLeft,
+          children: [
+            Row(
+              children: [
+                Image.asset(
+                  image,
+                  width: 46,
+                  height: 46,
+                  fit: BoxFit.contain,
                 ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    volume,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: _cyan,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            if (isSelected)
+              const Positioned(
+                top: 0,
+                right: 0,
+                child: Icon(Icons.check_circle_rounded, size: 20, color: _cyan),
               ),
-            ],
-          ),
+          ],
         ),
       ),
     );
@@ -271,50 +283,139 @@ class _DrinkTypePicker extends StatelessWidget {
     final ob = OnboardingTheme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: DrinkType.values.map((type) {
-        final isSelected = selected == type;
-        return GestureDetector(
-          onTap: () => onSelected(type),
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 4),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: isSelected
-                  ? ob.accent.withValues(alpha: 0.12)
-                  : Colors.transparent,
-              border: Border.all(
-                color: isSelected ? ob.accent : ob.bgOptionSelected,
-                width: 1.2,
-              ),
-            ),
-            child: Row(
+      children: [
+        Text(
+          'Chọn loại đồ uống và xem % nước đóng góp',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 13,
+            color: ob.textPrimary.withValues(alpha: 0.6),
+          ),
+        ),
+        const SizedBox(height: 14),
+        ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.5,
+          ),
+          child: GridView.count(
+            padding: EdgeInsets.zero,
+            crossAxisCount: 2,
+            shrinkWrap: true,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            childAspectRatio: 2.0,
+            children: DrinkType.values.map((type) {
+              return _DrinkCard(
+                type: type,
+                isSelected: selected == type,
+                onTap: () => onSelected(type),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _DrinkCard extends StatelessWidget {
+  final DrinkType type;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _DrinkCard({
+    required this.type,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  static const _cyan = Color(0xFF4FC3F7);
+
+  @override
+  Widget build(BuildContext context) {
+    final ob = OnboardingTheme.of(context);
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? _cyan.withValues(alpha: 0.10)
+              : Colors.white.withValues(alpha: 0.04),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: isSelected ? _cyan : Colors.white.withValues(alpha: 0.1),
+            width: isSelected ? 1.5 : 1,
+          ),
+          boxShadow: isSelected
+              ? [BoxShadow(color: _cyan.withValues(alpha: 0.3), blurRadius: 10)]
+              : null,
+        ),
+        child: Stack(
+          alignment: Alignment.centerLeft,
+          children: [
+            Row(
               children: [
                 Image.asset(
                   type.imagePath,
-                  width: 36,
-                  height: 36,
+                  width: 44,
+                  height: 44,
                   fit: BoxFit.contain,
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 8),
                 Expanded(
-                  child: Text(
-                    type.label.tr,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: isSelected ? ob.accent : ob.textPrimary,
-                      letterSpacing: 0.5,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        type.viName,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          height: 1.1,
+                          color: ob.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          border: Border.all(
+                            color: _cyan.withValues(alpha: 0.5),
+                          ),
+                        ),
+                        child: Text(
+                          '${type.waterPercent}%',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: _cyan,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                if (isSelected)
-                  Icon(Icons.check_circle_rounded, color: ob.accent, size: 20),
+                const SizedBox(width: 12),
               ],
             ),
-          ),
-        );
-      }).toList(),
+            if (isSelected)
+              const Positioned(
+                top: 0,
+                right: 0,
+                child: Icon(Icons.check_circle_rounded, size: 20, color: _cyan),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }

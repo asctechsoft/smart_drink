@@ -18,9 +18,9 @@ class StreakWeekOverview extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ob.bgOption,
+        color: Colors.white.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: ob.borderTabHistory, width: 1),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
         boxShadow: ob.cardGlowShadow,
       ),
       child: Column(
