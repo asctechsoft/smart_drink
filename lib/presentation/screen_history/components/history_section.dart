@@ -38,7 +38,6 @@ class HistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
     return Container(
       padding: padding ?? const EdgeInsets.all(16),
       decoration: BoxDecoration(

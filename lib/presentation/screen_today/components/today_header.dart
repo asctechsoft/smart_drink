@@ -9,6 +9,14 @@ import 'package:flutter/material.dart';
 class TodayHeader extends StatelessWidget {
   const TodayHeader({super.key});
 
+  /// Greeting keyed to the current time of day.
+  String _greeting(int hour) {
+    if (hour < 11) return 'Chào buổi sáng ☀️';
+    if (hour < 13) return 'Chào buổi trưa 🌤️';
+    if (hour < 18) return 'Chào buổi chiều ⛅';
+    return 'Chào buổi tối 🌙';
+  }
+
   @override
   Widget build(BuildContext context) {
     final ob = OnboardingTheme.of(context);
@@ -25,29 +33,18 @@ class TodayHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Ngày ${now.day} Thg ${now.month}, ${now.year}',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: ob.textPrimary,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: ob.textPrimary,
-                      size: 20,
-                    ),
-                  ],
+                Text(
+                  _greeting(now.hour),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: ob.textPrimary,
+                    letterSpacing: 0.5,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Hôm nay hãy uống đủ nước nhé! 💧',
+                  'Ngày ${now.day} Thg ${now.month}, ${now.year}',
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,

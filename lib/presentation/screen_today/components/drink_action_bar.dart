@@ -9,30 +9,14 @@ import 'package:smartdrinkai/values/app_colors.dart';
 import 'package:smartdrinkai/values/onboarding_theme.dart';
 import 'package:get/get.dart';
 
-class DrinkActionBar extends StatefulWidget {
+class DrinkActionBar extends StatelessWidget {
   const DrinkActionBar({super.key});
 
-  @override
-  State<DrinkActionBar> createState() => _DrinkActionBarState();
-}
-
-class _DrinkActionBarState extends State<DrinkActionBar> {
-  static const _presets = [150, 200, 300, 500, 700];
-  static const _presetIcons = [
-    'assets/images/svg/ic_water_capacity_150.svg',
-    'assets/images/svg/ic_water_capacity_200.svg',
-    'assets/images/svg/ic_water_capacity_300.svg',
-    'assets/images/svg/ic_water_capacity_500.svg',
-    'assets/images/svg/ic_water_capacity_700.svg',
-  ];
-
-  int _amountIndex = 1; // default 200ml
-  DrinkType _drinkType = DrinkType.water;
-
-  Future<void> _addDrink() async {
+  Future<void> _addDrink(BuildContext context) async {
     final controller = Get.find<TodayController>();
-    final amount = _presets[_amountIndex];
-    final effectiveWater = (amount * _drinkType.waterPercent / 100).round();
+    final amount = controller.currentAmount;
+    final drinkType = controller.selectedDrinkType.value;
+    final effectiveWater = (amount * drinkType.waterPercent / 100).round();
     if (controller.currentIntakeMl.value + effectiveWater > 8000) {
       ToastUtils.showLimitToast(context);
       return;
@@ -40,132 +24,115 @@ class _DrinkActionBarState extends State<DrinkActionBar> {
     await controller.addDrink(
       effectiveWater,
       originalAmountMl: amount.toDouble(),
-      drinkType: _drinkType.name,
-    );
-  }
-
-  void _showCupSizeSheet() {
-    int tempIndex = _amountIndex;
-    PrimaryBottomSheet.show(
-      context: context,
-      title: 'Loại cốc'.tr,
-      buttonText: 'save'.tr,
-      onButtonPressed: () {
-        setState(() => _amountIndex = tempIndex);
-        Navigator.pop(context);
-      },
-      content: StatefulBuilder(
-        builder: (ctx, setS) {
-          final ob = OnboardingTheme.of(ctx);
-          final unit = Get.find<SettingsController>().volumeUnit.value;
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: ob.bgOption,
-              border: Border.all(color: ob.borderReminderPill, width: 1),
-            ),
-            padding: const EdgeInsets.all(16),
-            child: GridView.count(
-              padding: EdgeInsets.zero,
-              crossAxisCount: 3,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1.4,
-              children: List.generate(_presets.length, (i) {
-                final isSelected = tempIndex == i;
-                return _VolumeButton(
-                  label: UnitConverter.formatVolumeValueUnit(
-                    _presets[i].toDouble(),
-                    unit,
-                  ),
-                  icon: _presetIcons[i],
-                  isSelected: isSelected,
-                  onTap: () => setS(() => tempIndex = i),
-                );
-              }),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  void _showDrinkTypeSheet() {
-    PrimaryBottomSheet.show(
-      context: context,
-      title: 'drink_type'.tr,
-      showSubmitButton: false,
-      content: _DrinkTypePicker(
-        selected: _drinkType,
-        onSelected: (type) {
-          setState(() => _drinkType = type);
-          Navigator.pop(context);
-        },
-      ),
+      drinkType: drinkType.name,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final ob = OnboardingTheme.of(context);
+    final controller = Get.find<TodayController>();
     final unit = Get.find<SettingsController>().volumeUnit.value;
-    final amount = _presets[_amountIndex];
-    final amountLabel = UnitConverter.formatVolumeValueUnit(
-      amount.toDouble(),
-      unit,
-    );
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: IntrinsicHeight(
-        child: Row(
+      child: Obx(() {
+        final amountLabel = UnitConverter.formatVolumeValueUnit(
+          controller.currentAmount.toDouble(),
+          unit,
+        );
+        return Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Left: cup size
-            _SideButton(
-              icon: _presetIcons[_amountIndex],
-              label: 'Loại cốc'.tr,
-              onTap: _showCupSizeSheet,
+            _AddDrinkPill(
+              icon: controller.currentAmountIcon,
+              label: '+$amountLabel',
+              onTap: () => _addDrink(context),
             ),
-            const SizedBox(width: 8),
-            // Middle: add drink control
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _AddDrinkPill(
-                    icon: _presetIcons[_amountIndex],
-                    label: '+$amountLabel',
-                    onTap: _addDrink,
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    _drinkType.label.tr,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: ob.textSecondary,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
+            const SizedBox(height: 6),
+            Text(
+              controller.selectedDrinkType.value.label.tr,
+              style: TextStyle(
+                fontSize: 14,
+                color: ob.textSecondary,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.5,
               ),
             ),
-            const SizedBox(width: 8),
-            // Right: drink type
-            _SideButton(
-              imagePath: _drinkType.imagePath,
-              label: 'menu'.tr,
-              onTap: _showDrinkTypeSheet,
-            ),
           ],
-        ),
-      ),
+        );
+      }),
     );
   }
+}
+
+// ─── Cup size / drink type sheets (shared with the stat row) ──────────────────
+
+/// Opens the cup-size picker and stores the choice on [TodayController].
+void showCupSizeSheet(BuildContext context) {
+  final controller = Get.find<TodayController>();
+  int tempIndex = controller.selectedAmountIndex.value;
+  PrimaryBottomSheet.show(
+    context: context,
+    title: 'Loại cốc'.tr,
+    buttonText: 'save'.tr,
+    onButtonPressed: () {
+      controller.selectedAmountIndex.value = tempIndex;
+      Navigator.pop(context);
+    },
+    content: StatefulBuilder(
+      builder: (ctx, setS) {
+        final ob = OnboardingTheme.of(ctx);
+        final unit = Get.find<SettingsController>().volumeUnit.value;
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: ob.bgOption,
+            border: Border.all(color: ob.borderReminderPill, width: 1),
+          ),
+          padding: const EdgeInsets.all(16),
+          child: GridView.count(
+            padding: EdgeInsets.zero,
+            crossAxisCount: 3,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            childAspectRatio: 1.4,
+            children: List.generate(TodayController.amountPresets.length, (i) {
+              final isSelected = tempIndex == i;
+              return _VolumeButton(
+                label: UnitConverter.formatVolumeValueUnit(
+                  TodayController.amountPresets[i].toDouble(),
+                  unit,
+                ),
+                icon: TodayController.amountPresetIcons[i],
+                isSelected: isSelected,
+                onTap: () => setS(() => tempIndex = i),
+              );
+            }),
+          ),
+        );
+      },
+    ),
+  );
+}
+
+/// Opens the drink-type picker and stores the choice on [TodayController].
+void showDrinkTypeSheet(BuildContext context) {
+  final controller = Get.find<TodayController>();
+  PrimaryBottomSheet.show(
+    context: context,
+    title: 'drink_type'.tr,
+    showSubmitButton: false,
+    content: _DrinkTypePicker(
+      selected: controller.selectedDrinkType.value,
+      onSelected: (type) {
+        controller.selectedDrinkType.value = type;
+        Navigator.pop(context);
+      },
+    ),
+  );
 }
 
 // ─── Add drink pill (centre) ─────────────────────────────────────────────────
@@ -201,6 +168,7 @@ class _AddDrinkPill extends StatelessWidget {
           ],
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppIcon(icon, size: 26),
             const SizedBox(width: 12),
@@ -210,83 +178,18 @@ class _AddDrinkPill extends StatelessWidget {
               color: AppColors.basic500.withValues(alpha: 0.35),
             ),
             const SizedBox(width: 12),
-            Expanded(
+            Flexible(
               child: AppTextAutoResize(
                 label,
                 maxLines: 1,
                 minFontSize: 12,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: AppColors.basic500,
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.5,
                 ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            const Icon(
-              Icons.chevron_right_rounded,
-              size: 24,
-              color: AppColors.basic500,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ─── Side button (left/right) ────────────────────────────────────────────────
-
-class _SideButton extends StatelessWidget {
-  final String? icon;
-  final String? imagePath;
-  final String label;
-  final VoidCallback onTap;
-
-  const _SideButton({
-    this.icon,
-    this.imagePath,
-    required this.label,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 68,
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-        decoration: BoxDecoration(
-          color: ob.bgOption,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: ob.borderTabHistory, width: 1),
-          boxShadow: ob.cardGlowShadow,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (imagePath != null)
-              Image.asset(
-                imagePath!,
-                width: 24,
-                height: 24,
-                fit: BoxFit.contain,
-              )
-            else if (icon != null)
-              AppIcon(icon!, size: 24, tint: ob.iconPill),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 12,
-                color: ob.textSecondary,
-                fontWeight: FontWeight.w500,
               ),
             ),
           ],

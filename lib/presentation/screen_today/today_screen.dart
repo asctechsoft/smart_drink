@@ -25,44 +25,73 @@ class TodayScreen extends StatelessWidget {
           ),
           child: SafeArea(
             bottom: false,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return SingleChildScrollView(
-                  child: Column(
+            child: Column(
+              children: [
+                // Header
+                TodayHeader(),
+
+                // Figure fills the flexible middle; the top info overlays its
+                // upper body and the remaining pill floats at the bottom, so
+                // the whole screen fits without scrolling.
+                Expanded(
+                  child: Stack(
                     children: [
-                      // Header
-                      TodayHeader(),
-                      AppSpacerH24,
-
-                      // Water human progress
-                      Obx(
-                        () => WaterHumanProgress(
-                          progress: controller.progress,
-                          currentMl: controller.currentIntakeMl.value,
-                          goalMl: controller.adjustedGoal,
-                          volumeUnit:
-                              Get.find<SettingsController>().volumeUnit.value,
-                          width: 300,
+                      Positioned.fill(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 6, bottom: 60),
+                          child: Obx(
+                            () => FittedBox(
+                              fit: BoxFit.contain,
+                              alignment: Alignment.topCenter,
+                              child: WaterHumanProgress(
+                                progress: controller.progress,
+                                currentMl: controller.currentIntakeMl.value,
+                                goalMl: controller.adjustedGoal,
+                                volumeUnit: Get.find<SettingsController>()
+                                    .volumeUnit
+                                    .value,
+                                width: 300,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                      Obx(() => _buildGoalStatus(controller, context)),
-                      AppSpacerH24,
-                      Obx(() => _buildRemainingPill(controller, context)),
-                      AppSpacerH24,
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: Obx(() => _buildTopInfo(controller, context)),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
                         child: Obx(
-                          () => _buildStatusCards(controller, context),
+                          () => Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _buildGoalStatus(controller, context),
+                              Center(
+                                child: _buildRemainingPill(controller, context),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-
-                      AppSpacerH24,
-                      // Drink action bar: cup size | +amount | drink type
-                      const DrinkActionBar(),
                     ],
                   ),
-                );
-              },
+                ),
+
+                const SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Obx(() => _buildStatusCards(controller, context)),
+                ),
+                const SizedBox(height: 12),
+                // Drink action bar: +amount
+                const DrinkActionBar(),
+                const SizedBox(height: 4),
+              ],
             ),
           ),
         ),
@@ -114,7 +143,8 @@ class TodayScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusCards(TodayController controller, BuildContext context) {
+  /// Top-corner info: last drink (left) and daily goal (right).
+  Widget _buildTopInfo(TodayController controller, BuildContext context) {
     final ob = OnboardingTheme.of(context);
     final goalMl = controller.adjustedGoal;
     final lastDrink = controller.todayRecords.isNotEmpty
@@ -131,20 +161,56 @@ class TodayScreen extends StatelessWidget {
           '${h.toString().padLeft(2, '0')}:${lastDrink.timestamp.minute.toString().padLeft(2, '0')}';
     }
 
+    TextStyle labelStyle() =>
+        TextStyle(fontSize: 13, color: ob.textPrimary.withValues(alpha: 0.7));
+    TextStyle valueStyle() => TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.w700,
+      color: ob.textPrimary,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Lần cuối', style: labelStyle()),
+              const SizedBox(height: 2),
+              Text(
+                lastAmPm.isEmpty ? lastTime : '$lastTime $lastAmPm',
+                style: valueStyle(),
+              ),
+            ],
+          ),
+          const Spacer(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text('Mục tiêu', style: labelStyle()),
+              const SizedBox(height: 2),
+              Text('$goalMl ml', style: valueStyle()),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatusCards(TodayController controller, BuildContext context) {
+    final ob = OnboardingTheme.of(context);
+
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: _StatCard(
-              icon: Icons.access_time_rounded,
-              iconColor: const Color(0xFF4FC3F7),
-              label: 'Lần cuối',
-              value: lastTime,
-              unit: lastAmPm,
-              bg: ob.bgOption,
-              border: ob.borderTabHistory,
-              textColor: ob.textPrimary,
+            child: _ActionCard(
+              svgIcon: controller.currentAmountIcon,
+              label: 'Loại cốc',
+              onTap: () => showCupSizeSheet(context),
             ),
           ),
           const SizedBox(width: 8),
@@ -161,14 +227,10 @@ class TodayScreen extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: _StatCard(
-              emoji: '🎯',
-              label: 'Mục tiêu',
-              value: '$goalMl',
-              unit: 'ml',
-              bg: ob.bgOption,
-              border: ob.borderTabHistory,
-              textColor: ob.textPrimary,
+            child: _ActionCard(
+              imagePath: controller.selectedDrinkType.value.imagePath,
+              label: 'menu',
+              onTap: () => showDrinkTypeSheet(context),
             ),
           ),
         ],
@@ -217,9 +279,7 @@ class TodayScreen extends StatelessWidget {
 
 class _StatCard extends StatelessWidget {
   const _StatCard({
-    this.icon,
     this.emoji,
-    this.iconColor,
     required this.label,
     required this.value,
     required this.unit,
@@ -228,9 +288,7 @@ class _StatCard extends StatelessWidget {
     required this.textColor,
   });
 
-  final IconData? icon;
   final String? emoji;
-  final Color? iconColor;
   final String label;
   final String value;
   final String unit;
@@ -260,12 +318,10 @@ class _StatCard extends StatelessWidget {
                 width: 16,
                 height: 16,
                 child: Center(
-                  child: icon != null
-                      ? Icon(icon, size: 14, color: iconColor ?? Colors.white)
-                      : Text(
-                          emoji ?? '',
-                          style: const TextStyle(fontSize: 13, height: 1),
-                        ),
+                  child: Text(
+                    emoji ?? '',
+                    style: const TextStyle(fontSize: 13, height: 1),
+                  ),
                 ),
               ),
               const SizedBox(width: 4),
@@ -299,6 +355,66 @@ class _StatCard extends StatelessWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+// ─── Action card (cup size / menu) ────────────────────────────────────────────
+
+class _ActionCard extends StatelessWidget {
+  const _ActionCard({
+    this.svgIcon,
+    this.imagePath,
+    required this.label,
+    required this.onTap,
+  });
+
+  final String? svgIcon;
+  final String? imagePath;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final ob = OnboardingTheme.of(context);
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        decoration: BoxDecoration(
+          color: ob.bgOption,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: ob.borderTabHistory, width: 1),
+          boxShadow: AppColors.cardGlowShadow,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (imagePath != null)
+              Image.asset(
+                imagePath!,
+                width: 26,
+                height: 26,
+                fit: BoxFit.contain,
+              )
+            else if (svgIcon != null)
+              AppIcon(svgIcon!, size: 26, tint: ob.iconPill),
+            const SizedBox(height: 6),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 12,
+                color: ob.textPrimary.withValues(alpha: 0.7),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

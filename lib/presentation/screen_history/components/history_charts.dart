@@ -4,7 +4,6 @@ import 'package:dsp_base/app_material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:smartdrinkai/utils/unit_converter.dart';
 import 'package:smartdrinkai/values/app_colors.dart';
 import 'package:smartdrinkai/values/onboarding_theme.dart';
@@ -244,8 +243,6 @@ class DayHourlyChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-
     var rawMax = 0.0;
     for (var h = 0; h < 24; h++) {
       final v = _convert(hourlyTotals[h] ?? 0);
@@ -768,6 +765,289 @@ class MonthLineChart extends StatelessWidget {
                           '$day',
                           style: TextStyle(
                             fontSize: 10,
+                            color: ob.textPrimary.withValues(alpha: 0.7),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+            duration: Duration.zero,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ─── Month: one bar per day ────────────────────────────────────────────────────
+
+/// One bar per day of the month, with the daily goal as a dashed line.
+class MonthBarChart extends StatelessWidget {
+  const MonthBarChart({
+    super.key,
+    required this.dailyTotals,
+    required this.dailyGoal,
+    required this.isOz,
+  });
+
+  /// One entry per day of the month, index 0 = the 1st, in ml.
+  final List<int> dailyTotals;
+  final int dailyGoal;
+  final bool isOz;
+
+  @override
+  Widget build(BuildContext context) {
+    final ob = OnboardingTheme.of(context);
+
+    double convert(num ml) =>
+        isOz ? UnitConverter.mlToOz(ml.toDouble()) : ml.toDouble();
+
+    final values = dailyTotals.map(convert).toList();
+    final goal = convert(dailyGoal);
+    final dataMax = values.fold<double>(0, (m, v) => v > m ? v : m);
+    final axis = _Axis.fit(dataMax, goal, divisions: 4);
+    final maxY = axis.maxY;
+    final interval = axis.interval;
+    final lastDay = dailyTotals.length;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _AxisUnitLabel(unit: isOz ? 'oz' : 'ml'),
+        const SizedBox(height: 6),
+        SizedBox(
+          height: 190,
+          child: BarChart(
+            BarChartData(
+              alignment: BarChartAlignment.spaceBetween,
+              maxY: maxY,
+              minY: 0,
+              extraLinesData: axis.showGoal
+                  ? _goalLine(
+                      context,
+                      goal,
+                      UnitConverter.formatVolumeValue(
+                        dailyGoal.toDouble(),
+                        isOz ? 'oz' : 'ml',
+                      ),
+                    )
+                  : ExtraLinesData(),
+              barGroups: [
+                for (var i = 0; i < values.length; i++)
+                  BarChartGroupData(
+                    x: i + 1,
+                    barRods: [
+                      BarChartRodData(
+                        toY: values[i],
+                        gradient: _ChartStyle.barGradient,
+                        width: 6,
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(2),
+                        ),
+                      ),
+                    ],
+                  ),
+              ],
+              gridData: _grid(context, interval),
+              borderData: _bottomBorderOnly(context),
+              barTouchData: BarTouchData(enabled: false),
+              titlesData: FlTitlesData(
+                show: true,
+                rightTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+                topTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 38,
+                    interval: interval,
+                    getTitlesWidget: (value, meta) => Padding(
+                      padding: const EdgeInsets.only(right: 6),
+                      child: _axisValue(context, value),
+                    ),
+                  ),
+                ),
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 22,
+                    interval: 1,
+                    getTitlesWidget: (value, meta) {
+                      final day = value.round();
+                      final isLast =
+                          day == lastDay && lastDay - (lastDay ~/ 5) * 5 >= 3;
+                      if (day != 1 && day % 5 != 0 && !isLast) {
+                        return const SizedBox.shrink();
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 6),
+                        child: Text(
+                          '$day',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: ob.textPrimary.withValues(alpha: 0.7),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+            duration: Duration.zero,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ─── Year: monthly goal-completion rate ─────────────────────────────────────────
+
+/// Filled line of each month's goal-completion percentage, with the target
+/// percentage drawn as a dashed line and each point's value printed above it.
+class YearGoalRateChart extends StatelessWidget {
+  const YearGoalRateChart({
+    super.key,
+    required this.monthlyRates,
+    this.targetPct = 100,
+  });
+
+  /// Twelve entries, index 0 = January, in percent (may exceed 100).
+  final List<double> monthlyRates;
+
+  /// The dashed reference line, e.g. 100%.
+  final double targetPct;
+
+  @override
+  Widget build(BuildContext context) {
+    final ob = OnboardingTheme.of(context);
+
+    final spots = <FlSpot>[
+      for (var i = 0; i < monthlyRates.length; i++)
+        FlSpot((i + 1).toDouble(), monthlyRates[i]),
+    ];
+    final dataMax = monthlyRates.fold<double>(0, (m, v) => v > m ? v : m);
+    final maxY = _ChartStyle.niceMax(
+      math.max(dataMax, targetPct) * 1.15,
+      divisions: 4,
+    );
+    final interval = maxY / 4;
+
+    final barData = LineChartBarData(
+      spots: spots,
+      isCurved: true,
+      curveSmoothness: 0.2,
+      preventCurveOverShooting: true,
+      barWidth: 2,
+      color: _ChartStyle.barTop,
+      dotData: FlDotData(
+        show: true,
+        getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
+          radius: 3,
+          color: _ChartStyle.barTop,
+          strokeWidth: 1.5,
+          strokeColor: Colors.white,
+        ),
+      ),
+      belowBarData: BarAreaData(
+        show: true,
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            _ChartStyle.barTop.withValues(alpha: 0.35),
+            _ChartStyle.barBottom.withValues(alpha: 0.02),
+          ],
+        ),
+      ),
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const _AxisUnitLabel(unit: '%'),
+        const SizedBox(height: 6),
+        SizedBox(
+          height: 190,
+          child: LineChart(
+            LineChartData(
+              minX: 1,
+              maxX: monthlyRates.length.toDouble(),
+              minY: 0,
+              maxY: maxY,
+              extraLinesData: _goalLine(
+                context,
+                targetPct,
+                '${targetPct.round()}%',
+              ),
+              gridData: _grid(context, interval),
+              borderData: _bottomBorderOnly(context),
+              lineBarsData: [barData],
+              showingTooltipIndicators: [
+                for (var i = 0; i < spots.length; i++)
+                  ShowingTooltipIndicators([
+                    LineBarSpot(barData, 0, spots[i]),
+                  ]),
+              ],
+              lineTouchData: LineTouchData(
+                enabled: false,
+                touchTooltipData: LineTouchTooltipData(
+                  tooltipPadding: EdgeInsets.zero,
+                  tooltipMargin: 4,
+                  getTooltipColor: (_) => Colors.transparent,
+                  getTooltipItems: (spots) => [
+                    for (final s in spots)
+                      LineTooltipItem(
+                        '${s.y.round()}%',
+                        TextStyle(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w600,
+                          color: ob.textPrimary.withValues(alpha: 0.9),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              titlesData: FlTitlesData(
+                show: true,
+                rightTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+                topTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 34,
+                    interval: interval,
+                    getTitlesWidget: (value, meta) => Padding(
+                      padding: const EdgeInsets.only(right: 6),
+                      child: _axisValue(context, value),
+                    ),
+                  ),
+                ),
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 22,
+                    interval: 1,
+                    getTitlesWidget: (value, meta) {
+                      final i = value.toInt();
+                      if (i < 1 || i > 12) return const SizedBox.shrink();
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 6),
+                        child: Text(
+                          'T$i',
+                          style: TextStyle(
+                            fontSize: 9,
                             color: ob.textPrimary.withValues(alpha: 0.7),
                           ),
                         ),

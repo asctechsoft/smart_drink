@@ -2,6 +2,7 @@ import 'package:smartdrinkai/configs/pref_const.dart';
 import 'package:smartdrinkai/configs/pref_defaults.dart';
 import 'package:smartdrinkai/models/data_models/drink_record.dart';
 import 'package:smartdrinkai/models/ui_models/activity_level.dart';
+import 'package:smartdrinkai/models/ui_models/drink_type.dart';
 import 'package:smartdrinkai/models/ui_models/reminder_mode.dart';
 import 'package:smartdrinkai/models/ui_models/weather_condition.dart';
 import 'package:smartdrinkai/repository/user_repository.dart';
@@ -30,6 +31,22 @@ class TodayController extends GetxController with WidgetsBindingObserver {
   final RxString nextReminderTime = ''.obs;
   final RxString reminderCountdown = ''.obs;
   final RxInt streakDays = 0.obs;
+
+  // Drink-action state shared between the top stat row (cup size / menu) and the
+  // add-drink bar. Kept here so both widgets read and mutate the same choice.
+  static const amountPresets = [150, 200, 300, 500, 700];
+  static const amountPresetIcons = [
+    'assets/images/svg/ic_water_capacity_150.svg',
+    'assets/images/svg/ic_water_capacity_200.svg',
+    'assets/images/svg/ic_water_capacity_300.svg',
+    'assets/images/svg/ic_water_capacity_500.svg',
+    'assets/images/svg/ic_water_capacity_700.svg',
+  ];
+  final RxInt selectedAmountIndex = 1.obs; // default 200ml
+  final Rx<DrinkType> selectedDrinkType = DrinkType.water.obs;
+
+  int get currentAmount => amountPresets[selectedAmountIndex.value];
+  String get currentAmountIcon => amountPresetIcons[selectedAmountIndex.value];
 
   late final Worker _profileWorker;
   Worker? _languageWorker;

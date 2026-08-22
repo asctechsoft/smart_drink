@@ -11,7 +11,6 @@ import 'package:smartdrinkai/models/ui_models/drink_type.dart';
 import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
 import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
 import 'package:smartdrinkai/presentation/common_components/primary_dialog.dart';
-import 'package:smartdrinkai/presentation/screens_settings/settings_bottom_sheets.dart';
 import 'package:smartdrinkai/utils/date_utils.dart';
 import 'package:smartdrinkai/utils/toast_utils.dart';
 import 'package:smartdrinkai/utils/unit_converter.dart';
@@ -22,10 +21,10 @@ import 'components/history_date_picker.dart';
 import 'components/history_detail_section.dart';
 import 'components/history_nav_bar.dart';
 import 'components/history_section.dart';
-import 'components/history_summary_tiles.dart';
 import 'components/day_progress_card.dart';
-import 'components/period_overview_card.dart';
 import 'components/week_widgets.dart';
+import 'components/month_widgets.dart';
+import 'components/year_widgets.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -336,8 +335,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
   // ── Month tab ──────────────────────────────────────────────────────────────
 
   Widget _buildMonthTab(BuildContext context, HistoryController controller) {
-    final ob = OnboardingTheme.of(context);
     final unit = Get.find<SettingsController>().volumeUnit.value;
+    final isOz = unit == 'oz';
     final total = controller.computedTotal;
     final goal = controller.dailyGoalMl;
     final selected = controller.selectedDate.value;
@@ -351,6 +350,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
     }
 
     final best = controller.maxDaySummary;
+    final worst = controller.minDaySummary;
+
+    // Most recent day that has any intake, used for the "last drink" stat.
+    DateTime? lastDrink;
+    for (final s in controller.summaries) {
+      if (s.totalMl <= 0) continue;
+      if (lastDrink == null || s.updatedAt.isAfter(lastDrink)) {
+        lastDrink = s.updatedAt;
+      }
+    }
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
@@ -364,51 +373,36 @@ class _HistoryScreenState extends State<HistoryScreen> {
           onLabelTap: () => _pickDate(context, controller),
         ),
         const SizedBox(height: 12),
-        PeriodOverviewCard(
-          totalLabel: 'month_total'.tr,
-          totalValue: UnitConverter.formatVolumeGrouped(total.toDouble(), unit),
-          averageLine: 'avg_per_day_value'.trParams({
-            'args1': UnitConverter.formatVolumeGrouped(
-              controller.avgPerDayMl.toDouble(),
-              unit,
-            ),
-          }),
-          goalValue: UnitConverter.formatVolumeValueUnit(goal.toDouble(), unit),
-          onEditGoal: () => showDailyGoalSheet(context),
-          chart: MonthLineChart(
-            dailyTotals: dailyTotals,
-            dailyGoal: goal,
-            isOz: unit == 'oz',
-          ),
+        MonthSummaryCard(
+          totalMl: total,
+          monthGoalMl: goal * daysInMonth,
+          avgPerDayMl: controller.avgPerDayMl,
+          dailyGoalMl: goal,
+          goalDaysCount: controller.goalDaysCount,
+          daysInMonth: daysInMonth,
+          lastDrink: lastDrink,
+          isOz: isOz,
         ),
-        const SizedBox(height: 20),
-        HistorySectionTitle('month_summary'.tr),
-        const SizedBox(height: 12),
-        _buildPeriodTiles(
-          context,
-          total: total,
-          unit: unit,
-          goalReached:
-              '${controller.goalDaysCount}/$daysInMonth ${'unit_days'.tr}',
-          average: controller.avgPerDayMl,
+        const SizedBox(height: 14),
+        MonthChartCard(
+          dailyTotals: dailyTotals,
+          dailyGoal: goal,
+          maxMl: best?.totalMl ?? 0,
+          maxDayLabel: best == null ? '--' : _formatDate(best.dateKey, 'd MMMM'),
+          minMl: worst?.totalMl ?? 0,
+          minDayLabel:
+              worst == null ? '--' : _formatDate(worst.dateKey, 'd MMMM'),
+          avgPerDayMl: controller.avgPerDayMl,
+          isOz: isOz,
         ),
-        const SizedBox(height: 20),
-        HistorySectionTitle('best_day'.tr),
-        const SizedBox(height: 12),
-        HistoryHighlightCard(
-          label: best == null ? '--' : _formatDate(best.dateKey, 'd MMMM'),
-          value: best == null
-              ? '--'
-              : UnitConverter.formatVolumeGrouped(
-                  best.totalMl.toDouble(),
-                  unit,
-                ),
-        ),
-        const SizedBox(height: 20),
-        ..._buildCollapsibleDetail(
-          context,
-          rows: _dailyRows(controller),
-          emptyState: _buildEmptyState(ob),
+        const SizedBox(height: 14),
+        MonthCalendarGrid(
+          year: selected.year,
+          month: selected.month,
+          dailyTotals: dailyTotals,
+          dailyGoal: goal,
+          selectedDay: selected.day,
+          isOz: isOz,
         ),
       ],
     );
@@ -417,8 +411,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
   // ── Year tab ───────────────────────────────────────────────────────────────
 
   Widget _buildYearTab(BuildContext context, HistoryController controller) {
-    final ob = OnboardingTheme.of(context);
     final unit = Get.find<SettingsController>().volumeUnit.value;
+    final isOz = unit == 'oz';
     final total = controller.computedTotal;
     final dailyGoal = controller.dailyGoalMl;
     final year = controller.selectedDate.value.year;
@@ -428,8 +422,45 @@ class _HistoryScreenState extends State<HistoryScreen> {
       for (var m = 1; m <= 12; m++) dailyGoal * DateTime(year, m + 1, 0).day,
     ];
     final yearGoal = monthlyGoals.reduce((a, b) => a + b);
+    final daysInYear =
+        DateTime(year + 1, 1, 1).difference(DateTime(year, 1, 1)).inDays;
 
-    final best = controller.bestMonth;
+    // Best / worst / average across months that actually have data.
+    var maxMl = 0, minMl = 0, maxMonth = 0, minMonth = 0, monthsWithData = 0;
+    for (var m = 1; m <= 12; m++) {
+      final v = monthlyTotals[m - 1];
+      if (v <= 0) continue;
+      monthsWithData++;
+      if (v > maxMl) {
+        maxMl = v;
+        maxMonth = m;
+      }
+      if (minMl == 0 || v < minMl) {
+        minMl = v;
+        minMonth = m;
+      }
+    }
+    final avgPerMonth = monthsWithData > 0 ? total ~/ monthsWithData : 0;
+
+    // Each month's completion percentage against that month's goal.
+    final monthlyRates = [
+      for (var m = 1; m <= 12; m++)
+        monthlyGoals[m - 1] > 0
+            ? (monthlyTotals[m - 1] / monthlyGoals[m - 1] * 100)
+            : 0.0,
+    ];
+
+    // Most recent day with intake, for the "last drink" stat.
+    DateTime? lastDrink;
+    for (final s in controller.summaries) {
+      if (s.totalMl <= 0) continue;
+      if (lastDrink == null || s.updatedAt.isAfter(lastDrink)) {
+        lastDrink = s.updatedAt;
+      }
+    }
+
+    String monthLabel(int m) =>
+        'Tháng $m'; // TODO: dịch sau
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
@@ -443,138 +474,40 @@ class _HistoryScreenState extends State<HistoryScreen> {
           onLabelTap: () => _pickDate(context, controller),
         ),
         const SizedBox(height: 12),
-        PeriodOverviewCard(
-          totalLabel: 'year_total'.tr,
-          totalValue: UnitConverter.formatVolumeGrouped(total.toDouble(), unit),
-          averageLine: 'avg_per_day_value'.trParams({
-            'args1': UnitConverter.formatVolumeGrouped(
-              controller.avgPerDayMl.toDouble(),
-              unit,
-            ),
-          }),
-          goalValue: UnitConverter.formatVolumeValueUnit(
-            dailyGoal.toDouble(),
-            unit,
-          ),
-          onEditGoal: () => showDailyGoalSheet(context),
-          chart: YearBarChart(
-            monthlyTotals: monthlyTotals,
-            monthlyGoals: monthlyGoals,
-            isFutureMonth: controller.isFutureMonth,
-            goalLabel: 'goal_with_value'.trParams({
-              'args1': UnitConverter.formatVolumeGrouped(
-                yearGoal.toDouble(),
-                unit,
-              ),
-            }),
-            isOz: unit == 'oz',
-          ),
+        MonthSummaryCard(
+          totalMl: total,
+          monthGoalMl: yearGoal,
+          avgPerDayMl: controller.avgPerDayMl,
+          dailyGoalMl: dailyGoal,
+          goalDaysCount: controller.goalDaysCount,
+          daysInMonth: daysInYear,
+          lastDrink: lastDrink,
+          isOz: isOz,
         ),
-        const SizedBox(height: 20),
-        HistorySectionTitle('year_summary'.tr),
-        const SizedBox(height: 12),
-        _buildPeriodTiles(
-          context,
-          total: total,
-          unit: unit,
-          goalReached: '${controller.goalMonthsCount}/12 ${'unit_months'.tr}',
-          average: controller.avgPerDayMl,
+        const SizedBox(height: 14),
+        YearVolumeCard(
+          monthlyTotals: monthlyTotals,
+          monthlyGoals: monthlyGoals,
+          isFutureMonth: controller.isFutureMonth,
+          goalLabel:
+              'Mục tiêu ${UnitConverter.formatVolumeGrouped(monthlyGoals.first.toDouble(), unit)}',
+          maxMl: maxMl,
+          maxMonthLabel: maxMonth > 0 ? monthLabel(maxMonth) : '--',
+          minMl: minMl,
+          minMonthLabel: minMonth > 0 ? monthLabel(minMonth) : '--',
+          avgPerMonthMl: avgPerMonth,
+          isOz: isOz,
         ),
-        const SizedBox(height: 20),
-        HistorySectionTitle('best_month'.tr),
-        const SizedBox(height: 12),
-        HistoryHighlightCard(
-          label: best == null
-              ? '--'
-              : DateFormat('MMMM', _locale).format(DateTime(year, best.key)),
-          value: best == null
-              ? '--'
-              : UnitConverter.formatVolumeGrouped(best.value.toDouble(), unit),
-        ),
-        const SizedBox(height: 20),
-        ..._buildCollapsibleDetail(
-          context,
-          rows: [
-            for (var m = 1; m <= 12; m++)
-              if (monthlyTotals[m - 1] > 0)
-                PeriodSummaryRow(
-                  label: DateFormat('MMMM', _locale).format(DateTime(year, m)),
-                  totalMl: monthlyTotals[m - 1],
-                  goalMl: monthlyGoals[m - 1],
-                ),
-          ],
-          emptyState: _buildEmptyState(ob),
+        const SizedBox(height: 14),
+        YearGoalRateCard(
+          monthlyRates: monthlyRates,
+          targetPct: 75,
         ),
       ],
     );
   }
 
   // ── Shared pieces ──────────────────────────────────────────────────────────
-
-  Widget _buildPeriodTiles(
-    BuildContext context, {
-    required int total,
-    required String unit,
-    required String goalReached,
-    required int average,
-  }) {
-    final ob = OnboardingTheme.of(context);
-    return HistorySummaryTiles(
-      tiles: [
-        HistorySummaryTile(
-          icon: Icons.water_drop_rounded,
-          iconColor: ob.switchActive,
-          value: UnitConverter.formatVolumeGrouped(total.toDouble(), unit),
-          caption: 'total_volume'.tr,
-        ),
-        HistorySummaryTile(
-          icon: Icons.star_rounded,
-          iconColor: const Color(0xFFFACA1F),
-          value: goalReached,
-          caption: 'goal_reached'.tr,
-        ),
-        HistorySummaryTile(
-          icon: Icons.trending_up_rounded,
-          iconColor: const Color(0xFF4ADE80),
-          value: UnitConverter.formatVolumeGrouped(average.toDouble(), unit),
-          caption: 'avg_per_day'.tr,
-        ),
-      ],
-    );
-  }
-
-  List<PeriodSummaryRow> _dailyRows(HistoryController controller) {
-    final sorted = controller.summaries.where((s) => s.totalMl > 0).toList()
-      ..sort((a, b) => b.dateKey.compareTo(a.dateKey));
-    return [
-      for (final s in sorted)
-        PeriodSummaryRow.fromSummary(s, controller.dailyGoalMl),
-    ];
-  }
-
-  /// Heading plus the rows it hides, so the period tabs open with the summary
-  /// visible rather than a long list.
-  List<Widget> _buildCollapsibleDetail(
-    BuildContext context, {
-    required List<Widget> rows,
-    required Widget emptyState,
-  }) {
-    final expanded = _detailExpanded.value;
-    return [
-      HistoryDetailHeader(
-        title: 'detail_history'.tr,
-        expanded: expanded,
-        onToggle: () => _detailExpanded.value = !expanded,
-      ),
-      if (expanded) ...[
-        const SizedBox(height: 12),
-        if (rows.isEmpty)
-          emptyState
-        else
-          for (final row in rows) ...[row, const SizedBox(height: 8)],
-      ],
-    ];
-  }
 
   Widget _buildEmptyState(OnboardingTheme ob) {
     return Container(
