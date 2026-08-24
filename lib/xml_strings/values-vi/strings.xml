@@ -118,6 +118,9 @@
     <string name="rate_app_content">Nếu bạn thích ứng dụng này, vui lòng đánh giá 5 sao cho chúng tôi. Phản hồi của bạn là động lực to lớn để chúng tôi tiếp tục cải thiện.</string>
     <string name="later">Để sau</string>
     <string name="rate_us_5_stars">Đánh giá 5 sao</string>
+    <string name="rate_dialog_title">Bạn đang tận hưởng ứng dụng?</string>
+    <string name="rate_dialog_subtitle">Hãy dành vài giây đánh giá để giúp chúng tôi cải thiện và mang đến trải nghiệm tốt hơn nhé!</string>
+    <string name="rate_dialog_tap_star">Chạm vào ngôi sao để đánh giá</string>
     <string name="thank_you">Cảm ơn bạn!</string>
     <string name="your_feedback_has_been_sent">Phản hồi của bạn đã được gửi.</string>
     <string name="feedback">Phản hồi</string>

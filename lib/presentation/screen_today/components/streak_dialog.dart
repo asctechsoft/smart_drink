@@ -268,9 +268,12 @@ class _StreakDialog extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 6),
-            const Text(
-              'Bạn đã hoàn thành mục tiêu nước hôm nay',
-              style: descStyle,
+            const Flexible(
+              child: Text(
+                'Bạn đã hoàn thành mục tiêu nước hôm nay',
+                style: descStyle,
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),

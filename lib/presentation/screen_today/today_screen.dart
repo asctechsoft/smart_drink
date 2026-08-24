@@ -76,14 +76,11 @@ class _TodayScreenState extends State<TodayScreen> {
                           child: Align(
                             alignment: Alignment.topCenter,
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 12),
-                              // Fixed height + generous width so the figure scales
-                              // by HEIGHT, not width — the slim female silhouette
-                              // stays slim instead of being blown up to fill the
-                              // width like the male one.
+                              padding: const EdgeInsets.only(top: 32),
+
                               child: SizedBox(
                                 width: 260,
-                                height: 360,
+                                height: 320,
                                 child: RepaintBoundary(
                                   child: Obx(
                                     () => FittedBox(
@@ -126,7 +123,7 @@ class _TodayScreenState extends State<TodayScreen> {
                             () => Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                _buildGoalStatus(controller, context),
+                                // _buildGoalStatus(controller, context),
                                 Center(
                                   child: _buildRemainingPill(
                                     controller,
@@ -149,7 +146,7 @@ class _TodayScreenState extends State<TodayScreen> {
                   const SizedBox(height: 20),
                   // Drink action bar: +amount
                   const DrinkActionBar(),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 24),
                 ],
               ),
             ),

@@ -118,6 +118,9 @@
     <string name="rate_app_content">If you enjoy the app, please consider giving us a 5-star rating. Your feedback is a great motivation for us to keep improving.</string>
     <string name="later">Later</string>
     <string name="rate_us_5_stars">Rate us 5 stars</string>
+    <string name="rate_dialog_title">Are you enjoying the app?</string>
+    <string name="rate_dialog_subtitle">Take a few seconds to rate us so we can improve and bring you an even better experience!</string>
+    <string name="rate_dialog_tap_star">Tap a star to rate</string>
     <string name="thank_you">Thank you!</string>
     <string name="your_feedback_has_been_sent">Your feedback has been sent.</string>
     <string name="feedback">Feedback</string>

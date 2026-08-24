@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           _PillNavItem(
             index: 0,
-            icon: 'assets/images/svg/ic_today_tabbar.svg',
+            icon: 'assets/images/svg/ic_cup_water_bar.svg',
             label: 'today'.tr,
             currentIndex: _currentIndex,
             onTap: () => setState(() => _currentIndex = 0),
