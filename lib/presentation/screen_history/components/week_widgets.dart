@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smartdrinkai/models/data_models/daily_summary.dart';
+import 'package:smartdrinkai/values/app_colors.dart';
 import 'package:smartdrinkai/utils/unit_converter.dart';
 import 'package:smartdrinkai/values/onboarding_theme.dart';
 
@@ -274,158 +275,70 @@ class WeekChartCard extends StatelessWidget {
     final ob = OnboardingTheme.of(context);
 
     return HistoryCard(
-      padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'week_chart'.tr,
-                  style: TextStyle(
-                    color: ob.textPrimary,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
+          HistorySectionTitle(
+            'week_chart'.tr,
+            trailing: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.15),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'by_day'.tr,
+                    style: TextStyle(
+                      color: ob.textPrimary.withValues(alpha: 0.8),
+                      fontSize: 11,
+                    ),
                   ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'by_day'.tr,
-                      style: TextStyle(
-                        color: ob.textPrimary.withValues(alpha: 0.8),
-                        fontSize: 11,
-                      ),
-                    ),
-                    const SizedBox(width: 3),
-                    Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      size: 15,
-                      color: ob.textPrimary.withValues(alpha: 0.6),
-                    ),
-                  ],
-                ),
+                  const SizedBox(width: 3),
+                  Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    size: 15,
+                    color: ob.textPrimary.withValues(alpha: 0.6),
+                  ),
+                ],
               ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            '(${isOz ? 'oz' : 'ml'})',
-            style: TextStyle(
-              fontSize: 10,
-              color: ob.textPrimary.withValues(alpha: 0.55),
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 10),
           WeekBarChart(
             dailyTotals: dailyTotals,
             dailyGoal: dailyGoal,
             isOz: isOz,
           ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.07),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: _BottomStat(
-                    icon: Icons.water_outlined,
-                    iconColor: const Color(0xFF4FC3F7),
-                    label: 'total_drink_count'.tr,
-                    value: '$totalDrinkCount',
-                  ),
-                ),
-                Container(
-                  width: 0.5,
-                  height: 36,
-                  color: Colors.white.withValues(alpha: 0.15),
-                ),
-                Expanded(
-                  child: _BottomStat(
-                    icon: Icons.trending_up_rounded,
-                    iconColor: const Color(0xFF4FC3F7),
-                    label: 'best_time_range'.tr,
-                    value: '--',
-                  ),
-                ),
-                Container(
-                  width: 0.5,
-                  height: 36,
-                  color: Colors.white.withValues(alpha: 0.15),
-                ),
-                Expanded(
-                  child: _BottomStat(
-                    icon: Icons.local_fire_department_rounded,
-                    iconColor: const Color(0xFFFF6B6B),
-                    label: 'streak_done'.tr,
-                    value: streak > 0 ? '$streak ${'unit_days'.tr}' : '--',
-                  ),
-                ),
-              ],
-            ),
+          const SizedBox(height: 8),
+          ChartStatsRow(
+            stats: [
+              ChartStat(
+                icon: Icons.water_rounded,
+                iconColor: AppColors.accentTeal,
+                label: 'total_drink_count'.tr,
+                value: '$totalDrinkCount',
+              ),
+              ChartStat(
+                icon: Icons.trending_up_rounded,
+                iconColor: AppColors.primary500Dark,
+                label: 'best_time_range'.tr,
+                value: '--',
+              ),
+              ChartStat(
+                icon: Icons.local_fire_department_rounded,
+                iconColor: const Color(0xFFFF6B6B),
+                label: 'streak_done'.tr,
+                value: streak > 0 ? '$streak ${'unit_days'.tr}' : '--',
+              ),
+            ],
           ),
         ],
       ),
-    );
-  }
-}
-
-class _BottomStat extends StatelessWidget {
-  const _BottomStat({
-    required this.icon,
-    required this.iconColor,
-    required this.label,
-    required this.value,
-  });
-
-  final IconData icon;
-  final Color iconColor;
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, size: 20, color: iconColor),
-        const SizedBox(height: 3),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 9,
-            color: ob.textPrimary.withValues(alpha: 0.55),
-          ),
-        ),
-        Text(
-          value,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF4FC3F7),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -85,7 +85,8 @@ class _Axis {
   }
 }
 
-/// Y-axis unit caption ("ml" / "oz") drawn above the chart, as in the mocks.
+/// Y-axis unit caption ("Unit (ml)") drawn above the chart. Styled after the
+/// Day tab, which is the reference every history chart follows.
 class _AxisUnitLabel extends StatelessWidget {
   const _AxisUnitLabel({required this.unit});
 
@@ -93,37 +94,28 @@ class _AxisUnitLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
     return Align(
       alignment: Alignment.centerLeft,
       child: Text(
-        unit,
-        style: TextStyle(
-          fontSize: 10,
-          color: ob.textPrimary.withValues(alpha: 0.55),
-        ),
+        'Unit ($unit)',
+        style: const TextStyle(fontSize: 10, color: Colors.white70),
       ),
     );
   }
 }
 
 Widget _axisValue(BuildContext context, double value, {bool compact = false}) {
-  final ob = OnboardingTheme.of(context);
   if (value <= 0) {
-    return Text(
+    return const Text(
       '0',
-      style: TextStyle(
-        fontSize: 9,
-        color: ob.textPrimary.withValues(alpha: 0.55),
-      ),
+      textAlign: TextAlign.right,
+      style: TextStyle(fontSize: 10, color: Colors.white70),
     );
   }
   return Text(
     compact ? UnitConverter.formatCompact(value) : value.round().toString(),
-    style: TextStyle(
-      fontSize: 9,
-      color: ob.textPrimary.withValues(alpha: 0.55),
-    ),
+    textAlign: TextAlign.right,
+    style: const TextStyle(fontSize: 10, color: Colors.white70),
   );
 }
 
@@ -290,20 +282,10 @@ class DayHourlyChart extends StatelessWidget {
         ? '${_hhmm(lowest)} – ${_hhmm((lowest + 1) % 24)}'
         : '--';
 
-    final goalLineLabel = dailyGoal > 0
-        ? '${'goal'.tr} ${UnitConverter.formatVolumeGrouped(dailyGoal.toDouble(), isOz ? 'oz' : 'ml')}'
-        : '';
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          child: Text(
-            'Unit (${isOz ? 'oz' : 'ml'})',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 10, color: Colors.white70),
-          ),
-        ),
+        _AxisUnitLabel(unit: isOz ? 'oz' : 'ml'),
         const SizedBox(height: 8),
         SizedBox(
           height: 190,
@@ -314,7 +296,7 @@ class DayHourlyChart extends StatelessWidget {
               minY: 0,
               barGroups: groups,
               extraLinesData: showGoal
-                  ? _goalLineTeal(context, goalY, goalLineLabel)
+                  ? _goalLineTeal(goalY)
                   : ExtraLinesData(),
               gridData: _grid(context, interval),
               borderData: _bottomBorderOnly(context),
@@ -382,7 +364,9 @@ class DayHourlyChart extends StatelessWidget {
   }
 }
 
-ExtraLinesData _goalLineTeal(BuildContext context, double goal, String label) {
+/// Dashed target line with no printed value — the Day tab's treatment, shared
+/// by every chart that follows it.
+ExtraLinesData _goalLineTeal(double goal) {
   return ExtraLinesData(
     horizontalLines: [
       HorizontalLine(
@@ -408,58 +392,34 @@ class _HourlyStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.07),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: _StatChip(
-              icon: Icons.trending_down_rounded,
-              iconColor: const Color(0xFFFF6B6B),
-              label: 'lowest_hour'.tr,
-              value: lowestLabel,
-            ),
-          ),
-          Container(
-            width: 1,
-            height: 36,
-            color: ob.textPrimary.withValues(alpha: 0.12),
-          ),
-          Expanded(
-            child: _StatChip(
-              icon: Icons.water_rounded,
-              iconColor: AppColors.accentTeal,
-              label: 'avg_per_hour'.tr,
-              value: avgLabel,
-            ),
-          ),
-          Container(
-            width: 1,
-            height: 36,
-            color: ob.textPrimary.withValues(alpha: 0.12),
-          ),
-          Expanded(
-            child: _StatChip(
-              icon: Icons.trending_up_rounded,
-              iconColor: AppColors.primary500Dark,
-              label: 'peak_hour'.tr,
-              value: peakLabel,
-            ),
-          ),
-        ],
-      ),
+    return ChartStatsRow(
+      stats: [
+        ChartStat(
+          icon: Icons.trending_down_rounded,
+          iconColor: const Color(0xFFFF6B6B),
+          label: 'lowest_hour'.tr,
+          value: lowestLabel,
+        ),
+        ChartStat(
+          icon: Icons.water_rounded,
+          iconColor: AppColors.accentTeal,
+          label: 'avg_per_hour'.tr,
+          value: avgLabel,
+        ),
+        ChartStat(
+          icon: Icons.trending_up_rounded,
+          iconColor: AppColors.primary500Dark,
+          label: 'peak_hour'.tr,
+          value: peakLabel,
+        ),
+      ],
     );
   }
 }
 
-class _StatChip extends StatelessWidget {
-  const _StatChip({
+/// One cell of a [ChartStatsRow].
+class ChartStat {
+  const ChartStat({
     required this.icon,
     required this.iconColor,
     required this.label,
@@ -470,6 +430,47 @@ class _StatChip extends StatelessWidget {
   final Color iconColor;
   final String label;
   final String value;
+}
+
+/// Footer strip under a history chart: evenly split cells separated by hairline
+/// dividers. Defined by the Day tab and reused by the other tabs so the spacing,
+/// icon size and type scale stay identical across them.
+class ChartStatsRow extends StatelessWidget {
+  const ChartStatsRow({super.key, required this.stats});
+
+  final List<ChartStat> stats;
+
+  @override
+  Widget build(BuildContext context) {
+    final ob = OnboardingTheme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.07),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+      ),
+      child: Row(
+        children: [
+          for (var i = 0; i < stats.length; i++) ...[
+            if (i > 0)
+              Container(
+                width: 1,
+                height: 36,
+                color: ob.textPrimary.withValues(alpha: 0.12),
+              ),
+            Expanded(child: _StatChip(stat: stats[i])),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _StatChip extends StatelessWidget {
+  const _StatChip({required this.stat});
+
+  final ChartStat stat;
 
   @override
   Widget build(BuildContext context) {
@@ -477,9 +478,9 @@ class _StatChip extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(icon, size: 24, color: iconColor),
+        Icon(stat.icon, size: 24, color: stat.iconColor),
         Text(
-          label,
+          stat.label,
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 12,
@@ -488,7 +489,7 @@ class _StatChip extends StatelessWidget {
           ),
         ),
         Text(
-          value,
+          stat.value,
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 12,
@@ -520,15 +521,20 @@ class WeekBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-
     double convert(num ml) =>
         isOz ? UnitConverter.mlToOz(ml.toDouble()) : ml.toDouble();
 
     final values = dailyTotals.map(convert).toList();
     final goal = convert(dailyGoal);
     final dataMax = values.fold<double>(0, (m, v) => v > m ? v : m);
-    final axis = _Axis.fit(dataMax, goal);
+    // Five divisions and a non-zero floor, as on the Day tab, so an empty week
+    // still draws a full gridline ladder instead of collapsing onto the axis.
+    final axis = _Axis.fit(
+      dataMax,
+      goal,
+      divisions: 5,
+      floor: isOz ? 8 : 100,
+    );
     final maxY = axis.maxY;
     final interval = axis.interval;
 
@@ -538,7 +544,7 @@ class WeekBarChart extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _AxisUnitLabel(unit: isOz ? 'oz' : 'ml'),
-        const SizedBox(height: 6),
+        const SizedBox(height: 8),
         SizedBox(
           height: 190,
           child: BarChart(
@@ -547,14 +553,7 @@ class WeekBarChart extends StatelessWidget {
               maxY: maxY,
               minY: 0,
               extraLinesData: axis.showGoal
-                  ? _goalLine(
-                      context,
-                      goal,
-                      UnitConverter.formatVolumeValue(
-                        dailyGoal.toDouble(),
-                        isOz ? 'oz' : 'ml',
-                      ),
-                    )
+                  ? _goalLineTeal(goal)
                   : ExtraLinesData(),
               barGroups: [
                 for (var i = 0; i < values.length; i++)
@@ -566,9 +565,7 @@ class WeekBarChart extends StatelessWidget {
                         toY: values[i],
                         gradient: _ChartStyle.barGradient,
                         width: 18,
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(4),
-                        ),
+                        borderRadius: BorderRadius.zero,
                       ),
                     ],
                   ),
@@ -591,10 +588,10 @@ class WeekBarChart extends StatelessWidget {
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    reservedSize: 38,
+                    reservedSize: 34,
                     interval: interval,
                     getTitlesWidget: (value, meta) => Padding(
-                      padding: const EdgeInsets.only(right: 6),
+                      padding: const EdgeInsets.only(right: 4),
                       child: _axisValue(context, value),
                     ),
                   ),
@@ -602,20 +599,19 @@ class WeekBarChart extends StatelessWidget {
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    reservedSize: 22,
+                    reservedSize: 30,
                     getTitlesWidget: (value, meta) {
                       final i = value.toInt();
                       if (i < 0 || i >= labels.length) {
                         return const SizedBox.shrink();
                       }
                       return Padding(
-                        padding: const EdgeInsets.only(top: 6),
+                        padding: const EdgeInsets.only(top: 5),
                         child: Text(
                           labels[i].tr,
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            color: ob.textPrimary.withValues(alpha: 0.75),
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.white70,
                           ),
                         ),
                       );
