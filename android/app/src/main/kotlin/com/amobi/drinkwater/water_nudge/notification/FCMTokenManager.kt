@@ -1,4 +1,4 @@
-package com.amobi.drinkwater.drink_water.notification
+package com.amobi.drinkwater.water_nudge.notification
 
 import android.Manifest
 import android.content.Context
@@ -6,9 +6,9 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.ActivityCompat
-import com.amobi.drinkwater.drink_water.Const
-import com.amobi.drinkwater.drink_water.PrefAssist
-import com.amobi.drinkwater.drink_water.PrefConst
+import com.amobi.drinkwater.water_nudge.Const
+import com.amobi.drinkwater.water_nudge.PrefAssist
+import com.amobi.drinkwater.water_nudge.PrefConst
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.google.firebase.messaging.FirebaseMessaging

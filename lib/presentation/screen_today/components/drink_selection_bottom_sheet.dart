@@ -1,11 +1,11 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/controller/settings_controller.dart';
-import 'package:smartdrinkai/models/ui_models/drink_type.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_bottom_sheet.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_dialog.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/settings_controller.dart';
+import 'package:waternudge/models/ui_models/drink_type.dart';
+import 'package:waternudge/presentation/common_components/primary_bottom_sheet.dart';
+import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/presentation/common_components/primary_dialog.dart';
+import 'package:waternudge/utils/unit_converter.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 

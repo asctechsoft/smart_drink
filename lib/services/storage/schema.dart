@@ -1,5 +1,5 @@
 class DbSchema {
-  static const String dbName = 'drink_water.db';
+  static const String dbName = 'water_nudge.db';
   static const int dbVersion = 2;
 
   static const String tableUserProfile = 'user_profile';

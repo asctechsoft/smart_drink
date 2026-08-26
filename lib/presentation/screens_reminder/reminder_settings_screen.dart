@@ -1,10 +1,10 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:smartdrinkai/controller/reminder_controller.dart';
-import 'package:smartdrinkai/models/ui_models/reminder_mode.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/reminder_controller.dart';
+import 'package:waternudge/models/ui_models/reminder_mode.dart';
+import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 import 'components/interval_mode_content.dart';
 import 'components/standard_mode_content.dart';
@@ -19,36 +19,27 @@ class ReminderSettingsPage extends StatelessWidget {
     return OnboardingBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom + 10,
-          ),
-          child: SafeArea(
-            bottom: false,
-            child: SingleChildScrollView(
-              padding: EdgeInsets.zero,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const _HeaderBanner(),
-                  const SizedBox(height: 14),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: _ModeTabs(ctrl: ctrl),
-                  ),
-                  const SizedBox(height: 14),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Obx(
-                      () => ctrl.mode.value == ReminderMode.interval
-                          ? IntervalModeContent(controller: ctrl)
-                          : StandardModeContent(controller: ctrl),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                ],
+        body: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            children: [
+              const _HeaderBanner(),
+              const SizedBox(height: 14),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: _ModeTabs(ctrl: ctrl),
               ),
-            ),
+              const SizedBox(height: 14),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Obx(
+                  () => ctrl.mode.value == ReminderMode.interval
+                      ? IntervalModeContent(controller: ctrl)
+                      : StandardModeContent(controller: ctrl),
+                ),
+              ),
+              const SizedBox(height: 24),
+            ],
           ),
         ),
       ),

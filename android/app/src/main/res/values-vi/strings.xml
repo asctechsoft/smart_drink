@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">Đếm ngược nhắc nhở tiếp theo</string>
     <string name="widget_medium_b_desc">Lượng tiêu thụ hôm nay với thêm nhanh</string>
     <string name="widget_large_desc">Bảng điều khiển đầy đủ với lịch sử</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">Tùy chỉnh</string>
     <string name="today_s_intake">Lượng tiêu thụ hôm nay</string>
     <string name="no_records_today">Không có bản ghi hôm nay</string>

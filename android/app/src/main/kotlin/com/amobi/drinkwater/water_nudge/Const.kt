@@ -1,4 +1,4 @@
-package com.amobi.drinkwater.drink_water
+package com.amobi.drinkwater.water_nudge
 
 object Const {
     const val ONGOING_NOTIFICATION_ID = 629688

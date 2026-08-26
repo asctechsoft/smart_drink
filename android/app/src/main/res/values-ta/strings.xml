@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">அடுத்த நினைவூட்டல் எண்ணிக்கை</string>
     <string name="widget_medium_b_desc">விரைவான சேர்க்கையுடன் இன்றைய உட்கொள்ளல்</string>
     <string name="widget_large_desc">வரலாற்றுடன் முழு டாஷ்போர்டு</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">தனிப்பயன்</string>
     <string name="today_s_intake">இன்றைய உட்கொள்ளல்</string>
     <string name="no_records_today">இன்று பதிவுகள் இல்லை</string>

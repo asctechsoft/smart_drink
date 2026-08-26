@@ -1,6 +1,6 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:flutter/material.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 /// Small square card used by the "Total days tracked" / "Longest streak" pair.
 class StreakStatCard extends StatelessWidget {

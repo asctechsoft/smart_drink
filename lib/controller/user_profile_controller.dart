@@ -1,6 +1,6 @@
-import 'package:smartdrinkai/models/data_models/user_profile.dart';
-import 'package:smartdrinkai/repository/user_repository.dart';
-import 'package:smartdrinkai/utils/water_calculation.dart';
+import 'package:waternudge/models/data_models/user_profile.dart';
+import 'package:waternudge/repository/user_repository.dart';
+import 'package:waternudge/utils/water_calculation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 

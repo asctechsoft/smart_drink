@@ -1,5 +1,5 @@
-import 'package:smartdrinkai/configs/pref_const.dart';
-import 'package:smartdrinkai/configs/pref_defaults.dart';
+import 'package:waternudge/configs/pref_const.dart';
+import 'package:waternudge/configs/pref_defaults.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';

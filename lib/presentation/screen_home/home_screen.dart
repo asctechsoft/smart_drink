@@ -1,9 +1,9 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/controller/history_controller.dart';
-import 'package:smartdrinkai/presentation/screen_history/history_screen.dart';
-import 'package:smartdrinkai/presentation/screen_today/today_screen.dart';
-import 'package:smartdrinkai/presentation/screens_settings/settings_screen.dart';
-import 'package:smartdrinkai/presentation/screens_reminder/reminder_settings_screen.dart';
+import 'package:waternudge/controller/history_controller.dart';
+import 'package:waternudge/presentation/screen_history/history_screen.dart';
+import 'package:waternudge/presentation/screen_today/today_screen.dart';
+import 'package:waternudge/presentation/screens_settings/settings_screen.dart';
+import 'package:waternudge/presentation/screens_reminder/reminder_settings_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -83,7 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () {
               setState(() => _currentIndex = 1);
               if (Get.isRegistered<HistoryController>()) {
-                Get.find<HistoryController>().loadData();
+                final h = Get.find<HistoryController>();
+                // Always land on the Day tab at the current date on entry.
+                h.viewMode.value = HistoryViewMode.day;
+                h.backToToday();
+                h.loadData();
               }
             },
           ),

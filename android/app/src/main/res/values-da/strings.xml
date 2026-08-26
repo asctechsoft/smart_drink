@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">Næste påmindelsesnedtælling</string>
     <string name="widget_medium_b_desc">Dagens indtag med hurtig tilføjelse</string>
     <string name="widget_large_desc">Fuld oversigt med historik</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">Tilpasset</string>
     <string name="today_s_intake">Dagens indtag</string>
     <string name="no_records_today">Ingen poster i dag</string>

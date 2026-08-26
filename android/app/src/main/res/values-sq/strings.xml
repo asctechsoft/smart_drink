@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">Numërimi mbrapsht i kujtuesit të ardhshëm</string>
     <string name="widget_medium_b_desc">Marrja e sotme me shtim të shpejtë</string>
     <string name="widget_large_desc">Paneli i plotë me historikun</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">Me porosi</string>
     <string name="today_s_intake">Marrja e sotme</string>
     <string name="no_records_today">Nuk ka regjistrime sot</string>

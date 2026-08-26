@@ -1,8 +1,8 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/controller/languages_controller.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
-import 'package:smartdrinkai/utils/loading_utils.dart';
+import 'package:waternudge/controller/languages_controller.dart';
+import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
+import 'package:waternudge/utils/loading_utils.dart';
 import 'package:get/get.dart';
 import 'components/language_list_widget.dart';
 

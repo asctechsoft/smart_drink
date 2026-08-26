@@ -12,7 +12,7 @@ plugins {
 }
 
 android {
-    namespace = "com.amobi.drinkwater.drink_water"
+    namespace = "com.amobi.drinkwater.water_nudge"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 

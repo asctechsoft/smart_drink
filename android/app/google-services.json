@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "879252460066-c0npocpeldhuknka4o3nqqeuo9v9qh2q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dsp.smartdrinkai",
+            "certificate_hash": "57a8e022446733a485242f8c1a77ec68582fb20a"
+          }
+        },
+        {
           "client_id": "879252460066-5hrnv2279qmfia2951tu74sdhqnhuq8r.apps.googleusercontent.com",
           "client_type": 3
         }

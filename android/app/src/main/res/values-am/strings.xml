@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">ቀጣይ ማስታወሻ ቆጠራ</string>
     <string name="widget_medium_b_desc">የዛሬው አቅርቦት በፈጣን ጨምር</string>
     <string name="widget_large_desc">ሙሉ ዳሽቦርድ ከታሪክ ጋር</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">ብጁ</string>
     <string name="today_s_intake">የዛሬ ቅበላ</string>
     <string name="no_records_today">ዛሬ መዝገቦች የሉም</string>

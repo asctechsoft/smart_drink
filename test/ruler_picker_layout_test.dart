@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:smartdrinkai/presentation/common_components/ruler_picker.dart';
+import 'package:waternudge/presentation/common_components/ruler_picker.dart';
 
 /// Locates the ruler's parts on screen so the glowing dot, the rail and the
 /// selected number can be checked against each other numerically.

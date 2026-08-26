@@ -1,8 +1,8 @@
 import 'package:dsp_base/app_localize.dart';
 import 'package:dsp_base/convenience_imports.dart';
 import 'package:device_region/device_region.dart';
-import 'package:smartdrinkai/configs/pref_const.dart';
-import 'package:smartdrinkai/utils/loading_utils.dart';
+import 'package:waternudge/configs/pref_const.dart';
+import 'package:waternudge/utils/loading_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'settings_controller.dart';

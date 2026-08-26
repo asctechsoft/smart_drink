@@ -1,6 +1,6 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/controller/reminder_controller.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/reminder_controller.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:get/get.dart';
 
 class RepeatReminderSection extends StatefulWidget {

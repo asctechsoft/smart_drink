@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">Susunod na pagbibilang ng paalala</string>
     <string name="widget_medium_b_desc">Intake ngayong araw na may mabilis na pagdagdag</string>
     <string name="widget_large_desc">Buong dashboard na may kasaysayan</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">Pasadya</string>
     <string name="today_s_intake">Pagkuha ngayong araw</string>
     <string name="no_records_today">Walang tala ngayon</string>

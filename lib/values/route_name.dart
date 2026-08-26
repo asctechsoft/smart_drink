@@ -9,6 +9,7 @@ class RouteName {
   static const String onboardingWakeup = '/onboarding/wakeup';
   static const String onboardingBedtime = '/onboarding/bedtime';
   static const String onboardingBuildingSchedule = '/onboarding/building';
+  static const String onboardingDailyGoal = '/onboarding/daily-goal';
   static const String home = '/home';
   static const String reminderSettings = '/reminder_settings';
   static const String addDrink = '/add_drink';

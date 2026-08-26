@@ -1,4 +1,4 @@
-package com.amobi.drinkwater.drink_water.widget
+package com.amobi.drinkwater.water_nudge.widget
 
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName

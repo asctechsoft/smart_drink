@@ -1,8 +1,8 @@
 import 'package:dsp_base/convenience_imports.dart';
 import 'package:get/get.dart';
-import 'package:smartdrinkai/configs/pref_const.dart';
-import 'package:smartdrinkai/configs/pref_defaults.dart';
-import 'package:smartdrinkai/models/ui_models/avatar_option.dart';
+import 'package:waternudge/configs/pref_const.dart';
+import 'package:waternudge/configs/pref_defaults.dart';
+import 'package:waternudge/models/ui_models/avatar_option.dart';
 
 class AvatarController extends GetxController {
   /// Avatar persisted in preferences — what the rest of the app renders.

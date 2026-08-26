@@ -1,11 +1,11 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/controller/reminder_controller.dart';
-import 'package:smartdrinkai/models/data_models/reminder_schedule.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_bottom_sheet.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/presentation/common_components/wheel_time_picker.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
-import 'package:smartdrinkai/utils/toast_utils.dart';
+import 'package:waternudge/controller/reminder_controller.dart';
+import 'package:waternudge/models/data_models/reminder_schedule.dart';
+import 'package:waternudge/presentation/common_components/primary_bottom_sheet.dart';
+import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/presentation/common_components/wheel_time_picker.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
+import 'package:waternudge/utils/toast_utils.dart';
 import 'package:get/get.dart';
 
 class CustomModeContent extends StatelessWidget {

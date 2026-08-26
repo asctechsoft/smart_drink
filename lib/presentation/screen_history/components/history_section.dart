@@ -1,6 +1,6 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:flutter/material.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 /// Section heading used above every block on the history screen.
 class HistorySectionTitle extends StatelessWidget {

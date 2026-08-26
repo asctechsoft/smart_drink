@@ -1,12 +1,12 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/controller/settings_controller.dart';
-import 'package:smartdrinkai/controller/today_controller.dart';
-import 'package:smartdrinkai/models/ui_models/drink_type.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_bottom_sheet.dart';
-import 'package:smartdrinkai/utils/toast_utils.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/settings_controller.dart';
+import 'package:waternudge/controller/today_controller.dart';
+import 'package:waternudge/models/ui_models/drink_type.dart';
+import 'package:waternudge/presentation/common_components/primary_bottom_sheet.dart';
+import 'package:waternudge/utils/toast_utils.dart';
+import 'package:waternudge/utils/unit_converter.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:get/get.dart';
 
 class DrinkActionBar extends StatelessWidget {
@@ -88,7 +88,9 @@ void showCupSizeSheet(BuildContext context) {
               mainAxisSpacing: 12,
               crossAxisSpacing: 12,
               childAspectRatio: 1.95,
-              children: List.generate(TodayController.amountPresets.length, (i) {
+              children: List.generate(TodayController.amountPresets.length, (
+                i,
+              ) {
                 return _CupCard(
                   image: TodayController.cupImages[i],
                   volume: UnitConverter.formatVolumeValueUnit(
@@ -222,13 +224,16 @@ class _CupCard extends StatelessWidget {
               : Colors.white.withValues(alpha: 0.04),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected
-                ? _cyan
-                : Colors.white.withValues(alpha: 0.1),
+            color: isSelected ? _cyan : Colors.white.withValues(alpha: 0.1),
             width: isSelected ? 1.6 : 1,
           ),
           boxShadow: isSelected
-              ? [BoxShadow(color: _cyan.withValues(alpha: 0.35), blurRadius: 12)]
+              ? [
+                  BoxShadow(
+                    color: _cyan.withValues(alpha: 0.35),
+                    blurRadius: 12,
+                  ),
+                ]
               : null,
         ),
         child: Stack(
@@ -236,12 +241,7 @@ class _CupCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Image.asset(
-                  image,
-                  width: 46,
-                  height: 46,
-                  fit: BoxFit.contain,
-                ),
+                Image.asset(image, width: 46, height: 46, fit: BoxFit.contain),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(

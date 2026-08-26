@@ -1,7 +1,7 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/presentation/common_components/bottom_safe_area.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/presentation/common_components/bottom_safe_area.dart';
+import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class PrimaryBottomSheet extends StatelessWidget {

@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">ນັບຖອຍເຕືອນຕໍ່ໄປ</string>
     <string name="widget_medium_b_desc">ການຮັບປະທານມື້ນີ້ດ້ວຍການເພີ່ມໄວ</string>
     <string name="widget_large_desc">ແຜງຄວບຄຸມທັງໝົດພ້ອມປະຫວັດສາດ</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">ກຳນົດເອງ</string>
     <string name="today_s_intake">ການຮັບປະທານມື້ນີ້</string>
     <string name="no_records_today">ບໍ່ມີບັນທຶກວັນນີ້</string>

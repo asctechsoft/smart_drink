@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">นับถอยหลังแจ้งเตือนถัดไป</string>
     <string name="widget_medium_b_desc">ปริมาณรับประทานวันนี้ ด้วยการเพิ่มอย่างรวดเร็ว</string>
     <string name="widget_large_desc">แดชบอร์ดเต็มรูปแบบพร้อมประวัติ</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">กำหนดเอง</string>
     <string name="today_s_intake">การรับประทานวันนี้</string>
     <string name="no_records_today">ไม่มีบันทึกวันนี้</string>

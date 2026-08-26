@@ -1,6 +1,6 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;
@@ -44,16 +44,21 @@ class PrimaryButton extends StatelessWidget {
       return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          boxShadow: enabled
-              ? [
-                  BoxShadow(
-                    color: AppColors.btnCyanGlow.withValues(alpha: 0.45),
-                    blurRadius: 18,
-                    spreadRadius: 2,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
-              : null,
+          // boxShadow: enabled
+          //     ? [
+          //         BoxShadow(
+          //           color: const Color.fromARGB(
+          //             141,
+          //             111,
+          //             232,
+          //             245,
+          //           ).withValues(alpha: 0.45),
+          //           blurRadius: 10,
+          //           spreadRadius: 0,
+          //           offset: const Offset(0, 1),
+          //         ),
+          //       ]
+          //     : null,
         ),
         child: SizedBox(
           width: width,
@@ -62,13 +67,7 @@ class PrimaryButton extends StatelessWidget {
             children: [
               DecoratedBox(
                 decoration: BoxDecoration(
-                  gradient: enabled
-                      ? const LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [AppColors.btnCyanStart, AppColors.btnCyanEnd],
-                        )
-                      : null,
+                  gradient: enabled ? AppColors.gradientAccentPill : null,
                   color: enabled ? null : disabledColor,
                   borderRadius: BorderRadius.circular(100),
                 ),
@@ -78,12 +77,15 @@ class PrimaryButton extends StatelessWidget {
                     alignment: Alignment.center,
                     fit: StackFit.passthrough,
                     children: [
-                      if (backgroundDecorations != null) ...backgroundDecorations!,
+                      if (backgroundDecorations != null)
+                        ...backgroundDecorations!,
                       MaterialButton(
                         onPressed: enabled ? onPressed : null,
                         minWidth: width ?? 0,
                         height: height,
                         padding: padding ?? EdgeInsets.zero,
+                        splashColor: Colors.white.withValues(alpha: 0.35),
+                        highlightColor: Colors.white.withValues(alpha: 0.18),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
                         ),
@@ -97,7 +99,7 @@ class PrimaryButton extends StatelessWidget {
                                   const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.btnCyanText,
+                                    color: AppColors.basic500,
                                   ),
                             ),
                           ],
@@ -193,6 +195,8 @@ class PrimaryButton extends StatelessWidget {
                   minWidth: width ?? 0,
                   height: height,
                   padding: padding,
+                  splashColor: Colors.white.withValues(alpha: 0.3),
+                  highlightColor: Colors.white.withValues(alpha: 0.15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
                   ),
@@ -237,4 +241,3 @@ class PrimaryButton extends StatelessWidget {
     return AppText(text, style: style);
   }
 }
-

@@ -4,9 +4,9 @@ import 'package:dsp_base/app_material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/utils/unit_converter.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 /// Shared chart palette and axis maths for the four history tabs.
 class _ChartStyle {
@@ -169,25 +169,30 @@ ExtraLinesData _goalLine(BuildContext context, double goal, String label) {
   );
 }
 
+/// Tap-to-reveal value tooltip. No labels are drawn on the bars by default;
+/// tapping a bar pops its value in a small dark bubble so the numbers never
+/// overlap adjacent bars.
 BarTouchData _valueLabels(
   BuildContext context, {
   required String Function(double) format,
 }) {
-  final ob = OnboardingTheme.of(context);
   return BarTouchData(
-    enabled: false,
+    enabled: true,
     touchTooltipData: BarTouchTooltipData(
-      tooltipPadding: EdgeInsets.zero,
-      tooltipMargin: 3,
-      getTooltipColor: (_) => Colors.transparent,
-      getTooltipItem: (group, groupIndex, rod, rodIndex) => BarTooltipItem(
-        format(rod.toY),
-        TextStyle(
-          fontSize: 9,
-          fontWeight: FontWeight.w600,
-          color: ob.textPrimary.withValues(alpha: 0.9),
-        ),
-      ),
+      tooltipRoundedRadius: 6,
+      tooltipPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+      tooltipMargin: 4,
+      getTooltipColor: (_) => Colors.black.withValues(alpha: 0.7),
+      getTooltipItem: (group, groupIndex, rod, rodIndex) => rod.toY > 0
+          ? BarTooltipItem(
+              format(rod.toY),
+              const TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            )
+          : null,
     ),
   );
 }
@@ -257,7 +262,6 @@ class DayHourlyChart extends StatelessWidget {
       for (var h = 0; h < 24; h++)
         BarChartGroupData(
           x: h,
-          showingTooltipIndicators: (hourlyTotals[h] ?? 0) > 0 ? [0] : [],
           barRods: [
             BarChartRodData(
               toY: _convert(hourlyTotals[h] ?? 0),
@@ -559,7 +563,6 @@ class WeekBarChart extends StatelessWidget {
                 for (var i = 0; i < values.length; i++)
                   BarChartGroupData(
                     x: i,
-                    showingTooltipIndicators: values[i] > 0 ? [0] : [],
                     barRods: [
                       BarChartRodData(
                         toY: values[i],
@@ -840,9 +843,7 @@ class MonthBarChart extends StatelessWidget {
                         toY: values[i],
                         gradient: _ChartStyle.barGradient,
                         width: 6,
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(2),
-                        ),
+                        borderRadius: BorderRadius.zero,
                       ),
                     ],
                   ),
@@ -946,9 +947,9 @@ class YearGoalRateChart extends StatelessWidget {
       dotData: FlDotData(
         show: true,
         getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
-          radius: 3,
+          radius: 2,
           color: _ChartStyle.barTop,
-          strokeWidth: 1.5,
+          strokeWidth: 1,
           strokeColor: Colors.white,
         ),
       ),
@@ -974,8 +975,8 @@ class YearGoalRateChart extends StatelessWidget {
           height: 190,
           child: LineChart(
             LineChartData(
-              minX: 1,
-              maxX: monthlyRates.length.toDouble(),
+              minX: 0.5,
+              maxX: monthlyRates.length + 0.5,
               minY: 0,
               maxY: maxY,
               extraLinesData: _goalLine(
@@ -1124,23 +1125,12 @@ class YearBarChart extends StatelessWidget {
                 for (var i = 0; i < values.length; i++)
                   BarChartGroupData(
                     x: i,
-                    showingTooltipIndicators: values[i] > 0 ? [0] : [],
                     barRods: [
                       BarChartRodData(
                         toY: values[i],
                         gradient: _ChartStyle.barGradient,
                         width: 13,
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(3),
-                        ),
-                        // Months still to come show only the empty column,
-                        // drawn to the top of the axis so they read as
-                        // placeholders rather than as data.
-                        backDrawRodData: BackgroundBarChartRodData(
-                          show: isFutureMonth(i + 1),
-                          toY: maxY,
-                          color: ob.textPrimary.withValues(alpha: 0.06),
-                        ),
+                        borderRadius: BorderRadius.zero,
                       ),
                     ],
                   ),

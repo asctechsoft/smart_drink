@@ -2,24 +2,23 @@ import 'package:dsp_base/app_material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:smartdrinkai/controller/history_controller.dart';
-import 'package:smartdrinkai/controller/settings_controller.dart';
-import 'package:smartdrinkai/controller/today_controller.dart';
-import 'package:smartdrinkai/models/data_models/daily_summary.dart';
-import 'package:smartdrinkai/models/data_models/drink_record.dart';
-import 'package:smartdrinkai/models/ui_models/drink_type.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_dialog.dart';
-import 'package:smartdrinkai/utils/date_utils.dart';
-import 'package:smartdrinkai/utils/toast_utils.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/history_controller.dart';
+import 'package:waternudge/controller/settings_controller.dart';
+import 'package:waternudge/controller/today_controller.dart';
+import 'package:waternudge/models/data_models/daily_summary.dart';
+import 'package:waternudge/models/data_models/drink_record.dart';
+import 'package:waternudge/models/ui_models/drink_type.dart';
+import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/presentation/common_components/primary_dialog.dart';
+import 'package:waternudge/utils/date_utils.dart';
+import 'package:waternudge/utils/toast_utils.dart';
+import 'package:waternudge/utils/unit_converter.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 import 'components/history_charts.dart';
 import 'components/history_date_picker.dart';
 import 'components/history_detail_section.dart';
-import 'components/history_nav_bar.dart';
 import 'components/history_section.dart';
 import 'components/day_progress_card.dart';
 import 'components/week_widgets.dart';
@@ -48,37 +47,32 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return OnboardingBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom + 10,
-          ),
-          child: SafeArea(
-            bottom: false,
-            child: Column(
-              children: [
-                _buildHeader(context, controller),
-                const SizedBox(height: 14),
-                Padding(
-                  padding: _hPad,
-                  child: Obx(() => _buildTabs(context, controller)),
-                ),
-                const SizedBox(height: 8),
-                Expanded(
-                  child: Obx(() {
-                    switch (controller.viewMode.value) {
-                      case HistoryViewMode.day:
-                        return _buildDayTab(context, controller);
-                      case HistoryViewMode.week:
-                        return _buildWeekTab(context, controller);
-                      case HistoryViewMode.month:
-                        return _buildMonthTab(context, controller);
-                      case HistoryViewMode.year:
-                        return _buildYearTab(context, controller);
-                    }
-                  }),
-                ),
-              ],
-            ),
+        body: SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              _buildHeader(context, controller),
+              const SizedBox(height: 14),
+              Padding(
+                padding: _hPad,
+                child: Obx(() => _buildTabs(context, controller)),
+              ),
+              const SizedBox(height: 8),
+              Expanded(
+                child: Obx(() {
+                  switch (controller.viewMode.value) {
+                    case HistoryViewMode.day:
+                      return _buildDayTab(context, controller);
+                    case HistoryViewMode.week:
+                      return _buildWeekTab(context, controller);
+                    case HistoryViewMode.month:
+                      return _buildMonthTab(context, controller);
+                    case HistoryViewMode.year:
+                      return _buildYearTab(context, controller);
+                  }
+                }),
+              ),
+            ],
           ),
         ),
       ),
@@ -103,10 +97,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
           ),
           const Spacer(),
-          // Jumps the whole screen back to the current period; the date picker
-          // lives on the label in the nav bar below.
+          // Single entry point for period navigation: opens the date picker to
+          // jump to any day/week/month/year.
           GestureDetector(
-            onTap: controller.backToToday,
+            onTap: () => _pickDate(context, controller),
             behavior: HitTestBehavior.opaque,
             child: Container(
               width: 40,
@@ -208,7 +202,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
     final selected = controller.selectedDate.value;
 
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
+      key: const ValueKey('history_day'),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 132),
       children: [
         DayProgressCard(
           totalLabel: UnitConverter.formatVolumeValue(total.toDouble(), unit),
@@ -258,7 +253,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget _buildWeekTab(BuildContext context, HistoryController controller) {
     final unit = Get.find<SettingsController>().volumeUnit.value;
     final isOz = unit == 'oz';
-    final total = controller.computedTotal;
     final goal = controller.dailyGoalMl;
     final selected = controller.selectedDate.value;
 
@@ -274,9 +268,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
       (acc, s) => acc + s.drinkCount,
     );
 
-    final best = controller.maxDaySummary;
-    final bestDayLabel = best == null ? '--' : _formatDate(best.dateKey, 'EEE');
-
     // Monday of the selected week
     final monday = selected.subtract(Duration(days: selected.weekday - 1));
     String dateKey(int offset) {
@@ -287,19 +278,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
     final weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
+      key: const ValueKey('history_week'),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 132),
       children: [
-        WeekOverviewCard(
-          weekLabel: AppDateUtils.weekRange(selected),
-          totalMl: total,
-          weekGoalMl: goal * 7,
-          avgPerDayMl: controller.avgPerDayMl,
-          goalDaysCount: controller.goalDaysCount,
-          bestDayLabel: bestDayLabel,
-          isOz: isOz,
-        ),
-        const SizedBox(height: 14),
         WeekChartCard(
+          weekLabel: AppDateUtils.weekRange(selected),
           dailyTotals: dailyTotals,
           dailyGoal: goal,
           totalDrinkCount: totalDrinkCount,
@@ -355,35 +338,19 @@ class _HistoryScreenState extends State<HistoryScreen> {
     final best = controller.maxDaySummary;
     final worst = controller.minDaySummary;
 
-    // Most recent day that has any intake, used for the "last drink" stat.
-    DateTime? lastDrink;
-    for (final s in controller.summaries) {
-      if (s.totalMl <= 0) continue;
-      if (lastDrink == null || s.updatedAt.isAfter(lastDrink)) {
-        lastDrink = s.updatedAt;
-      }
-    }
-
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
+      key: const ValueKey('history_month'),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 142),
       children: [
-        HistoryNavBar(
-          label: AppDateUtils.monthLabel(selected),
-          onPrevious: controller.previousPeriod,
-          onNext: controller.nextPeriod,
-          canGoNext: controller.canGoNext,
-          trailingIcon: Icons.keyboard_arrow_down_rounded,
-          onLabelTap: () => _pickDate(context, controller),
-        ),
-        const SizedBox(height: 12),
         MonthSummaryCard(
+          title: 'Tổng quan',
+          subtitle: AppDateUtils.monthLabel(selected),
           totalMl: total,
           monthGoalMl: goal * daysInMonth,
           avgPerDayMl: controller.avgPerDayMl,
           dailyGoalMl: goal,
           goalDaysCount: controller.goalDaysCount,
           daysInMonth: daysInMonth,
-          lastDrink: lastDrink,
           isOz: isOz,
         ),
         const SizedBox(height: 14),
@@ -391,13 +358,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           dailyTotals: dailyTotals,
           dailyGoal: goal,
           maxMl: best?.totalMl ?? 0,
-          maxDayLabel: best == null
-              ? '--'
-              : _formatDate(best.dateKey, 'd MMMM'),
           minMl: worst?.totalMl ?? 0,
-          minDayLabel: worst == null
-              ? '--'
-              : _formatDate(worst.dateKey, 'd MMMM'),
           avgPerDayMl: controller.avgPerDayMl,
           isOz: isOz,
         ),
@@ -435,19 +396,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
     ).difference(DateTime(year, 1, 1)).inDays;
 
     // Best / worst / average across months that actually have data.
-    var maxMl = 0, minMl = 0, maxMonth = 0, minMonth = 0, monthsWithData = 0;
+    var maxMl = 0, minMl = 0, monthsWithData = 0;
     for (var m = 1; m <= 12; m++) {
       final v = monthlyTotals[m - 1];
       if (v <= 0) continue;
       monthsWithData++;
-      if (v > maxMl) {
-        maxMl = v;
-        maxMonth = m;
-      }
-      if (minMl == 0 || v < minMl) {
-        minMl = v;
-        minMonth = m;
-      }
+      if (v > maxMl) maxMl = v;
+      if (minMl == 0 || v < minMl) minMl = v;
     }
     final avgPerMonth = monthsWithData > 0 ? total ~/ monthsWithData : 0;
 
@@ -459,37 +414,19 @@ class _HistoryScreenState extends State<HistoryScreen> {
             : 0.0,
     ];
 
-    // Most recent day with intake, for the "last drink" stat.
-    DateTime? lastDrink;
-    for (final s in controller.summaries) {
-      if (s.totalMl <= 0) continue;
-      if (lastDrink == null || s.updatedAt.isAfter(lastDrink)) {
-        lastDrink = s.updatedAt;
-      }
-    }
-
-    String monthLabel(int m) => 'Tháng $m'; // TODO: dịch sau
-
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
+      key: const ValueKey('history_year'),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 142),
       children: [
-        HistoryNavBar(
-          label: '$year',
-          onPrevious: controller.previousPeriod,
-          onNext: controller.nextPeriod,
-          canGoNext: controller.canGoNext,
-          trailingIcon: Icons.keyboard_arrow_down_rounded,
-          onLabelTap: () => _pickDate(context, controller),
-        ),
-        const SizedBox(height: 12),
         MonthSummaryCard(
+          title: 'Tổng quan',
+          subtitle: '$year',
           totalMl: total,
           monthGoalMl: yearGoal,
           avgPerDayMl: controller.avgPerDayMl,
           dailyGoalMl: dailyGoal,
           goalDaysCount: controller.goalDaysCount,
           daysInMonth: daysInYear,
-          lastDrink: lastDrink,
           isOz: isOz,
         ),
         const SizedBox(height: 14),
@@ -500,9 +437,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           goalLabel:
               'Mục tiêu ${UnitConverter.formatVolumeGrouped(monthlyGoals.first.toDouble(), unit)}',
           maxMl: maxMl,
-          maxMonthLabel: maxMonth > 0 ? monthLabel(maxMonth) : '--',
           minMl: minMl,
-          minMonthLabel: minMonth > 0 ? monthLabel(minMonth) : '--',
           avgPerMonthMl: avgPerMonth,
           isOz: isOz,
         ),
@@ -536,19 +471,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
-  String _formatDate(String dateKey, String pattern) {
-    final dt = DateTime.tryParse(dateKey);
-    if (dt == null) return dateKey;
-    return DateFormat(pattern, _locale).format(dt);
-  }
-
   void _pickDate(BuildContext context, HistoryController controller) {
     HistoryDatePicker.show(
       context,
       initialDate: controller.selectedDate.value,
       lastDate: DateTime.now(),
+      mode: controller.viewMode.value,
     ).then((picked) {
-      if (picked != null) controller.selectedDate.value = picked;
+      if (picked != null) {
+        // Force a reload even when the picked date equals the current one —
+        // GetX skips notifying on same-value assignment, which otherwise made
+        // "Apply" appear dead until a different date was chosen.
+        controller.selectedDate.value = picked;
+        controller.selectedDate.refresh();
+      }
     });
   }
 

@@ -1,12 +1,12 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:get/get.dart';
-import 'package:smartdrinkai/controller/avatar_controller.dart';
-import 'package:smartdrinkai/models/ui_models/avatar_option.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/presentation/common_components/toggle_selector.dart';
-import 'package:smartdrinkai/presentation/screen_avatar/components/avatar_card.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/avatar_controller.dart';
+import 'package:waternudge/models/ui_models/avatar_option.dart';
+import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/presentation/common_components/toggle_selector.dart';
+import 'package:waternudge/presentation/screen_avatar/components/avatar_card.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 class AvatarScreen extends StatelessWidget {
   const AvatarScreen({super.key});

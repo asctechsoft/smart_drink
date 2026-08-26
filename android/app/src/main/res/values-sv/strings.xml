@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">Nedräkning till nästa påminnelse</string>
     <string name="widget_medium_b_desc">Dagens intag med snabb tillägg</string>
     <string name="widget_large_desc">Fullständig instrumentpanel med historik</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">Anpassad</string>
     <string name="today_s_intake">Dagens intag</string>
     <string name="no_records_today">Inga poster idag</string>

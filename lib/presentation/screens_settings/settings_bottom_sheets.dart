@@ -1,20 +1,20 @@
 import 'dart:math' as math;
 import 'package:dsp_base/app_material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:smartdrinkai/controller/languages_controller.dart';
-import 'package:smartdrinkai/controller/settings_controller.dart';
-import 'package:smartdrinkai/controller/user_profile_controller.dart';
-import 'package:smartdrinkai/presentation/common_components/circular_time_picker.dart';
-import 'package:smartdrinkai/presentation/common_components/gender_card.dart';
-import 'package:smartdrinkai/presentation/common_components/selectable_option_tile.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_bottom_sheet.dart';
-import 'package:smartdrinkai/presentation/common_components/toggle_selector.dart';
-import 'package:smartdrinkai/presentation/common_components/wheel_picker.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/presentation/screens_settings/components/language_list_widget.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/languages_controller.dart';
+import 'package:waternudge/controller/settings_controller.dart';
+import 'package:waternudge/controller/user_profile_controller.dart';
+import 'package:waternudge/presentation/common_components/circular_time_picker.dart';
+import 'package:waternudge/presentation/common_components/gender_card.dart';
+import 'package:waternudge/presentation/common_components/selectable_option_tile.dart';
+import 'package:waternudge/presentation/common_components/primary_bottom_sheet.dart';
+import 'package:waternudge/presentation/common_components/toggle_selector.dart';
+import 'package:waternudge/presentation/common_components/wheel_picker.dart';
+import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/presentation/screens_settings/components/language_list_widget.dart';
+import 'package:waternudge/utils/unit_converter.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:get/get.dart';
 
 // Helpers removed - using PrimaryBottomSheet instead
@@ -70,7 +70,8 @@ class _GenderSheetState extends State<_GenderSheet> {
         children: [
           const SizedBox(height: 12),
           Container(
-            width: 40, height: 4,
+            width: 40,
+            height: 4,
             decoration: BoxDecoration(
               color: Colors.white24,
               borderRadius: BorderRadius.circular(2),
@@ -116,7 +117,6 @@ class _GenderSheetState extends State<_GenderSheet> {
               width: double.infinity,
               text: 'save_changes'.tr,
               useGradient: true,
-              leading: const Icon(Icons.person_outline_rounded, color: AppColors.btnCyanText, size: 18),
               onPressed: () => widget.onSave(_selected),
             ),
           ),
@@ -157,9 +157,9 @@ class _WeatherSheetState extends State<_WeatherSheet> {
   late String _selected;
 
   static const _options = [
-    ('hot',    'assets/images/svg/ic_wather_hot.svg'),
+    ('hot', 'assets/images/svg/ic_wather_hot.svg'),
     ('normal', 'assets/images/svg/ic_wather_normal.svg'),
-    ('cold',   'assets/images/svg/ic_wather_cold.svg'),
+    ('cold', 'assets/images/svg/ic_wather_cold.svg'),
   ];
 
   @override
@@ -183,7 +183,8 @@ class _WeatherSheetState extends State<_WeatherSheet> {
         children: [
           const SizedBox(height: 12),
           Container(
-            width: 40, height: 4,
+            width: 40,
+            height: 4,
             decoration: BoxDecoration(
               color: Colors.white24,
               borderRadius: BorderRadius.circular(2),
@@ -220,7 +221,11 @@ class _WeatherSheetState extends State<_WeatherSheet> {
                   Expanded(
                     child: Text(
                       'weather_hint'.tr,
-                      style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.4),
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 13,
+                        height: 1.4,
+                      ),
                     ),
                   ),
                 ],
@@ -252,7 +257,6 @@ class _WeatherSheetState extends State<_WeatherSheet> {
               width: double.infinity,
               text: 'save_changes'.tr,
               useGradient: true,
-              leading: const Icon(Icons.thermostat_outlined, color: AppColors.btnCyanText, size: 18),
               onPressed: () => widget.onSave(_selected),
             ),
           ),
@@ -451,11 +455,6 @@ class _WeightSheetState extends State<_WeightSheet> {
               width: double.infinity,
               text: 'save_changes'.tr,
               useGradient: true,
-              leading: const Icon(
-                Icons.monitor_weight_outlined,
-                color: AppColors.btnCyanText,
-                size: 18,
-              ),
               onPressed: () => widget.onSave(_kg, _lb, _unit),
             ),
           ),
@@ -786,11 +785,6 @@ class _HeightSheetState extends State<_HeightSheet> {
               width: double.infinity,
               text: 'save_changes'.tr,
               useGradient: true,
-              leading: const Icon(
-                Icons.water_drop_outlined,
-                color: AppColors.btnCyanText,
-                size: 18,
-              ),
               onPressed: () => widget.onSave(_cm, _unit),
             ),
           ),
@@ -1093,22 +1087,6 @@ class _DailyGoalSheetState extends State<_DailyGoalSheet> {
                     ],
                   ),
                 ),
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Container(
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.12),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.close,
-                      color: Colors.white70,
-                      size: 18,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -1267,52 +1245,13 @@ class _DailyGoalSheetState extends State<_DailyGoalSheet> {
             child: Builder(
               builder: (ctx) {
                 final canSave = _value > _min;
-                return GestureDetector(
-                  onTap: canSave ? () => widget.onSave(_value, _unit) : null,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      gradient: canSave
-                          ? const LinearGradient(
-                              colors: [
-                                AppColors.btnCyanStart,
-                                AppColors.btnCyanEnd,
-                              ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            )
-                          : null,
-                      color: canSave
-                          ? null
-                          : Colors.white.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(100),
-                      boxShadow: canSave
-                          ? [
-                              BoxShadow(
-                                color: AppColors.btnCyanGlow.withValues(
-                                  alpha: 0.4,
-                                ),
-                                blurRadius: 14,
-                                offset: const Offset(0, 4),
-                              ),
-                            ]
-                          : null,
-                    ),
-                    child: Center(
-                      child: Text(
-                        'save'.tr,
-                        style: TextStyle(
-                          color: canSave
-                              ? AppColors.btnCyanText
-                              : Colors.white38,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
+                return PrimaryButton(
+                  width: double.infinity,
+                  height: 50,
+                  text: 'save'.tr,
+                  useGradient: true,
+                  enabled: canSave,
+                  onPressed: () => widget.onSave(_value, _unit),
                 );
               },
             ),
@@ -1777,11 +1716,6 @@ class _UnitsSheetState extends State<_UnitsSheet> {
               width: double.infinity,
               text: 'save_unit'.tr,
               useGradient: true,
-              leading: const Icon(
-                Icons.water_drop_outlined,
-                color: AppColors.btnCyanText,
-                size: 18,
-              ),
               onPressed: () =>
                   widget.onSave(_volUnit, _weightUnit, _heightUnit),
             ),
@@ -1981,7 +1915,8 @@ class _TimeSheetState extends State<_TimeSheet> {
         children: [
           const SizedBox(height: 12),
           Container(
-            width: 40, height: 4,
+            width: 40,
+            height: 4,
             decoration: BoxDecoration(
               color: Colors.white24,
               borderRadius: BorderRadius.circular(2),
@@ -2019,11 +1954,6 @@ class _TimeSheetState extends State<_TimeSheet> {
               width: double.infinity,
               text: 'save_changes'.tr,
               useGradient: true,
-              leading: Icon(
-                widget.isNight ? Icons.nightlight_round : Icons.wb_sunny_outlined,
-                color: AppColors.btnCyanText,
-                size: 18,
-              ),
               onPressed: () => widget.onSave(_time),
             ),
           ),
@@ -2121,7 +2051,8 @@ class _LanguageSheetState extends State<_LanguageSheet> {
             child: Center(
               child: Image.asset(
                 'assets/images/webp/img_language.webp',
-                width: 44, height: 44,
+                width: 44,
+                height: 44,
                 fit: BoxFit.contain,
               ),
             ),

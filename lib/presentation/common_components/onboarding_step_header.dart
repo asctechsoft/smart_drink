@@ -1,5 +1,5 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
+import 'package:waternudge/values/app_colors.dart';
 
 class OnboardingStepHeader extends StatelessWidget {
   final String title;

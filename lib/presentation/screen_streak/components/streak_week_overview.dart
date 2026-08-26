@@ -1,9 +1,9 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:smartdrinkai/controller/streak_controller.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/streak_controller.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 /// "This week overview": days hit out of seven, plus a progress bar.
 class StreakWeekOverview extends StatelessWidget {

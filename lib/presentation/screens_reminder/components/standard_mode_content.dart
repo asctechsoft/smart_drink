@@ -1,11 +1,11 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:get/get.dart';
-import 'package:smartdrinkai/controller/reminder_controller.dart';
-import 'package:smartdrinkai/models/data_models/reminder_schedule.dart';
-import 'package:smartdrinkai/presentation/common_components/custom_switch.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_bottom_sheet.dart';
-import 'package:smartdrinkai/presentation/common_components/wheel_time_picker.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/reminder_controller.dart';
+import 'package:waternudge/models/data_models/reminder_schedule.dart';
+import 'package:waternudge/presentation/common_components/custom_switch.dart';
+import 'package:waternudge/presentation/common_components/primary_bottom_sheet.dart';
+import 'package:waternudge/presentation/common_components/wheel_time_picker.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 /// The "Standard mode" form of the reminder screen: master switch, active
 /// window, weekly schedule presets, an optional separate weekend window, the
@@ -39,17 +39,27 @@ class _StandardModeContentState extends State<StandardModeContent> {
       children: [
         _buildEnableCard(),
         const SizedBox(height: 12),
-        _buildWindowRow(),
-        const SizedBox(height: 18),
-        _buildScheduleApply(),
-        const SizedBox(height: 18),
-        _buildWeekendCard(),
-        const SizedBox(height: 18),
-        _buildSlots(),
-        const SizedBox(height: 18),
-        _buildSoundRow(),
-        const SizedBox(height: 10),
-        _buildPriorityRow(),
+        // Everything below is greyed out + non-interactive while the master
+        // reminder switch is off.
+        Obx(
+          () => DisabledOverlay(
+            disabled: !ctrl.enabled.value,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildWindowRow(),
+                const SizedBox(height: 18),
+                _buildScheduleApply(),
+                const SizedBox(height: 18),
+                _buildWeekendCard(),
+                const SizedBox(height: 18),
+                _buildSlots(),
+                const SizedBox(height: 18),
+                _buildSoundRow(),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -119,8 +129,11 @@ class _StandardModeContentState extends State<StandardModeContent> {
       ),
       child: Row(
         children: [
-          _iconCircle(Icons.schedule_rounded, const Color(0xFF4FC3F7),
-              size: 36),
+          _iconCircle(
+            Icons.schedule_rounded,
+            const Color(0xFF4FC3F7),
+            size: 36,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -134,8 +147,7 @@ class _StandardModeContentState extends State<StandardModeContent> {
           ),
           _rangePill(_activeStart, _activeEnd),
           const SizedBox(width: 4),
-          Icon(Icons.chevron_right_rounded,
-              size: 20, color: ob.textSecondary),
+          Icon(Icons.chevron_right_rounded, size: 20, color: ob.textSecondary),
         ],
       ),
     );
@@ -164,20 +176,45 @@ class _StandardModeContentState extends State<StandardModeContent> {
         const SizedBox(height: 12),
         Obx(() {
           final preset = _preset;
-          return Row(
-            children: [
-              _presetChip(Icons.calendar_month_rounded, 'Every day', null,
-                  preset == 'everyday', () => _setPreset([1, 2, 3, 4, 5, 6, 7])),
-              const SizedBox(width: 8),
-              _presetChip(Icons.calendar_view_week_rounded, 'Weekdays',
-                  'T2 - T6', preset == 'weekdays', () => _setPreset([1, 2, 3, 4, 5])),
-              const SizedBox(width: 8),
-              _presetChip(Icons.weekend_outlined, 'Weekends', 'T7 - CN',
-                  preset == 'weekends', () => _setPreset([6, 7])),
-              const SizedBox(width: 8),
-              _presetChip(Icons.edit_calendar_outlined, 'Custom', 'Chọn ngày',
-                  preset == 'custom', null),
-            ],
+          // IntrinsicHeight + stretch → all four cards share the tallest height
+          // even though 'Every day' has no subtitle line.
+          return IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _presetChip(
+                  Icons.calendar_month_rounded,
+                  'Every day',
+                  null,
+                  preset == 'everyday',
+                  () => _setPreset([1, 2, 3, 4, 5, 6, 7]),
+                ),
+                const SizedBox(width: 8),
+                _presetChip(
+                  Icons.calendar_view_week_rounded,
+                  'Weekdays',
+                  'T2 - T6',
+                  preset == 'weekdays',
+                  () => _setPreset([1, 2, 3, 4, 5]),
+                ),
+                const SizedBox(width: 8),
+                _presetChip(
+                  Icons.weekend_outlined,
+                  'Weekends',
+                  'T7 - CN',
+                  preset == 'weekends',
+                  () => _setPreset([6, 7]),
+                ),
+                const SizedBox(width: 8),
+                _presetChip(
+                  Icons.edit_calendar_outlined,
+                  'Custom',
+                  'Chọn ngày',
+                  preset == 'custom',
+                  null,
+                ),
+              ],
+            ),
           );
         }),
         const SizedBox(height: 12),
@@ -186,8 +223,11 @@ class _StandardModeContentState extends State<StandardModeContent> {
           return Row(
             children: [
               for (var d = 1; d <= 7; d++) ...[
-                _dayChip(_dayLabels[d - 1], days.contains(d),
-                    () => ctrl.toggleDay(d)),
+                _dayChip(
+                  _dayLabels[d - 1],
+                  days.contains(d),
+                  () => ctrl.toggleDay(d),
+                ),
                 if (d < 7) const SizedBox(width: 6),
               ],
             ],
@@ -209,8 +249,11 @@ class _StandardModeContentState extends State<StandardModeContent> {
         children: [
           Row(
             children: [
-              _iconCircle(Icons.timer_outlined, const Color(0xFF4FC3F7),
-                  size: 36),
+              _iconCircle(
+                Icons.timer_outlined,
+                const Color(0xFF4FC3F7),
+                size: 36,
+              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
@@ -301,8 +344,11 @@ class _StandardModeContentState extends State<StandardModeContent> {
             ),
             _rangePill(start, end),
             const SizedBox(width: 4),
-            Icon(Icons.chevron_right_rounded,
-                size: 20, color: ob.textSecondary),
+            Icon(
+              Icons.chevron_right_rounded,
+              size: 20,
+              color: ob.textSecondary,
+            ),
           ],
         ),
       ),
@@ -361,7 +407,12 @@ class _StandardModeContentState extends State<StandardModeContent> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Row(
         children: [
-          _iconCircle(_slotIcon(hour), _slotColor(hour), size: 34, iconSize: 17),
+          _iconCircle(
+            _slotIcon(hour),
+            _slotColor(hour),
+            size: 34,
+            iconSize: 17,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -393,8 +444,7 @@ class _StandardModeContentState extends State<StandardModeContent> {
               },
             ),
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
                 border: Border.all(
@@ -443,8 +493,11 @@ class _StandardModeContentState extends State<StandardModeContent> {
     return _card(
       child: Row(
         children: [
-          _iconCircle(Icons.volume_up_rounded, const Color(0xFF4FC3F7),
-              size: 36),
+          _iconCircle(
+            Icons.volume_up_rounded,
+            const Color(0xFF4FC3F7),
+            size: 36,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -468,39 +521,6 @@ class _StandardModeContentState extends State<StandardModeContent> {
           ),
           Text(
             'Giọt nước',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: ob.textActiveBottomNavBar,
-            ),
-          ),
-          const SizedBox(width: 4),
-          Icon(Icons.chevron_right_rounded, size: 20, color: ob.textSecondary),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPriorityRow() {
-    final ob = OnboardingTheme.of(context);
-    return _card(
-      child: Row(
-        children: [
-          _iconCircle(Icons.notifications_active_outlined,
-              const Color(0xFF4FC3F7), size: 36),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              'Độ ưu tiên thông báo',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: ob.textPrimary,
-              ),
-            ),
-          ),
-          Text(
-            'Cao',
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
@@ -538,21 +558,33 @@ class _StandardModeContentState extends State<StandardModeContent> {
     );
   }
 
+  // Unified icon box — matches the Settings screen (42×42 rounded square,
+  // mint icon, subtle white border). [color]/[size]/[iconSize] are ignored so
+  // every reminder icon is identical.
   Widget _iconCircle(
     IconData icon,
     Color color, {
     double size = 44,
     double? iconSize,
   }) {
+    return _settingsIconBox(icon);
+  }
+
+  static const Color _iconTint = Color(0xFF96D2A8);
+
+  Widget _settingsIconBox(IconData icon) {
     return Container(
-      width: size,
-      height: size,
+      width: 42,
+      height: 42,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: color.withValues(alpha: 0.12),
-        border: Border.all(color: color.withValues(alpha: 0.35)),
+        color: Colors.white.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.2),
+          width: 1,
+        ),
       ),
-      child: Icon(icon, size: iconSize ?? size * 0.42, color: color),
+      child: Center(child: Icon(icon, size: 24, color: _iconTint)),
     );
   }
 
@@ -610,13 +642,12 @@ class _StandardModeContentState extends State<StandardModeContent> {
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 icon,
                 size: 18,
-                color: selected
-                    ? Colors.white
-                    : ob.textActiveBottomNavBar,
+                color: selected ? Colors.white : ob.textActiveBottomNavBar,
               ),
               const SizedBox(height: 6),
               Text(
@@ -627,9 +658,7 @@ class _StandardModeContentState extends State<StandardModeContent> {
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
-                  color: selected
-                      ? Colors.white
-                      : ob.textPrimary,
+                  color: selected ? Colors.white : ob.textPrimary,
                 ),
               ),
               if (sub != null)
@@ -747,6 +776,32 @@ class _StandardModeContentState extends State<StandardModeContent> {
           },
         );
       },
+    );
+  }
+}
+
+/// Greys out + blocks interaction with [child] when [disabled] is true.
+/// Shared by the standard and interval reminder tabs so both switch off
+/// together with the master reminder toggle.
+class DisabledOverlay extends StatelessWidget {
+  final bool disabled;
+  final Widget child;
+
+  const DisabledOverlay({
+    super.key,
+    required this.disabled,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      ignoring: disabled,
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 200),
+        opacity: disabled ? 0.4 : 1.0,
+        child: child,
+      ),
     );
   }
 }

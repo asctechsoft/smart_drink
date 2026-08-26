@@ -2,11 +2,15 @@ import 'dart:math' as math;
 
 import 'package:dsp_base/app_material.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 import 'history_section.dart';
+
+/// Stat icon tint, matching the settings screen + month/year summary icons.
+const Color _statIconColor = Color(0xFF96D2A8);
 
 class DayProgressCard extends StatelessWidget {
   const DayProgressCard({
@@ -95,19 +99,35 @@ class DayProgressCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                     _StatRow(
-                      icon: Icons.water_drop_rounded,
+                      icon: SvgPicture.asset(
+                        'assets/images/svg/ic_cup_water_bar.svg',
+                        width: 20,
+                        height: 20,
+                        colorFilter: const ColorFilter.mode(
+                          _statIconColor,
+                          BlendMode.srcIn,
+                        ),
+                      ),
                       label: 'total_volume'.tr,
                       value: '$totalLabel $unit',
                     ),
                     const SizedBox(height: 14),
                     _StatRow(
-                      icon: Icons.local_drink_rounded,
+                      icon: const Icon(
+                        Icons.local_drink_rounded,
+                        size: 20,
+                        color: _statIconColor,
+                      ),
                       label: 'drink_count'.tr,
                       value: '$drinkCount ${'unit_times'.tr}',
                     ),
                     const SizedBox(height: 14),
                     _StatRow(
-                      icon: Icons.access_time_rounded,
+                      icon: const Icon(
+                        Icons.access_time_rounded,
+                        size: 20,
+                        color: _statIconColor,
+                      ),
                       label: 'last_drink'.tr,
                       value: lastDrinkTime ?? '--',
                     ),
@@ -131,7 +151,7 @@ class _StatRow extends StatelessWidget {
     required this.value,
   });
 
-  final IconData icon;
+  final Widget icon;
   final String label;
   final String value;
 
@@ -141,7 +161,7 @@ class _StatRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(icon, size: 20, color: AppColors.primary500Dark),
+        SizedBox(width: 20, height: 20, child: icon),
         const SizedBox(width: 10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,10 +278,17 @@ class _RingPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = stroke
       ..strokeCap = StrokeCap.round
-      ..shader = const SweepGradient(
-        startAngle: 0,
-        endAngle: math.pi * 2,
-        colors: [AppColors.accentTeal, AppColors.primary500Dark],
+      // Match the daily-goal bottom-sheet ring gradient.
+      ..shader = SweepGradient(
+        colors: const [
+          Color(0xFF50D1F0),
+          Color(0xFF1E69FF),
+          Color(0xFF50D1F0),
+        ],
+        stops: const [0.0, 0.5, 1.0],
+        startAngle: -math.pi / 2,
+        endAngle: -math.pi / 2 + math.pi * 2,
+        transform: const GradientRotation(-math.pi / 2),
       ).createShader(Rect.fromCircle(center: center, radius: radius));
 
     canvas.drawArc(

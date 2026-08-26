@@ -1,8 +1,9 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/route_name.dart';
+import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/route_name.dart';
 import 'package:get/get.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -19,7 +20,7 @@ class WelcomeScreen extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
+                  child: StaggerColumn(
                     children: [
                       const SizedBox(height: 16),
                       _buildHeroImage(),
@@ -38,7 +39,9 @@ class WelcomeScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 0, 24, 28),
-                child: PrimaryButton(
+                child: StaggerReveal(
+                  index: 6,
+                  child: PrimaryButton(
                   width: double.infinity,
                   text: 'welcome_start_btn'.tr,
                   onPressed: () => Get.toNamed(RouteName.onboardingGender),
@@ -56,6 +59,7 @@ class WelcomeScreen extends StatelessWidget {
                       size: 18,
                     ),
                   ),
+                ),
                 ),
               ),
             ],

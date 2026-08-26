@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">Următoarea numărătoare inversă pentru memento</string>
     <string name="widget_medium_b_desc">Consumul de astăzi cu adăugare rapidă</string>
     <string name="widget_large_desc">Tablou de bord complet cu istoric</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">Personalizat</string>
     <string name="today_s_intake">Consumul de astăzi</string>
     <string name="no_records_today">Nu există înregistrări astăzi</string>

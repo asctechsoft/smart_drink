@@ -1,4 +1,4 @@
-package com.amobi.drinkwater.drink_water.notification
+package com.amobi.drinkwater.water_nudge.notification
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -7,9 +7,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
-import com.amobi.drinkwater.drink_water.Const
-import com.amobi.drinkwater.drink_water.PrefAssist
-import com.amobi.drinkwater.drink_water.PrefConst
+import com.amobi.drinkwater.water_nudge.Const
+import com.amobi.drinkwater.water_nudge.PrefAssist
+import com.amobi.drinkwater.water_nudge.PrefConst
 
 /**
  * Periodic health-check receiver that ensures the ongoing notification

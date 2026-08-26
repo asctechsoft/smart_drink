@@ -1,8 +1,8 @@
-import 'package:smartdrinkai/controller/today_controller.dart';
-import 'package:smartdrinkai/models/data_models/daily_summary.dart';
-import 'package:smartdrinkai/models/data_models/drink_record.dart';
-import 'package:smartdrinkai/services/application/drink_data_service.dart';
-import 'package:smartdrinkai/utils/date_utils.dart';
+import 'package:waternudge/controller/today_controller.dart';
+import 'package:waternudge/models/data_models/daily_summary.dart';
+import 'package:waternudge/models/data_models/drink_record.dart';
+import 'package:waternudge/services/application/drink_data_service.dart';
+import 'package:waternudge/utils/date_utils.dart';
 import 'package:get/get.dart';
 import 'user_profile_controller.dart';
 

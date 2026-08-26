@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/utils/unit_converter.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 class ProgressRing extends StatelessWidget {
   final double progress; // 0.0 to 1.0

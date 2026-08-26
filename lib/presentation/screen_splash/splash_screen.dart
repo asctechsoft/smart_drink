@@ -1,8 +1,8 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/configs/pref_const.dart';
-import 'package:smartdrinkai/controller/user_profile_controller.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/values/route_name.dart';
+import 'package:waternudge/configs/pref_const.dart';
+import 'package:waternudge/controller/user_profile_controller.dart';
+import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/values/route_name.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

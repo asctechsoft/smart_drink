@@ -2,9 +2,9 @@ import 'dart:math' as math;
 
 import 'package:dsp_base/app_material.dart';
 import 'package:get/get.dart';
-import 'package:smartdrinkai/controller/settings_controller.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
+import 'package:waternudge/controller/settings_controller.dart';
+import 'package:waternudge/utils/unit_converter.dart';
+import 'package:waternudge/values/app_colors.dart';
 
 const double _ringStroke = 3;
 const double _arcStroke = 4.5;

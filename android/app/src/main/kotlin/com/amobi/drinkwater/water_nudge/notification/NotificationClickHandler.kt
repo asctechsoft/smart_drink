@@ -1,4 +1,4 @@
-package com.amobi.drinkwater.drink_water.notification
+package com.amobi.drinkwater.water_nudge.notification
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,13 +6,13 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import androidx.core.app.NotificationManagerCompat
-import com.amobi.drinkwater.drink_water.Const
-import com.amobi.drinkwater.drink_water.MainActivity
-import com.amobi.drinkwater.drink_water.PrefAssist
-import com.amobi.drinkwater.drink_water.PrefConst
-import com.amobi.drinkwater.drink_water.widget.WidgetActionReceiver
-import com.amobi.drinkwater.drink_water.widget.WidgetDataHelper
-import com.amobi.drinkwater.drink_water.widget.WidgetUpdateHelper
+import com.amobi.drinkwater.water_nudge.Const
+import com.amobi.drinkwater.water_nudge.MainActivity
+import com.amobi.drinkwater.water_nudge.PrefAssist
+import com.amobi.drinkwater.water_nudge.PrefConst
+import com.amobi.drinkwater.water_nudge.widget.WidgetActionReceiver
+import com.amobi.drinkwater.water_nudge.widget.WidgetDataHelper
+import com.amobi.drinkwater.water_nudge.widget.WidgetUpdateHelper
 
 class NotificationClickHandler : BroadcastReceiver() {
 

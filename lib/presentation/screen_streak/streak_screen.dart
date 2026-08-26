@@ -1,12 +1,12 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:get/get.dart';
-import 'package:smartdrinkai/controller/streak_controller.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/presentation/screen_streak/components/streak_calendar.dart';
-import 'package:smartdrinkai/presentation/screen_streak/components/streak_hero_card.dart';
-import 'package:smartdrinkai/presentation/screen_streak/components/streak_stat_card.dart';
-import 'package:smartdrinkai/presentation/screen_streak/components/streak_week_overview.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/streak_controller.dart';
+import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/presentation/screen_streak/components/streak_calendar.dart';
+import 'package:waternudge/presentation/screen_streak/components/streak_hero_card.dart';
+import 'package:waternudge/presentation/screen_streak/components/streak_stat_card.dart';
+import 'package:waternudge/presentation/screen_streak/components/streak_week_overview.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 class StreakScreen extends StatelessWidget {
   const StreakScreen({super.key});

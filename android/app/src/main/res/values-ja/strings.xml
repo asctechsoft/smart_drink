@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">次のリマインダーのカウントダウン</string>
     <string name="widget_medium_b_desc">今日の摂取をクイック追加</string>
     <string name="widget_large_desc">履歴付きフルダッシュボード</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">カスタム</string>
     <string name="today_s_intake">今日の摂取量</string>
     <string name="no_records_today">今日の記録はありません</string>

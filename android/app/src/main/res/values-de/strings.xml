@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">Countdown zur nächsten erinnerung</string>
     <string name="widget_medium_b_desc">Heutige aufnahme mit schnellzugabe</string>
     <string name="widget_large_desc">Vollständiges dashboard mit verlauf</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">Benutzerdefiniert</string>
     <string name="today_s_intake">Heutige aufnahme</string>
     <string name="no_records_today">Keine aufzeichnungen heute</string>

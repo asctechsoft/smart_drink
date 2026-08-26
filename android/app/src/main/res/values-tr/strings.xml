@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">Sonraki hatırlatma geri sayımı</string>
     <string name="widget_medium_b_desc">Hızlı eklemeyle bugünün alımı</string>
     <string name="widget_large_desc">Tam gösterge paneli ve tarihçe</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">Özel</string>
     <string name="today_s_intake">Bugünün alımı</string>
     <string name="no_records_today">Bugün kayıt yok</string>

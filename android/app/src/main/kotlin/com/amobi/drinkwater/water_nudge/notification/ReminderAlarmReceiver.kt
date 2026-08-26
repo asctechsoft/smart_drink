@@ -1,4 +1,4 @@
-package com.amobi.drinkwater.drink_water.notification
+package com.amobi.drinkwater.water_nudge.notification
 
 import android.Manifest
 import android.app.AlarmManager
@@ -13,11 +13,11 @@ import android.widget.RemoteViews
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.amobi.drinkwater.drink_water.Const
-import com.amobi.drinkwater.drink_water.MainActivity
-import com.amobi.drinkwater.drink_water.PrefAssist
-import com.amobi.drinkwater.drink_water.PrefConst
-import com.amobi.drinkwater.drink_water.R
+import com.amobi.drinkwater.water_nudge.Const
+import com.amobi.drinkwater.water_nudge.MainActivity
+import com.amobi.drinkwater.water_nudge.PrefAssist
+import com.amobi.drinkwater.water_nudge.PrefConst
+import com.amobi.drinkwater.water_nudge.R
 import java.util.Calendar
 
 class ReminderAlarmReceiver : BroadcastReceiver() {

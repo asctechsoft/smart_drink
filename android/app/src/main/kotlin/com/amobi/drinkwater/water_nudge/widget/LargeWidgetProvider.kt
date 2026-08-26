@@ -1,4 +1,4 @@
-package com.amobi.drinkwater.drink_water.widget
+package com.amobi.drinkwater.water_nudge.widget
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -7,8 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.RemoteViews
-import com.amobi.drinkwater.drink_water.MainActivity
-import com.amobi.drinkwater.drink_water.R
+import com.amobi.drinkwater.water_nudge.MainActivity
+import com.amobi.drinkwater.water_nudge.R
 
 class LargeWidgetProvider : AppWidgetProvider() {
 

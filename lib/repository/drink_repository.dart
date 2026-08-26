@@ -1,7 +1,7 @@
-import 'package:smartdrinkai/models/data_models/daily_summary.dart';
-import 'package:smartdrinkai/models/data_models/drink_record.dart';
-import 'package:smartdrinkai/services/storage/database_helper.dart';
-import 'package:smartdrinkai/services/storage/schema.dart';
+import 'package:waternudge/models/data_models/daily_summary.dart';
+import 'package:waternudge/models/data_models/drink_record.dart';
+import 'package:waternudge/services/storage/database_helper.dart';
+import 'package:waternudge/services/storage/schema.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 

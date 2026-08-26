@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:smartdrinkai/models/data_models/daily_summary.dart';
-import 'package:smartdrinkai/services/application/drink_data_service.dart';
-import 'package:smartdrinkai/utils/date_utils.dart';
+import 'package:waternudge/models/data_models/daily_summary.dart';
+import 'package:waternudge/services/application/drink_data_service.dart';
+import 'package:waternudge/utils/date_utils.dart';
 
 /// How a single calendar day scored against the daily goal.
 enum DayStatus {

@@ -1,4 +1,4 @@
-package com.amobi.drinkwater.drink_water
+package com.amobi.drinkwater.water_nudge
 
 import android.content.Context
 import android.content.SharedPreferences

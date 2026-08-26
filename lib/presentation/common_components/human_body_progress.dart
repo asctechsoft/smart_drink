@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/utils/unit_converter.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 class HumanBodyProgress extends StatefulWidget {
   final double progress;

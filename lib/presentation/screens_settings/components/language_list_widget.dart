@@ -1,8 +1,8 @@
 import 'package:dsp_base/app_localize.dart';
 import 'package:dsp_base/app_material.dart';
 import 'package:country_flags/country_flags.dart';
-import 'package:smartdrinkai/controller/languages_controller.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/languages_controller.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

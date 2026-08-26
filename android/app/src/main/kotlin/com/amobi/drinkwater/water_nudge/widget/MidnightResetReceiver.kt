@@ -1,12 +1,12 @@
-package com.amobi.drinkwater.drink_water.widget
+package com.amobi.drinkwater.water_nudge.widget
 
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.amobi.drinkwater.drink_water.PrefAssist
-import com.amobi.drinkwater.drink_water.PrefConst
+import com.amobi.drinkwater.water_nudge.PrefAssist
+import com.amobi.drinkwater.water_nudge.PrefConst
 import java.util.Calendar
 
 /**

@@ -1,8 +1,8 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/controller/reminder_controller.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_bottom_sheet.dart';
-import 'package:smartdrinkai/utils/toast_utils.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/reminder_controller.dart';
+import 'package:waternudge/presentation/common_components/primary_bottom_sheet.dart';
+import 'package:waternudge/utils/toast_utils.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:get/get.dart';
 
 import 'standard_mode_content.dart';
@@ -59,7 +59,9 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
   Widget build(BuildContext context) {
     final ob = OnboardingTheme.of(context);
     return Obx(() {
-      return Container(
+      return DisabledOverlay(
+        disabled: !controller.enabled.value,
+        child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.05),
@@ -241,20 +243,25 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
             ),
           ],
         ),
+        ),
       );
     });
   }
 
+  // Unified icon box — matches the Settings screen (42×42 rounded square,
+  // mint icon, subtle white border).
   Widget _iconCircle(IconData icon) {
     return Container(
-      width: 44,
-      height: 44,
+      width: 42,
+      height: 42,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: _cyan.withValues(alpha: 0.12),
-        border: Border.all(color: _cyan.withValues(alpha: 0.35)),
+        color: Colors.white.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.2), width: 1),
       ),
-      child: Icon(icon, size: 22, color: _cyan),
+      child: Center(
+        child: Icon(icon, size: 24, color: const Color(0xFF96D2A8)),
+      ),
     );
   }
 

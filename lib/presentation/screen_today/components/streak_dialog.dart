@@ -10,14 +10,28 @@ Future<void> showStreakDialog(
   required int previousStreak,
   required int currentStreak,
 }) {
-  return showDialog(
+  return showGeneralDialog(
     context: context,
     barrierDismissible: true,
-    barrierColor: Colors.black.withValues(alpha: 0.7),
-    builder: (_) => _StreakDialog(
+    barrierLabel: 'streak',
+    barrierColor: Colors.black.withValues(alpha: 0.72),
+    transitionDuration: const Duration(milliseconds: 380),
+    pageBuilder: (_, _, _) => _StreakDialog(
       previousStreak: previousStreak,
       currentStreak: currentStreak,
     ),
+    transitionBuilder: (_, anim, _, child) {
+      // Pop-in: fade + a slight overshoot scale.
+      return FadeTransition(
+        opacity: CurvedAnimation(parent: anim, curve: Curves.easeOut),
+        child: ScaleTransition(
+          scale: Tween<double>(begin: 0.85, end: 1.0).animate(
+            CurvedAnimation(parent: anim, curve: Curves.easeOutBack),
+          ),
+          child: child,
+        ),
+      );
+    },
   );
 }
 
@@ -55,8 +69,8 @@ class _StreakDialog extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      const Color(0xFF000E2E).withValues(alpha: 0.55),
-                      const Color(0xFF001060).withValues(alpha: 0.75),
+                      const Color(0xFF0A2E66).withValues(alpha: 0.32),
+                      const Color(0xFF06246E).withValues(alpha: 0.55),
                     ],
                   ),
                 ),
@@ -128,11 +142,17 @@ class _StreakDialog extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFF001A5E).withValues(alpha: 0.7),
+        color: const Color(0xFF0A3C8F).withValues(alpha: 0.75),
         borderRadius: BorderRadius.circular(100),
         border: Border.all(
-          color: const Color(0xFF00CFFF).withValues(alpha: 0.35),
+          color: const Color(0xFF3FE0FF).withValues(alpha: 0.55),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF00CFFF).withValues(alpha: 0.25),
+            blurRadius: 14,
+          ),
+        ],
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -356,12 +376,12 @@ class _DayCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final borderColor = highlight
-        ? const Color(0xFF00CFFF).withValues(alpha: 0.7)
-        : Colors.white.withValues(alpha: 0.15);
-    final countColor = highlight ? const Color(0xFF5FD9FF) : Colors.white;
+        ? const Color(0xFF3FE0FF).withValues(alpha: 0.85)
+        : Colors.white.withValues(alpha: 0.22);
+    final countColor = highlight ? const Color(0xFF7FE6FF) : Colors.white;
     final bgColor = highlight
-        ? const Color(0xFF002060).withValues(alpha: 0.6)
-        : const Color(0xFF001040).withValues(alpha: 0.5);
+        ? const Color(0xFF0C3F8E).withValues(alpha: 0.7)
+        : const Color(0xFF08306E).withValues(alpha: 0.55);
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),

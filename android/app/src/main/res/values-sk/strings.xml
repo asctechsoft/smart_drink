@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">Odpočítavanie do ďalšieho pripomenutia</string>
     <string name="widget_medium_b_desc">Dnešný príjem s rýchlym pridaním</string>
     <string name="widget_large_desc">Kompletný dashboard s históriou</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">Vlastné</string>
     <string name="today_s_intake">Dnešný príjem</string>
     <string name="no_records_today">Dnes žiadne záznamy</string>

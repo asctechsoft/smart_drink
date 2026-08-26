@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smartdrinkai/controller/onboarding_controller.dart';
-import 'package:smartdrinkai/models/ui_models/weather_condition.dart';
-import 'package:smartdrinkai/presentation/common_components/selectable_option_tile.dart';
-import 'package:smartdrinkai/presentation/screens_onboarding/weather_screen.dart';
+import 'package:waternudge/controller/onboarding_controller.dart';
+import 'package:waternudge/models/ui_models/weather_condition.dart';
+import 'package:waternudge/presentation/common_components/selectable_option_tile.dart';
+import 'package:waternudge/presentation/screens_onboarding/weather_screen.dart';
 
 void main() {
   late OnboardingController controller;

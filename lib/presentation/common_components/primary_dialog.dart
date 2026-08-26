@@ -1,16 +1,18 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 class PrimaryDialog extends StatelessWidget {
   final String? title;
   final Widget content;
   final EdgeInsets? padding;
+  final EdgeInsets? insetPadding;
 
   const PrimaryDialog({
     super.key,
     this.title,
     required this.content,
     this.padding,
+    this.insetPadding,
   });
 
   static Future<T?> show<T>({
@@ -30,7 +32,9 @@ class PrimaryDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final ob = OnboardingTheme.of(context);
     return Dialog(
-      insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      insetPadding:
+          insetPadding ??
+          const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       elevation: 12,
       backgroundColor: Colors.transparent,

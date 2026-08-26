@@ -1,4 +1,4 @@
-package com.amobi.drinkwater.drink_water
+package com.amobi.drinkwater.water_nudge
 
 import android.Manifest
 import android.appwidget.AppWidgetManager
@@ -7,9 +7,9 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.amobi.drinkwater.drink_water.notification.FCMTokenManager
-import com.amobi.drinkwater.drink_water.notification.NotificationCenter
-import com.amobi.drinkwater.drink_water.widget.*
+import com.amobi.drinkwater.water_nudge.notification.FCMTokenManager
+import com.amobi.drinkwater.water_nudge.notification.NotificationCenter
+import com.amobi.drinkwater.water_nudge.widget.*
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel

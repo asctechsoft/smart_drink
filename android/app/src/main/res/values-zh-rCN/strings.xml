@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">下次提醒倒计时</string>
     <string name="widget_medium_b_desc">今日摄入快速添加</string>
     <string name="widget_large_desc">完整仪表盘（含历史记录）</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">自定义</string>
     <string name="today_s_intake">今日摄入</string>
     <string name="no_records_today">今天没有记录</string>

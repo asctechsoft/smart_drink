@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">다음 알림 카운트다운</string>
     <string name="widget_medium_b_desc">빠른 추가로 오늘의 섭취량</string>
     <string name="widget_large_desc">전체 대시보드 및 기록</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">사용자 지정</string>
     <string name="today_s_intake">오늘의 섭취량</string>
     <string name="no_records_today">오늘 기록 없음</string>

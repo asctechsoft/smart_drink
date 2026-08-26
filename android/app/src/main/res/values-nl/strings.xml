@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">Aftelling tot volgende herinnering</string>
     <string name="widget_medium_b_desc">De intake van vandaag met snelle toevoeging</string>
     <string name="widget_large_desc">Volledig dashboard met geschiedenis</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">Aangepast</string>
     <string name="today_s_intake">Inname van vandaag</string>
     <string name="no_records_today">Geen records vandaag</string>

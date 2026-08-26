@@ -1,9 +1,9 @@
-import 'package:smartdrinkai/configs/pref_const.dart';
-import 'package:smartdrinkai/configs/pref_defaults.dart';
-import 'package:smartdrinkai/models/data_models/reminder_schedule.dart';
-import 'package:smartdrinkai/models/ui_models/reminder_mode.dart';
-import 'package:smartdrinkai/repository/user_repository.dart';
-import 'package:smartdrinkai/services/native/notification_channel.dart';
+import 'package:waternudge/configs/pref_const.dart';
+import 'package:waternudge/configs/pref_defaults.dart';
+import 'package:waternudge/models/data_models/reminder_schedule.dart';
+import 'package:waternudge/models/ui_models/reminder_mode.dart';
+import 'package:waternudge/repository/user_repository.dart';
+import 'package:waternudge/services/native/notification_channel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,9 +57,8 @@ class ReminderController extends GetxController {
     enabled.value =
         prefs.getBool(PrefConst.reminderEnabled) ??
         PrefDefaults.reminderEnabled;
-    mode.value = ReminderMode.fromString(
-      prefs.getString(PrefConst.reminderMode) ?? PrefDefaults.reminderMode,
-    );
+    // Always open on the Standard tab regardless of the last saved mode.
+    mode.value = ReminderMode.standard;
     soundEffect.value =
         prefs.getString(PrefConst.soundEffect) ?? PrefDefaults.soundEffect;
     soundEffectEnabled.value =

@@ -1,13 +1,14 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:get/get.dart';
-import 'package:smartdrinkai/controller/onboarding_controller.dart';
-import 'package:smartdrinkai/models/ui_models/weather_condition.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_progress_bar.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/presentation/common_components/selectable_option_tile.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/route_name.dart';
+import 'package:waternudge/controller/onboarding_controller.dart';
+import 'package:waternudge/models/ui_models/weather_condition.dart';
+import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
+import 'package:waternudge/presentation/common_components/onboarding_progress_bar.dart';
+import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/presentation/common_components/selectable_option_tile.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/route_name.dart';
 
 /// Weather affects the daily goal, so it is asked right after weight.
 class WeatherScreen extends StatelessWidget {
@@ -34,8 +35,8 @@ class WeatherScreen extends StatelessWidget {
                 onBack: () => Get.back(),
               ),
               Expanded(
-                child: AppColumn(
-                  modifier: Modifier.paddingAll(24),
+                child: StaggerColumn(
+                  padding: const EdgeInsets.all(24),
                   children: [
                     _buildTitle(),
                     AppSpacerH20,

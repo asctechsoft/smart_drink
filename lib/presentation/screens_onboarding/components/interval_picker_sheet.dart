@@ -1,9 +1,9 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/controller/onboarding_controller.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_bottom_sheet.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
-import 'package:smartdrinkai/utils/toast_utils.dart';
+import 'package:waternudge/controller/onboarding_controller.dart';
+import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/presentation/common_components/primary_bottom_sheet.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
+import 'package:waternudge/utils/toast_utils.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class IntervalPickerSheet extends StatefulWidget {

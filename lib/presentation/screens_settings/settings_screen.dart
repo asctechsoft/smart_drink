@@ -1,10 +1,10 @@
 import 'package:dsp_base/app_localize.dart';
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/controller/auth_controller.dart';
-import 'package:smartdrinkai/controller/settings_controller.dart';
-import 'package:smartdrinkai/controller/user_profile_controller.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
+import 'package:waternudge/controller/auth_controller.dart';
+import 'package:waternudge/controller/settings_controller.dart';
+import 'package:waternudge/controller/user_profile_controller.dart';
+import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/utils/unit_converter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'settings_bottom_sheets.dart';
@@ -23,7 +23,7 @@ class SettingsScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
             children: [
               // ── Header ──
               _buildHeader(context),

@@ -1,9 +1,9 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/controller/today_controller.dart';
-import 'package:smartdrinkai/models/ui_models/drink_type.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/presentation/screen_today/components/drink_selection_bottom_sheet.dart';
-import 'package:smartdrinkai/utils/toast_utils.dart';
+import 'package:waternudge/controller/today_controller.dart';
+import 'package:waternudge/models/ui_models/drink_type.dart';
+import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/presentation/screen_today/components/drink_selection_bottom_sheet.dart';
+import 'package:waternudge/utils/toast_utils.dart';
 import 'package:get/get.dart';
 
 class AddDrinkButton extends StatelessWidget {

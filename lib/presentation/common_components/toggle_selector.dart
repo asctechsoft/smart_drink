@@ -1,6 +1,6 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ToggleSelector extends StatelessWidget {
@@ -39,9 +39,10 @@ class ToggleSelector extends StatelessWidget {
         : ob.borderTabHistory;
 
     return AppRow(
-      modifier: Modifier.background(color: trackColor, radius: 48)
-          .border(color: trackBorder, width: 1, radius: 48)
-          .paddingAll(4),
+      modifier: Modifier.background(
+        color: trackColor,
+        radius: 48,
+      ).border(color: trackBorder, width: 1, radius: 48).paddingAll(4),
       mainAxisSize: isExpanded ? MainAxisSize.max : MainAxisSize.min,
       children: List.generate(options.length, (index) {
         final isSelected = index == selectedIndex;

@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">ඊළඟ සිහිකිරීම ගණනය</string>
     <string name="widget_medium_b_desc">ඉක්මන් එකතු කිරීම සමඟ අද දින ගැනීම</string>
     <string name="widget_large_desc">ඉතිහාස සහිත සම්පූර්ණ ඩෑෂ්බෝඩ්</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">අභිරුචි</string>
     <string name="today_s_intake">අදගේ ආහාර පරිභෝජනය</string>
     <string name="no_records_today">අද වාර්තා නැත</string>

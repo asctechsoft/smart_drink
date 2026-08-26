@@ -1,9 +1,9 @@
-package com.amobi.drinkwater.drink_water.notification
+package com.amobi.drinkwater.water_nudge.notification
 
 import android.util.Log
-import com.amobi.drinkwater.drink_water.Const
-import com.amobi.drinkwater.drink_water.PrefAssist
-import com.amobi.drinkwater.drink_water.PrefConst
+import com.amobi.drinkwater.water_nudge.Const
+import com.amobi.drinkwater.water_nudge.PrefAssist
+import com.amobi.drinkwater.water_nudge.PrefConst
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import java.util.Objects

@@ -1,4 +1,4 @@
-package com.amobi.drinkwater.drink_water
+package com.amobi.drinkwater.water_nudge
 
 object PrefConst {
     // Flutter shared_preferences keys (accessed with flutter. prefix via PrefAssist)

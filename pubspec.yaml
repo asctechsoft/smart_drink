@@ -1,5 +1,5 @@
-name: smartdrinkai
-description: "SmartDrink AI"
+name: waternudge
+description: "WaterNudge"
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -44,7 +44,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/png/logo_app_v3.png"
+  image_path: "assets/images/png/logo_app_v4.png"
   min_sdk_android: 21
   remove_alpha_ios: true
 

@@ -1,4 +1,4 @@
-package com.amobi.drinkwater.drink_water.notification
+package com.amobi.drinkwater.water_nudge.notification
 
 import android.content.Intent
 import android.os.Build
@@ -8,10 +8,10 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.amobi.drinkwater.drink_water.MainActivity
-import com.amobi.drinkwater.drink_water.PrefAssist
-import com.amobi.drinkwater.drink_water.PrefConst
-import com.amobi.drinkwater.drink_water.R
+import com.amobi.drinkwater.water_nudge.MainActivity
+import com.amobi.drinkwater.water_nudge.PrefAssist
+import com.amobi.drinkwater.water_nudge.PrefConst
+import com.amobi.drinkwater.water_nudge.R
 import java.lang.ref.WeakReference
 
 class DailyFullScreenActivity : AppCompatActivity() {

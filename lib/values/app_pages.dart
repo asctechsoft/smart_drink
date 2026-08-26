@@ -12,6 +12,7 @@ import '../presentation/screens_onboarding/weather_screen.dart';
 import '../presentation/screens_onboarding/wakeup_screen.dart';
 import '../presentation/screens_onboarding/bedtime_screen.dart';
 import '../presentation/screens_onboarding/building_schedule_screen.dart';
+import '../presentation/screens_onboarding/daily_goal_result_screen.dart';
 import '../presentation/screen_home/home_screen.dart';
 import '../presentation/screen_today/add_drink_screen.dart';
 
@@ -61,6 +62,10 @@ class AppPages {
     GetPage(
       name: RouteName.onboardingBuildingSchedule,
       page: () => const BuildingScheduleScreen(),
+    ),
+    GetPage(
+      name: RouteName.onboardingDailyGoal,
+      page: () => const DailyGoalResultScreen(),
     ),
     GetPage(name: RouteName.home, page: () => const HomeScreen()),
     GetPage(name: RouteName.addDrink, page: () => const AddDrinkScreen()),

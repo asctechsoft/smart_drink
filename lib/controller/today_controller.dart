@@ -1,18 +1,18 @@
-import 'package:smartdrinkai/configs/pref_const.dart';
-import 'package:smartdrinkai/configs/pref_defaults.dart';
-import 'package:smartdrinkai/models/data_models/drink_record.dart';
-import 'package:smartdrinkai/models/ui_models/activity_level.dart';
-import 'package:smartdrinkai/models/ui_models/drink_type.dart';
-import 'package:smartdrinkai/models/ui_models/reminder_mode.dart';
-import 'package:smartdrinkai/models/ui_models/weather_condition.dart';
-import 'package:smartdrinkai/repository/user_repository.dart';
-import 'package:smartdrinkai/services/application/drink_data_service.dart';
-import 'package:smartdrinkai/services/native/notification_channel.dart';
-import 'package:smartdrinkai/services/native/widget_channel.dart';
-import 'package:smartdrinkai/utils/date_utils.dart';
-import 'package:smartdrinkai/utils/loading_utils.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
-import 'package:smartdrinkai/utils/water_calculation.dart';
+import 'package:waternudge/configs/pref_const.dart';
+import 'package:waternudge/configs/pref_defaults.dart';
+import 'package:waternudge/models/data_models/drink_record.dart';
+import 'package:waternudge/models/ui_models/activity_level.dart';
+import 'package:waternudge/models/ui_models/drink_type.dart';
+import 'package:waternudge/models/ui_models/reminder_mode.dart';
+import 'package:waternudge/models/ui_models/weather_condition.dart';
+import 'package:waternudge/repository/user_repository.dart';
+import 'package:waternudge/services/application/drink_data_service.dart';
+import 'package:waternudge/services/native/notification_channel.dart';
+import 'package:waternudge/services/native/widget_channel.dart';
+import 'package:waternudge/utils/date_utils.dart';
+import 'package:waternudge/utils/loading_utils.dart';
+import 'package:waternudge/utils/unit_converter.dart';
+import 'package:waternudge/utils/water_calculation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -157,7 +157,8 @@ class TodayController extends GetxController with WidgetsBindingObserver {
         prefs.getBool(PrefConst.notificationOngoingEnabled) ??
         PrefDefaults.notificationOngoingEnabled;
     if (enabled) {
-      await NotificationChannel.requestPermission();
+      // Permission is now requested during onboarding (building-schedule
+      // screen), so we no longer prompt here.
       await NotificationChannel.startOngoingNotification();
     }
   }

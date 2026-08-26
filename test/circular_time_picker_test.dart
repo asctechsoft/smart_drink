@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smartdrinkai/controller/settings_controller.dart';
-import 'package:smartdrinkai/presentation/common_components/circular_time_picker.dart';
+import 'package:waternudge/controller/settings_controller.dart';
+import 'package:waternudge/presentation/common_components/circular_time_picker.dart';
 
 void main() {
   setUp(() {

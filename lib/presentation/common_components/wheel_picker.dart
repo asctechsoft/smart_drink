@@ -1,5 +1,5 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 class WheelPicker extends StatefulWidget {
   final int minValue;

@@ -1,7 +1,7 @@
-import 'package:smartdrinkai/models/data_models/reminder_schedule.dart';
-import 'package:smartdrinkai/models/data_models/user_profile.dart';
-import 'package:smartdrinkai/services/storage/database_helper.dart';
-import 'package:smartdrinkai/services/storage/schema.dart';
+import 'package:waternudge/models/data_models/reminder_schedule.dart';
+import 'package:waternudge/models/data_models/user_profile.dart';
+import 'package:waternudge/services/storage/database_helper.dart';
+import 'package:waternudge/services/storage/schema.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 

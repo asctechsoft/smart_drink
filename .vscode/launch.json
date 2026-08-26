@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "drink_water (AlphaDebug)",
+      "name": "water_nudge (AlphaDebug)",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
@@ -12,7 +12,7 @@
       ]
     },
     {
-      "name": "drink_water (DevDebug)",
+      "name": "water_nudge (DevDebug)",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "name": "drink_water (DevRelease)",
+      "name": "water_nudge (DevRelease)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
@@ -33,7 +33,7 @@
       ]
     },
     {
-      "name": "drink_water (ProductRelease)",
+      "name": "water_nudge (ProductRelease)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",

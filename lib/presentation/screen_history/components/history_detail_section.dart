@@ -2,13 +2,13 @@ import 'package:dsp_base/app_material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
-import 'package:smartdrinkai/controller/settings_controller.dart';
-import 'package:smartdrinkai/models/data_models/daily_summary.dart';
-import 'package:smartdrinkai/models/data_models/drink_record.dart';
-import 'package:smartdrinkai/models/ui_models/drink_type.dart';
-import 'package:smartdrinkai/utils/date_utils.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/settings_controller.dart';
+import 'package:waternudge/models/data_models/daily_summary.dart';
+import 'package:waternudge/models/data_models/drink_record.dart';
+import 'package:waternudge/models/ui_models/drink_type.dart';
+import 'package:waternudge/utils/date_utils.dart';
+import 'package:waternudge/utils/unit_converter.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 import 'history_section.dart';
 

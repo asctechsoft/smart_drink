@@ -1,16 +1,16 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/controller/settings_controller.dart';
-import 'package:smartdrinkai/controller/today_controller.dart';
-import 'package:smartdrinkai/controller/user_profile_controller.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/presentation/screen_today/components/streak_dialog.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/controller/settings_controller.dart';
+import 'package:waternudge/controller/today_controller.dart';
+import 'package:waternudge/controller/user_profile_controller.dart';
+import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/presentation/screen_today/components/streak_dialog.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 import 'package:get/get.dart';
-import 'package:smartdrinkai/presentation/screen_today/components/today_header.dart';
-import 'package:smartdrinkai/presentation/screen_today/components/drink_action_bar.dart';
-import 'package:smartdrinkai/presentation/common_components/water_human_progress.dart';
+import 'package:waternudge/presentation/screen_today/components/today_header.dart';
+import 'package:waternudge/presentation/screen_today/components/drink_action_bar.dart';
+import 'package:waternudge/presentation/common_components/water_human_progress.dart';
 
 class TodayScreen extends StatefulWidget {
   const TodayScreen({super.key});
@@ -160,7 +160,53 @@ class _TodayScreenState extends State<TodayScreen> {
     final ob = OnboardingTheme.of(context);
     final currentMl = controller.currentIntakeMl.value;
     final goalMl = controller.adjustedGoal;
-    final remaining = (goalMl - currentMl) > 0 ? (goalMl - currentMl) : 0;
+
+    // Three states: still short of goal, exactly done, or exceeded.
+    final List<Widget> content;
+    if (goalMl > 0 && currentMl > goalMl) {
+      final pct = ((currentMl - goalMl) / goalMl * 100).round();
+      content = [
+        Text(
+          'Vượt quá $pct%',
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: AppColors.error,
+          ),
+        ),
+      ];
+    } else if (goalMl > 0 && currentMl >= goalMl) {
+      content = [
+        const Text(
+          'Hoàn thành mục tiêu',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: AppColors.success,
+          ),
+        ),
+      ];
+    } else {
+      final remaining = goalMl - currentMl;
+      content = [
+        Text(
+          'Còn lại ',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: ob.textPrimary.withValues(alpha: 0.7),
+          ),
+        ),
+        Text(
+          '$remaining ml',
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF67B5E2),
+          ),
+        ),
+      ];
+    }
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -172,30 +218,7 @@ class _TodayScreenState extends State<TodayScreen> {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Còn lại ',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: ob.textPrimary.withValues(alpha: 0.7),
-            ),
-          ),
-          Text(
-            '$remaining ml',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF67B5E2),
-            ),
-          ),
-          const SizedBox(width: 6),
-          Icon(
-            Icons.chevron_right_rounded,
-            color: ob.textPrimary.withValues(alpha: 0.5),
-            size: 18,
-          ),
-        ],
+        children: content,
       ),
     );
   }

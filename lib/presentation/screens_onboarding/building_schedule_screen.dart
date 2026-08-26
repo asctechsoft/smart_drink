@@ -2,9 +2,11 @@ import 'dart:math' as math;
 
 import 'package:dsp_base/app_material.dart';
 import 'package:get/get.dart';
-import 'package:smartdrinkai/controller/onboarding_controller.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
+import 'package:waternudge/controller/onboarding_controller.dart';
+import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
+import 'package:waternudge/services/native/notification_channel.dart';
+import 'package:waternudge/values/app_colors.dart';
 
 /// Closing onboarding screen: runs a short analysis animation, then persists the
 /// profile and moves on to the home screen.
@@ -41,6 +43,9 @@ class _BuildingScheduleScreenState extends State<BuildingScheduleScreen>
   @override
   void initState() {
     super.initState();
+    // Ask for the notification permission here (while the analysis animation
+    // runs) instead of at app launch.
+    NotificationChannel.requestPermission();
     _progress.forward();
     _progress.addStatusListener((status) {
       if (status == AnimationStatus.completed) _finish();
@@ -66,8 +71,8 @@ class _BuildingScheduleScreenState extends State<BuildingScheduleScreen>
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: AppColumn(
-            modifier: Modifier.paddingAll(24),
+          child: StaggerColumn(
+            padding: const EdgeInsets.all(24),
             children: [
               AppSpacerH40,
               _buildTitle(),

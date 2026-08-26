@@ -1,5 +1,5 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
+import 'package:waternudge/values/app_colors.dart';
 import 'package:get/utils.dart';
 
 class GenderCard extends StatelessWidget {

@@ -1,6 +1,6 @@
-import 'package:smartdrinkai/models/data_models/user_profile.dart';
-import 'package:smartdrinkai/models/ui_models/activity_level.dart';
-import 'package:smartdrinkai/models/ui_models/weather_condition.dart';
+import 'package:waternudge/models/data_models/user_profile.dart';
+import 'package:waternudge/models/ui_models/activity_level.dart';
+import 'package:waternudge/models/ui_models/weather_condition.dart';
 
 class WaterCalculation {
   static int calculateDailyGoal({

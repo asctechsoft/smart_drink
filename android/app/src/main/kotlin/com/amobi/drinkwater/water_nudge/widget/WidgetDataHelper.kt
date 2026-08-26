@@ -1,9 +1,9 @@
-package com.amobi.drinkwater.drink_water.widget
+package com.amobi.drinkwater.water_nudge.widget
 
 import android.content.Context
-import com.amobi.drinkwater.drink_water.PrefAssist
-import com.amobi.drinkwater.drink_water.PrefConst
-import com.amobi.drinkwater.drink_water.R
+import com.amobi.drinkwater.water_nudge.PrefAssist
+import com.amobi.drinkwater.water_nudge.PrefConst
+import com.amobi.drinkwater.water_nudge.R
 import org.json.JSONArray
 import java.util.Locale
 

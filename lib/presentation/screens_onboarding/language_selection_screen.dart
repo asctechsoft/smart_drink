@@ -2,12 +2,13 @@ import 'package:country_flags/country_flags.dart';
 import 'package:dsp_base/app_localize.dart';
 import 'package:dsp_base/app_material.dart';
 import 'package:get/get.dart';
-import 'package:smartdrinkai/controller/languages_controller.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/presentation/common_components/selectable_option_tile.dart';
-import 'package:smartdrinkai/utils/language_names.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/route_name.dart';
+import 'package:waternudge/controller/languages_controller.dart';
+import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/presentation/common_components/selectable_option_tile.dart';
+import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
+import 'package:waternudge/utils/language_names.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/route_name.dart';
 
 /// First-run language picker, shown between the splash and the welcome screen.
 class LanguageSelectionScreen extends StatefulWidget {
@@ -31,7 +32,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: AppColumn(
+          child: StaggerColumn(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _buildHeader(),

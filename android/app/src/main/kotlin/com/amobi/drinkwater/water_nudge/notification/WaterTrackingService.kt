@@ -1,4 +1,4 @@
-package com.amobi.drinkwater.drink_water.notification
+package com.amobi.drinkwater.water_nudge.notification
 
 import android.app.ForegroundServiceStartNotAllowedException
 import android.app.NotificationManager
@@ -10,9 +10,9 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.ServiceCompat
-import com.amobi.drinkwater.drink_water.Const
-import com.amobi.drinkwater.drink_water.PrefAssist
-import com.amobi.drinkwater.drink_water.PrefConst
+import com.amobi.drinkwater.water_nudge.Const
+import com.amobi.drinkwater.water_nudge.PrefAssist
+import com.amobi.drinkwater.water_nudge.PrefConst
 
 class WaterTrackingService : Service() {
 

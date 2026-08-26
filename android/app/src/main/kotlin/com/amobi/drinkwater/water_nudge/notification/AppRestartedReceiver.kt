@@ -1,11 +1,11 @@
-package com.amobi.drinkwater.drink_water.notification
+package com.amobi.drinkwater.water_nudge.notification
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.amobi.drinkwater.drink_water.PrefAssist
-import com.amobi.drinkwater.drink_water.PrefConst
-import com.amobi.drinkwater.drink_water.widget.MidnightResetReceiver
+import com.amobi.drinkwater.water_nudge.PrefAssist
+import com.amobi.drinkwater.water_nudge.PrefConst
+import com.amobi.drinkwater.water_nudge.widget.MidnightResetReceiver
 
 class AppRestartedReceiver : BroadcastReceiver() {
 

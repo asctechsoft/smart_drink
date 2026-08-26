@@ -50,8 +50,20 @@ class AppTheme {
         fontWeight: FontWeight.w600,
         color: AppColors.textPrimaryLight,
       ),
-      bodyLarge: TextStyle(fontSize: 16, color: AppColors.textPrimaryLight),
-      bodyMedium: TextStyle(fontSize: 14, color: AppColors.textSecondaryLight),
+      bodyLarge: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: AppColors.textPrimaryLight,
+      ),
+      bodyMedium: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        color: AppColors.textSecondaryLight,
+      ),
+      bodySmall: TextStyle(
+        fontWeight: FontWeight.w500,
+        color: AppColors.textSecondaryLight,
+      ),
     ),
   );
 
@@ -106,9 +118,18 @@ class AppTheme {
         fontWeight: FontWeight.w600,
         color: Colors.white,
       ),
-      bodyLarge: TextStyle(fontSize: 16, color: Colors.white),
+      bodyLarge: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: Colors.white,
+      ),
       bodyMedium: TextStyle(
         fontSize: 14,
+        fontWeight: FontWeight.w500,
+        color: AppColors.onboardingTextSecondary,
+      ),
+      bodySmall: TextStyle(
+        fontWeight: FontWeight.w500,
         color: AppColors.onboardingTextSecondary,
       ),
     ),

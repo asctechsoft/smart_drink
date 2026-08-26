@@ -5,7 +5,7 @@
     <string name="widget_medium_a_desc">العد التنازلي للتذكير التالي</string>
     <string name="widget_medium_b_desc">إدخال اليوم مع الإضافة السريعة</string>
     <string name="widget_large_desc">لوحة تحكم كاملة مع السجل</string>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="custom">مخصص</string>
     <string name="today_s_intake">مدخول اليوم</string>
     <string name="no_records_today">لا توجد سجلات اليوم</string>

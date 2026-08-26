@@ -1,10 +1,10 @@
-import 'package:smartdrinkai/configs/pref_const.dart';
-import 'package:smartdrinkai/models/data_models/user_profile.dart';
-import 'package:smartdrinkai/models/ui_models/reminder_mode.dart';
-import 'package:smartdrinkai/models/ui_models/weather_condition.dart';
-import 'package:smartdrinkai/services/native/notification_channel.dart';
-import 'package:smartdrinkai/utils/water_calculation.dart';
-import 'package:smartdrinkai/values/route_name.dart';
+import 'package:waternudge/configs/pref_const.dart';
+import 'package:waternudge/models/data_models/user_profile.dart';
+import 'package:waternudge/models/ui_models/reminder_mode.dart';
+import 'package:waternudge/models/ui_models/weather_condition.dart';
+import 'package:waternudge/services/native/notification_channel.dart';
+import 'package:waternudge/utils/water_calculation.dart';
+import 'package:waternudge/values/route_name.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -168,7 +168,7 @@ class OnboardingController extends GetxController {
       final times = _deriveOnboardingScheduleTimes();
       await NotificationChannel.syncReminders(times);
 
-      Get.offAllNamed(RouteName.home);
+      Get.offAllNamed(RouteName.onboardingDailyGoal);
     } catch (e, stackTrace) {
       debugPrint(
         'OnboardingController.completeOnboarding failed: $e\n$stackTrace',

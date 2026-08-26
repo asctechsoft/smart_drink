@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SmartDrink AI</string>
+    <string name="app_name">WaterNudge</string>
     <string name="time_to_drink_water">পানী খোৱাৰ সময় হৈছে!</string>
     <string name="add_drink">পানী যোগ কৰক</string>
     <string name="water_tracking">পানী খোৱাৰ ট্ৰেকাৰ</string>

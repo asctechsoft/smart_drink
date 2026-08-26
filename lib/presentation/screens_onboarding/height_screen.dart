@@ -1,12 +1,13 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/controller/onboarding_controller.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_background.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_progress_bar.dart';
-import 'package:smartdrinkai/presentation/common_components/onboarding_step_header.dart';
-import 'package:smartdrinkai/presentation/common_components/primary_button.dart';
-import 'package:smartdrinkai/presentation/common_components/ruler_picker.dart';
-import 'package:smartdrinkai/presentation/common_components/toggle_selector.dart';
-import 'package:smartdrinkai/values/route_name.dart';
+import 'package:waternudge/controller/onboarding_controller.dart';
+import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
+import 'package:waternudge/presentation/common_components/onboarding_progress_bar.dart';
+import 'package:waternudge/presentation/common_components/onboarding_step_header.dart';
+import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/presentation/common_components/ruler_picker.dart';
+import 'package:waternudge/presentation/common_components/toggle_selector.dart';
+import 'package:waternudge/values/route_name.dart';
 import 'package:get/get.dart';
 
 class HeightScreen extends StatelessWidget {
@@ -27,8 +28,8 @@ class HeightScreen extends StatelessWidget {
                 onBack: () => Get.back(),
               ),
               Expanded(
-                child: AppColumn(
-                  modifier: Modifier.paddingAll(24),
+                child: StaggerColumn(
+                  padding: const EdgeInsets.all(24),
                   children: [
                     OnboardingStepHeader(
                       title: 'height'.tr,

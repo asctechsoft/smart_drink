@@ -1,4 +1,4 @@
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:confetti/confetti.dart';

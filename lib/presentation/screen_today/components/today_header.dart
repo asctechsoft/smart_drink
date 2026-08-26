@@ -1,8 +1,8 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:smartdrinkai/controller/avatar_controller.dart';
-import 'package:smartdrinkai/models/ui_models/avatar_option.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
-import 'package:smartdrinkai/values/route_name.dart';
+import 'package:waternudge/controller/avatar_controller.dart';
+import 'package:waternudge/models/ui_models/avatar_option.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
+import 'package:waternudge/values/route_name.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 

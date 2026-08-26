@@ -1,25 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:waternudge/utils/unit_converter.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 import 'history_charts.dart';
 import 'history_section.dart';
+
+/// Stat icon tint, matching the settings screen icons.
+const Color _statIconColor = Color(0xFF96D2A8);
 
 // ── Top card: 4 monthly stats ────────────────────────────────────────────────
 
 class MonthSummaryCard extends StatelessWidget {
   const MonthSummaryCard({
     super.key,
+    required this.title,
+    required this.subtitle,
     required this.totalMl,
     required this.monthGoalMl,
     required this.avgPerDayMl,
     required this.dailyGoalMl,
     required this.goalDaysCount,
     required this.daysInMonth,
-    required this.lastDrink,
     required this.isOz,
   });
+
+  /// Left-aligned card title, e.g. "Tổng quan".
+  final String title;
+
+  /// Read-only period caption below the title, e.g. "tháng 8, 2026".
+  final String subtitle;
 
   final int totalMl;
   final int monthGoalMl;
@@ -27,81 +38,86 @@ class MonthSummaryCard extends StatelessWidget {
   final int dailyGoalMl;
   final int goalDaysCount;
   final int daysInMonth;
-
-  /// When the most recent drink of the month happened, or null if none.
-  final DateTime? lastDrink;
   final bool isOz;
 
   @override
   Widget build(BuildContext context) {
+    final ob = OnboardingTheme.of(context);
     final unit = isOz ? 'oz' : 'ml';
-    final totalPct = monthGoalMl > 0
-        ? (totalMl / monthGoalMl * 100).round()
-        : 0;
-    final avgPct = dailyGoalMl > 0
-        ? (avgPerDayMl / dailyGoalMl * 100).round()
-        : 0;
-    final goalPct = daysInMonth > 0
-        ? (goalDaysCount / daysInMonth * 100).round()
-        : 0;
-
-    final lastTime = lastDrink == null
-        ? '--'
-        : '${lastDrink!.hour.toString().padLeft(2, '0')}:'
-              '${lastDrink!.minute.toString().padLeft(2, '0')}';
-    final lastDate = lastDrink == null
-        ? '--'
-        : DateFormat('dd/MM/yyyy').format(lastDrink!);
 
     return HistoryCard(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-      child: Row(
+      padding: const EdgeInsets.fromLTRB(14, 14, 14, 16),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: _MonthStat(
-              icon: Icons.water_drop_rounded,
-              iconColor: const Color(0xFF4FC3F7),
-              label: 'Tổng nước',
-              value: UnitConverter.formatVolumeGrouped(totalMl.toDouble(), unit),
-              sub1:
-                  'Mục tiêu ${UnitConverter.formatVolumeGrouped(monthGoalMl.toDouble(), unit)}',
-              sub2: '($totalPct%)',
+          Text(
+            title,
+            style: TextStyle(
+              color: ob.textPrimary,
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
             ),
           ),
-          Expanded(
-            child: _MonthStat(
-              icon: Icons.local_drink_rounded,
-              iconColor: const Color(0xFF4FC3F7),
-              label: 'Trung bình / ngày',
-              value: UnitConverter.formatVolumeGrouped(
-                avgPerDayMl.toDouble(),
-                unit,
+          const SizedBox(height: 2),
+          Text(
+            subtitle,
+            style: TextStyle(
+              color: ob.textPrimary.withValues(alpha: 0.55),
+              fontSize: 12,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: _MonthStat(
+                  icon: SvgPicture.asset(
+                    'assets/images/svg/ic_cup_water_bar.svg',
+                    width: 22,
+                    height: 22,
+                    colorFilter: const ColorFilter.mode(
+                      _statIconColor,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  label: 'Tổng nước',
+                  value: UnitConverter.formatVolumeGrouped(
+                    totalMl.toDouble(),
+                    unit,
+                  ),
+                ),
               ),
-              sub1:
-                  'Mục tiêu ${UnitConverter.formatVolumeGrouped(dailyGoalMl.toDouble(), unit)}',
-              sub2: '($avgPct%)',
-            ),
-          ),
-          Expanded(
-            child: _MonthStat(
-              icon: Icons.star_rounded,
-              iconColor: const Color(0xFF57DCC0),
-              label: 'Ngày đạt mục tiêu',
-              value: '$goalDaysCount ngày',
-              sub1: '/ $daysInMonth ngày',
-              sub2: '($goalPct%)',
-            ),
-          ),
-          Expanded(
-            child: _MonthStat(
-              icon: Icons.access_time_rounded,
-              iconColor: const Color(0xFF4FC3F7),
-              label: 'Uống gần nhất',
-              value: lastTime,
-              sub1: lastDate,
-              sub2: '',
-            ),
+              Expanded(
+                child: _MonthStat(
+                  icon: const Icon(
+                    Icons.water_rounded,
+                    size: 22,
+                    color: _statIconColor,
+                  ),
+                  label: 'Trung bình / ngày',
+                  value: UnitConverter.formatVolumeGrouped(
+                    avgPerDayMl.toDouble(),
+                    unit,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: _MonthStat(
+                  icon: SvgPicture.asset(
+                    'assets/images/svg/ic_star.svg',
+                    width: 22,
+                    height: 22,
+                    colorFilter: const ColorFilter.mode(
+                      _statIconColor,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  label: 'Ngày đạt mục tiêu',
+                  value: '$goalDaysCount ngày',
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -112,19 +128,13 @@ class MonthSummaryCard extends StatelessWidget {
 class _MonthStat extends StatelessWidget {
   const _MonthStat({
     required this.icon,
-    required this.iconColor,
     required this.label,
     required this.value,
-    required this.sub1,
-    required this.sub2,
   });
 
-  final IconData icon;
-  final Color iconColor;
+  final Widget icon;
   final String label;
   final String value;
-  final String sub1;
-  final String sub2;
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +142,7 @@ class _MonthStat extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 22, color: iconColor),
+        SizedBox(height: 22, child: icon),
         const SizedBox(height: 8),
         Text(
           label,
@@ -152,24 +162,6 @@ class _MonthStat extends StatelessWidget {
             color: Color(0xFF4FC3F7),
           ),
         ),
-        const SizedBox(height: 2),
-        Text(
-          sub1,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 9,
-            color: ob.textPrimary.withValues(alpha: 0.5),
-          ),
-        ),
-        if (sub2.isNotEmpty)
-          Text(
-            sub2,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 9,
-              color: ob.textPrimary.withValues(alpha: 0.5),
-            ),
-          ),
       ],
     );
   }
@@ -183,9 +175,7 @@ class MonthChartCard extends StatelessWidget {
     required this.dailyTotals,
     required this.dailyGoal,
     required this.maxMl,
-    required this.maxDayLabel,
     required this.minMl,
-    required this.minDayLabel,
     required this.avgPerDayMl,
     required this.isOz,
   });
@@ -193,9 +183,7 @@ class MonthChartCard extends StatelessWidget {
   final List<int> dailyTotals;
   final int dailyGoal;
   final int maxMl;
-  final String maxDayLabel;
   final int minMl;
-  final String minDayLabel;
   final int avgPerDayMl;
   final bool isOz;
 
@@ -209,47 +197,13 @@ class MonthChartCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'Biểu đồ tổng lượng nước',
-                  style: TextStyle(
-                    color: ob.textPrimary,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.15),
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Theo ngày',
-                      style: TextStyle(
-                        color: ob.textPrimary.withValues(alpha: 0.8),
-                        fontSize: 11,
-                      ),
-                    ),
-                    const SizedBox(width: 3),
-                    Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      size: 15,
-                      color: ob.textPrimary.withValues(alpha: 0.6),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          Text(
+            'Biểu đồ tổng lượng nước',
+            style: TextStyle(
+              color: ob.textPrimary,
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+            ),
           ),
           const SizedBox(height: 6),
           MonthBarChart(
@@ -258,142 +212,37 @@ class MonthChartCard extends StatelessWidget {
             isOz: isOz,
           ),
           const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.07),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: _BottomStat(
-                    icon: Icons.trending_up_rounded,
-                    iconColor: const Color(0xFF4FC3F7),
-                    label: 'Ngày cao nhất',
-                    value: maxMl > 0
-                        ? UnitConverter.formatVolumeGrouped(
-                            maxMl.toDouble(),
-                            unit,
-                          )
-                        : '--',
-                    sub: maxDayLabel,
-                  ),
-                ),
-                Container(
-                  width: 0.5,
-                  height: 40,
-                  color: Colors.white.withValues(alpha: 0.15),
-                ),
-                Expanded(
-                  child: _BottomStat(
-                    icon: Icons.trending_down_rounded,
-                    iconColor: const Color(0xFFFF6B6B),
-                    label: 'Ngày thấp nhất',
-                    value: minMl > 0
-                        ? UnitConverter.formatVolumeGrouped(
-                            minMl.toDouble(),
-                            unit,
-                          )
-                        : '--',
-                    sub: minDayLabel,
-                  ),
-                ),
-                Container(
-                  width: 0.5,
-                  height: 40,
-                  color: Colors.white.withValues(alpha: 0.15),
-                ),
-                Expanded(
-                  child: _BottomStat(
-                    icon: Icons.water_rounded,
-                    iconColor: const Color(0xFF4FC3F7),
-                    label: 'Trung bình',
-                    value: UnitConverter.formatVolumeGrouped(
-                      avgPerDayMl.toDouble(),
-                      unit,
-                    ),
-                    sub: 'mỗi ngày',
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BottomStat extends StatelessWidget {
-  const _BottomStat({
-    required this.icon,
-    required this.iconColor,
-    required this.label,
-    required this.value,
-    required this.sub,
-  });
-
-  final IconData icon;
-  final Color iconColor;
-  final String label;
-  final String value;
-  final String sub;
-
-  @override
-  Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 28,
-          height: 28,
-          decoration: BoxDecoration(
-            color: iconColor.withValues(alpha: 0.12),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, size: 15, color: iconColor),
-        ),
-        const SizedBox(width: 6),
-        Flexible(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: ob.textPrimary.withValues(alpha: 0.55),
+          ChartStatsRow(
+            stats: [
+              ChartStat(
+                icon: Icons.trending_down_rounded,
+                iconColor: const Color(0xFFFF6B6B),
+                label: 'Ngày thấp nhất',
+                value: minMl > 0
+                    ? UnitConverter.formatVolumeGrouped(minMl.toDouble(), unit)
+                    : '--',
+              ),
+              ChartStat(
+                icon: Icons.water_rounded,
+                iconColor: AppColors.accentTeal,
+                label: 'Trung bình',
+                value: UnitConverter.formatVolumeGrouped(
+                  avgPerDayMl.toDouble(),
+                  unit,
                 ),
               ),
-              Text(
-                value,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF4FC3F7),
-                ),
-              ),
-              Text(
-                sub,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 9,
-                  color: ob.textPrimary.withValues(alpha: 0.45),
-                ),
+              ChartStat(
+                icon: Icons.trending_up_rounded,
+                iconColor: AppColors.primary500Dark,
+                label: 'Ngày cao nhất',
+                value: maxMl > 0
+                    ? UnitConverter.formatVolumeGrouped(maxMl.toDouble(), unit)
+                    : '--',
               ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

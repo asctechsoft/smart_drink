@@ -1,15 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:smartdrinkai/utils/water_calculation.dart';
-import 'package:smartdrinkai/utils/unit_converter.dart';
-import 'package:smartdrinkai/utils/date_utils.dart';
-import 'package:smartdrinkai/models/data_models/drink_record.dart';
-import 'package:smartdrinkai/models/data_models/daily_summary.dart';
-import 'package:smartdrinkai/models/data_models/user_profile.dart';
-import 'package:smartdrinkai/models/data_models/reminder_schedule.dart';
-import 'package:smartdrinkai/models/ui_models/activity_level.dart';
-import 'package:smartdrinkai/models/ui_models/weather_condition.dart';
-import 'package:smartdrinkai/models/ui_models/drink_type.dart';
-import 'package:smartdrinkai/models/ui_models/reminder_mode.dart';
+import 'package:waternudge/utils/water_calculation.dart';
+import 'package:waternudge/utils/unit_converter.dart';
+import 'package:waternudge/utils/date_utils.dart';
+import 'package:waternudge/models/data_models/drink_record.dart';
+import 'package:waternudge/models/data_models/daily_summary.dart';
+import 'package:waternudge/models/data_models/user_profile.dart';
+import 'package:waternudge/models/data_models/reminder_schedule.dart';
+import 'package:waternudge/models/ui_models/activity_level.dart';
+import 'package:waternudge/models/ui_models/weather_condition.dart';
+import 'package:waternudge/models/ui_models/drink_type.dart';
+import 'package:waternudge/models/ui_models/reminder_mode.dart';
 
 void main() {
   group('WaterCalculation', () {

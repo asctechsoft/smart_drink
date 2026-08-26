@@ -1,8 +1,8 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:flutter/material.dart';
-import 'package:smartdrinkai/models/ui_models/avatar_option.dart';
-import 'package:smartdrinkai/values/app_colors.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/models/ui_models/avatar_option.dart';
+import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 /// One tile on the avatar grid.
 ///

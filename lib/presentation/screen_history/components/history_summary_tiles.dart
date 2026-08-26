@@ -1,6 +1,6 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:flutter/material.dart';
-import 'package:smartdrinkai/values/onboarding_theme.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 
 /// One of the three "Tổng kết" tiles: an icon, the figure, and its caption.
 class HistorySummaryTile extends StatelessWidget {
