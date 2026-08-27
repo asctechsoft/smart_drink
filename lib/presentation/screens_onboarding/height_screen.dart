@@ -24,7 +24,7 @@ class HeightScreen extends StatelessWidget {
             children: [
               OnboardingProgressBar(
                 currentStep: 2,
-                totalSteps: 6,
+                totalSteps: 7,
                 onBack: () => Get.back(),
               ),
               Expanded(

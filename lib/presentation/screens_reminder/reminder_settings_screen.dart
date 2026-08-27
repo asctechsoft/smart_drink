@@ -8,6 +8,7 @@ import 'package:waternudge/values/onboarding_theme.dart';
 
 import 'components/interval_mode_content.dart';
 import 'components/standard_mode_content.dart';
+import 'components/reminder_slots_section.dart';
 
 class ReminderSettingsPage extends StatelessWidget {
   const ReminderSettingsPage({super.key});
@@ -32,11 +33,19 @@ class ReminderSettingsPage extends StatelessWidget {
               const SizedBox(height: 14),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Obx(
-                  () => ctrl.mode.value == ReminderMode.interval
-                      ? IntervalModeContent(controller: ctrl)
-                      : StandardModeContent(controller: ctrl),
-                ),
+                child: Obx(() {
+                  switch (ctrl.mode.value) {
+                    case ReminderMode.interval:
+                      return IntervalModeContent(controller: ctrl);
+                    case ReminderMode.custom:
+                      return DisabledOverlay(
+                        disabled: !ctrl.enabled.value,
+                        child: ReminderSlotsSection(controller: ctrl),
+                      );
+                    case ReminderMode.standard:
+                      return StandardModeContent(controller: ctrl);
+                  }
+                }),
               ),
               const SizedBox(height: 24),
             ],
@@ -112,15 +121,21 @@ class _ModeTabs extends StatelessWidget {
           children: [
             _ModeTab(
               icon: Icons.access_time_rounded,
-              label: 'Standard mode',
-              selected: mode != ReminderMode.interval,
+              label: 'Standard',
+              selected: mode == ReminderMode.standard,
               onTap: () => ctrl.setMode(ReminderMode.standard),
             ),
             _ModeTab(
               icon: Icons.timer_outlined,
-              label: 'Interval mode',
+              label: 'Interval',
               selected: mode == ReminderMode.interval,
               onTap: () => ctrl.setMode(ReminderMode.interval),
+            ),
+            _ModeTab(
+              icon: Icons.edit_calendar_outlined,
+              label: 'Custom',
+              selected: mode == ReminderMode.custom,
+              onTap: () => ctrl.setMode(ReminderMode.custom),
             ),
           ],
         ),
@@ -180,15 +195,19 @@ class _ModeTab extends StatelessWidget {
                     ? Colors.white
                     : Colors.white.withValues(alpha: 0.6),
               ),
-              const SizedBox(width: 6),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: selected
-                      ? Colors.white
-                      : Colors.white.withValues(alpha: 0.6),
+              const SizedBox(width: 5),
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w600,
+                    color: selected
+                        ? Colors.white
+                        : Colors.white.withValues(alpha: 0.6),
+                  ),
                 ),
               ),
             ],

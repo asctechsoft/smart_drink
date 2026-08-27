@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- White water-glass silhouette derived from assets/images/svg/ic_cup_water_bar.svg.
+     Monochrome so it reads crisply as a small white icon on the blue pill. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="20dp"
+    android:height="25dp"
+    android:viewportWidth="490"
+    android:viewportHeight="616">
+
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="26"
+        android:strokeLineJoin="round"
+        android:strokeLineCap="round"
+        android:pathData="M70,108 C76,170 83,284 90,408 C94,485 105,535 125,557 C147,580 344,580 366,557 C386,535 397,485 401,408 C408,284 415,170 421,108" />
+
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="26"
+        android:strokeLineCap="round"
+        android:pathData="M70,108 C110,138 381,138 421,108" />
+
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:fillAlpha="0.9"
+        android:pathData="M100,300 C102,360 106,420 112,460 C115,492 123,506 135,513 C160,528 331,528 356,513 C368,506 376,492 379,460 C385,420 389,360 391,300 C360,320 130,320 100,300 Z" />
+</vector>

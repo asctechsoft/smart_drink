@@ -164,9 +164,10 @@ class ReminderController extends GetxController {
       return _buildIntervalTimes();
     }
 
-    // Standard or custom mode: use ALL enabled schedule times
+    // Standard and Custom tabs both drive the labelled "standard" marks — the
+    // Custom tab is just where those marks are now edited.
     final modeSchedules = schedules
-        .where((s) => s.mode == mode.value.name && s.enabled)
+        .where((s) => s.mode == 'standard' && s.enabled)
         .toList();
 
     if (modeSchedules.isEmpty) {

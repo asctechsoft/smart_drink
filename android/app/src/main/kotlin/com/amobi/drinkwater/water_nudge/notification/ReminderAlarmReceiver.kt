@@ -129,7 +129,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
             }
 
             builder
-                .setSmallIcon(R.drawable.ic_water_drop)
+                .setSmallIcon(R.drawable.ic_stat_logo)
                 .setCustomContentView(smallView)
                 .setCustomBigContentView(largeView)
                 .setStyle(NotificationCompat.DecoratedCustomViewStyle())

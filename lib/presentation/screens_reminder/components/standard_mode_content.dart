@@ -1,7 +1,6 @@
 import 'package:dsp_base/app_material.dart';
 import 'package:get/get.dart';
 import 'package:waternudge/controller/reminder_controller.dart';
-import 'package:waternudge/models/data_models/reminder_schedule.dart';
 import 'package:waternudge/presentation/common_components/custom_switch.dart';
 import 'package:waternudge/presentation/common_components/primary_bottom_sheet.dart';
 import 'package:waternudge/presentation/common_components/wheel_time_picker.dart';
@@ -37,10 +36,8 @@ class _StandardModeContentState extends State<StandardModeContent> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildEnableCard(),
-        const SizedBox(height: 12),
         // Everything below is greyed out + non-interactive while the master
-        // reminder switch is off.
+        // reminder switch is off (the master toggle now lives in Settings).
         Obx(
           () => DisabledOverlay(
             disabled: !ctrl.enabled.value,
@@ -52,65 +49,11 @@ class _StandardModeContentState extends State<StandardModeContent> {
                 _buildScheduleApply(),
                 const SizedBox(height: 18),
                 _buildWeekendCard(),
-                const SizedBox(height: 18),
-                _buildSlots(),
-                const SizedBox(height: 18),
-                _buildSoundRow(),
               ],
             ),
           ),
         ),
       ],
-    );
-  }
-
-  // ── Enable card ─────────────────────────────────────────────────────────────
-
-  Widget _buildEnableCard() {
-    final ob = OnboardingTheme.of(context);
-    return _card(
-      child: Row(
-        children: [
-          _iconCircle(Icons.notifications_outlined, const Color(0xFF4FC3F7)),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Bật nhắc nhở uống nước',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: ob.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  'Nhận thông báo nhắc uống nước\nđể duy trì thói quen lành mạnh.',
-                  style: TextStyle(
-                    fontSize: 11,
-                    height: 1.35,
-                    color: ob.textSecondary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
-          Obx(
-            () => CustomSwitch(
-              value: ctrl.enabled.value,
-              onChanged: (v) {
-                ctrl.enabled.value = v;
-                ctrl.saveSettings();
-              },
-              activeColor: ob.switchActive,
-              trackColor: ob.switchTrack,
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -355,185 +298,6 @@ class _StandardModeContentState extends State<StandardModeContent> {
     );
   }
 
-  // ── Reminder slots ────────────────────────────────────────────────────────────
-
-  Widget _buildSlots() {
-    final ob = OnboardingTheme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Các mốc nhắc',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w700,
-            color: ob.textPrimary,
-          ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          'Nhấn vào mốc để chỉnh giờ',
-          style: TextStyle(fontSize: 11, color: ob.textSecondary),
-        ),
-        const SizedBox(height: 12),
-        Obx(() {
-          final items = ctrl.standardSchedules;
-          final labels = ReminderController.standardLabels;
-          final defaultTimes = ReminderController.standardTimes;
-          return Column(
-            children: [
-              for (var i = 0; i < labels.length; i++) ...[
-                _slotRow(
-                  labels[i],
-                  items.firstWhereOrNull((s) => s.label == labels[i]),
-                  defaultTimes[i],
-                ),
-                if (i < labels.length - 1) const SizedBox(height: 8),
-              ],
-            ],
-          );
-        }),
-      ],
-    );
-  }
-
-  Widget _slotRow(String label, ReminderSchedule? schedule, String fallback) {
-    final ob = OnboardingTheme.of(context);
-    final time = schedule?.time ?? fallback;
-    final enabled = schedule?.enabled ?? true;
-    final hour = int.tryParse(time.split(':').first) ?? 8;
-
-    return _card(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      child: Row(
-        children: [
-          _iconCircle(
-            _slotIcon(hour),
-            _slotColor(hour),
-            size: 34,
-            iconSize: 17,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              label.tr,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: enabled ? ob.textPrimary : ob.textSecondary,
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () => showWheelTimePicker(
-              context,
-              title: label.tr,
-              initialTime: time,
-              onSave: (newTime) {
-                if (schedule != null) {
-                  ctrl.updateSchedule(schedule.copyWith(time: newTime));
-                } else {
-                  ctrl.addSchedule(
-                    ReminderSchedule(
-                      mode: 'standard',
-                      time: newTime,
-                      label: label,
-                    ),
-                  );
-                }
-              },
-            ),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                border: Border.all(
-                  color: ob.textActiveBottomNavBar.withValues(alpha: 0.5),
-                ),
-              ),
-              child: Text(
-                ctrl.formatDisplayTime(time),
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: ob.textActiveBottomNavBar,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          CustomSwitch(
-            value: enabled,
-            onChanged: (v) {
-              if (schedule != null) {
-                ctrl.updateSchedule(schedule.copyWith(enabled: v));
-              } else {
-                ctrl.addSchedule(
-                  ReminderSchedule(
-                    mode: 'standard',
-                    time: fallback,
-                    label: label,
-                    enabled: v,
-                  ),
-                );
-              }
-            },
-            activeColor: ob.switchActive,
-            trackColor: ob.switchTrack,
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ── Sound / priority rows ─────────────────────────────────────────────────────
-
-  Widget _buildSoundRow() {
-    final ob = OnboardingTheme.of(context);
-    return _card(
-      child: Row(
-        children: [
-          _iconCircle(
-            Icons.volume_up_rounded,
-            const Color(0xFF4FC3F7),
-            size: 36,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Âm thanh nhắc',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: ob.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  'Chọn âm thanh cho thông báo nhắc uống nước.',
-                  style: TextStyle(fontSize: 11, color: ob.textSecondary),
-                ),
-              ],
-            ),
-          ),
-          Text(
-            'Giọt nước',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: ob.textActiveBottomNavBar,
-            ),
-          ),
-          const SizedBox(width: 4),
-          Icon(Icons.chevron_right_rounded, size: 20, color: ob.textSecondary),
-        ],
-      ),
-    );
-  }
-
   // ── Shared pieces ─────────────────────────────────────────────────────────────
 
   Widget _card({
@@ -559,14 +323,9 @@ class _StandardModeContentState extends State<StandardModeContent> {
   }
 
   // Unified icon box — matches the Settings screen (42×42 rounded square,
-  // mint icon, subtle white border). [color]/[size]/[iconSize] are ignored so
-  // every reminder icon is identical.
-  Widget _iconCircle(
-    IconData icon,
-    Color color, {
-    double size = 44,
-    double? iconSize,
-  }) {
+  // mint icon, subtle white border). [color]/[size] are ignored so every
+  // reminder icon is identical.
+  Widget _iconCircle(IconData icon, Color color, {double size = 44}) {
     return _settingsIconBox(icon);
   }
 
@@ -734,22 +493,6 @@ class _StandardModeContentState extends State<StandardModeContent> {
   void _setPreset(List<int> days) {
     ctrl.repeatDays.assignAll(days);
     ctrl.saveSettings();
-  }
-
-  IconData _slotIcon(int hour) {
-    if (hour < 10) return Icons.wb_sunny_outlined;
-    if (hour < 13) return Icons.wb_sunny_rounded;
-    if (hour < 17) return Icons.cloud_outlined;
-    if (hour < 20) return Icons.nights_stay_outlined;
-    return Icons.bedtime_outlined;
-  }
-
-  Color _slotColor(int hour) {
-    if (hour < 10) return const Color(0xFFFFB300);
-    if (hour < 13) return const Color(0xFFFFC107);
-    if (hour < 17) return const Color(0xFF42A5F5);
-    if (hour < 20) return const Color(0xFF5C6BC0);
-    return const Color(0xFF7E57C2);
   }
 
   /// Pick a start then end time, updating via [onSaved].

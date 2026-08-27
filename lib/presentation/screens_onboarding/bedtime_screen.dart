@@ -23,8 +23,8 @@ class BedtimeScreen extends StatelessWidget {
           child: AppColumn(
             children: [
               OnboardingProgressBar(
-                currentStep: 6,
-                totalSteps: 6,
+                currentStep: 7,
+                totalSteps: 7,
                 onBack: () => Get.back(),
               ),
               Expanded(

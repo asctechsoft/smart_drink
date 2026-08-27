@@ -607,6 +607,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       width: double.infinity,
       height: 52,
       useGradient: true,
+      enabled: _canSend,
       leading: const Icon(Icons.send_rounded, size: 18, color: Colors.white),
       onPressed: _onSend,
     );

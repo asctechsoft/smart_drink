@@ -24,7 +24,7 @@ class WeightScreen extends StatelessWidget {
             children: [
               OnboardingProgressBar(
                 currentStep: 3,
-                totalSteps: 6,
+                totalSteps: 7,
                 onBack: () => Get.back(),
               ),
               Expanded(

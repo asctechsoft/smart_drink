@@ -1,6 +1,4 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:waternudge/controller/avatar_controller.dart';
-import 'package:waternudge/models/ui_models/avatar_option.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:get/get.dart';
@@ -67,35 +65,20 @@ class TodayHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
+          // Chat bot shortcut (replaced the avatar button).
           _CircleButton(
-            onTap: () => Get.toNamed(RouteName.avatarSelection),
-            child: const _AvatarThumb(),
+            onTap: () => Get.toNamed(RouteName.chatBot),
+            child: Padding(
+              padding: const EdgeInsets.all(6),
+              child: Image.asset(
+                'assets/images/png/ic_chat_bot.png',
+                fit: BoxFit.contain,
+              ),
+            ),
           ),
         ],
       ),
     );
-  }
-}
-
-/// Avatar shown inside the header button.
-///
-/// The figure artwork is still being produced, so this falls back to a person
-/// glyph whenever the selected option has no asset yet.
-class _AvatarThumb extends StatelessWidget {
-  const _AvatarThumb();
-
-  @override
-  Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-    final controller = Get.find<AvatarController>();
-
-    return Obx(() {
-      final asset = AvatarOption.assetFor(controller.savedAvatarId.value);
-      if (asset == null) {
-        return Icon(Icons.person_rounded, color: ob.textPrimary, size: 22);
-      }
-      return ClipOval(child: Image.asset(asset, fit: BoxFit.cover));
-    });
   }
 }
 

@@ -348,4 +348,10 @@
     <string name="exceeded_goal">Vượt mục tiêu</string>
     <string name="goal_reached">Đạt</string>
     <string name="not_reached">Chưa đạt</string>
+    <string name="nap_question">Bạn có ngủ trưa không?</string>
+    <string name="nap_subtitle">Thiết lập giờ ngủ trưa để ứng dụng tạm dừng nhắc uống nước trong thời gian này.</string>
+    <string name="nap_title">Ngủ trưa</string>
+    <string name="nap_toggle_desc">Tạm dừng nhắc nước khi bạn nghỉ trưa</string>
+    <string name="nap_time_range">Khung giờ ngủ trưa</string>
+    <string name="nap_info">Trong khung giờ này, ứng dụng sẽ không gửi nhắc uống nước.</string>
 </resources>

@@ -134,6 +134,65 @@ object WidgetDrawHelper {
         return bitmap
     }
 
+    /**
+     * Horizontal progress bar with rounded track + fill and a bright glowing dot
+     * at the fill head (the "you are here" marker). Drawn to a bitmap so it can be
+     * shown in a notification RemoteViews via setImageViewBitmap.
+     */
+    fun drawLinearProgress(
+        context: Context,
+        progress: Float,
+        widthPx: Int,
+        heightDp: Float = 16f,
+        barThicknessDp: Float = 6f,
+        fillColor: Int = Color.parseColor("#3A2FD1"),
+        trackColor: Int = Color.parseColor("#33808080")
+    ): Bitmap {
+        val h = dpToPx(context, heightDp).toInt().coerceAtLeast(1)
+        val w = widthPx.coerceAtLeast(1)
+        val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+
+        val thickness = dpToPx(context, barThicknessDp)
+        val cy = h / 2f
+        val barTop = cy - thickness / 2f
+        val barBottom = cy + thickness / 2f
+        val radius = thickness / 2f
+
+        // Track (full width, rounded)
+        val trackPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = trackColor }
+        canvas.drawRoundRect(
+            RectF(0f, barTop, w.toFloat(), barBottom), radius, radius, trackPaint
+        )
+
+        val p = progress.coerceIn(0f, 1f)
+        val dotRadius = dpToPx(context, heightDp / 2f) - dpToPx(context, 1f)
+        // Keep the dot fully inside the bounds at both ends.
+        val headX = dotRadius + p * (w - 2f * dotRadius)
+
+        if (p > 0f) {
+            // Fill (rounded both ends)
+            val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = fillColor }
+            val fillEnd = (p * w).coerceAtLeast(thickness)
+            canvas.drawRoundRect(
+                RectF(0f, barTop, fillEnd, barBottom), radius, radius, fillPaint
+            )
+
+            // Glow behind the head dot
+            val glowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                color = fillColor
+                maskFilter = BlurMaskFilter(dpToPx(context, 4f), BlurMaskFilter.Blur.NORMAL)
+            }
+            canvas.drawCircle(headX, cy, dotRadius, glowPaint)
+
+            // Bright white head dot
+            val dotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.WHITE }
+            canvas.drawCircle(headX, cy, dotRadius, dotPaint)
+        }
+
+        return bitmap
+    }
+
     private fun dpToPx(context: Context, dp: Float): Float {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,

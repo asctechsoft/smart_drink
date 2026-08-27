@@ -7,6 +7,7 @@ class RouteName {
   static const String onboardingWeight = '/onboarding/weight';
   static const String onboardingWeather = '/onboarding/weather';
   static const String onboardingWakeup = '/onboarding/wakeup';
+  static const String onboardingNap = '/onboarding/nap';
   static const String onboardingBedtime = '/onboarding/bedtime';
   static const String onboardingBuildingSchedule = '/onboarding/building';
   static const String onboardingDailyGoal = '/onboarding/daily-goal';
@@ -21,5 +22,6 @@ class RouteName {
   static const String premium = '/premium';
   static const String streak = '/streak';
   static const String avatarSelection = '/avatar_selection';
+  static const String chatBot = '/chat_bot';
 }
 

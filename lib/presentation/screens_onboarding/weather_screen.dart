@@ -31,7 +31,7 @@ class WeatherScreen extends StatelessWidget {
             children: [
               OnboardingProgressBar(
                 currentStep: 4,
-                totalSteps: 6,
+                totalSteps: 7,
                 onBack: () => Get.back(),
               ),
               Expanded(

@@ -1,10 +1,13 @@
 import 'package:dsp_base/app_localize.dart';
 import 'package:dsp_base/app_material.dart';
 import 'package:waternudge/controller/auth_controller.dart';
+import 'package:waternudge/controller/reminder_controller.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/auth_loading_overlay.dart';
+import 'package:waternudge/presentation/common_components/custom_switch.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/presentation/screens_reminder/components/sound_effect_section.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,6 +23,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final settingsCtrl = Get.find<SettingsController>();
     final profileCtrl = Get.find<UserProfileController>();
+    final reminderCtrl = Get.find<ReminderController>();
 
     return AuthLoadingOverlay(
       child: OnboardingBackground(
@@ -148,6 +152,23 @@ class SettingsScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 _SectionCard(
                   children: [
+                    // Master reminder toggle (moved here from the Reminder tab).
+                    Obx(
+                      () => _SettingsToggleTile(
+                        iconData: Icons.notifications_outlined,
+                        title: 'Bật nhắc nhở uống nước',
+                        subtitle: 'Nhận thông báo nhắc uống nước mỗi ngày.',
+                        value: reminderCtrl.enabled.value,
+                        onChanged: (v) {
+                          reminderCtrl.enabled.value = v;
+                          reminderCtrl.saveSettings();
+                        },
+                      ),
+                    ),
+                    _Divider(),
+                    // Reminder sound (moved here from the Reminder tab).
+                    SoundEffectSection(controller: reminderCtrl),
+                    _Divider(),
                     Obx(() {
                       final vol = settingsCtrl.volumeUnit.value;
                       final wt = settingsCtrl.weightUnit.value;
@@ -497,7 +518,7 @@ class _UserCardState extends State<_UserCard>
           width: 48,
           height: 48,
           fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => _defaultAvatar(),
+          errorBuilder: (_, _, _) => _defaultAvatar(),
         ),
       );
     }
@@ -515,6 +536,83 @@ class _UserCardState extends State<_UserCard>
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: SvgPicture.asset('assets/images/svg/ic_google.svg'),
+      ),
+    );
+  }
+}
+
+// ─── Settings Toggle Tile ─────────────────────────────────────────────────────
+
+class _SettingsToggleTile extends StatelessWidget {
+  final IconData iconData;
+  final String title;
+  final String? subtitle;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  const _SettingsToggleTile({
+    required this.iconData,
+    required this.title,
+    this.subtitle,
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    const iconColor = Color(0xFF96D2A8);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+      child: Row(
+        children: [
+          Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.2),
+                width: 1,
+              ),
+            ),
+            child: Center(child: Icon(iconData, size: 24, color: iconColor)),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                if (subtitle != null) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle!,
+                    style: const TextStyle(
+                      color: Colors.white60,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          CustomSwitch(
+            value: value,
+            onChanged: onChanged,
+            activeColor: const Color(0xFF57DCC0),
+            trackColor: Colors.white.withValues(alpha: 0.2),
+          ),
+        ],
       ),
     );
   }

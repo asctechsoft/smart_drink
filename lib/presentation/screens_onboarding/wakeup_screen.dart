@@ -23,7 +23,7 @@ class WakeupScreen extends StatelessWidget {
             children: [
               OnboardingProgressBar(
                 currentStep: 5,
-                totalSteps: 6,
+                totalSteps: 7,
                 onBack: () => Get.back(),
               ),
               Expanded(
@@ -47,7 +47,7 @@ class WakeupScreen extends StatelessWidget {
                       useGradient: true,
                       onPressed: () {
                         controller.nextStep();
-                        Get.toNamed(RouteName.onboardingBedtime);
+                        Get.toNamed(RouteName.onboardingNap);
                       },
                     ),
                     AppSpacerH20,

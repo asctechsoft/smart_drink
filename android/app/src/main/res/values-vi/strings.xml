@@ -30,4 +30,7 @@
     <string name="seconds">GIÂY</string>
     <string name="exceeded_your_goal">Vượt quá mục tiêu của bạn</string>
     <string name="goal_completed">Mục tiêu đã hoàn thành!</string>
+    <string name="noti_drink">Uống</string>
+    <string name="noti_remaining_today">Còn %1$s %2$s hôm nay</string>
+    <string name="noti_today_goal">mục tiêu hôm nay</string>
 </resources>

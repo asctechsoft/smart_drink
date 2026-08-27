@@ -21,9 +21,8 @@ import com.amobi.drinkwater.water_nudge.MainActivity
 import com.amobi.drinkwater.water_nudge.PrefAssist
 import com.amobi.drinkwater.water_nudge.PrefConst
 import com.amobi.drinkwater.water_nudge.R
-import java.text.SimpleDateFormat
+import com.amobi.drinkwater.water_nudge.widget.WidgetDrawHelper
 import java.util.Calendar
-import java.util.Locale
 
 object NotificationCenter {
     private const val TIMER_BETWEEN_UPDATE = 300
@@ -161,61 +160,23 @@ object NotificationCenter {
 
     fun buildOngoingNotification(context: Context): Notification {
         val localizedContext = PrefAssist.getLocalizedContext(context)
-        val appLocale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            localizedContext.resources.configuration.locales[0]
-        } else {
-            @Suppress("DEPRECATION")
-            localizedContext.resources.configuration.locale
-        }
 
         val currentMl = PrefAssist.getInt(context, PrefConst.ONGOING_CURRENT_ML, 0)
         val goalMl = PrefAssist.getInt(context, PrefConst.ONGOING_GOAL_ML, 2000)
         val percent = if (goalMl > 0) (currentMl * 100 / goalMl) else 0
-        val timeText = SimpleDateFormat("hh:mm a", appLocale)
-            .format(Calendar.getInstance().time)
 
         val unit = PrefAssist.getString(context, PrefConst.WIDGET_VOLUME_UNIT, "ml")
         val currentDisplay = if (unit == "oz") "${(currentMl * 0.033814).toInt()}" else "$currentMl"
         val goalDisplay = if (unit == "oz") "${(goalMl * 0.033814).toInt()}" else "$goalMl"
         val unitLabel = if (unit == "oz") localizedContext.getString(R.string.oz) else localizedContext.getString(R.string.ml)
 
-        // Small RemoteViews (collapsed)
-        val smallView = RemoteViews(context.packageName, R.layout.noti_ongoing_small).apply {
-            setTextViewText(R.id.tv_title, localizedContext.getString(R.string.time_to_drink_water))
-            setTextViewText(R.id.tv_btn_add_water_small, localizedContext.getString(R.string.add_drink))
+        val remainingMl = (goalMl - currentMl).coerceAtLeast(0)
+        val remainingDisplay = if (unit == "oz") "${(remainingMl * 0.033814).toInt()}" else "$remainingMl"
+        val remainingText =
+            localizedContext.getString(R.string.noti_remaining_today, remainingDisplay, unitLabel)
+        val goalText = "/ $goalDisplay $unitLabel"
 
-            // Add Drink button on collapsed view
-            val addSmallIntent = Intent(context, NotificationClickHandler::class.java).apply {
-                action = NotificationClickHandler.ACTION_ADD_WATER
-            }
-            val addSmallPending = PendingIntent.getBroadcast(
-                context, 2, addSmallIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-            setOnClickPendingIntent(R.id.btn_add_water_small, addSmallPending)
-        }
-
-        // Large RemoteViews (expanded dark card)
-        val largeView = RemoteViews(context.packageName, R.layout.noti_ongoing_large).apply {
-            setTextViewText(R.id.tv_time, timeText)
-            setTextViewText(R.id.tv_heading, localizedContext.getString(R.string.its_time_to_drink))
-            setTextViewText(R.id.tv_sub_heading, localizedContext.getString(R.string.some_water))
-            setTextViewText(R.id.tv_btn_add_water, localizedContext.getString(R.string.add_drink))
-            setProgressBar(R.id.pb_progress, 100, percent.coerceIn(0, 100), false)
-            setTextViewText(R.id.tv_progress_text, "$currentDisplay / $goalDisplay $unitLabel")
-
-            // Add Drink button
-            val addIntent = Intent(context, NotificationClickHandler::class.java).apply {
-                action = NotificationClickHandler.ACTION_ADD_WATER
-            }
-            val addPending = PendingIntent.getBroadcast(
-                context, 1, addIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-            setOnClickPendingIntent(R.id.btn_add_water, addPending)
-        }
-
-        // Content intent - open app
+        // Content intent — open app (lands on the Today/home screen).
         val contentIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
@@ -224,8 +185,39 @@ object NotificationCenter {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        // Small RemoteViews (collapsed)
+        val smallView = RemoteViews(context.packageName, R.layout.noti_ongoing_small).apply {
+            setTextViewText(R.id.tv_amount, currentDisplay)
+            setTextViewText(R.id.tv_goal, goalText)
+            setTextViewText(R.id.tv_remaining, remainingText)
+            setTextViewText(R.id.tv_btn_drink_small, localizedContext.getString(R.string.noti_drink))
+            // Tapping "Drink" opens the app on the Today screen.
+            setOnClickPendingIntent(R.id.btn_drink_small, contentPending)
+        }
+
+        // Progress bar drawn as a bitmap so we can add the bright head dot.
+        // Drawn at full screen width; the ImageView uses scaleType=fitCenter, which
+        // scales uniformly (never stretches), so the head dot stays a true circle
+        // regardless of the view's actual width.
+        val dm = context.resources.displayMetrics
+        val progressBitmap = WidgetDrawHelper.drawLinearProgress(
+            context, percent.coerceIn(0, 100) / 100f, dm.widthPixels
+        )
+
+        // Large RemoteViews (expanded)
+        val largeView = RemoteViews(context.packageName, R.layout.noti_ongoing_large).apply {
+            setTextViewText(R.id.tv_amount, currentDisplay)
+            setTextViewText(R.id.tv_goal, goalText)
+            setTextViewText(R.id.tv_remaining, remainingText)
+            setImageViewBitmap(R.id.iv_progress, progressBitmap)
+            setTextViewText(R.id.tv_percent, "${percent.coerceIn(0, 100)}%")
+            setTextViewText(R.id.tv_btn_drink, localizedContext.getString(R.string.noti_drink))
+            // Tapping "Drink" opens the app on the Today screen.
+            setOnClickPendingIntent(R.id.btn_drink, contentPending)
+        }
+
         return NotificationCompat.Builder(context, Const.ONGOING_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_water_drop)
+            .setSmallIcon(R.drawable.ic_stat_logo)
             .setCustomContentView(smallView)
             .setCustomBigContentView(largeView)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())

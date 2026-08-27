@@ -21,6 +21,11 @@ class OnboardingController extends GetxController {
   final Rx<WeatherCondition?> weather = Rx<WeatherCondition?>(null);
   final RxString wakeUpTime = '07:00'.obs;
   final RxString bedTime = '22:00'.obs;
+  // Nap (siesta) — reminders pause during this window when enabled.
+  final RxBool napEnabled = true.obs;
+  final RxString napStart = '12:30'.obs;
+  final RxString napEnd = '13:30'.obs;
+  final RxInt napDurationMinutes = 30.obs;
   final RxInt intervalMinutes = 90.obs;
   final RxString soundEffect = 'universfield_notification'.obs;
   final RxBool vibrate = true.obs;
@@ -60,7 +65,31 @@ class OnboardingController extends GetxController {
     volumeUnit.value = unit;
   }
 
-  static const int totalSteps = 6;
+  static const int totalSteps = 7;
+
+  /// Add [minutes] to an "HH:mm" 24h string, wrapping past midnight.
+  static String addMinutes(String hhmm, int minutes) {
+    final parts = hhmm.split(':');
+    final h = int.tryParse(parts[0]) ?? 0;
+    final m = parts.length > 1 ? (int.tryParse(parts[1]) ?? 0) : 0;
+    final total = (h * 60 + m + minutes) % (24 * 60);
+    final norm = total < 0 ? total + 24 * 60 : total;
+    return '${(norm ~/ 60).toString().padLeft(2, '0')}:'
+        '${(norm % 60).toString().padLeft(2, '0')}';
+  }
+
+  /// Difference in minutes from [start] to [end] ("HH:mm"), wrapping past midnight.
+  static int diffMinutes(String start, String end) {
+    final s = start.split(':');
+    final e = end.split(':');
+    final sMin = (int.tryParse(s[0]) ?? 0) * 60 +
+        (s.length > 1 ? (int.tryParse(s[1]) ?? 0) : 0);
+    final eMin = (int.tryParse(e[0]) ?? 0) * 60 +
+        (e.length > 1 ? (int.tryParse(e[1]) ?? 0) : 0);
+    var d = eMin - sMin;
+    if (d < 0) d += 24 * 60;
+    return d;
+  }
 
   void nextStep() {
     if (currentStep.value < totalSteps) {

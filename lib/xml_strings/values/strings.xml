@@ -348,4 +348,10 @@
     <string name="exceeded_goal">Exceeded</string>
     <string name="goal_reached">Reached</string>
     <string name="not_reached">Not reached</string>
+    <string name="nap_question">Do you take a nap?</string>
+    <string name="nap_subtitle">Set your nap time so the app pauses drink reminders during this period.</string>
+    <string name="nap_title">Nap</string>
+    <string name="nap_toggle_desc">Pause reminders while you nap</string>
+    <string name="nap_time_range">Nap time</string>
+    <string name="nap_info">During this period, the app won\'t send drink reminders.</string>
 </resources>

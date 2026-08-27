@@ -10,6 +10,7 @@ import '../presentation/screens_onboarding/height_screen.dart';
 import '../presentation/screens_onboarding/weight_screen.dart';
 import '../presentation/screens_onboarding/weather_screen.dart';
 import '../presentation/screens_onboarding/wakeup_screen.dart';
+import '../presentation/screens_onboarding/nap_screen.dart';
 import '../presentation/screens_onboarding/bedtime_screen.dart';
 import '../presentation/screens_onboarding/building_schedule_screen.dart';
 import '../presentation/screens_onboarding/daily_goal_result_screen.dart';
@@ -24,6 +25,7 @@ import '../presentation/screens_settings/premium_screen.dart';
 import '../presentation/screens_reminder/reminder_settings_screen.dart';
 import '../presentation/screen_streak/streak_screen.dart';
 import '../presentation/screen_avatar/avatar_screen.dart';
+import '../presentation/screens_chat/chat_bot_screen.dart';
 import '../controller/streak_controller.dart';
 
 import 'route_name.dart';
@@ -55,6 +57,7 @@ class AppPages {
       page: () => const WeatherScreen(),
     ),
     GetPage(name: RouteName.onboardingWakeup, page: () => const WakeupScreen()),
+    GetPage(name: RouteName.onboardingNap, page: () => const NapScreen()),
     GetPage(
       name: RouteName.onboardingBedtime,
       page: () => const BedtimeScreen(),
@@ -90,6 +93,7 @@ class AppPages {
       }),
     ),
     GetPage(name: RouteName.avatarSelection, page: () => const AvatarScreen()),
+    GetPage(name: RouteName.chatBot, page: () => const ChatBotScreen()),
     GetPage(name: RouteName.feedback, page: () => const FeedbackScreen()),
     GetPage(name: RouteName.premium, page: () => const PremiumScreen()),
     GetPage(
