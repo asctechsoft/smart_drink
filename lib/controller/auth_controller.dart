@@ -9,6 +9,7 @@ class AuthController extends GetxController {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   final Rx<User?> user = Rx<User?>(null);
+  final RxBool isLoading = false.obs;
 
   bool get isLoggedIn => user.value != null;
   String get displayName => user.value?.displayName ?? '';
@@ -22,6 +23,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> signInWithGoogle() async {
+    isLoading.value = true;
     try {
       final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) return;
@@ -33,11 +35,18 @@ class AuthController extends GetxController {
       await _auth.signInWithCredential(credential);
     } catch (e) {
       Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
     }
   }
 
   Future<void> signOut() async {
-    await _googleSignIn.signOut();
-    await _auth.signOut();
+    isLoading.value = true;
+    try {
+      await _googleSignIn.signOut();
+      await _auth.signOut();
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

@@ -3,12 +3,15 @@ import 'package:dsp_base/app_material.dart';
 import 'package:waternudge/controller/auth_controller.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
+import 'package:waternudge/presentation/common_components/auth_loading_overlay.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/utils/unit_converter.dart';
+import 'package:waternudge/values/route_name.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'settings_bottom_sheets.dart';
 import 'rate_app_dialog.dart';
+import 'logout_dialog.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -18,192 +21,235 @@ class SettingsScreen extends StatelessWidget {
     final settingsCtrl = Get.find<SettingsController>();
     final profileCtrl = Get.find<UserProfileController>();
 
-    return OnboardingBackground(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
-            children: [
-              // ── Header ──
-              _buildHeader(context),
-              const SizedBox(height: 8),
-              // ── User card ──
-              _UserCard(),
-              const SizedBox(height: 24),
-              // ── Section: CÁ NHÂN ──
-              _SectionTitle(label: 'section_personal'.tr),
-              const SizedBox(height: 10),
-              _SectionCard(
-                children: [
-                  Obx(() {
-                    final gender = profileCtrl.profile.value.gender;
-                    return _SettingsTile(
-                      iconData: Icons.person_outline_rounded,
-                      title: 'gender'.tr,
-                      subtitle: 'settings_gender_desc'.tr,
-                      value: gender.tr,
-                      onTap: () => showGenderSheet(context),
-                    );
-                  }),
-                  _Divider(),
-                  Obx(() {
-                    final weather = profileCtrl.profile.value.weatherCondition;
-                    return _SettingsTile(
-                      iconData: Icons.wb_cloudy_outlined,
-                      title: 'weather'.tr,
-                      subtitle: 'settings_weather_desc'.tr,
-                      value: weather.tr,
-                      onTap: () => showWeatherSheet(context),
-                    );
-                  }),
-                  _Divider(),
-                  Obx(() {
-                    final p = profileCtrl.profile.value;
-                    final String goalVal;
-                    if (p.volumeUnit == 'oz') {
-                      goalVal =
-                          '${UnitConverter.mlToOz(p.dailyGoalMl.toDouble()).toStringAsFixed(1)} oz';
-                    } else if (p.dailyGoalMl >= 1000) {
-                      goalVal =
-                          '${(p.dailyGoalMl / 1000).toStringAsFixed(1)} L';
-                    } else {
-                      goalVal = '${p.dailyGoalMl} ml';
-                    }
-                    return _SettingsTile(
-                      iconData: Icons.local_drink_outlined,
-                      title: 'daily_goal'.tr,
-                      subtitle: 'settings_daily_goal_desc'.tr,
-                      value: goalVal,
-                      onTap: () => showDailyGoalSheet(context),
-                    );
-                  }),
-                  _Divider(),
-                  Obx(() {
-                    final p = profileCtrl.profile.value;
-                    final heightVal = '${p.height.round()} ${p.heightUnit}';
-                    return _SettingsTile(
-                      iconData: Icons.straighten_rounded,
-                      title: 'height'.tr,
-                      subtitle: 'settings_height_desc'.tr,
-                      value: heightVal,
-                      onTap: () => showHeightSheet(context),
-                    );
-                  }),
-                  _Divider(),
-                  Obx(() {
-                    final p = profileCtrl.profile.value;
-                    final weightVal = '${p.weight.round()} ${p.weightUnit}';
-                    return _SettingsTile(
-                      iconData: Icons.monitor_weight_outlined,
-                      title: 'weight'.tr,
-                      subtitle: 'settings_weight_desc'.tr,
-                      value: weightVal,
-                      onTap: () => showWeightSheet(context),
-                    );
-                  }),
-                  _Divider(),
-                  Obx(() {
-                    final vol = settingsCtrl.volumeUnit.value;
-                    final wt = settingsCtrl.weightUnit.value;
-                    final ht = profileCtrl.profile.value.heightUnit;
-                    return _SettingsTile(
-                      svgPath: 'assets/images/svg/ic_unit.svg',
-                      title: 'units'.tr,
-                      subtitle: 'settings_units_desc'.tr,
-                      value: '$vol / $wt / $ht',
-                      onTap: () => showUnitsSheet(context),
-                    );
-                  }),
-                  _Divider(),
-                  Obx(() {
-                    settingsCtrl.language.value;
-                    return _SettingsTile(
-                      iconData: Icons.language_rounded,
-                      title: 'language'.tr,
-                      subtitle: 'settings_language_desc'.tr,
-                      value: CommLocalize.getLocaleName(
-                        CommLocalize.getAppLocale(),
-                      ),
-                      onTap: () => showLanguageSheet(context),
-                    );
-                  }),
-                  _Divider(),
-                  Obx(() {
-                    final wakeUp = profileCtrl.profile.value.wakeUpTime;
-                    return _SettingsTile(
-                      iconData: Icons.wb_sunny_outlined,
-                      title: 'what_time_do_you_wake_up'.tr,
-                      subtitle: 'settings_wakeup_desc'.tr,
-                      value: wakeUp,
-                      onTap: () => showWakeupSheet(context),
-                    );
-                  }),
-                  _Divider(),
-                  Obx(() {
-                    final bedTime = profileCtrl.profile.value.bedTime;
-                    return _SettingsTile(
-                      iconData: Icons.nightlight_round,
-                      title: 'bedtime'.tr,
-                      subtitle: 'settings_bedtime_desc'.tr,
-                      value: bedTime,
-                      onTap: () => showBedtimeSheet(context),
-                    );
-                  }),
-                  _Divider(),
-                  _SettingsTile(
-                    svgPath: 'assets/images/svg/ic_theme.svg',
-                    title: 'theme'.tr,
-                    subtitle: 'settings_theme_desc'.tr,
-                    value: 'Dark',
-                    hideChevron: true,
+    return AuthLoadingOverlay(
+      child: OnboardingBackground(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeArea(
+            child: ListView(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
+              children: [
+                // ── Header ──
+                _buildHeader(context),
+                const SizedBox(height: 8),
+                // ── User card ──
+                _UserCard(),
+                const SizedBox(height: 24),
+
+                // ── 1. DRINK ── things that affect hydration goal ──
+                _SectionTitle(label: 'section_drink'.tr),
+                const SizedBox(height: 10),
+                _SectionCard(
+                  children: [
+                    Obx(() {
+                      final p = profileCtrl.profile.value;
+
+                      final String goalVal;
+                      if (p.volumeUnit == 'oz') {
+                        goalVal =
+                            '${UnitConverter.mlToOz(p.dailyGoalMl.toDouble()).toStringAsFixed(1)} oz';
+                      } else if (p.dailyGoalMl >= 1000) {
+                        goalVal =
+                            '${(p.dailyGoalMl / 1000).toStringAsFixed(1)} L';
+                      } else {
+                        goalVal = '${p.dailyGoalMl} ml';
+                      }
+                      return _SettingsTile(
+                        iconData: Icons.local_drink_outlined,
+                        title: 'daily_goal'.tr,
+                        subtitle: 'settings_daily_goal_desc'.tr,
+                        value: goalVal,
+                        onTap: () => showDailyGoalSheet(context),
+                      );
+                    }),
+                    _Divider(),
+                    Obx(() {
+                      final weather =
+                          profileCtrl.profile.value.weatherCondition;
+                      return _SettingsTile(
+                        iconData: Icons.wb_cloudy_outlined,
+                        title: 'weather'.tr,
+                        subtitle: 'settings_weather_desc'.tr,
+                        value: weather.tr,
+                        onTap: () => showWeatherSheet(context),
+                      );
+                    }),
+                    _Divider(),
+                    Obx(() {
+                      final gender = profileCtrl.profile.value.gender;
+                      return _SettingsTile(
+                        iconData: Icons.person_outline_rounded,
+                        title: 'gender'.tr,
+                        subtitle: 'settings_gender_desc'.tr,
+                        value: gender.tr,
+                        onTap: () => showGenderSheet(context),
+                      );
+                    }),
+                    _Divider(),
+                    Obx(() {
+                      final p = profileCtrl.profile.value;
+                      final heightVal = '${p.height.round()} ${p.heightUnit}';
+                      return _SettingsTile(
+                        iconData: Icons.straighten_rounded,
+                        title: 'height'.tr,
+                        subtitle: 'settings_height_desc'.tr,
+                        value: heightVal,
+                        onTap: () => showHeightSheet(context),
+                      );
+                    }),
+                    _Divider(),
+                    Obx(() {
+                      final p = profileCtrl.profile.value;
+                      final weightVal = '${p.weight.round()} ${p.weightUnit}';
+                      return _SettingsTile(
+                        iconData: Icons.monitor_weight_outlined,
+                        title: 'weight'.tr,
+                        subtitle: 'settings_weight_desc'.tr,
+                        value: weightVal,
+                        onTap: () => showWeightSheet(context),
+                      );
+                    }),
+                  ],
+                ),
+                const SizedBox(height: 24),
+
+                // ── 2. SCHEDULE ── daily rhythm & reminders ──
+                _SectionTitle(label: 'section_schedule'.tr),
+                const SizedBox(height: 10),
+                _SectionCard(
+                  children: [
+                    Obx(() {
+                      final wakeUp = profileCtrl.profile.value.wakeUpTime;
+                      return _SettingsTile(
+                        iconData: Icons.wb_sunny_outlined,
+                        title: 'what_time_do_you_wake_up'.tr,
+                        subtitle: 'settings_wakeup_desc'.tr,
+                        value: wakeUp,
+                        onTap: () => showWakeupSheet(context),
+                      );
+                    }),
+                    _Divider(),
+                    Obx(() {
+                      final bedTime = profileCtrl.profile.value.bedTime;
+                      return _SettingsTile(
+                        iconData: Icons.nightlight_round,
+                        title: 'bedtime'.tr,
+                        subtitle: 'settings_bedtime_desc'.tr,
+                        value: bedTime,
+                        onTap: () => showBedtimeSheet(context),
+                      );
+                    }),
+                  ],
+                ),
+                const SizedBox(height: 24),
+
+                // ── 3. GENERAL ── app-wide settings ──
+                _SectionTitle(label: 'section_general'.tr),
+                const SizedBox(height: 10),
+                _SectionCard(
+                  children: [
+                    Obx(() {
+                      final vol = settingsCtrl.volumeUnit.value;
+                      final wt = settingsCtrl.weightUnit.value;
+                      final ht = profileCtrl.profile.value.heightUnit;
+                      return _SettingsTile(
+                        svgPath: 'assets/images/svg/ic_unit.svg',
+                        title: 'units'.tr,
+                        subtitle: 'settings_units_desc'.tr,
+                        value: '$vol / $wt / $ht',
+                        onTap: () => showUnitsSheet(context),
+                      );
+                    }),
+                    _Divider(),
+                    Obx(() {
+                      settingsCtrl.language.value;
+                      return _SettingsTile(
+                        iconData: Icons.language_rounded,
+                        title: 'language'.tr,
+                        subtitle: 'settings_language_desc'.tr,
+                        value: CommLocalize.getLocaleName(
+                          CommLocalize.getAppLocale(),
+                        ),
+                        onTap: () => showLanguageSheet(context),
+                      );
+                    }),
+                  ],
+                ),
+                const SizedBox(height: 24),
+
+                // ── 4. SUPPORT & ABOUT ──
+                _SectionTitle(label: 'section_support'.tr),
+                const SizedBox(height: 10),
+                _SectionCard(
+                  children: [
+                    _SettingsTile(
+                      iconData: Icons.shield_outlined,
+                      title: 'settings_privacy'.tr,
+                      subtitle: 'settings_privacy_desc'.tr,
+                      onTap: () {},
+                    ),
+                    _Divider(),
+                    _SettingsTile(
+                      iconData: Icons.feedback_outlined,
+                      title: 'settings_feedback'.tr,
+                      subtitle: 'settings_feedback_desc'.tr,
+                      onTap: () => Get.toNamed(RouteName.feedback),
+                    ),
+                    _Divider(),
+                    Obx(
+                      () => settingsCtrl.isRated.value
+                          ? const SizedBox.shrink()
+                          : Column(
+                              children: [
+                                _SettingsTile(
+                                  svgPath: 'assets/images/svg/ic_rate.svg',
+                                  title: 'rate_app'.tr,
+                                  subtitle: 'settings_rate_desc'.tr,
+                                  onTap: () => showRateAppDialog(context),
+                                ),
+                                _Divider(),
+                              ],
+                            ),
+                    ),
+                    _SettingsTile(
+                      iconData: Icons.share_outlined,
+                      title: 'settings_share'.tr,
+                      subtitle: 'settings_share_desc'.tr,
+                      onTap: () {},
+                    ),
+                    // Logout at the very bottom, only when signed in
+                    Obx(
+                      () => AuthController.to.isLoggedIn
+                          ? Column(
+                              children: [
+                                _Divider(),
+                                _SettingsTile(
+                                  iconData: Icons.logout_rounded,
+                                  title: 'settings_logout'.tr,
+                                  subtitle: 'settings_logout_desc'.tr,
+                                  onTap: () => showLogoutConfirmDialog(context),
+                                ),
+                              ],
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+
+                // ── App version ──
+                Center(
+                  child: Text(
+                    'settings_about_desc'.tr,
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.5),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              // ── Section: KHÁC ──
-              _SectionTitle(label: 'section_other'.tr),
-              const SizedBox(height: 10),
-              _SectionCard(
-                children: [
-                  _SettingsTile(
-                    iconData: Icons.shield_outlined,
-                    title: 'settings_privacy'.tr,
-                    subtitle: 'settings_privacy_desc'.tr,
-                    onTap: () {},
-                  ),
-                  _Divider(),
-                  _SettingsTile(
-                    iconData: Icons.help_outline_rounded,
-                    title: 'settings_help'.tr,
-                    subtitle: 'settings_help_desc'.tr,
-                    onTap: () {},
-                  ),
-                  _Divider(),
-                  Obx(
-                    () => settingsCtrl.isRated.value
-                        ? const SizedBox.shrink()
-                        : Column(
-                            children: [
-                              _SettingsTile(
-                                svgPath: 'assets/images/svg/ic_rate.svg',
-                                title: 'rate_app'.tr,
-                                subtitle: 'settings_rate_desc'.tr,
-                                onTap: () => showRateAppDialog(context),
-                              ),
-                              _Divider(),
-                            ],
-                          ),
-                  ),
-                  _SettingsTile(
-                    iconData: Icons.info_outline_rounded,
-                    title: 'settings_about'.tr,
-                    subtitle: 'settings_about_desc'.tr,
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -261,7 +307,82 @@ class SettingsScreen extends StatelessWidget {
 
 // ─── User Card ────────────────────────────────────────────────────────────────
 
-class _UserCard extends StatelessWidget {
+class _UserCard extends StatefulWidget {
+  @override
+  State<_UserCard> createState() => _UserCardState();
+}
+
+class _UserCardState extends State<_UserCard>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _syncSpin;
+  bool _syncing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _syncSpin = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    );
+  }
+
+  @override
+  void dispose() {
+    _syncSpin.dispose();
+    super.dispose();
+  }
+
+  Future<void> _onSync() async {
+    if (_syncing) return;
+    final msg = 'sync_success'.tr; // capture before async
+    setState(() => _syncing = true);
+    _syncSpin.repeat();
+    await Future.delayed(const Duration(milliseconds: 1500));
+    if (!mounted) return;
+    _syncSpin.stop();
+    _syncSpin.reset();
+    setState(() => _syncing = false);
+    Get.showSnackbar(
+      GetSnackBar(
+        backgroundColor: Colors.transparent,
+        snackPosition: SnackPosition.TOP,
+        padding: EdgeInsets.zero,
+        margin: EdgeInsets.zero,
+        duration: const Duration(seconds: 3),
+        messageText: Align(
+          alignment: Alignment.topCenter,
+          child: Container(
+            margin: const EdgeInsets.only(top: kToolbarHeight),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.check_circle_rounded,
+                  size: 18,
+                  color: Color(0xFF57DCC0),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  msg,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -335,25 +456,27 @@ class _UserCard extends StatelessWidget {
               ),
               if (loggedIn)
                 GestureDetector(
-                  onTap: () => auth.signOut(),
+                  onTap: _onSync,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 8,
-                    ),
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
+                      shape: BoxShape.circle,
                       border: Border.all(
                         color: Colors.white.withValues(alpha: 0.2),
                       ),
                     ),
-                    child: const Text(
-                      'Sign out',
-                      style: TextStyle(
+                    child: AnimatedBuilder(
+                      animation: _syncSpin,
+                      builder: (_, child) => Transform.rotate(
+                        angle: _syncSpin.value * 6.2832,
+                        child: child,
+                      ),
+                      child: const Icon(
+                        Icons.sync_rounded,
+                        size: 20,
                         color: Colors.white70,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -462,7 +585,6 @@ class _SettingsTile extends StatelessWidget {
   final String? subtitle;
   final String? value;
   final VoidCallback? onTap;
-  final bool hideChevron;
 
   const _SettingsTile({
     this.svgPath,
@@ -471,7 +593,6 @@ class _SettingsTile extends StatelessWidget {
     this.subtitle,
     this.value,
     this.onTap,
-    this.hideChevron = false,
   });
 
   @override
@@ -538,14 +659,12 @@ class _SettingsTile extends StatelessWidget {
                   ),
                 ),
               ],
-              if (!hideChevron) ...[
-                const SizedBox(width: 6),
-                const Icon(
-                  Icons.chevron_right_rounded,
-                  color: Color(0xFF96D2A8),
-                  size: 24,
-                ),
-              ],
+              const SizedBox(width: 6),
+              const Icon(
+                Icons.chevron_right_rounded,
+                color: Color(0xFF96D2A8),
+                size: 24,
+              ),
             ],
           ),
         ),

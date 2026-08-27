@@ -42,24 +42,24 @@ class WelcomeScreen extends StatelessWidget {
                 child: StaggerReveal(
                   index: 6,
                   child: PrimaryButton(
-                  width: double.infinity,
-                  text: 'welcome_start_btn'.tr,
-                  onPressed: () => Get.toNamed(RouteName.onboardingGender),
-                  useGradient: true,
-                  trailing: Container(
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                      color: AppColors.btnCyanText.withValues(alpha: 0.15),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.arrow_forward_rounded,
-                      color: AppColors.btnCyanText,
-                      size: 18,
+                    width: double.infinity,
+                    text: 'welcome_start_btn'.tr,
+                    onPressed: () => Get.toNamed(RouteName.onboardingGender),
+                    useGradient: true,
+                    trailing: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: AppColors.btnCyanText.withValues(alpha: 0.15),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.arrow_forward_rounded,
+                        color: Color(0xFF57DCC0),
+                        size: 18,
+                      ),
                     ),
                   ),
-                ),
                 ),
               ),
             ],
@@ -107,9 +107,7 @@ class WelcomeScreen extends StatelessWidget {
                 TextSpan(text: beforeKw),
                 TextSpan(
                   text: keyword,
-                  style: titleStyle.copyWith(
-                    color: const Color(0xFF57DCC0),
-                  ),
+                  style: titleStyle.copyWith(color: const Color(0xFF57DCC0)),
                 ),
                 TextSpan(text: afterKw),
               ],
@@ -214,10 +212,7 @@ class _FeatureItem extends StatelessWidget {
         const SizedBox(height: 2),
         Text(
           desc,
-          style: const TextStyle(
-            fontSize: 11,
-            color: Colors.white60,
-          ),
+          style: const TextStyle(fontSize: 11, color: Colors.white60),
           textAlign: TextAlign.center,
         ),
       ],

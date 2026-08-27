@@ -34,7 +34,7 @@ class PrimaryDialog extends StatelessWidget {
     return Dialog(
       insetPadding:
           insetPadding ??
-          const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       elevation: 12,
       backgroundColor: Colors.transparent,
