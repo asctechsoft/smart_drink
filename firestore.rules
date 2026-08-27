@@ -1,0 +1,27 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Feedback: anyone (device-based or signed-in) may submit.
+    // No client reads/edits — only the console / admin backend can view.
+    match /feedbacks/{doc} {
+      allow create: if isValidFeedback();
+      allow read, update, delete: if false;
+    }
+
+    // Everything else is locked.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+
+  function isValidFeedback() {
+    let d = request.resource.data;
+    return d.deviceId is string
+        && d.deviceId.size() > 0
+        && d.message is string
+        && d.message.size() > 0
+        && d.message.size() <= 1000;
+  }
+}

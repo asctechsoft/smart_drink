@@ -125,7 +125,7 @@
     <string name="your_feedback_has_been_sent">Phản hồi của bạn đã được gửi.</string>
     <string name="feedback">Phản hồi</string>
     <string name="feedback_subtitle">Chia sẻ ý kiến để giúp chúng tôi cải thiện hành trình uống nước của bạn.</string>
-    <string name="fb_question_category">1. Bạn muốn phản hồi về điều gì?</string>
+    <string name="fb_question_category">Bạn muốn phản hồi về điều gì?</string>
     <string name="fb_cat_bug">Báo lỗi</string>
     <string name="fb_cat_suggestion">Đề xuất</string>
     <string name="fb_cat_experience">Trải nghiệm app</string>
@@ -140,6 +140,7 @@
     <string name="fb_allow_email">Cho phép liên hệ qua email</string>
     <string name="fb_email_hint">email@của bạn (tuỳ chọn)</string>
     <string name="fb_send">Gửi phản hồi</string>
+    <string name="fb_send_failed">Không thể gửi phản hồi. Vui lòng thử lại.</string>
     <string name="please_share_your_feedback">Hãy chia sẻ phản hồi của bạn</string>
     <string name="we_read_your_feedback_carefully">Chúng tôi luôn lắng nghe phản hồi của bạn để cải thiện ứng dụng tốt hơn. Cảm ơn bạn đã ủng hộ.</string>
     <string name="title">Tiêu đề</string>

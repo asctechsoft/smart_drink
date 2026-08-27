@@ -4,6 +4,7 @@ import 'package:dsp_base/app_material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/services/feedback_service.dart';
 import 'package:waternudge/utils/toast_utils.dart';
 import 'package:get/get.dart';
 
@@ -79,8 +80,24 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   void _onSend() {
     setState(() => _submitted = true);
     if (!_canSend) return;
-    ToastUtils.showSuccessFeedbackToast(context);
+
+    final category = _selectedCategory >= 0
+        ? _categories[_selectedCategory].key.replaceFirst('fb_cat_', '')
+        : 'other';
+    // Fire-and-forget — do NOT await; the write is local-first and durable.
+    FeedbackService.instance.submit(
+      category: category,
+      subject: _subjectCtrl.text,
+      message: _feedbackCtrl.text,
+      attachmentPaths: _attachments.map((e) => e.path).toList(),
+    );
+    // Pop first, THEN toast. Get.showSnackbar is route-based (pushes a
+    // SnackRoute); if we showed it before Get.back(), Get.back() would pop the
+    // snackbar route instead of this screen — leaving the screen open and the
+    // toast flashing away instantly. Toast resolves Get.context, so it renders
+    // correctly over the previous screen after the pop.
     Get.back();
+    ToastUtils.showSuccessFeedbackToast(context);
   }
 
   Future<void> _pickImages() async {
@@ -172,12 +189,21 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 // bleed through behind the button. Only at the very bottom do we
                 // switch to the soft transparent gradient fade.
                 decoration: (keyboardUp || !_atBottom)
-                    ? const BoxDecoration(color: Color(0xFF0B1E3A))
+                    // Mid-scroll / keyboard up: opaque gradient in app tones so
+                    // content can't bleed through but it still blends with the bg.
+                    ? const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Color(0xFF191F71), Color(0xFF0B0921)],
+                        ),
+                      )
+                    // At the very bottom: soft transparent fade.
                     : const BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          colors: [Colors.transparent, Color(0xBF000000)],
+                          colors: [Colors.transparent, Color(0xE60B1E3A)],
                         ),
                       ),
                 child: _buildSendButton(),
@@ -198,22 +224,25 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         child: Stack(
           children: [
             Positioned(
-              top: 4,
-              left: 4,
-              child: IconButton(
-                onPressed: () => Get.back(),
-                icon: Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    color: _kIconBg,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: _kIconBorder),
-                  ),
-                  child: const Icon(
-                    Icons.chevron_left_rounded,
-                    color: Colors.white,
-                    size: 22,
+              top: 8,
+              left: 12,
+              child: Material(
+                color: _kIconBg,
+                shape: CircleBorder(
+                  side: BorderSide(color: _kIconBorder),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                  onTap: () => Get.back(),
+                  customBorder: const CircleBorder(),
+                  child: const SizedBox(
+                    width: 36,
+                    height: 36,
+                    child: Icon(
+                      Icons.chevron_left_rounded,
+                      color: Colors.white,
+                      size: 22,
+                    ),
                   ),
                 ),
               ),
@@ -284,10 +313,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _CardTitle(
-            icon: Icons.help_outline_rounded,
-            label: 'fb_question_category'.tr,
-          ),
+          _CardTitle(label: 'fb_question_category'.tr),
           const SizedBox(height: 14),
           Wrap(
             spacing: 8,
@@ -357,7 +383,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _CardTitle(icon: Icons.subject_rounded, label: 'fb_subject'.tr),
+          _CardTitle(label: 'fb_subject'.tr),
           const SizedBox(height: 12),
           _InputField(
             controller: _subjectCtrl,
@@ -378,8 +404,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         children: [
           Row(
             children: [
-              _iconBox(Icons.chat_bubble_outline_rounded),
-              const SizedBox(width: 12),
               Text(
                 'fb_your_feedback'.tr,
                 style: const TextStyle(
@@ -476,30 +500,28 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         children: [
           Row(
             children: [
-              _iconBox(Icons.attach_file_rounded),
-              const SizedBox(width: 12),
               Expanded(
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'fb_attach'.tr,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                        ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'fb_attach'.tr,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
                       ),
-                      TextSpan(
-                        text: '  ${'fb_attach_optional'.tr}',
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.5),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      'fb_attach_optional'.tr,
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.5),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(width: 8),
@@ -585,25 +607,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       width: double.infinity,
       height: 52,
       useGradient: true,
-      enabled: _canSend,
       leading: const Icon(Icons.send_rounded, size: 18, color: Colors.white),
       onPressed: _onSend,
     );
   }
 
   // ── Helpers ───────────────────────────────────────────────────────────────
-  Widget _iconBox(IconData icon) {
-    return Container(
-      width: 38,
-      height: 38,
-      decoration: BoxDecoration(
-        color: _kIconBg,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: _kIconBorder),
-      ),
-      child: Icon(icon, size: 20, color: _kGreen),
-    );
-  }
 }
 
 // ─── Shared card container (same style as settings _SectionCard) ─────────────
@@ -630,34 +639,18 @@ class _Card extends StatelessWidget {
 // ─── Card section title row ───────────────────────────────────────────────────
 
 class _CardTitle extends StatelessWidget {
-  final IconData icon;
   final String label;
-  const _CardTitle({required this.icon, required this.label});
+  const _CardTitle({required this.label});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 38,
-          height: 38,
-          decoration: BoxDecoration(
-            color: _kIconBg,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: _kIconBorder),
-          ),
-          child: Icon(icon, size: 20, color: _kGreen),
-        ),
-        const SizedBox(width: 12),
-        Text(
-          label,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 15,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ],
+    return Text(
+      label,
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 15,
+        fontWeight: FontWeight.w700,
+      ),
     );
   }
 }

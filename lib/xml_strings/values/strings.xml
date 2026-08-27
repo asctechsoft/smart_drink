@@ -140,6 +140,7 @@
     <string name="fb_allow_email">Allow follow-up by email</string>
     <string name="fb_email_hint">your@email.com (optional)</string>
     <string name="fb_send">Send feedback</string>
+    <string name="fb_send_failed">Could not send feedback. Please try again.</string>
     <string name="please_share_your_feedback">Please share your feedback</string>
     <string name="we_read_your_feedback_carefully">We read your feedback carefully to make the app even better for you. Thanks for supporting us.</string>
     <string name="title">Title</string>
