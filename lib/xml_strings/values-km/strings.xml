@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">ខ្ញុំនៅទីនេះដើម្បីជួយអ្នករក្សាសភាពសើមខ្លួន និងមានអារម្មណ៍ល្អបំផុត</string>
-    <string name="i_need_a_bit_of_information">ខ្ញុំ​ត្រូវ​ការ​ព័ត៌មាន​បន្តិច​ដើម្បី​យល់​ពី​អ្នក​កាន់​តែ​ច្បាស់</string>
     <string name="select_your_gender">ជ្រើសរើសភេទរបស់អ្នក</string>
     <string name="male">ប្រុស</string>
     <string name="female">ស្រី</string>
     <string name="next">បន្ទាប់</string>
-    <string name="lets_go">តោះទៅ</string>
     <string name="weight">ទម្ងន់</string>
     <string name="what_time_do_you_wake_up">តើអ្នកក្រោកពីម៉ោងប៉ុន្មាន?</string>
     <string name="am">ព្រឹក</string>
@@ -27,7 +24,6 @@
     <string name="hour">ម៉ោង</string>
     <string name="minute">នាទី</string>
     <string name="min">នាទី</string>
-    <string name="allow">អនុញ្ញាត</string>
     <string name="start">ចាប់ផ្តើម</string>
     <string name="no_reminder_set">មិនបានកំណត់ការរំលឹកទេ។</string>
     <string name="next_reminder">ការរំលឹកបន្ទាប់ %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">ធម្មតា</string>
     <string name="warm">ក្តៅ</string>
     <string name="hot">ក្តៅ</string>
-    <string name="time_12_hour">ពេលវេលា ១២ ម៉ោង</string>
-    <string name="time_24_hour">ពេលវេលា ២៤ ម៉ោង</string>
     <string name="follow_the_system">អនុវត្តតាមប្រព័ន្ធ</string>
     <string name="repeat_reminder">ការរំលឹកដដែលៗ</string>
     <string name="monday">ថ្ងៃច័ន្ទ</string>
@@ -59,13 +53,10 @@
     <string name="friday">សុក្រ</string>
     <string name="saturday">ថ្ងៃសៅរ៍</string>
     <string name="sunday">ថ្ងៃអាទិត្យ</string>
-    <string name="standard_mode">របៀបស្តង់ដារ</string>
     <string name="bedtime">ម៉ោងចូលគេង</string>
     <string name="reminders">ការរំលឹក</string>
     <string name="sleep_time_start">ម៉ោងចាប់ផ្តើមគេង</string>
-    <string name="to">ទៅ</string>
     <string name="sleep_time_end">ចប់ពេលគេង</string>
-    <string name="we_ll_remind_you_every">យើងនឹងរំលឹកអ្នករាល់ %1$s ក្នុងអំឡុងពេលដែលអ្នកមិនបានសម្រាក</string>
     <string name="after_wake_up">បន្ទាប់ពីភ្ញាក់</string>
     <string name="before_breakfast">មុនពេលអាហារព្រឹក</string>
     <string name="after_breakfast">បន្ទាប់ពីអាហារពេលព្រឹក</string>
@@ -94,16 +85,10 @@
     <string name="milk">ទឹកដោះគោ</string>
     <string name="tea">តែ</string>
     <string name="juice">ទឹកផ្លែឈើ</string>
-    <string name="soup">ស៊ុប</string>
     <string name="coffee">កាហ្វេ</string>
     <string name="beer">ស្រាបៀរ</string>
     <string name="wine">ស្រា</string>
     <string name="strong_drinks">ភេសជ្ជៈខ្លាំង</string>
-    <string name="get_premium">ទទួលបានព្រីមៀម</string>
-    <string name="unlock_all_features_and_remove_ads">ដោះសោរមុខងារទាំងអស់ និងលុបការផ្សាយពាណិជ្ជកម្ម</string>
-    <string name="personal_info">ព័ត៌មានផ្ទាល់ខ្លួន</string>
-    <string name="general">ទូទៅ</string>
-    <string name="more">ច្រើនទៀត</string>
     <string name="widget">វិដ្ជិត</string>
     <string name="gender">ភេទ</string>
     <string name="height">កម្ពស់</string>
@@ -115,16 +100,12 @@
     <string name="language">ភាសា</string>
     <string name="theme">ប្រធានបទ</string>
     <string name="rate_app">វាយតម្លៃកម្មវិធី</string>
-    <string name="rate_app_content">បើអ្នកចូលចិត្តកម្មវិធីនេះ សូមពិចារណាផ្តល់ពិន្ទុ ៥ ផ្កាយ។ មតិយោបល់របស់អ្នកជាការជំរុញដ៏ល្អសម្រាប់យើងក្នុងការបន្តធ្វើឱ្យប្រសើរឡើង។</string>
     <string name="later">ក្រោយ</string>
     <string name="rate_us_5_stars">វាយតម្លៃយើង ៥ ផ្កាយ</string>
     <string name="thank_you">អរគុណ!</string>
     <string name="your_feedback_has_been_sent">មតិយោបល់របស់អ្នកត្រូវបានផ្ញើរួចហើយ។</string>
     <string name="feedback">មតិយោបល់</string>
-    <string name="please_share_your_feedback">សូមចែករំលែកមតិយោបល់របស់អ្នក</string>
-    <string name="we_read_your_feedback_carefully">យើងអានមតិយោបល់របស់អ្នកយ៉ាងយកចិត្តទុកដាក់ ដើម្បីធ្វើឱ្យកម្មវិធីកាន់តែប្រសើរសម្រាប់អ្នក។ អរគុណចំពោះការគាំទ្ររបស់អ្នក។</string>
     <string name="title">ចំណងជើង</string>
-    <string name="feedback_content">ខ្លឹមសារមតិយោបល់</string>
     <string name="send">ផ្ញើ</string>
     <string name="light">ពន្លឺ</string>
     <string name="dark">ងងឹត</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">ផ្តល់ទឹកប្រហែល ៩៥%</string>
     <string name="the_best_choice_for_hydration">ជម្រើសល្អបំផុតសម្រាប់ការផ្គត់ផ្គង់ទឹក</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">សម្បូរសារធាតុចិញ្ចឹម ជាមួយកាល់ស្យូម និងប្រូតេអ៊ីន សម្រាប់សុខភាពប្រចាំថ្ងៃ</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">មាតិកាសារធាតុចិញ្ចឹមប្រែប្រួលយ៉ាងខ្លាំងដោយផ្អែកលើគ្រឿងផ្សំ</string>
     <string name="high_in_antioxidants_providing">មានសារធាតុប្រឆាំងអុកស៊ីតកម្មខ្ពស់ ផ្តល់ភាពស្ងប់ស្ងាត់ ស្រស់ស្រាយ កាឡូរីទាប</string>
     <string name="packed_with_vitamin_c_and_antioxidants">ពោរពេញដោយវីតាមីន C និងអង់ទីអុកស៊ីដង់ត៍</string>
     <string name="boosts_alertness_through_caffeine">ជំរុញភាពប្រុងប្រយ័ត្នតាមរយៈកាហ្វេអ៊ីន ដោយកម្រិតខ្លាំងនៃរសជាតិអាស្រ័យលើការប្រឡាំង និងវិធីចៀន</string>
@@ -179,7 +159,6 @@
     <string name="cancel">បោះបង់</string>
     <string name="custom">ផ្ទាល់ខ្លួន</string>
     <string name="day">ថ្ងៃ</string>
-    <string name="delete">លុប</string>
     <string name="edit_drink">កែសម្រួលភេសជ្ជៈ</string>
     <string name="history">ប្រវត្តិ</string>
     <string name="no_records_found">រកមិនឃើញកំណត់ត្រា</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>

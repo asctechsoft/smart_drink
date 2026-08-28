@@ -7,14 +7,11 @@ import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/circular_time_picker.dart';
 import 'package:waternudge/presentation/common_components/gender_card.dart';
 import 'package:waternudge/presentation/common_components/selectable_option_tile.dart';
-import 'package:waternudge/presentation/common_components/primary_bottom_sheet.dart';
 import 'package:waternudge/presentation/common_components/toggle_selector.dart';
-import 'package:waternudge/presentation/common_components/wheel_picker.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/screens_settings/components/language_list_widget.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/app_colors.dart';
-import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:get/get.dart';
 
 // Helpers removed - using PrimaryBottomSheet instead
@@ -1029,8 +1026,6 @@ class _DailyGoalSheetState extends State<_DailyGoalSheet> {
     }
     return v.toString();
   }
-
-  double get _progress => ((_value - _min) / (_max - _min)).clamp(0.0, 1.0);
 
   @override
   Widget build(BuildContext context) {
@@ -2109,54 +2104,4 @@ class _LanguageSheetState extends State<_LanguageSheet> {
       ),
     );
   }
-}
-
-// ─── Time Format Sheet ────────────────────────────────────────────────────────
-
-void showTimeFormatSheet(BuildContext context) {
-  final ctrl = Get.find<SettingsController>();
-
-  String getFormat(int index) {
-    if (index == 1) return '12h';
-    if (index == 2) return 'system';
-    return '24h';
-  }
-
-  int getIndex(String format) {
-    if (format == '12h') return 1;
-    if (format == 'system') return 2;
-    return 0;
-  }
-
-  String getLabel(int index) {
-    if (index == 1) return 'time_12_hour'.tr;
-    if (index == 2) return 'follow_the_system'.tr;
-    return 'time_24_hour'.tr;
-  }
-
-  int displayValue = getIndex(ctrl.timeFormat.value);
-
-  PrimaryBottomSheet.show(
-    context: context,
-    title: 'time_format',
-    buttonText: 'save',
-    onButtonPressed: () {
-      ctrl.setTimeFormat(getFormat(displayValue));
-      Navigator.pop(context);
-    },
-    content: StatefulBuilder(
-      builder: (ctx, setState) => WheelPicker(
-        minValue: 0,
-        maxValue: 2,
-        initialValue: displayValue,
-        onChanged: (v) => displayValue = v,
-        labelBuilder: getLabel,
-        showIndicator: false,
-        textColor: Colors.white,
-        itemWidth: 250,
-        isLooping: true,
-        visibleItemCount: 3,
-      ),
-    ),
-  );
 }

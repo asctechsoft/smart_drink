@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">मी तुम्हाला हायड्रेटेड ठेवण्यास आणि सर्वोत्तम वाटण्यास मदत करण्यासाठी इथे आहे</string>
-    <string name="i_need_a_bit_of_information">मला तुम्हाला चांगल्या प्रकारे समजून घेण्यासाठी थोडी माहिती हवी आहे</string>
     <string name="select_your_gender">तुमचे लिंग निवडा</string>
     <string name="male">पुरुष</string>
     <string name="female">स्त्री</string>
     <string name="next">पुढे</string>
-    <string name="lets_go">चला जाऊया</string>
     <string name="weight">वजन</string>
     <string name="what_time_do_you_wake_up">तुम्ही किती वाजता उठता?</string>
     <string name="am">पूर्वाह्न</string>
@@ -27,7 +24,6 @@
     <string name="hour">तास</string>
     <string name="minute">मिनिट</string>
     <string name="min">किमान</string>
-    <string name="allow">परवानगी द्या</string>
     <string name="start">सुरू करा</string>
     <string name="no_reminder_set">कोणताही रिमाइंडर सेट केलेला नाही</string>
     <string name="next_reminder">पुढील स्मरणपत्र %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">सामान्य</string>
     <string name="warm">उबदार</string>
     <string name="hot">गरम</string>
-    <string name="time_12_hour">12-तास वेळ</string>
-    <string name="time_24_hour">२४ तासांचा वेळ</string>
     <string name="follow_the_system">प्रणालीचे अनुसरण करा</string>
     <string name="repeat_reminder">पुनरावृत्ती स्मरण</string>
     <string name="monday">सोमवार</string>
@@ -59,13 +53,10 @@
     <string name="friday">शुक्रवार</string>
     <string name="saturday">शनिवार</string>
     <string name="sunday">रविवार</string>
-    <string name="standard_mode">मानक मोड</string>
     <string name="bedtime">झोपेची वेळ</string>
     <string name="reminders">स्मरणपत्रे</string>
     <string name="sleep_time_start">झोपेचा वेळ सुरू</string>
-    <string name="to">करण्यासाठी</string>
     <string name="sleep_time_end">झोपेचा वेळ संपला</string>
-    <string name="we_ll_remind_you_every">आम्ही तुमच्या विश्रांती नसलेल्या वेळेत प्रत्येक %1$s तुम्हाला आठवण करून देऊ</string>
     <string name="after_wake_up">उठल्यानंतर</string>
     <string name="before_breakfast">नाश्त्यापूर्वी</string>
     <string name="after_breakfast">नाश्त्यानंतर</string>
@@ -94,16 +85,10 @@
     <string name="milk">दूध</string>
     <string name="tea">चहा</string>
     <string name="juice">रस</string>
-    <string name="soup">सूप</string>
     <string name="coffee">कॉफी</string>
     <string name="beer">बिअर</string>
     <string name="wine">वाइन</string>
     <string name="strong_drinks">मजबूत पेये</string>
-    <string name="get_premium">प्रीमियम मिळवा</string>
-    <string name="unlock_all_features_and_remove_ads">सर्व वैशिष्ट्ये अनलॉक करा आणि जाहिराती काढा</string>
-    <string name="personal_info">वैयक्तिक माहिती</string>
-    <string name="general">सामान्य</string>
-    <string name="more">अधिक</string>
     <string name="widget">विजेट</string>
     <string name="gender">लिंग</string>
     <string name="height">उंची</string>
@@ -115,16 +100,12 @@
     <string name="language">भाषा</string>
     <string name="theme">थीम</string>
     <string name="rate_app">ॲप रेट करा</string>
-    <string name="rate_app_content">जर तुम्हाला हा अॅप आवडला, तर कृपया आम्हाला ५-स्टार रेटिंग देण्याचा विचार करा. तुमचा अभिप्राय आम्हाला सुधारणा करत राहण्यासाठी मोठा प्रेरणा आहे.</string>
     <string name="later">नंतर</string>
     <string name="rate_us_5_stars">आम्हाला ५ तारे द्या</string>
     <string name="thank_you">धन्यवाद!</string>
     <string name="your_feedback_has_been_sent">तुमचा अभिप्राय पाठवला आहे.</string>
     <string name="feedback">अभिप्राय</string>
-    <string name="please_share_your_feedback">कृपया आपली प्रतिक्रिया शेअर करा</string>
-    <string name="we_read_your_feedback_carefully">तुमच्यासाठी ॲप आणखी चांगले बनवण्यासाठी आम्ही तुमचा अभिप्राय काळजीपूर्वक वाचतो. आम्हाला पाठिंबा दिल्याबद्दल धन्यवाद.</string>
     <string name="title">शीर्षक</string>
-    <string name="feedback_content">अभिप्राय सामग्री</string>
     <string name="send">पाठवा</string>
     <string name="light">प्रकाश</string>
     <string name="dark">गडद</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">सुमारे ९५% पाणी पुरवते</string>
     <string name="the_best_choice_for_hydration">हायड्रेशनसाठी सर्वोत्तम पर्याय</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">दैनंदिन आरोग्यासाठी कॅल्शियम आणि प्रथिने युक्त पोषक</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">घटकांच्या आधारे पोषक घटक मोठ्या प्रमाणात बदलतात</string>
     <string name="high_in_antioxidants_providing">अँटीऑक्सिडंट्सने समृद्ध, शांत करणारे, कमी कॅलोरीचे ताजेतवाने पेय</string>
     <string name="packed_with_vitamin_c_and_antioxidants">व्हिटॅमिन सी आणि अँटिऑक्सिडंट्सने भरलेले</string>
     <string name="boosts_alertness_through_caffeine">कॅफिनद्वारे सतर्कता वाढवते, चवेची तीव्रता भुण्याच्या आणि काढण्याच्या पद्धतीने ठरवली जाते</string>
@@ -179,7 +159,6 @@
     <string name="cancel">रद्द करा</string>
     <string name="custom">सानुकूल</string>
     <string name="day">दिवस</string>
-    <string name="delete">हटवा</string>
     <string name="edit_drink">पेय संपादित करा</string>
     <string name="history">इतिहास</string>
     <string name="no_records_found">रेकॉर्ड सापडले नाही</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>

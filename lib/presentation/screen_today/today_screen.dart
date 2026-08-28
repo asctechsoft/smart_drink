@@ -283,8 +283,6 @@ class _TodayScreenState extends State<TodayScreen> {
   }
 
   Widget _buildStatusCards(TodayController controller, BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -326,41 +324,6 @@ class _TodayScreenState extends State<TodayScreen> {
     );
   }
 
-  Widget _buildGoalStatus(TodayController controller, BuildContext context) {
-    final ob = OnboardingTheme.of(context);
-    final currentMl = controller.currentIntakeMl.value;
-    final goalMl = controller.adjustedGoal;
-
-    if (currentMl < goalMl) return const SizedBox.shrink();
-    final bool isExceeded = currentMl > goalMl;
-
-    return AppRow(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        AppText(
-          isExceeded ? 'exceeded_your_goal'.tr : 'goal_completed'.tr,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: ob.textPrimary,
-            letterSpacing: 0.9,
-          ),
-        ),
-        if (isExceeded) ...[
-          AppSpacerW2,
-          AppText(
-            '${(((currentMl / goalMl) - 1.0) * 100).toStringAsFixed(1)}%',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: ob.textReminderIcon,
-              letterSpacing: 0.9,
-            ),
-          ),
-        ],
-      ],
-    );
-  }
 }
 
 // ─── Stat card ────────────────────────────────────────────────────────────────
@@ -466,7 +429,6 @@ class _ActionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,

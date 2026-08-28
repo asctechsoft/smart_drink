@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">ฉันอยู่ที่นี่เพื่อช่วยให้คุณดื่มน้ำให้เพียงพอและรู้สึกดีที่สุด</string>
-    <string name="i_need_a_bit_of_information">ฉันต้องการข้อมูลเล็กน้อยเพื่อเข้าใจคุณให้ดีขึ้น</string>
     <string name="select_your_gender">เลือกเพศของคุณ</string>
     <string name="male">ชาย</string>
     <string name="female">หญิง</string>
     <string name="next">ถัดไป</string>
-    <string name="lets_go">ไปกันเลย</string>
     <string name="weight">น้ำหนัก</string>
     <string name="what_time_do_you_wake_up">คุณตื่นกี่โมง?</string>
     <string name="am">เช้า</string>
@@ -27,7 +24,6 @@
     <string name="hour">ชั่วโมง</string>
     <string name="minute">นาที</string>
     <string name="min">นาที</string>
-    <string name="allow">อนุญาต</string>
     <string name="start">เริ่มต้น</string>
     <string name="no_reminder_set">ยังไม่ได้ตั้งการแจ้งเตือน</string>
     <string name="next_reminder">การแจ้งเตือนครั้งถัดไป %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">ปกติ</string>
     <string name="warm">อบอุ่น</string>
     <string name="hot">ร้อน</string>
-    <string name="time_12_hour">เวลา 12 ชั่วโมง</string>
-    <string name="time_24_hour">เวลา 24 ชั่วโมง</string>
     <string name="follow_the_system">ทำตามระบบ</string>
     <string name="repeat_reminder">เตือนซ้ำ</string>
     <string name="monday">วันจันทร์</string>
@@ -59,13 +53,10 @@
     <string name="friday">วันศุกร์</string>
     <string name="saturday">วันเสาร์</string>
     <string name="sunday">วันอาทิตย์</string>
-    <string name="standard_mode">โหมดมาตรฐาน</string>
     <string name="bedtime">เวลานอน</string>
     <string name="reminders">การแจ้งเตือน</string>
     <string name="sleep_time_start">เวลานอนเริ่มต้น</string>
-    <string name="to">ถึง</string>
     <string name="sleep_time_end">เวลานอนสิ้นสุด</string>
-    <string name="we_ll_remind_you_every">เราจะเตือนคุณทุกๆ %1$s ในช่วงเวลาที่คุณไม่ได้พัก</string>
     <string name="after_wake_up">หลังตื่นนอน</string>
     <string name="before_breakfast">ก่อนอาหารเช้า</string>
     <string name="after_breakfast">หลังอาหารเช้า</string>
@@ -94,16 +85,10 @@
     <string name="milk">นม</string>
     <string name="tea">ชา</string>
     <string name="juice">น้ำผลไม้</string>
-    <string name="soup">ซุป</string>
     <string name="coffee">กาแฟ</string>
     <string name="beer">เบียร์</string>
     <string name="wine">ไวน์</string>
     <string name="strong_drinks">เครื่องดื่มแอลกอฮอล์แรง</string>
-    <string name="get_premium">รับพรีเมียม</string>
-    <string name="unlock_all_features_and_remove_ads">ปลดล็อกทุกฟีเจอร์และลบโฆษณา</string>
-    <string name="personal_info">ข้อมูลส่วนตัว</string>
-    <string name="general">ทั่วไป</string>
-    <string name="more">เพิ่มเติม</string>
     <string name="widget">วิดเจ็ต</string>
     <string name="gender">เพศ</string>
     <string name="height">ความสูง</string>
@@ -115,16 +100,12 @@
     <string name="language">ภาษา</string>
     <string name="theme">ธีม</string>
     <string name="rate_app">ให้คะแนนแอป</string>
-    <string name="rate_app_content">หากคุณชื่นชอบแอปนี้ โปรดให้คะแนน 5 ดาวแก่เรา ความคิดเห็นของคุณเป็นแรงบันดาลใจที่ดีสำหรับเราในการปรับปรุงต่อไป</string>
     <string name="later">ภายหลัง</string>
     <string name="rate_us_5_stars">ให้คะแนนเรา 5 ดาว</string>
     <string name="thank_you">ขอบคุณ!</string>
     <string name="your_feedback_has_been_sent">ความคิดเห็นของคุณถูกส่งแล้ว</string>
     <string name="feedback">ข้อเสนอแนะ</string>
-    <string name="please_share_your_feedback">กรุณาแบ่งปันความคิดเห็นของคุณ</string>
-    <string name="we_read_your_feedback_carefully">เราอ่านความคิดเห็นของคุณอย่างละเอียดเพื่อทำให้แอปดียิ่งขึ้นสำหรับคุณ ขอบคุณที่สนับสนุนเรา</string>
     <string name="title">ชื่อเรื่อง</string>
-    <string name="feedback_content">เนื้อหาคำติชม</string>
     <string name="send">ส่ง</string>
     <string name="light">สว่าง</string>
     <string name="dark">มืด</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">ให้น้ำประมาณ 95%</string>
     <string name="the_best_choice_for_hydration">ทางเลือกที่ดีที่สุดสำหรับความชุ่มชื้น</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">อุดมด้วยสารอาหาร แคลเซียม และโปรตีน เพื่อสุขภาพที่ดีในทุกวัน</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">ปริมาณสารอาหารจะแตกต่างกันไปตามส่วนผสม</string>
     <string name="high_in_antioxidants_providing">อุดมด้วยสารต้านอนุมูลอิสระ มอบความสดชื่นผ่อนคลาย แคลอรีต่ำ</string>
     <string name="packed_with_vitamin_c_and_antioxidants">อุดมไปด้วยวิตามินซีและสารต้านอนุมูลอิสระ</string>
     <string name="boosts_alertness_through_caffeine">ช่วยเพิ่มความตื่นตัวด้วยคาเฟอีน ความเข้มข้นของรสชาติขึ้นอยู่กับการคั่วและการชง</string>
@@ -179,7 +159,6 @@
     <string name="cancel">ยกเลิก</string>
     <string name="custom">กำหนดเอง</string>
     <string name="day">วัน</string>
-    <string name="delete">ลบ</string>
     <string name="edit_drink">แก้ไขเครื่องดื่ม</string>
     <string name="history">ประวัติศาสตร์</string>
     <string name="no_records_found">ไม่พบข้อมูล</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>

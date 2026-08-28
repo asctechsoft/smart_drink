@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">హైడ్రేటెడ్‌గా ఉండటానికి మరియు మీ ఉత్తమ అనుభూతిని పొందడంలో మీకు సహాయపడటానికి నేను ఇక్కడ ఉన్నాను</string>
-    <string name="i_need_a_bit_of_information">మిమ్మల్ని బాగా అర్థం చేసుకోవడానికి నాకు కొంత సమాచారం కావాలి</string>
     <string name="select_your_gender">మీ లింగాన్ని ఎంచుకోండి</string>
     <string name="male">పురుషుడు</string>
     <string name="female">స్త్రీ</string>
     <string name="next">తదుపరి</string>
-    <string name="lets_go">వెళ్దాం</string>
     <string name="weight">బరువు</string>
     <string name="what_time_do_you_wake_up">మీరు ఎప్పుడు లేచుకుంటారు?</string>
     <string name="am">పూ.న్.</string>
@@ -27,7 +24,6 @@
     <string name="hour">గంట</string>
     <string name="minute">నిమిషం</string>
     <string name="min">నిమి</string>
-    <string name="allow">అనుమతించు</string>
     <string name="start">ప్రారంభించు</string>
     <string name="no_reminder_set">రిమైండర్ సెట్ చేయబడలేదు</string>
     <string name="next_reminder">తర్వాతి జ్ఞాపకం %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">సాధారణ</string>
     <string name="warm">వెచ్చని</string>
     <string name="hot">వేడి</string>
-    <string name="time_12_hour">12-గంటల సమయం</string>
-    <string name="time_24_hour">24 గంటల సమయం</string>
     <string name="follow_the_system">వ్యవస్థను అనుసరించండి</string>
     <string name="repeat_reminder">పునరావృత్తి గుర్తుచేయి</string>
     <string name="monday">సోమవారం</string>
@@ -59,13 +53,10 @@
     <string name="friday">శుక్రవారం</string>
     <string name="saturday">శనివారం</string>
     <string name="sunday">ఆదివారం</string>
-    <string name="standard_mode">సాధారణ మోడ్</string>
     <string name="bedtime">నిద్రవేళ</string>
     <string name="reminders">స్మరణికలు</string>
     <string name="sleep_time_start">నిద్ర సమయం ప్రారంభం</string>
-    <string name="to">కు</string>
     <string name="sleep_time_end">నిద్ర సమయం ముగింపు</string>
-    <string name="we_ll_remind_you_every">మీ విశ్రాంతి సమయం కాని సమయంలో ప్రతి %1$s మిమ్మల్ని గుర్తు చేస్తాము</string>
     <string name="after_wake_up">మేల్కొలుపు తర్వాత</string>
     <string name="before_breakfast">అల్పాహారం ముందు</string>
     <string name="after_breakfast">అల్పాహారం తర్వాత</string>
@@ -94,16 +85,10 @@
     <string name="milk">పాలు</string>
     <string name="tea">టీ</string>
     <string name="juice">రసం</string>
-    <string name="soup">సూప్</string>
     <string name="coffee">కాఫీ</string>
     <string name="beer">బీర్</string>
     <string name="wine">వైన్</string>
     <string name="strong_drinks">బలమైన పానీయాలు</string>
-    <string name="get_premium">ప్రీమియం పొందండి</string>
-    <string name="unlock_all_features_and_remove_ads">అన్ని ఫీచర్లను అన్‌లాక్ చేసి ప్రకటనలు తొలగించండి</string>
-    <string name="personal_info">వ్యక్తిగత సమాచారం</string>
-    <string name="general">సాధారణ</string>
-    <string name="more">మరిన్ని</string>
     <string name="widget">విడ్జెట్</string>
     <string name="gender">లింగం</string>
     <string name="height">ఎత్తు</string>
@@ -115,16 +100,12 @@
     <string name="language">భాష</string>
     <string name="theme">థీమ్</string>
     <string name="rate_app">యాప్‌ని రేట్ చేయండి</string>
-    <string name="rate_app_content">ఈ యాప్ ఇష్టమైతే, దయచేసి మాకు 5-స్టార్ రేటింగ్ ఇవ్వండి. మీ అభిప్రాయం మాకు మరింత మెరుగుపరచడానికి గొప్ప ప్రోత్సాహం.</string>
     <string name="later">తరువాత</string>
     <string name="rate_us_5_stars">మాకు 5 నక్షత్రాలు రేట్ చేయండి</string>
     <string name="thank_you">ధన్యవాదాలు!</string>
     <string name="your_feedback_has_been_sent">మీ అభిప్రాయం పంపబడింది.</string>
     <string name="feedback">ఫీడ్‌బ్యాక్</string>
-    <string name="please_share_your_feedback">దయచేసి మీ అభిప్రాయాన్ని పంచుకోండి</string>
-    <string name="we_read_your_feedback_carefully">మీ కోసం యాప్‌ను మరింత మెరుగ్గా చేయడానికి మేము మీ అభిప్రాయాన్ని జాగ్రత్తగా చదువుతాము. మాకు మద్దతు ఇచ్చినందుకు ధన్యవాదాలు.</string>
     <string name="title">శీర్షిక</string>
-    <string name="feedback_content">ఫీడ్‌బ్యాక్ కంటెంట్</string>
     <string name="send">పంపండి</string>
     <string name="light">లైట్</string>
     <string name="dark">చీకటి</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">సుమారు 95% నీరు అందిస్తుంది</string>
     <string name="the_best_choice_for_hydration">హైడ్రేషన్ కోసం ఉత్తమ ఎంపిక</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">కాల్షియం, ప్రోటీన్ సమృద్ధిగా రోజువారీ ఆరోగ్యానికి</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">పోషకాల కంటెంట్ పదార్థాల ఆధారంగా చాలా తేడా ఉంటుంది</string>
     <string name="high_in_antioxidants_providing">యాంటీఆక్సిడెంట్లతో సమృద్ధిగా ఉండి, ప్రశాంతకరమైన, తక్కువ కేలరీ రిఫ్రెష్‌మెంట్</string>
     <string name="packed_with_vitamin_c_and_antioxidants">విటమిన్ C మరియు యాంటీఆక్సిడెంట్లతో నిండినది</string>
     <string name="boosts_alertness_through_caffeine">కెఫీన్ ద్వారా అప్రమత్తతను పెంచుతుంది, రోస్ట్ మరియు బ్రూయింగ్ ద్వారా రుచి తీవ్రత రూపొందుతుంది</string>
@@ -179,7 +159,6 @@
     <string name="cancel">రద్దు</string>
     <string name="custom">కస్టమ్</string>
     <string name="day">రోజు</string>
-    <string name="delete">తొలగించు</string>
     <string name="edit_drink">పానీయం సవరించండి</string>
     <string name="history">చరిత్ర</string>
     <string name="no_records_found">రికార్డులు దొరకలేదు</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>

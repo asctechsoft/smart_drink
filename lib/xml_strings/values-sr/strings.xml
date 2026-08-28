@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">Ја сам ту да ти помогнем да останеш хидриран и осећаш се најбоље.</string>
-    <string name="i_need_a_bit_of_information">Треба ми мало информација да те боље разумем</string>
     <string name="select_your_gender">Изаберите свој пол</string>
     <string name="male">Мушки</string>
     <string name="female">Женски</string>
     <string name="next">Следеће</string>
-    <string name="lets_go">Хајде</string>
     <string name="weight">Тежина</string>
     <string name="what_time_do_you_wake_up">У колико сати се будиш?</string>
     <string name="am">АМ</string>
@@ -27,7 +24,6 @@
     <string name="hour">сат</string>
     <string name="minute">минута</string>
     <string name="min">мин</string>
-    <string name="allow">Дозволи</string>
     <string name="start">Старт</string>
     <string name="no_reminder_set">Није постављен подсетник</string>
     <string name="next_reminder">Следећи подсетник %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">Нормално</string>
     <string name="warm">Топло</string>
     <string name="hot">Вруће</string>
-    <string name="time_12_hour">12-часовно време</string>
-    <string name="time_24_hour">24-часовно време</string>
     <string name="follow_the_system">Пратите систем</string>
     <string name="repeat_reminder">Поновите Подсетник</string>
     <string name="monday">Понедељак</string>
@@ -59,13 +53,10 @@
     <string name="friday">Петак</string>
     <string name="saturday">Субота</string>
     <string name="sunday">Недеља</string>
-    <string name="standard_mode">Стандардни Режим</string>
     <string name="bedtime">Време за спавање</string>
     <string name="reminders">Подсетници</string>
     <string name="sleep_time_start">Почетак времена спавања</string>
-    <string name="to">да</string>
     <string name="sleep_time_end">Крај времена за спавање</string>
-    <string name="we_ll_remind_you_every">Подсетићемо вас сваких %1$s током вашег времена без одмора</string>
     <string name="after_wake_up">После Буђења</string>
     <string name="before_breakfast">Пре Доручка</string>
     <string name="after_breakfast">После Доручка</string>
@@ -94,16 +85,10 @@
     <string name="milk">Млеко</string>
     <string name="tea">Чај</string>
     <string name="juice">Сок</string>
-    <string name="soup">Супа</string>
     <string name="coffee">Кафа</string>
     <string name="beer">Пиво</string>
     <string name="wine">Вино</string>
     <string name="strong_drinks">Јака Пића</string>
-    <string name="get_premium">Добиј премиум</string>
-    <string name="unlock_all_features_and_remove_ads">Откључајте све функције и уклоните огласе</string>
-    <string name="personal_info">Лични подаци</string>
-    <string name="general">Опште</string>
-    <string name="more">Више</string>
     <string name="widget">Видгет</string>
     <string name="gender">Пол</string>
     <string name="height">Висина</string>
@@ -115,16 +100,12 @@
     <string name="language">Језик</string>
     <string name="theme">Тема</string>
     <string name="rate_app">Оцените Апликацију</string>
-    <string name="rate_app_content">Ако вам се свиђа апликација, размислите о томе да нам дате оцену од 5 звездица. Ваше повратне информације су велика мотивација за нас да наставимо са побољшањима.</string>
     <string name="later">Касније</string>
     <string name="rate_us_5_stars">Оцените нас 5 звездица</string>
     <string name="thank_you">Хвала вам!</string>
     <string name="your_feedback_has_been_sent">Ваше повратне информације су послате.</string>
     <string name="feedback">Повратне информације</string>
-    <string name="please_share_your_feedback">Поделите своје повратне информације</string>
-    <string name="we_read_your_feedback_carefully">Пажљиво читамо ваше повратне информације како бисмо апликацију учинили још бољом за вас. Хвала што нас подржавате.</string>
     <string name="title">Наслов</string>
-    <string name="feedback_content">Садржај повратних информација</string>
     <string name="send">Пошаљи</string>
     <string name="light">Светло</string>
     <string name="dark">Тамно</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">Обезбеђује око 95% воде</string>
     <string name="the_best_choice_for_hydration">Најбољи избор за хидратацију</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">Богато калцијумом и протеинима за свакодневно благостање</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">Садржај хранљивих материја значајно варира у зависности од састојака</string>
     <string name="high_in_antioxidants_providing">Богат антиоксидансима, пружа умирујуће нискокалорично освежавање</string>
     <string name="packed_with_vitamin_c_and_antioxidants">Препун витамина Ц и антиоксиданса</string>
     <string name="boosts_alertness_through_caffeine">Повећава будност захваљујући кофеину, са интензитетом укуса обликованим печењем и припремом</string>
@@ -179,7 +159,6 @@
     <string name="cancel">Откажи</string>
     <string name="custom">Прилагођено</string>
     <string name="day">Дан</string>
-    <string name="delete">Обриши</string>
     <string name="edit_drink">Уреди Пиће</string>
     <string name="history">Историја</string>
     <string name="no_records_found">Нема пронађених записа</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>

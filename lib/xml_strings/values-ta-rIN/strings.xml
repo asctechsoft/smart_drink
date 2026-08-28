@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">நீரேற்றமாக இருப்பதற்கும், உங்களின் சிறந்த உணர்வைப் பெறுவதற்கும் நான் இங்கு இருக்கிறேன்</string>
-    <string name="i_need_a_bit_of_information">உங்களை நன்றாகப் புரிந்துகொள்ள சற்று தகவல் தேவை</string>
     <string name="select_your_gender">உங்கள் பாலினத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="male">ஆண்</string>
     <string name="female">பெண்</string>
     <string name="next">அடுத்து</string>
-    <string name="lets_go">போகலாம்</string>
     <string name="weight">எடை</string>
     <string name="what_time_do_you_wake_up">நீங்கள் எத்தனை மணிக்கு எழுந்திருப்பீர்கள்?</string>
     <string name="am">காலை</string>
@@ -27,7 +24,6 @@
     <string name="hour">மணி</string>
     <string name="minute">நிமிடம்</string>
     <string name="min">நிமிடம்</string>
-    <string name="allow">அனுமதி</string>
     <string name="start">தொடங்கு</string>
     <string name="no_reminder_set">நினைவூட்டல் அமைக்கப்படவில்லை</string>
     <string name="next_reminder">அடுத்த நினைவூட்டல் %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">சாதாரண</string>
     <string name="warm">சூடான</string>
     <string name="hot">சூடான</string>
-    <string name="time_12_hour">12 மணி நேரம்</string>
-    <string name="time_24_hour">24 மணி நேர நேரம்</string>
     <string name="follow_the_system">அமைப்பைப் பின்பற்றவும்</string>
     <string name="repeat_reminder">மீண்டும் நினைவூட்டல்</string>
     <string name="monday">திங்கள்</string>
@@ -59,13 +53,10 @@
     <string name="friday">வெள்ளி</string>
     <string name="saturday">சனிக்கிழமை</string>
     <string name="sunday">ஞாயிறு</string>
-    <string name="standard_mode">தரநிலை முறை</string>
     <string name="bedtime">படுக்கை நேரம்</string>
     <string name="reminders">நினைவூட்டல்கள்</string>
     <string name="sleep_time_start">தூங்கும் நேரம் தொடக்கம்</string>
-    <string name="to">க்கு</string>
     <string name="sleep_time_end">தூக்க நேரம் முடிவு</string>
-    <string name="we_ll_remind_you_every">உங்கள் ஓய்வில்லா நேரத்தில் ஒவ்வொரு %1$s-க்கும் நாங்கள் உங்களை நினைவூட்டுவோம்</string>
     <string name="after_wake_up">எழுந்த பிறகு</string>
     <string name="before_breakfast">காலை உணவுக்கு முன்</string>
     <string name="after_breakfast">காலை உணவுக்குப் பிறகு</string>
@@ -94,16 +85,10 @@
     <string name="milk">பால்</string>
     <string name="tea">தேநீர்</string>
     <string name="juice">ஜூஸ்</string>
-    <string name="soup">சூப்</string>
     <string name="coffee">காபி</string>
     <string name="beer">பீர்</string>
     <string name="wine">வைன்</string>
     <string name="strong_drinks">வலுவான பானங்கள்</string>
-    <string name="get_premium">பிரீமியம் பெறுங்கள்</string>
-    <string name="unlock_all_features_and_remove_ads">அனைத்து அம்சங்களையும் திறக்கவும் விளம்பரங்களை அகற்றவும்</string>
-    <string name="personal_info">தனிப்பட்ட தகவல்</string>
-    <string name="general">பொது</string>
-    <string name="more">மேலும்</string>
     <string name="widget">விட்ஜெட்</string>
     <string name="gender">பாலினம்</string>
     <string name="height">உயரம்</string>
@@ -115,16 +100,12 @@
     <string name="language">மொழி</string>
     <string name="theme">தீம்</string>
     <string name="rate_app">பயன்பாட்டை மதிப்பிடவும்</string>
-    <string name="rate_app_content">ஆப்பைப் பிடித்திருந்தால், தயவுசெய்து நமக்கு 5-நட்சத்திர மதிப்பீட்டை வழங்குங்கள். உங்கள் கருத்து நாங்கள் மேம்படுத்தத் தொடர்ந்து சிறந்த ஊக்கமாக இருக்கும்.</string>
     <string name="later">பின்னர்</string>
     <string name="rate_us_5_stars">எங்களை 5 நட்சத்திரங்களால் மதிப்பிடுங்கள்</string>
     <string name="thank_you">நன்றி!</string>
     <string name="your_feedback_has_been_sent">உங்கள் கருத்து அனுப்பப்பட்டது.</string>
     <string name="feedback">பின்னூட்டம்</string>
-    <string name="please_share_your_feedback">உங்கள் கருத்துக்களைப் பகிரவும்</string>
-    <string name="we_read_your_feedback_carefully">பயன்பாட்டை இன்னும் சிறப்பாகச் செய்ய உங்கள் கருத்தை நாங்கள் கவனமாகப் படிக்கிறோம். எங்களை ஆதரித்ததற்கு நன்றி.</string>
     <string name="title">தலைப்பு</string>
-    <string name="feedback_content">பின்னூட்ட உள்ளடக்கம்</string>
     <string name="send">அனுப்பு</string>
     <string name="light">ஒளி</string>
     <string name="dark">இருண்ட</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">சுமார் 95% தண்ணீர் வழங்குகிறது</string>
     <string name="the_best_choice_for_hydration">நீரேற்றத்திற்கான சிறந்த தேர்வு</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">அன்றாட ஆரோக்கியத்திற்காக கால்சியம் மற்றும் புரதத்துடன் ஊட்டச்சத்து நிறைந்தது</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">ஊட்டச்சத்து உள்ளடக்கம் பொருட்களின் அடிப்படையில் பெரிதும் மாறுபடும்</string>
     <string name="high_in_antioxidants_providing">ஆன்டிஆக்ஸிடன்ட்கள் நிறைந்தது, அமைதியான குறைந்த கலோரி புத்துணர்ச்சியைத் தரும்</string>
     <string name="packed_with_vitamin_c_and_antioxidants">வைட்டமின் சி மற்றும் ஆன்டிஆக்ஸிடன்ட்கள் நிறைந்தது</string>
     <string name="boosts_alertness_through_caffeine">காபீனின் மூலம் விழிப்புணர்வை அதிகரிக்கிறது, வதக்கல் மற்றும் காபி தயாரிப்பு முறையால் சுவை தீவிரம் உருவாகிறது</string>
@@ -179,7 +159,6 @@
     <string name="cancel">ரத்து செய்</string>
     <string name="custom">தனிப்பயன்</string>
     <string name="day">நாள்</string>
-    <string name="delete">நீக்கு</string>
     <string name="edit_drink">பானத்தைத் திருத்து</string>
     <string name="history">வரலாறு</string>
     <string name="no_records_found">பதிவுகள் எதுவும் கிடைக்கவில்லை</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>

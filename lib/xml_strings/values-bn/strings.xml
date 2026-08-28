@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">আমি আপনাকে হাইড্রেটেড রাখতে এবং আপনার সেরা অনুভব করতে সাহায্য করতে এখানে আছি</string>
-    <string name="i_need_a_bit_of_information">আমি আপনাকে আরও ভালোভাবে বুঝতে কিছু তথ্য প্রয়োজন।</string>
     <string name="select_your_gender">আপনার লিঙ্গ নির্বাচন করুন</string>
     <string name="male">পুরুষ</string>
     <string name="female">মহিলা</string>
     <string name="next">পরবর্তী</string>
-    <string name="lets_go">চলুন</string>
     <string name="weight">ওজন</string>
     <string name="what_time_do_you_wake_up">আপনি কখন উঠেন?</string>
     <string name="am">এএম</string>
@@ -27,7 +24,6 @@
     <string name="hour">ঘণ্টা</string>
     <string name="minute">মিনিট</string>
     <string name="min">মিন</string>
-    <string name="allow">অনুমতি দিন</string>
     <string name="start">শুরু</string>
     <string name="no_reminder_set">কোনো অনুস্মারক সেট করা হয়নি</string>
     <string name="next_reminder">পরবর্তী অনুস্মারক %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">সাধারণ</string>
     <string name="warm">উষ্ণ</string>
     <string name="hot">গরম</string>
-    <string name="time_12_hour">১২-ঘণ্টার সময়</string>
-    <string name="time_24_hour">২৪-ঘণ্টার সময়</string>
     <string name="follow_the_system">সিস্টেম অনুসরণ করুন</string>
     <string name="repeat_reminder">পুনরাবৃত্তি অনুস্মারক</string>
     <string name="monday">সোমবার</string>
@@ -59,13 +53,10 @@
     <string name="friday">শুক্রবার</string>
     <string name="saturday">শনিবার</string>
     <string name="sunday">রবিবার</string>
-    <string name="standard_mode">স্ট্যান্ডার্ড মোড</string>
     <string name="bedtime">শোবার সময়</string>
     <string name="reminders">অনুস্মারক</string>
     <string name="sleep_time_start">ঘুমের সময় শুরু</string>
-    <string name="to">প্রতি</string>
     <string name="sleep_time_end">ঘুমের সময় শেষ</string>
-    <string name="we_ll_remind_you_every">আমরা আপনাকে প্রতি %1$s আপনার বিশ্রাম না করার সময় মনে করিয়ে দেব</string>
     <string name="after_wake_up">জেগে ওঠার পর</string>
     <string name="before_breakfast">নাস্তার আগে</string>
     <string name="after_breakfast">নাস্তার পর</string>
@@ -94,16 +85,10 @@
     <string name="milk">দুধ</string>
     <string name="tea">চা</string>
     <string name="juice">রস</string>
-    <string name="soup">স্যুপ</string>
     <string name="coffee">কফি</string>
     <string name="beer">বিয়ার</string>
     <string name="wine">ওয়াইন</string>
     <string name="strong_drinks">শক্ত পানীয়</string>
-    <string name="get_premium">প্রিমিয়াম পান</string>
-    <string name="unlock_all_features_and_remove_ads">সমস্ত ফিচার আনলক করুন এবং বিজ্ঞাপন সরান</string>
-    <string name="personal_info">ব্যক্তিগত তথ্য</string>
-    <string name="general">সাধারণ</string>
-    <string name="more">আরও</string>
     <string name="widget">উইজেট</string>
     <string name="gender">লিঙ্গ</string>
     <string name="height">উচ্চতা</string>
@@ -115,16 +100,12 @@
     <string name="language">ভাষা</string>
     <string name="theme">থিম</string>
     <string name="rate_app">অ্যাপ রেট করুন</string>
-    <string name="rate_app_content">আপনি যদি অ্যাপটি উপভোগ করেন, তবে দয়া করে আমাদের ৫-তারকা রেটিং দেওয়ার কথা বিবেচনা করুন। আপনার প্রতিক্রিয়া আমাদের উন্নতি চালিয়ে যাওয়ার জন্য একটি বড় প্রেরণা।</string>
     <string name="later">পরে</string>
     <string name="rate_us_5_stars">আমাদের ৫ স্টার দিন</string>
     <string name="thank_you">ধন্যবাদ!</string>
     <string name="your_feedback_has_been_sent">আপনার প্রতিক্রিয়া পাঠানো হয়েছে।</string>
     <string name="feedback">প্রতিক্রিয়া</string>
-    <string name="please_share_your_feedback">আপনার মতামত শেয়ার করুন</string>
-    <string name="we_read_your_feedback_carefully">আমরা আপনার ফিডব্যাক সাবধানে পড়ি যাতে অ্যাপটি আপনার জন্য আরও ভালো হয়। আমাদের সমর্থনের জন্য ধন্যবাদ।</string>
     <string name="title">শিরোনাম</string>
-    <string name="feedback_content">প্রতিক্রিয়া বিষয়বস্তু</string>
     <string name="send">পাঠান</string>
     <string name="light">আলো</string>
     <string name="dark">অন্ধকার</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">প্রায় ৯৫% জল প্রদান করে</string>
     <string name="the_best_choice_for_hydration">হাইড্রেশনের সেরা পছন্দ</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">প্রতিদিনের সুস্থতার জন্য ক্যালসিয়াম এবং প্রোটিন সমৃদ্ধ পুষ্টিকর</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">উপাদানের উপর নির্ভর করে পুষ্টির পরিমাণ ব্যাপকভাবে পরিবর্তিত হয়</string>
     <string name="high_in_antioxidants_providing">অ্যান্টিঅক্সিডেন্ট সমৃদ্ধ, শান্তকর কম-ক্যালরি সতেজকরণ প্রদান করে</string>
     <string name="packed_with_vitamin_c_and_antioxidants">ভিটামিন সি এবং অ্যান্টিঅক্সিডেন্টে ভরপুর</string>
     <string name="boosts_alertness_through_caffeine">ক্যাফেইনের মাধ্যমে সতর্কতা বাড়ায়, স্বাদের তীব্রতা ভাজা এবং সিদ্ধকরণ দ্বারা নির্ধারিত</string>
@@ -179,7 +159,6 @@
     <string name="cancel">বাতিল করুন</string>
     <string name="custom">কাস্টম</string>
     <string name="day">দিন</string>
-    <string name="delete">মুছুন</string>
     <string name="edit_drink">পানীয় সম্পাদনা করুন</string>
     <string name="history">ইতিহাস</string>
     <string name="no_records_found">রেকর্ড পাওয়া যায়নি</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">Είμαι εδώ για να σε βοηθήσω να μένεις ενυδατωμένος και να νιώθεις στην καλύτερή σου φόρμα</string>
-    <string name="i_need_a_bit_of_information">Χρειάζομαι λίγες πληροφορίες για να σε καταλάβω καλύτερα</string>
     <string name="select_your_gender">Επιλέξτε το φύλο σας</string>
     <string name="male">Άνδρας</string>
     <string name="female">Γυναίκα</string>
     <string name="next">Επόμενο</string>
-    <string name="lets_go">Πάμε</string>
     <string name="weight">Βάρος</string>
     <string name="what_time_do_you_wake_up">Τι ώρα ξυπνάς;</string>
     <string name="am">Π.Μ.</string>
@@ -27,7 +24,6 @@
     <string name="hour">ώρα</string>
     <string name="minute">λεπτό</string>
     <string name="min">ελάχ.</string>
-    <string name="allow">Επιτρέπω</string>
     <string name="start">Έναρξη</string>
     <string name="no_reminder_set">Δεν έχει οριστεί υπενθύμιση</string>
     <string name="next_reminder">Επόμενη υπενθύμιση %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">Κανονικό</string>
     <string name="warm">Ζεστό</string>
     <string name="hot">Ζεστό</string>
-    <string name="time_12_hour">12ωρη ώρα</string>
-    <string name="time_24_hour">24ωρη ώρα</string>
     <string name="follow_the_system">Ακολουθήστε το σύστημα</string>
     <string name="repeat_reminder">Επανάληψη Υπενθύμισης</string>
     <string name="monday">Δευτέρα</string>
@@ -59,13 +53,10 @@
     <string name="friday">Παρασκευή</string>
     <string name="saturday">Σάββατο</string>
     <string name="sunday">Κυριακή</string>
-    <string name="standard_mode">Κανονική Λειτουργία</string>
     <string name="bedtime">Ώρα για ύπνο</string>
     <string name="reminders">Υπενθυμίσεις</string>
     <string name="sleep_time_start">Έναρξη ώρας ύπνου</string>
-    <string name="to">σε</string>
     <string name="sleep_time_end">Λήξη ώρας ύπνου</string>
-    <string name="we_ll_remind_you_every">Θα σας υπενθυμίζουμε κάθε %1$s κατά τη διάρκεια του χρόνου που δεν ξεκουράζεστε</string>
     <string name="after_wake_up">Μετά Το Ξύπνημα</string>
     <string name="before_breakfast">Πριν Το Πρωινό</string>
     <string name="after_breakfast">Μετά Το Πρωινό</string>
@@ -94,16 +85,10 @@
     <string name="milk">Γάλα</string>
     <string name="tea">Τσάι</string>
     <string name="juice">Χυμός</string>
-    <string name="soup">Σούπα</string>
     <string name="coffee">Καφές</string>
     <string name="beer">Μπύρα</string>
     <string name="wine">Κρασί</string>
     <string name="strong_drinks">Ισχυρά Ποτά</string>
-    <string name="get_premium">Αποκτήστε premium</string>
-    <string name="unlock_all_features_and_remove_ads">Ξεκλειδώστε όλες τις λειτουργίες και αφαιρέστε τις διαφημίσεις</string>
-    <string name="personal_info">Προσωπικές πληροφορίες</string>
-    <string name="general">Γενικά</string>
-    <string name="more">Περισσότερα</string>
     <string name="widget">Γραφικό στοιχείο</string>
     <string name="gender">Φύλο</string>
     <string name="height">Ύψος</string>
@@ -115,16 +100,12 @@
     <string name="language">Γλώσσα</string>
     <string name="theme">Θέμα</string>
     <string name="rate_app">Βαθμολογήστε Την Εφαρμογή</string>
-    <string name="rate_app_content">Αν σας αρέσει η εφαρμογή, παρακαλούμε σκεφτείτε να μας βαθμολογήσετε με 5 αστέρια. Η γνώμη σας είναι εξαιρετικό κίνητρο για εμάς να συνεχίσουμε να βελτιωνόμαστε.</string>
     <string name="later">Αργότερα</string>
     <string name="rate_us_5_stars">Βαθμολογήστε μας με 5 αστέρια</string>
     <string name="thank_you">Ευχαριστώ!</string>
     <string name="your_feedback_has_been_sent">Η ανατροφοδότησή σας στάλθηκε.</string>
     <string name="feedback">Ανατροφοδότηση</string>
-    <string name="please_share_your_feedback">Μοιραστείτε τα σχόλιά σας</string>
-    <string name="we_read_your_feedback_carefully">Διαβάζουμε προσεκτικά τα σχόλιά σας για να κάνουμε την εφαρμογή ακόμα καλύτερη για εσάς. Ευχαριστούμε που μας στηρίζετε.</string>
     <string name="title">Τίτλος</string>
-    <string name="feedback_content">Περιεχόμενο ανατροφοδότησης</string>
     <string name="send">Αποστολή</string>
     <string name="light">Φως</string>
     <string name="dark">Σκοτεινό</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">Παρέχει περίπου 95% νερό</string>
     <string name="the_best_choice_for_hydration">Η καλύτερη επιλογή για ενυδάτωση</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">Πλούσιο σε θρεπτικά συστατικά με ασβέστιο και πρωτεΐνη για καθημερινή ευεξία</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">Η περιεκτικότητα σε θρεπτικά συστατικά ποικίλλει σημαντικά ανάλογα με τα συστατικά</string>
     <string name="high_in_antioxidants_providing">Πλούσιο σε αντιοξειδωτικά, παρέχοντας μια ηρεμιστική, χαμηλών θερμίδων αναζωογόνηση</string>
     <string name="packed_with_vitamin_c_and_antioxidants">Πλούσιο σε βιταμίνη C και αντιοξειδωτικά</string>
     <string name="boosts_alertness_through_caffeine">Ενισχύει την εγρήγορση μέσω καφεΐνης, με ένταση γεύσης που διαμορφώνεται από το καβούρδισμα και την παρασκευή</string>
@@ -179,7 +159,6 @@
     <string name="cancel">Ακύρωση</string>
     <string name="custom">Προσαρμοσμένο</string>
     <string name="day">Ημέρα</string>
-    <string name="delete">Διαγραφή</string>
     <string name="edit_drink">Επεξεργασία Ποτού</string>
     <string name="history">Ιστορία</string>
     <string name="no_records_found">Δεν βρέθηκαν εγγραφές</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>

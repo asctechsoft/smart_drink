@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">ನಾನು ನಿಮ್ಮನ್ನು ಹೈಡ್ರೇಟ್ ಆಗಿರಲು ಮತ್ತು ಉತ್ತಮವಾಗಿ ಅನುಭವಿಸಲು ಸಹಾಯ ಮಾಡಲು ಇಲ್ಲಿದ್ದೇನೆ</string>
-    <string name="i_need_a_bit_of_information">ನಿಮ್ಮನ್ನು ಉತ್ತಮವಾಗಿ ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ನನಗೆ ಸ್ವಲ್ಪ ಮಾಹಿತಿ ಬೇಕು</string>
     <string name="select_your_gender">ನಿಮ್ಮ ಲಿಂಗವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="male">ಪುರುಷ</string>
     <string name="female">ಹೆಣ್ಣು</string>
     <string name="next">ಮುಂದೆ</string>
-    <string name="lets_go">ಹೋಗೋಣ</string>
     <string name="weight">ತೂಕ</string>
     <string name="what_time_do_you_wake_up">ನೀವು ಎಷ್ಟು ಗಂಟೆಗೆ ಎಚ್ಚರಗೊಳ್ಳುತ್ತೀರಿ?</string>
     <string name="am">ಪೂ.ನ.</string>
@@ -27,7 +24,6 @@
     <string name="hour">ಗಂಟೆ</string>
     <string name="minute">ನಿಮಿಷ</string>
     <string name="min">ನಿಮಿಷ</string>
-    <string name="allow">ಅನುಮತಿಸಿ</string>
     <string name="start">ಪ್ರಾರಂಭಿಸಿ</string>
     <string name="no_reminder_set">ಯಾವುದೇ ರಿಮೈಂಡರ್ ಹೊಂದಿಸಲಾಗಿಲ್ಲ</string>
     <string name="next_reminder">ಮುಂದಿನ ಜ್ಞಾಪನೆ %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">ಸಾಮಾನ್ಯ</string>
     <string name="warm">ಉಷ್ಣ</string>
     <string name="hot">ಹಾಟ್</string>
-    <string name="time_12_hour">೧೨-ಗಂಟೆಯ ಸಮಯ</string>
-    <string name="time_24_hour">೨೪ ಗಂಟೆಯ ಸಮಯ</string>
     <string name="follow_the_system">ವ್ಯವಸ್ಥೆಯನ್ನು ಅನುಸರಿಸಿ</string>
     <string name="repeat_reminder">ಮರುಸ್ಮರಣೆ</string>
     <string name="monday">ಸೋಮವಾರ</string>
@@ -59,13 +53,10 @@
     <string name="friday">ಶುಕ್ರವಾರ</string>
     <string name="saturday">ಶನಿವಾರ</string>
     <string name="sunday">ಭಾನುವಾರ</string>
-    <string name="standard_mode">ಸ್ಟ್ಯಾಂಡರ್ಡ್ ಮೋಡ್</string>
     <string name="bedtime">ಮಲಗುವ ಸಮಯ</string>
     <string name="reminders">ಸ್ಮರಣಿಕೆಗಳು</string>
     <string name="sleep_time_start">ನಿದ್ರೆ ಸಮಯ ಪ್ರಾರಂಭ</string>
-    <string name="to">ಗೆ</string>
     <string name="sleep_time_end">ನಿದ್ರೆ ಸಮಯ ಮುಗಿಯಿತು</string>
-    <string name="we_ll_remind_you_every">ನಿಮ್ಮ ವಿರಾಮವಿಲ್ಲದ ಸಮಯದಲ್ಲಿ ಪ್ರತಿ %1$s ಗೆ ನಾವು ನಿಮಗೆ ನೆನಪಿಸುತ್ತೇವೆ</string>
     <string name="after_wake_up">ಎದ್ದೇಳಿದ ನಂತರ</string>
     <string name="before_breakfast">ನಾಸ್ತೆಗೆ ಮೊದಲು</string>
     <string name="after_breakfast">ನಾಶ್ತೆಯ ನಂತರ</string>
@@ -94,16 +85,10 @@
     <string name="milk">ಹಾಲು</string>
     <string name="tea">ಚಹಾ</string>
     <string name="juice">ರಸ</string>
-    <string name="soup">ಸೂಪ್</string>
     <string name="coffee">ಕಾಫಿ</string>
     <string name="beer">ಬಿಯರ್</string>
     <string name="wine">ವೈನ್</string>
     <string name="strong_drinks">ಬಲವಾದ ಪಾನೀಯಗಳು</string>
-    <string name="get_premium">ಪ್ರೀಮಿಯಂ ಪಡೆಯಿರಿ</string>
-    <string name="unlock_all_features_and_remove_ads">ಎಲ್ಲಾ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಿ ಮತ್ತು ಜಾಹೀರಾತುಗಳನ್ನು ತೆಗೆದುಹಾಕಿ</string>
-    <string name="personal_info">ವೈಯಕ್ತಿಕ ಮಾಹಿತಿ</string>
-    <string name="general">ಸಾಮಾನ್ಯ</string>
-    <string name="more">ಇನ್ನಷ್ಟು</string>
     <string name="widget">ವಿಡ್ಜೆಟ್</string>
     <string name="gender">ಲಿಂಗ</string>
     <string name="height">ಎತ್ತರ</string>
@@ -115,16 +100,12 @@
     <string name="language">ಭಾಷೆ</string>
     <string name="theme">ಥೀಮ್</string>
     <string name="rate_app">ಆಪ್ ಅನ್ನು ರೇಟಿಂಗ್ ಮಾಡಿ</string>
-    <string name="rate_app_content">ಈ ಆಪ್ ನಿಮಗೆ ಇಷ್ಟವಾದರೆ, ದಯವಿಟ್ಟು ನಮಗೆ ೫-ತಾರು ರೇಟಿಂಗ್ ನೀಡುವುದನ್ನು ಪರಿಗಣಿಸಿ. ನಿಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆ ನಮ್ಮನ್ನು ನಿರಂತರ ಸುಧಾರಣೆ ಮಾಡಲು ದೊಡ್ಡ ಪ್ರೇರಣೆಯಾಗಿದೆ.</string>
     <string name="later">ನಂತರ</string>
     <string name="rate_us_5_stars">ನಮಗೆ 5 ನಕ್ಷತ್ರಗಳನ್ನು ರೇಟ್ ಮಾಡಿ</string>
     <string name="thank_you">ಧನ್ಯವಾದಗಳು!</string>
     <string name="your_feedback_has_been_sent">ನಿಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ.</string>
     <string name="feedback">ಪ್ರತಿಕ್ರಿಯೆ</string>
-    <string name="please_share_your_feedback">ದಯವಿಟ್ಟು ನಿಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಹಂಚಿಕೊಳ್ಳಿ</string>
-    <string name="we_read_your_feedback_carefully">ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ನಿಮಗೆ ಇನ್ನಷ್ಟು ಉತ್ತಮಗೊಳಿಸಲು ನಿಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ನಾವು ಎಚ್ಚರಿಕೆಯಿಂದ ಓದುತ್ತೇವೆ. ನಮ್ಮನ್ನು ಬೆಂಬಲಿಸಿದ್ದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು.</string>
     <string name="title">ಶೀರ್ಷಿಕೆ</string>
-    <string name="feedback_content">ಪ್ರತಿಕ್ರಿಯೆ ವಿಷಯ</string>
     <string name="send">ಕಳುಹಿಸಿ</string>
     <string name="light">ಬೆಳಕು</string>
     <string name="dark">ಕತ್ತಲು</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">ಸುಮಾರು 95% ನೀರು ಒದಗಿಸುತ್ತದೆ</string>
     <string name="the_best_choice_for_hydration">ಹೈಡ್ರೇಶನ್‌ಗೆ ಅತ್ಯುತ್ತಮ ಆಯ್ಕೆ</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">ಪ್ರತಿದಿನದ ಆರೋಗ್ಯಕ್ಕಾಗಿ ಕ್ಯಾಲ್ಸಿಯಂ ಮತ್ತು ಪ್ರೋಟೀನ್ ಸಮೃದ್ಧ ಪೋಷಕಾಂಶ</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">ಪೋಷಕಾಂಶದ ಪ್ರಮಾಣವು ಪದಾರ್ಥಗಳ ಆಧಾರದ ಮೇಲೆ ಬಹಳ ವ್ಯತ್ಯಾಸವಾಗುತ್ತದೆ</string>
     <string name="high_in_antioxidants_providing">ಆಂಟಿಆಕ್ಸಿಡೆಂಟ್‌ಗಳಲ್ಲಿ ಹೆಚ್ಚಿನವು, ಶಾಂತಗೊಳಿಸುವ, ಕಡಿಮೆ ಕ್ಯಾಲೋರಿ ರಿಫ್ರೆಶ್‌ಮೆಂಟ್ ಅನ್ನು ಒದಗಿಸುತ್ತದೆ</string>
     <string name="packed_with_vitamin_c_and_antioxidants">ವಿಟಮಿನ್ ಸಿ ಮತ್ತು ಆಂಟಿಆಕ್ಸಿಡೆಂಟ್‌ಗಳಿಂದ ಭರಪೂರ</string>
     <string name="boosts_alertness_through_caffeine">ಕ್ಯಾಫೀನ್ ಮೂಲಕ ಜಾಗೃತತೆಯನ್ನು ಹೆಚ್ಚಿಸುತ್ತದೆ, ರೋಸ್ಟ್ ಮತ್ತು ಬ್ರೂಯಿಂಗ್‌ನಿಂದ ರೂಪಗೊಂಡ ರುಚಿಯ ತೀವ್ರತೆಯೊಂದಿಗೆ</string>
@@ -179,7 +159,6 @@
     <string name="cancel">ರದ್ದುಮಾಡಿ</string>
     <string name="custom">ಕಸ್ಟಮ್</string>
     <string name="day">ದಿನ</string>
-    <string name="delete">ಅಳಿಸಿ</string>
     <string name="edit_drink">ಪಾನೀಯವನ್ನು ಸಂಪಾದಿಸಿ</string>
     <string name="history">ಇತಿಹಾಸ</string>
     <string name="no_records_found">ರೆಕಾರ್ಡುಗಳು ಕಂಡುಬಂದಿಲ್ಲ</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>

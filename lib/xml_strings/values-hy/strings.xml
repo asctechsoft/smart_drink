@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">Ես այստեղ եմ օգնելու քեզ ջրով հագեցած մնալ և զգալ քեզ ավելի լավ</string>
-    <string name="i_need_a_bit_of_information">Ձեզ ավելի լավ հասկանալու համար ինձ մի քիչ տեղեկատվություն է պետք</string>
     <string name="select_your_gender">Ընտրեք ձեր սեռը</string>
     <string name="male">Արական</string>
     <string name="female">Կին</string>
     <string name="next">Հաջորդ</string>
-    <string name="lets_go">Գնանք</string>
     <string name="weight">Քաշ</string>
     <string name="what_time_do_you_wake_up">Ո՞ր ժամին եք արթնանում:</string>
     <string name="am">ԱՄ</string>
@@ -27,7 +24,6 @@
     <string name="hour">ժամ</string>
     <string name="minute">րոպե</string>
     <string name="min">մին</string>
-    <string name="allow">Թույլատրել</string>
     <string name="start">Սկսել</string>
     <string name="no_reminder_set">Հիշեցում չի սահմանվել</string>
     <string name="next_reminder">Հաջորդ հիշեցում %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">Նորմալ</string>
     <string name="warm">Ջերմ</string>
     <string name="hot">Թեժ</string>
-    <string name="time_12_hour">12-ժամյա ժամանակ</string>
-    <string name="time_24_hour">24-ժամյա ժամանակ</string>
     <string name="follow_the_system">Հետևեք համակարգին</string>
     <string name="repeat_reminder">Կրկնության Հիշեցում</string>
     <string name="monday">Երկուշաբթի</string>
@@ -59,13 +53,10 @@
     <string name="friday">Ուրբաթ</string>
     <string name="saturday">Շաբաթ</string>
     <string name="sunday">Կիրակի</string>
-    <string name="standard_mode">Ստանդարտ Ռեժիմ</string>
     <string name="bedtime">Քնելու ժամ</string>
     <string name="reminders">Հիշեցումներ</string>
     <string name="sleep_time_start">Քնի ժամանակի սկիզբը</string>
-    <string name="to">դեպի</string>
     <string name="sleep_time_end">Քնի ժամանակի ավարտը</string>
-    <string name="we_ll_remind_you_every">Մենք կհիշեցնենք ձեզ յուրաքանչյուր %1$s-ում ձեր ոչ հանգստի ժամանակ</string>
     <string name="after_wake_up">Արթնանալուց Հետո</string>
     <string name="before_breakfast">Նախաճաշից Առաջ</string>
     <string name="after_breakfast">Նախաճաշից Հետո</string>
@@ -94,16 +85,10 @@
     <string name="milk">Կաթ</string>
     <string name="tea">Թեյ</string>
     <string name="juice">Հյութ</string>
-    <string name="soup">Ապուր</string>
     <string name="coffee">Սուրճ</string>
     <string name="beer">Գարեջուր</string>
     <string name="wine">Գինի</string>
     <string name="strong_drinks">Թունդ Խմիչքներ</string>
-    <string name="get_premium">Ստացեք պրեմիում</string>
-    <string name="unlock_all_features_and_remove_ads">Բացեք բոլոր հնարավորությունները և հեռացրեք գովազդները</string>
-    <string name="personal_info">Անձնական տվյալներ</string>
-    <string name="general">Ընդհանուր</string>
-    <string name="more">Ավելին</string>
     <string name="widget">Վիջեթ</string>
     <string name="gender">Սեռ</string>
     <string name="height">Բարձրություն</string>
@@ -115,16 +100,12 @@
     <string name="language">Լեզու</string>
     <string name="theme">Թեմա</string>
     <string name="rate_app">Գնահատեք Հավելվածը</string>
-    <string name="rate_app_content">Եթե հավելվածը ձեզ դուր է գալիս, խնդրում ենք գնահատել այն 5 աստղով: Ձեր կարծիքը մեծ մոտիվացիա է մեզ համար շարունակել բարելավումները:</string>
     <string name="later">Հետո</string>
     <string name="rate_us_5_stars">Գնահատեք մեզ 5 աստղով</string>
     <string name="thank_you">Շնորհակալություն!</string>
     <string name="your_feedback_has_been_sent">Ձեր արձագանքը ուղարկվել է։</string>
     <string name="feedback">Հետադարձ կապ</string>
-    <string name="please_share_your_feedback">Խնդրում ենք կիսվեք ձեր կարծիքով</string>
-    <string name="we_read_your_feedback_carefully">Մենք ուշադիր կարդում ենք ձեր արձագանքները՝ հավելվածը ձեզ համար ավելի լավ դարձնելու համար։ Շնորհակալություն ձեր աջակցության համար։</string>
     <string name="title">Վերնագիր</string>
-    <string name="feedback_content">Հետադարձ կապի բովանդակություն</string>
     <string name="send">Ուղարկել</string>
     <string name="light">Լույս</string>
     <string name="dark">Մութ</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">Ապահովում է մոտ 95% ջուր</string>
     <string name="the_best_choice_for_hydration">Հիդրատացման լավագույն ընտրությունը</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">Կալցիումով և սպիտակուցով հարուստ՝ առօրյա բարեկեցության համար</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">Սննդանյութերի պարունակությունը մեծապես տարբերվում է բաղադրիչներից կախված</string>
     <string name="high_in_antioxidants_providing">Հակաօքսիդանտներով հարուստ՝ ապահովելով հանգստացնող, ցածր կալորիականությամբ թարմություն</string>
     <string name="packed_with_vitamin_c_and_antioxidants">Հագեցած է վիտամին C-ով և հակաօքսիդանտներով</string>
     <string name="boosts_alertness_through_caffeine">Բարձրացնում է զգոնությունը կոֆեինի միջոցով, համի ինտենսիվությունը ձևավորվում է տապակման և թրջման կողմից</string>
@@ -179,7 +159,6 @@
     <string name="cancel">Չեղարկել</string>
     <string name="custom">Հարմարեցված</string>
     <string name="day">Օր</string>
-    <string name="delete">Ջնջել</string>
     <string name="edit_drink">Խմբագրել Խմիչքը</string>
     <string name="history">Պատմություն</string>
     <string name="no_records_found">Գրառումներ չեն գտնվել</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>

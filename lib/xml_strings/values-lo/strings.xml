@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">ຂ້ອຍຢູ່ນີ້ເພື່ອຊ່ວຍໃຫ້ທ່ານດື່ມນ້ຳຢ່າງພຽງພໍ ແລະ ຮູ້ສຶກດີທີ່ສຸດ</string>
-    <string name="i_need_a_bit_of_information">ຂ້ອຍຕ້ອງການຂໍ້ມູນເລັກນ້ອຍເພື່ອເຂົ້າໃຈທ່ານດີກວ່າ</string>
     <string name="select_your_gender">ເລືອກເພດຂອງທ່ານ</string>
     <string name="male">ຜູ້ຊາຍ</string>
     <string name="female">ຍິງ</string>
     <string name="next">ຕໍ່ໄປ</string>
-    <string name="lets_go">ໄປກັນ</string>
     <string name="weight">ນ້ຳໜັກ</string>
     <string name="what_time_do_you_wake_up">ເວລາໃດເຈົ້າຕື່ນ?</string>
     <string name="am">ເຊົ້າ</string>
@@ -27,7 +24,6 @@
     <string name="hour">ຊົ່ວໂມງ</string>
     <string name="minute">ນາທີ</string>
     <string name="min">ນາທີ</string>
-    <string name="allow">ອະນຸຍາດ</string>
     <string name="start">ເລີ່ມ</string>
     <string name="no_reminder_set">ບໍ່ມີການເຕືອນ</string>
     <string name="next_reminder">ເຕືອນຕໍ່ໄປ %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">ປົກກະຕິ</string>
     <string name="warm">ອຸ່ນ</string>
     <string name="hot">ຮ້ອນ</string>
-    <string name="time_12_hour">ເວລາ 12 ຊົ່ວໂມງ</string>
-    <string name="time_24_hour">ເວລາ 24 ຊົ່ວໂມງ</string>
     <string name="follow_the_system">ປະຕິບັດຕາມລະບົບ</string>
     <string name="repeat_reminder">ເຕືອນຊ້ຳ</string>
     <string name="monday">ວັນຈັນ</string>
@@ -59,13 +53,10 @@
     <string name="friday">ວັນສຸກ</string>
     <string name="saturday">ວັນເສົາ</string>
     <string name="sunday">ວັນອາທິດ</string>
-    <string name="standard_mode">ໂໝດມາດຕະຖານ</string>
     <string name="bedtime">ເວລານອນ</string>
     <string name="reminders">ການແຈ້ງເຕືອນ</string>
     <string name="sleep_time_start">ເວລານອນເລີ່ມຕົ້ນ</string>
-    <string name="to">ເຖິງ</string>
     <string name="sleep_time_end">ສິ້ນສຸດເວລານອນ</string>
-    <string name="we_ll_remind_you_every">ພວກເຮົາຈະເຕືອນທ່ານທຸກໆ %1$s ໃນຊ່ວງເວລາທີ່ທ່ານບໍ່ພັກຜ່ອນ</string>
     <string name="after_wake_up">ຫຼັງຈາກຕື່ນນອນ</string>
     <string name="before_breakfast">ກ່ອນອາຫານເຊົ້າ</string>
     <string name="after_breakfast">ຫຼັງຈາກກິນເຊົ້າ</string>
@@ -94,16 +85,10 @@
     <string name="milk">ນົມ</string>
     <string name="tea">ຊາ</string>
     <string name="juice">ນ້ຳຫວານ</string>
-    <string name="soup">ແກງ</string>
     <string name="coffee">ກາເຟ</string>
     <string name="beer">ເບຍ</string>
     <string name="wine">ເຫຼົ້າແວງ</string>
     <string name="strong_drinks">ເຄື່ອງດື່ມແຂງ</string>
-    <string name="get_premium">ໄດ້ຮັບພິເສດ</string>
-    <string name="unlock_all_features_and_remove_ads">ປົດລັອກຄຸນສົມບັດທັງໝົດ ແລະລຶບໂຄສະນາອອກ</string>
-    <string name="personal_info">ຂໍ້ມູນສ່ວນຕົວ</string>
-    <string name="general">ທົ່ວໄປ</string>
-    <string name="more">ເພີ່ມເຕີມ</string>
     <string name="widget">ວິດເຈັດ</string>
     <string name="gender">ເພດ</string>
     <string name="height">ຄວາມສູງ</string>
@@ -115,16 +100,12 @@
     <string name="language">ພາສາ</string>
     <string name="theme">ຫົວຂໍ້</string>
     <string name="rate_app">ປະເມີນແອັບ</string>
-    <string name="rate_app_content">ຖ້າທ່ານມັກແອັບນີ້, ກະລຸນາພິຈາລະນາໃຫ້ຄະແນນ 5 ດາດ. ຄຳຕິຊົມຂອງທ່ານເປັນແຮງຈັບໃຈທີ່ດີສໍາລັບພວກເຮົາໃນການພັດທະນາຕໍ່ໄປ.</string>
     <string name="later">ພາຍຫຼັງ</string>
     <string name="rate_us_5_stars">ໃຫ້ຄະແນນພວກເຮົາ 5 ດາວ</string>
     <string name="thank_you">ຂອບໃຈ!</string>
     <string name="your_feedback_has_been_sent">ຄຳເຫັນຂອງທ່ານໄດ້ສົ່ງແລ້ວ</string>
     <string name="feedback">ຄໍາຕິຊົມ</string>
-    <string name="please_share_your_feedback">ກະລຸນາແບ່ງປັນຄວາມຄິດເຫັນຂອງທ່ານ</string>
-    <string name="we_read_your_feedback_carefully">ພວກເຮົາອ່ານຄຳຕິຊົມຂອງທ່ານໄດ້ຢ່າງລະມັດລະວັງເພື່ອພັດທະນາແອັບໃຫ້ດີຂຶ້ນສໍາລັບທ່ານ. ຂອບໃຈທີ່ສະໜັບສະໜູນພວກເຮົາ.</string>
     <string name="title">ຫົວຂໍ້</string>
-    <string name="feedback_content">ເນື້ອໃນຄຳເຫັນ</string>
     <string name="send">ສົ່ງ</string>
     <string name="light">ແສງ</string>
     <string name="dark">ມືດ</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">ສະໜອງນ້ຳປະມານ 95%</string>
     <string name="the_best_choice_for_hydration">ທາງເລືອກດີທີ່ສຸດສຳລັບການຊຶ້ນໄຫຼ</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">ອຸດົມໄປດ້ວຍແຄລເຊຍມແລະໂປຣຕີນ ສໍາລັບສຸຂະພາບດີທຸກມື້</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">ສານອາຫານມີຄວາມແຕກຕ່າງກັນຢ່າງຫຼາຍຂຶ້ນຕາມວັດຖຸດິບ</string>
     <string name="high_in_antioxidants_providing">ສູງໃນສານຕ້ານອັອກຊິເດນ, ມີການມອບຄວາມສະຫວັດດີ, ນ້ຳດື່ມພະຍາຍາມຕໍ່ຄາໂລຣີຕ່ຳ</string>
     <string name="packed_with_vitamin_c_and_antioxidants">ເຕັມໄປດ້ວຍວິຕາມິນ ຊີ ແລະ ສານຕ້ານອກຊີດເລື້ອຍ</string>
     <string name="boosts_alertness_through_caffeine">ກະຕຸ້ນຄວາມຕື່ນຕົວຜ່ານຄາເຟອີນ, ມີຄວາມເຂັ້ມຂຸ້ນຂອງລົດຊາດທີ່ມີຮູບຊົງໂດຍການອົບແລະການຕົ້ມ.</string>
@@ -179,7 +159,6 @@
     <string name="cancel">ຍົກເລີກ</string>
     <string name="custom">ກຳນົດເອງ</string>
     <string name="day">ມື້</string>
-    <string name="delete">ລຶບ</string>
     <string name="edit_drink">ແກ້ໄຂເຄື່ອງດື່ມ</string>
     <string name="history">ປະຫວັດສາດ</string>
     <string name="no_records_found">ບໍ່ພົບບັນທຶກ</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>

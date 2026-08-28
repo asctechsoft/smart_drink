@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">Saya di sini untuk membantu anda kekal terhidrat dan berasa terbaik</string>
-    <string name="i_need_a_bit_of_information">Saya perlukan sedikit maklumat untuk memahami anda dengan lebih baik</string>
     <string name="select_your_gender">Pilih jantina anda</string>
     <string name="male">Lelaki</string>
     <string name="female">Perempuan</string>
     <string name="next">Seterusnya</string>
-    <string name="lets_go">Jom</string>
     <string name="weight">Berat</string>
     <string name="what_time_do_you_wake_up">Pukul berapa awak bangun?</string>
     <string name="am">AM</string>
@@ -27,7 +24,6 @@
     <string name="hour">jam</string>
     <string name="minute">minit</string>
     <string name="min">min</string>
-    <string name="allow">Benarkan</string>
     <string name="start">Mula</string>
     <string name="no_reminder_set">Tiada peringatan ditetapkan</string>
     <string name="next_reminder">Peringatan seterusnya %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">Normal</string>
     <string name="warm">Hangat</string>
     <string name="hot">Panas</string>
-    <string name="time_12_hour">masa 12 jam</string>
-    <string name="time_24_hour">masa 24 jam</string>
     <string name="follow_the_system">Ikuti sistem</string>
     <string name="repeat_reminder">Ulang Peringatan</string>
     <string name="monday">Isnin</string>
@@ -59,13 +53,10 @@
     <string name="friday">Jumaat</string>
     <string name="saturday">Sabtu</string>
     <string name="sunday">Ahad</string>
-    <string name="standard_mode">Mod Standard</string>
     <string name="bedtime">Waktu tidur</string>
     <string name="reminders">Peringatan</string>
     <string name="sleep_time_start">Waktu tidur bermula</string>
-    <string name="to">kepada</string>
     <string name="sleep_time_end">Masa tidur tamat</string>
-    <string name="we_ll_remind_you_every">Kami akan mengingatkan anda setiap %1$s semasa waktu anda tidak berehat</string>
     <string name="after_wake_up">Selepas Bangun</string>
     <string name="before_breakfast">Sebelum Sarapan</string>
     <string name="after_breakfast">Selepas Sarapan</string>
@@ -94,16 +85,10 @@
     <string name="milk">Susu</string>
     <string name="tea">Teh</string>
     <string name="juice">Jus</string>
-    <string name="soup">Sup</string>
     <string name="coffee">Kopi</string>
     <string name="beer">Bir</string>
     <string name="wine">Wain</string>
     <string name="strong_drinks">Minuman Keras</string>
-    <string name="get_premium">Dapatkan premium</string>
-    <string name="unlock_all_features_and_remove_ads">Buka kunci semua ciri dan alih keluar iklan</string>
-    <string name="personal_info">Maklumat peribadi</string>
-    <string name="general">Umum</string>
-    <string name="more">Lagi</string>
     <string name="widget">Widget</string>
     <string name="gender">Jantina</string>
     <string name="height">Ketinggian</string>
@@ -115,16 +100,12 @@
     <string name="language">Bahasa</string>
     <string name="theme">Tema</string>
     <string name="rate_app">Nilai Aplikasi</string>
-    <string name="rate_app_content">Jika anda menikmati aplikasi ini, sila pertimbangkan untuk memberi kami penilaian 5 bintang. Maklum balas anda adalah motivasi yang hebat bagi kami untuk terus memperbaiki.</string>
     <string name="later">Nanti</string>
     <string name="rate_us_5_stars">Berikan kami 5 bintang</string>
     <string name="thank_you">Terima kasih!</string>
     <string name="your_feedback_has_been_sent">Maklum balas anda telah dihantar.</string>
     <string name="feedback">Maklum balas</string>
-    <string name="please_share_your_feedback">Sila kongsi maklum balas anda</string>
-    <string name="we_read_your_feedback_carefully">Kami membaca maklum balas anda dengan teliti untuk menjadikan aplikasi ini lebih baik lagi untuk anda. Terima kasih kerana menyokong kami.</string>
     <string name="title">Tajuk</string>
-    <string name="feedback_content">Kandungan maklum balas</string>
     <string name="send">Hantar</string>
     <string name="light">Cahaya</string>
     <string name="dark">Gelap</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">Menyediakan kira-kira 95% air</string>
     <string name="the_best_choice_for_hydration">Pilihan terbaik untuk penghidratan</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">Kaya nutrien dengan kalsium dan protein untuk kesejahteraan harian</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">Kandungan nutrien berbeza-beza bergantung pada bahan-bahan</string>
     <string name="high_in_antioxidants_providing">Kaya antioksidan, memberikan penyegaran yang menenangkan dan rendah kalori</string>
     <string name="packed_with_vitamin_c_and_antioxidants">Dikemas dengan vitamin C dan antioksidan</string>
     <string name="boosts_alertness_through_caffeine">Meningkatkan kewaspadaan melalui kafein, dengan intensiti rasa yang dibentuk oleh sangai dan penyeduhan</string>
@@ -179,7 +159,6 @@
     <string name="cancel">Batal</string>
     <string name="custom">Tersuai</string>
     <string name="day">Hari</string>
-    <string name="delete">Padam</string>
     <string name="edit_drink">Edit Minuman</string>
     <string name="history">Sejarah</string>
     <string name="no_records_found">Tiada rekod ditemui</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>

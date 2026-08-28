@@ -28,7 +28,6 @@ class CustomSwitch extends StatelessWidget {
   // Shared design tokens.
   static const Color _onStart = Color(0xFF59D893); // mint
   static const Color _onEnd = Color(0xFF29C5C9); // cyan
-  static const Color _onGlow = Color(0xFF31CBC4);
   static const Color _offTrack = Color.fromARGB(255, 211, 216, 223);
 
   @override

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">Je suis là pour vous aider à rester hydraté et à vous sentir au mieux de votre forme</string>
-    <string name="i_need_a_bit_of_information">J\'ai besoin d\'un peu d\'informations pour mieux vous comprendre.</string>
     <string name="select_your_gender">Sélectionnez votre genre</string>
     <string name="male">Masculin</string>
     <string name="female">Femme</string>
     <string name="next">Suivant</string>
-    <string name="lets_go">Allons-y</string>
     <string name="weight">Poids</string>
     <string name="what_time_do_you_wake_up">À quelle heure te réveilles-tu ?</string>
     <string name="am">AM</string>
@@ -27,7 +24,6 @@
     <string name="hour">heure</string>
     <string name="minute">minute</string>
     <string name="min">min</string>
-    <string name="allow">Autoriser</string>
     <string name="start">Commencer</string>
     <string name="no_reminder_set">Aucun rappel défini</string>
     <string name="next_reminder">Prochain rappel %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">Normal</string>
     <string name="warm">Chaud</string>
     <string name="hot">Chaud</string>
-    <string name="time_12_hour">heure sur 12 heures</string>
-    <string name="time_24_hour">format 24 heures</string>
     <string name="follow_the_system">Suivez le système</string>
     <string name="repeat_reminder">Rappel Répété</string>
     <string name="monday">Lundi</string>
@@ -59,13 +53,10 @@
     <string name="friday">Vendredi</string>
     <string name="saturday">Samedi</string>
     <string name="sunday">Dimanche</string>
-    <string name="standard_mode">Mode Standard</string>
     <string name="bedtime">Heure du coucher</string>
     <string name="reminders">Rappels</string>
     <string name="sleep_time_start">Heure de début du sommeil</string>
-    <string name="to">à</string>
     <string name="sleep_time_end">Fin du temps de sommeil</string>
-    <string name="we_ll_remind_you_every">Nous vous rappellerons toutes les %1$s pendant votre temps hors repos</string>
     <string name="after_wake_up">Après Le Réveil</string>
     <string name="before_breakfast">Avant Le Petit-déjeuner</string>
     <string name="after_breakfast">Après Le Déjeuner</string>
@@ -94,16 +85,10 @@
     <string name="milk">Lait</string>
     <string name="tea">Thé</string>
     <string name="juice">Jus</string>
-    <string name="soup">Soupe</string>
     <string name="coffee">Café</string>
     <string name="beer">Bière</string>
     <string name="wine">Vin</string>
     <string name="strong_drinks">Boissons Fortes</string>
-    <string name="get_premium">Obtenez premium</string>
-    <string name="unlock_all_features_and_remove_ads">Débloquez toutes les fonctionnalités et supprimez les publicités</string>
-    <string name="personal_info">Informations personnelles</string>
-    <string name="general">Général</string>
-    <string name="more">Plus</string>
     <string name="widget">Widget</string>
     <string name="gender">Genre</string>
     <string name="height">Taille</string>
@@ -115,16 +100,12 @@
     <string name="language">Langue</string>
     <string name="theme">Thème</string>
     <string name="rate_app">Évaluer L’application</string>
-    <string name="rate_app_content">Si l’application vous plaît, veuillez envisager de nous donner une note de 5 étoiles. Vos commentaires sont une excellente motivation pour nous à continuer de nous améliorer.</string>
     <string name="later">Plus tard</string>
     <string name="rate_us_5_stars">Donnez-nous 5 étoiles</string>
     <string name="thank_you">Merci !</string>
     <string name="your_feedback_has_been_sent">Votre rétroaction a été envoyée.</string>
     <string name="feedback">Commentaires</string>
-    <string name="please_share_your_feedback">Veuillez partager votre rétroaction</string>
-    <string name="we_read_your_feedback_carefully">Nous lisons attentivement vos commentaires pour rendre l’application encore meilleure pour vous. Merci de nous soutenir.</string>
     <string name="title">Titre</string>
-    <string name="feedback_content">Contenu des commentaires</string>
     <string name="send">Envoyer</string>
     <string name="light">Lumière</string>
     <string name="dark">Sombre</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">Fournit environ 95 % d\'eau</string>
     <string name="the_best_choice_for_hydration">Le meilleur choix pour l\'hydratation</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">Riche en nutriments avec du calcium et des protéines pour le bien-être quotidien</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">La teneur en nutriments varie considérablement en fonction des ingrédients</string>
     <string name="high_in_antioxidants_providing">Riche en antioxydants, procurant un rafraîchissement apaisant et faible en calories</string>
     <string name="packed_with_vitamin_c_and_antioxidants">Riche en vitamine C et en antioxydants</string>
     <string name="boosts_alertness_through_caffeine">Stimule la vigilance grâce à la caféine, avec une intensité de saveur déterminée par la torréfaction et la méthode de préparation</string>
@@ -179,7 +159,6 @@
     <string name="cancel">Annuler</string>
     <string name="custom">Personnalisé</string>
     <string name="day">Jour</string>
-    <string name="delete">Supprimer</string>
     <string name="edit_drink">Modifier La Boisson</string>
     <string name="history">Historique</string>
     <string name="no_records_found">Aucun enregistrement trouvé</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>

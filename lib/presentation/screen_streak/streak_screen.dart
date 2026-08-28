@@ -4,7 +4,6 @@ import 'package:waternudge/controller/streak_controller.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/screen_streak/components/streak_calendar.dart';
 import 'package:waternudge/presentation/screen_streak/components/streak_hero_card.dart';
-import 'package:waternudge/presentation/screen_streak/components/streak_stat_card.dart';
 import 'package:waternudge/presentation/screen_streak/components/streak_week_overview.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 
@@ -52,33 +51,6 @@ class StreakScreen extends StatelessWidget {
               children: [
                 StreakHeroCard(controller: controller),
                 const SizedBox(height: 14),
-                // IntrinsicHeight bounds the row so the two cards can stretch
-                // to a shared height inside the unbounded scroll view.
-                // IntrinsicHeight(
-                //   child: Obx(
-                //     () => Row(
-                //       crossAxisAlignment: CrossAxisAlignment.stretch,
-                //       children: [
-                //         Expanded(
-                //           child: StreakStatCard(
-                //             title: 'streak_total_days_tracked'.tr,
-                //             value: '${controller.totalDaysTracked.value}',
-                //             iconPath: 'assets/images/webp/ic_calendar.webp',
-                //           ),
-                //         ),
-                //         const SizedBox(width: 12),
-                //         Expanded(
-                //           child: StreakStatCard(
-                //             title: 'streak_longest_streak'.tr,
-                //             value: '${controller.longestStreak.value}',
-                //             iconPath: 'assets/images/webp/ic_cup_streak.webp',
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(height: 14),
                 StreakCalendar(controller: controller),
                 const SizedBox(height: 14),
                 StreakWeekOverview(controller: controller),

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_here_to_help_you">म तपाईंलाई हाइड्रेटेड राख्न र उत्कृष्ट महसुस गर्न मद्दत गर्न यहाँ छु</string>
-    <string name="i_need_a_bit_of_information">तपाईलाई राम्रोसँग बुझ्नको लागि मलाई अलिकति जानकारी चाहिन्छ</string>
     <string name="select_your_gender">तपाईंको लिङ्ग छान्नुहोस्</string>
     <string name="male">पुरुष</string>
     <string name="female">महिला</string>
     <string name="next">अर्को</string>
-    <string name="lets_go">जाऔं</string>
     <string name="weight">तौल</string>
     <string name="what_time_do_you_wake_up">तपाईं कति बजे उठ्नुहुन्छ?</string>
     <string name="am">अ.म.</string>
@@ -27,7 +24,6 @@
     <string name="hour">घण्टा</string>
     <string name="minute">मिनेट</string>
     <string name="min">न्यूनतम</string>
-    <string name="allow">अनुमति दिनुहोस्</string>
     <string name="start">सुरु</string>
     <string name="no_reminder_set">कुनै रिमाइन्डर सेट छैन</string>
     <string name="next_reminder">अर्को अनुस्मारक %1$s</string>
@@ -48,8 +44,6 @@
     <string name="normal">सामान्य</string>
     <string name="warm">तातो</string>
     <string name="hot">तातो</string>
-    <string name="time_12_hour">१२-घण्टा समय</string>
-    <string name="time_24_hour">२४-घण्टा समय</string>
     <string name="follow_the_system">प्रणाली पछ्याउनुहोस्</string>
     <string name="repeat_reminder">दोहोर्याउने स्मरण</string>
     <string name="monday">सोमबार</string>
@@ -59,13 +53,10 @@
     <string name="friday">शुक्रबार</string>
     <string name="saturday">शनिबार</string>
     <string name="sunday">आइतबार</string>
-    <string name="standard_mode">मानक मोड</string>
     <string name="bedtime">सुत्ने समय</string>
     <string name="reminders">स्मरणहरू</string>
     <string name="sleep_time_start">सुत्ने समय सुरु</string>
-    <string name="to">लाई</string>
     <string name="sleep_time_end">सुत्ने समय समाप्त</string>
-    <string name="we_ll_remind_you_every">हामी तपाईंलाई तपाईंको गैर-विश्राम समयमा हरेक %1$s मा सम्झाउनेछौं</string>
     <string name="after_wake_up">बिहान उठेपछि</string>
     <string name="before_breakfast">नाश्ता भन्दा पहिले</string>
     <string name="after_breakfast">नाश्तापछि</string>
@@ -94,16 +85,10 @@
     <string name="milk">दूध</string>
     <string name="tea">चिया</string>
     <string name="juice">रस</string>
-    <string name="soup">सूप</string>
     <string name="coffee">कफी</string>
     <string name="beer">बियर</string>
     <string name="wine">वाइन</string>
     <string name="strong_drinks">कडा पेयहरू</string>
-    <string name="get_premium">प्रीमियम प्राप्त गर्नुहोस्</string>
-    <string name="unlock_all_features_and_remove_ads">सबै सुविधाहरू अनलक गर्नुहोस् र विज्ञापनहरू हटाउनुहोस्</string>
-    <string name="personal_info">व्यक्तिगत जानकारी</string>
-    <string name="general">सामान्य</string>
-    <string name="more">थप</string>
     <string name="widget">विजेट</string>
     <string name="gender">लिङ्ग</string>
     <string name="height">उचाइ</string>
@@ -115,16 +100,12 @@
     <string name="language">भाषा</string>
     <string name="theme">थिम</string>
     <string name="rate_app">एप रेट गर्नुहोस्</string>
-    <string name="rate_app_content">यदि तपाईंलाई एप मन पर्छ भने, कृपया हामीलाई ५-तारे रेटिङ दिन विचार गर्नुहोस्। तपाईंको प्रतिक्रिया हामीलाई सुधार गर्न प्रेरणा दिन्छ।</string>
     <string name="later">पछि</string>
     <string name="rate_us_5_stars">हामीलाई ५ तारा दिनुहोस्</string>
     <string name="thank_you">धन्यवाद!</string>
     <string name="your_feedback_has_been_sent">तपाईंको प्रतिक्रिया पठाइएको छ।</string>
     <string name="feedback">प्रतिक्रिया</string>
-    <string name="please_share_your_feedback">कृपया आफ्नो प्रतिक्रिया साझा गर्नुहोस्</string>
-    <string name="we_read_your_feedback_carefully">हामी तपाईंको प्रतिक्रिया ध्यानपूर्वक पढ्छौं ताकि तपाईंको लागि यो एपलाई अझ राम्रो बनाउन सकौं। हामीलाई समर्थन गरेकोमा धन्यवाद।</string>
     <string name="title">शीर्षक</string>
-    <string name="feedback_content">प्रतिक्रिया सामग्री</string>
     <string name="send">पठाउनुहोस्</string>
     <string name="light">हल्का</string>
     <string name="dark">अँध्यारो</string>
@@ -163,7 +144,6 @@
     <string name="provides_about_95_percent_water">लगभग ९५% पानी प्रदान गर्दछ</string>
     <string name="the_best_choice_for_hydration">हाइड्रेशनको लागि उत्तम विकल्प</string>
     <string name="nutrient_rich_with_calcium_and_protein_for_everyday_wellness">क्याल्सियम र प्रोटिनले भरिपूर्ण पौष्टिक तत्वहरू दैनिक कल्याणका लागि</string>
-    <string name="nutrient_content_varies_greatly_based_on_ingredients">सामग्रीहरू अनुसार पोषक तत्वहरूको मात्रा धेरै भिन्न हुन्छ।</string>
     <string name="high_in_antioxidants_providing">एन्टिअक्सिडेन्टले भरिपूर्ण, शान्त र कम क्यालोरी भएको ताजगी प्रदान गर्ने</string>
     <string name="packed_with_vitamin_c_and_antioxidants">भिटामिन सी र एन्टिअक्सिडेन्टले भरपूर</string>
     <string name="boosts_alertness_through_caffeine">क्याफिनले सतर्कता बढाउँछ, स्वादको तीव्रता भुटाइ र ब्रूइङबाट निर्धारित हुन्छ</string>
@@ -179,7 +159,6 @@
     <string name="cancel">रद्द गर्नुहोस्</string>
     <string name="custom">कस्टम</string>
     <string name="day">दिन</string>
-    <string name="delete">मेट्नुहोस्</string>
     <string name="edit_drink">पेय सम्पादन गर्नुहोस्</string>
     <string name="history">इतिहास</string>
     <string name="no_records_found">कुनै रेकर्ड फेला परेन</string>
@@ -203,12 +182,7 @@
     <string name="step_calculating_water_needs">Calculating daily water needs</string>
     <string name="step_analyzing_habits">Analyzing your daily habits</string>
     <string name="step_building_schedule">Building your personal water schedule...</string>
-    <string name="this_week">This Week</string>
-    <string name="percent_goal">goal</string>
-    <string name="avg_per_day">Avg/day</string>
-    <string name="goal_days">Goal days</string>
     <string name="week_chart">Weekly Chart</string>
-    <string name="by_day">By day</string>
     <string name="total_drink_count">Total drinks</string>
     <string name="best_time_range">Best time</string>
     <string name="streak_done">Streak done</string>
