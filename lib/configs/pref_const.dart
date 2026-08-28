@@ -5,7 +5,6 @@ class PrefConst {
   static const String reminderMode = 'reminder_mode';
   static const String soundEffect = 'sound_effect';
   static const String vibrateEnabled = 'vibrate_enabled';
-  static const String timeFormat = 'time_format';
   static const String volumeUnit = 'volume_unit';
   static const String weightUnit = 'weight_unit';
   static const String heightUnit = 'height_unit';
@@ -14,6 +13,9 @@ class PrefConst {
   static const String intervalMinutes = 'interval_minutes';
   static const String sleepTimeStart = 'sleep_time_start';
   static const String sleepTimeEnd = 'sleep_time_end';
+  static const String napEnabled = 'nap_enabled';
+  static const String napTimeStart = 'nap_time_start';
+  static const String napTimeEnd = 'nap_time_end';
   static const String repeatDays = 'repeat_days';
   static const String soundEffectEnabled = 'sound_effect_enabled';
 
@@ -37,5 +39,6 @@ class PrefConst {
   static const String smartNotification = 'smart_notification';
   static const String selectedAvatar = 'selected_avatar';
   static const String streakDialogShownDate = 'streak_dialog_shown_date';
+  static const String coachMarkHomeSeen = 'coach_mark_home_seen';
 }
 

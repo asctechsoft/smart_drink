@@ -1,8 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:dsp_base/app_material.dart';
-import 'package:get/get.dart';
-import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/app_colors.dart';
 
@@ -90,8 +88,6 @@ class _CircularTimePickerState extends State<CircularTimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    final settingsCtrl = Get.find<SettingsController>();
-
     return GestureDetector(
       onPanDown: (d) => _updateFromOffset(d.localPosition),
       onPanUpdate: (d) => _updateFromOffset(d.localPosition),
@@ -113,18 +109,13 @@ class _CircularTimePickerState extends State<CircularTimePicker> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 AppSpacerH12,
-                Obx(
-                  () => AppText(
-                    UnitConverter.formatTime(
-                      _timeString,
-                      settingsCtrl.timeFormat.value,
-                    ),
-                    style: const TextStyle(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.basic500,
-                      letterSpacing: 1,
-                    ),
+                AppText(
+                  UnitConverter.formatTime(_timeString),
+                  style: const TextStyle(
+                    fontSize: 34,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.basic500,
+                    letterSpacing: 1,
                   ),
                 ),
               ],

@@ -76,18 +76,18 @@ class UnitConverter {
     return '${height.round()} cm';
   }
 
-  static String formatTime(String timeStr, String format) {
-    if (timeStr.isEmpty) return '';
-    
-    bool use24h = format == '24h';
-    if (format == 'system') {
-      final context = Get.context;
-      if (context != null) {
-        use24h = MediaQuery.of(context).alwaysUse24HourFormat;
-      }
-    }
+  /// Whether the device is configured for 24-hour time. The app always follows
+  /// the device setting (there is no in-app time format option).
+  static bool deviceUses24h() {
+    final context = Get.context;
+    if (context != null) return MediaQuery.of(context).alwaysUse24HourFormat;
+    return true;
+  }
 
-    if (use24h) return timeStr;
+  static String formatTime(String timeStr) {
+    if (timeStr.isEmpty) return '';
+
+    if (deviceUses24h()) return timeStr;
 
     final parts = timeStr.split(':');
     if (parts.length != 2) return timeStr;

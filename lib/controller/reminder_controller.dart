@@ -4,10 +4,9 @@ import 'package:waternudge/models/data_models/reminder_schedule.dart';
 import 'package:waternudge/models/ui_models/reminder_mode.dart';
 import 'package:waternudge/repository/user_repository.dart';
 import 'package:waternudge/services/native/notification_channel.dart';
-import 'package:flutter/material.dart';
+import 'package:waternudge/utils/unit_converter.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'settings_controller.dart';
 
 class ReminderController extends GetxController {
   final UserRepository _userRepo = UserRepository();
@@ -23,6 +22,11 @@ class ReminderController extends GetxController {
   final RxInt intervalMinutes = 120.obs;
   final RxString sleepTimeStart = '23:00'.obs;
   final RxString sleepTimeEnd = '06:00'.obs;
+
+  // Nap (siesta) window — interval reminders pause here when enabled.
+  final RxBool napEnabled = true.obs;
+  final RxString napStart = '12:30'.obs;
+  final RxString napEnd = '13:30'.obs;
 
   static const standardLabels = [
     'after_wake_up',
@@ -75,6 +79,12 @@ class ReminderController extends GetxController {
         PrefDefaults.sleepTimeStart;
     sleepTimeEnd.value =
         prefs.getString(PrefConst.sleepTimeEnd) ?? PrefDefaults.sleepTimeEnd;
+    napEnabled.value =
+        prefs.getBool(PrefConst.napEnabled) ?? PrefDefaults.napEnabled;
+    napStart.value =
+        prefs.getString(PrefConst.napTimeStart) ?? PrefDefaults.napTimeStart;
+    napEnd.value =
+        prefs.getString(PrefConst.napTimeEnd) ?? PrefDefaults.napTimeEnd;
 
     // Load repeat days
     final repeatDaysStr =
@@ -143,6 +153,9 @@ class ReminderController extends GetxController {
     await prefs.setInt(PrefConst.intervalMinutes, intervalMinutes.value);
     await prefs.setString(PrefConst.sleepTimeStart, sleepTimeStart.value);
     await prefs.setString(PrefConst.sleepTimeEnd, sleepTimeEnd.value);
+    await prefs.setBool(PrefConst.napEnabled, napEnabled.value);
+    await prefs.setString(PrefConst.napTimeStart, napStart.value);
+    await prefs.setString(PrefConst.napTimeEnd, napEnd.value);
     await prefs.setString(PrefConst.repeatDays, repeatDays.join(','));
     await syncNativeSchedule();
   }
@@ -203,14 +216,39 @@ class ReminderController extends GetxController {
     final interval = intervalMinutes.value;
     if (interval <= 0) return [];
 
+    // Optional nap window to skip (in minutes from midnight).
+    int? napStartTotal;
+    int? napEndTotal;
+    if (napEnabled.value) {
+      final ns = napStart.value.split(':');
+      final ne = napEnd.value.split(':');
+      final nsH = int.tryParse(ns[0]) ?? 0;
+      final nsM = ns.length > 1 ? (int.tryParse(ns[1]) ?? 0) : 0;
+      final neH = int.tryParse(ne[0]) ?? 0;
+      final neM = ne.length > 1 ? (int.tryParse(ne[1]) ?? 0) : 0;
+      napStartTotal = nsH * 60 + nsM;
+      napEndTotal = neH * 60 + neM;
+    }
+
+    bool inNap(int minuteOfDay) {
+      final s = napStartTotal;
+      final e = napEndTotal;
+      if (s == null || e == null) return false;
+      if (e <= s) return false; // ignore invalid range
+      return minuteOfDay >= s && minuteOfDay <= e;
+    }
+
     final times = <Map<String, int>>[];
     var current = wakeTotal;
     final end = bedTotal > wakeTotal ? bedTotal : bedTotal + 24 * 60;
 
     while (current <= end && times.length < PrefDefaults.maxReminderAlarms) {
-      final h = (current ~/ 60) % 24;
-      final m = current % 60;
-      times.add({'hour': h, 'minute': m});
+      final minuteOfDay = current % (24 * 60);
+      if (!inNap(minuteOfDay)) {
+        final h = (current ~/ 60) % 24;
+        final m = current % 60;
+        times.add({'hour': h, 'minute': m});
+      }
       current += interval;
     }
 
@@ -286,19 +324,7 @@ class ReminderController extends GetxController {
 
   /// Format time for display based on settings
   String formatDisplayTime(String time24) {
-    final settingsCtrl = Get.find<SettingsController>();
-    bool is12h = false;
-
-    if (settingsCtrl.timeFormat.value == 'system') {
-      final context = Get.context;
-      if (context != null) {
-        is12h = !MediaQuery.of(context).alwaysUse24HourFormat;
-      }
-    } else {
-      is12h = settingsCtrl.timeFormat.value == '12h';
-    }
-
-    if (!is12h) return time24;
+    if (UnitConverter.deviceUses24h()) return time24;
 
     final parts = time24.split(':');
     if (parts.length != 2) return time24;

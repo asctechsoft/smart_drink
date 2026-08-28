@@ -5,7 +5,6 @@ class PrefDefaults {
   static const String reminderMode = 'standard';
   static const String soundEffect = 'universfield_notification';
   static const bool vibrateEnabled = true;
-  static const String timeFormat = 'system';
   static const String volumeUnit = 'ml';
   static const String weightUnit = 'kg';
   static const String heightUnit = 'cm';
@@ -13,6 +12,9 @@ class PrefDefaults {
   static const int intervalMinutes = 90;
   static const String sleepTimeStart = '23:00';
   static const String sleepTimeEnd = '06:00';
+  static const bool napEnabled = true;
+  static const String napTimeStart = '12:30';
+  static const String napTimeEnd = '13:30';
   static const String repeatDays = '1,2,3,4,5';
   static const bool soundEffectEnabled = true;
 

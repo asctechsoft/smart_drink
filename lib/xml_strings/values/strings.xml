@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="nap_start_title">Nap start time</string>
+    <string name="nap_end_title">Nap end time</string>
+    <string name="settings_nap_desc">Pause reminders during your nap</string>
+    <string name="settings_sound_desc">Reminder sound</string>
+    <string name="off">Off</string>
+    <string name="picker_hour">Hour</string>
+    <string name="picker_minute">Minute</string>
+    <string name="picker_device_format_hint">Time is shown in your device\'s format</string>
+    <string name="reminder_pause_info">Notifications will pause during this window</string>
     <string name="select_your_gender">Select your gender</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
@@ -95,7 +104,6 @@
     <string name="age">Age</string>
     <string name="daily_goal">Daily Goal</string>
     <string name="units">Units</string>
-    <string name="time_format">Time Format</string>
     <string name="sound">Sound</string>
     <string name="language">Language</string>
     <string name="theme">Theme</string>

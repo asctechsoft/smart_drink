@@ -71,7 +71,6 @@ class DrinkRecordRow extends StatelessWidget {
     final timeStr = UnitConverter.formatTime(
       '${record.timestamp.hour.toString().padLeft(2, '0')}:'
       '${record.timestamp.minute.toString().padLeft(2, '0')}',
-      settings.timeFormat.value,
     );
     final displayMl = record.originalAmountMl > 0
         ? record.originalAmountMl
@@ -155,6 +154,78 @@ class DrinkRecordRow extends StatelessWidget {
               color: Color(0xFF96D2A8),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Wraps a [DrinkRecordRow] so that deleting it collapses (height → 0) and
+/// fades out, letting the rows below slide up smoothly, before the underlying
+/// record is actually removed. Uses SizeTransition + FadeTransition (cheap,
+/// GPU-composited) to stay jank-free.
+class RemovableRecordRow extends StatefulWidget {
+  const RemovableRecordRow({
+    super.key,
+    required this.record,
+    required this.onEdit,
+    required this.onDelete,
+    this.gap = 8,
+  });
+
+  final DrinkRecord record;
+  final VoidCallback onEdit;
+  final Future<void> Function() onDelete;
+  final double gap;
+
+  @override
+  State<RemovableRecordRow> createState() => _RemovableRecordRowState();
+}
+
+class _RemovableRecordRowState extends State<RemovableRecordRow>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _anim;
+  bool _removing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 260),
+      value: 1, // fully visible; only removal animates
+    );
+    _anim = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleDelete() async {
+    if (_removing) return;
+    setState(() => _removing = true);
+    await _controller.reverse(); // 1 → 0: collapse + fade
+    await widget.onDelete(); // now drop it from the data source
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizeTransition(
+      sizeFactor: _anim,
+      axisAlignment: -1,
+      child: FadeTransition(
+        opacity: _anim,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: widget.gap),
+          child: DrinkRecordRow(
+            record: widget.record,
+            onEdit: widget.onEdit,
+            onDelete: _handleDelete,
+          ),
         ),
       ),
     );

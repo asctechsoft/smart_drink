@@ -7,7 +7,6 @@ import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/auth_loading_overlay.dart';
 import 'package:waternudge/presentation/common_components/custom_switch.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
-import 'package:waternudge/presentation/screens_reminder/components/sound_effect_section.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -143,6 +142,19 @@ class SettingsScreen extends StatelessWidget {
                         onTap: () => showBedtimeSheet(context),
                       );
                     }),
+                    _Divider(),
+                    Obx(() {
+                      final napValue = reminderCtrl.napEnabled.value
+                          ? '${reminderCtrl.napStart.value} - ${reminderCtrl.napEnd.value}'
+                          : 'off'.tr;
+                      return _SettingsTile(
+                        iconData: Icons.bedtime_outlined,
+                        title: 'nap_time_range'.tr,
+                        subtitle: 'settings_nap_desc'.tr,
+                        value: napValue,
+                        onTap: () => showNapScheduleSheet(context),
+                      );
+                    }),
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -167,7 +179,15 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     _Divider(),
                     // Reminder sound (moved here from the Reminder tab).
-                    SoundEffectSection(controller: reminderCtrl),
+                    Obx(
+                      () => _SettingsTile(
+                        iconData: Icons.volume_up_outlined,
+                        title: 'sound'.tr,
+                        subtitle: 'settings_sound_desc'.tr,
+                        value: soundDisplayName(reminderCtrl.soundEffect.value),
+                        onTap: () => showSoundEffectSheet(context),
+                      ),
+                    ),
                     _Divider(),
                     Obx(() {
                       final vol = settingsCtrl.volumeUnit.value;
@@ -190,7 +210,7 @@ class SettingsScreen extends StatelessWidget {
                         subtitle: 'settings_language_desc'.tr,
                         value: CommLocalize.getLocaleName(
                           CommLocalize.getAppLocale(),
-                        ),
+                        ).split(' (').first,
                         onTap: () => showLanguageSheet(context),
                       );
                     }),

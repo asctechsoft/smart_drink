@@ -12,7 +12,6 @@ class SettingsController extends GetxController {
   final RxString volumeUnit = PrefDefaults.volumeUnit.obs;
   final RxString weightUnit = PrefDefaults.weightUnit.obs;
   final RxString heightUnit = PrefDefaults.heightUnit.obs;
-  final RxString timeFormat = PrefDefaults.timeFormat.obs;
   final RxBool isRated = false.obs;
 
   @override
@@ -27,8 +26,6 @@ class SettingsController extends GetxController {
         prefs.getString(PrefConst.themeMode) ?? PrefDefaults.themeMode;
     language.value =
         prefs.getString(PrefConst.language) ?? PrefDefaults.language;
-    timeFormat.value =
-        prefs.getString(PrefConst.timeFormat) ?? PrefDefaults.timeFormat;
     isRated.value = prefs.getBool(PrefConst.isRated) ?? false;
 
     // For unit settings, prefer SharedPreferences but fall back to UserProfile
@@ -80,16 +77,6 @@ class SettingsController extends GetxController {
         Get.changeThemeMode(ThemeMode.dark);
       default:
         Get.changeThemeMode(ThemeMode.system);
-    }
-  }
-
-  Future<void> setTimeFormat(String format) async {
-    timeFormat.value = format;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(PrefConst.timeFormat, format);
-    // Refresh the home screen widget so it shows the new format
-    if (Get.isRegistered<TodayController>()) {
-      Get.find<TodayController>().updateWidget();
     }
   }
 

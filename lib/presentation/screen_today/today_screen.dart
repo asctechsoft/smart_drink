@@ -1,7 +1,10 @@
 import 'package:dsp_base/app_material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
+import 'package:waternudge/presentation/common_components/coach_mark.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/screen_today/components/streak_dialog.dart';
 import 'package:waternudge/values/app_colors.dart';
@@ -22,6 +25,12 @@ class TodayScreen extends StatefulWidget {
 class _TodayScreenState extends State<TodayScreen> {
   Worker? _streakWorker;
 
+  // Coach-mark spotlight targets.
+  final GlobalKey _drinkKey = GlobalKey();
+  final GlobalKey _menuKey = GlobalKey();
+  final GlobalKey _streakKey = GlobalKey();
+  final GlobalKey _chatKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -35,6 +44,37 @@ class _TodayScreenState extends State<TodayScreen> {
         );
       }
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeShowCoachMarks());
+  }
+
+  Future<void> _maybeShowCoachMarks() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool(PrefConst.coachMarkHomeSeen) ?? false) return;
+    if (!mounted) return;
+    showCoachMarks(context, [
+      CoachStep(
+        key: _drinkKey,
+        text: 'Nhấn vào đây để ghi nhận lượng nước bạn vừa uống.',
+        radius: 999, // pill
+        spotlightBuilder: () => const DrinkActionBar(),
+      ),
+      CoachStep(
+        key: _menuKey,
+        text: 'Chọn loại đồ uống (nước, cà phê, trà...) tại đây.',
+        radius: 16,
+      ),
+      CoachStep(
+        key: _streakKey,
+        text: 'Xem chuỗi ngày uống nước đều đặn của bạn.',
+        radius: 12,
+      ),
+      CoachStep(
+        key: _chatKey,
+        text: 'Trợ lý AI — hỏi đáp về uống nước & sức khoẻ tại đây.',
+        radius: 12,
+      ),
+    ], onFinish: () => prefs.setBool(PrefConst.coachMarkHomeSeen, true));
   }
 
   @override
@@ -67,7 +107,7 @@ class _TodayScreenState extends State<TodayScreen> {
               child: Column(
                 children: [
                   // Header
-                  TodayHeader(),
+                  TodayHeader(streakKey: _streakKey, chatKey: _chatKey),
 
                   Expanded(
                     child: Stack(
@@ -80,7 +120,7 @@ class _TodayScreenState extends State<TodayScreen> {
 
                               child: SizedBox(
                                 width: 260,
-                                height: 320,
+                                height: 340,
                                 child: RepaintBoundary(
                                   child: Obx(
                                     () => FittedBox(
@@ -145,7 +185,7 @@ class _TodayScreenState extends State<TodayScreen> {
                   ),
                   const SizedBox(height: 20),
                   // Drink action bar: +amount
-                  const DrinkActionBar(),
+                  KeyedSubtree(key: _drinkKey, child: const DrinkActionBar()),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -216,10 +256,7 @@ class _TodayScreenState extends State<TodayScreen> {
         border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
         boxShadow: ob.cardGlowShadow,
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: content,
-      ),
+      child: Row(mainAxisSize: MainAxisSize.min, children: content),
     );
   }
 
@@ -313,17 +350,19 @@ class _TodayScreenState extends State<TodayScreen> {
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: _ActionCard(
-              imagePath: controller.selectedDrinkType.value.imagePath,
-              label: 'Menu',
-              onTap: () => showDrinkTypeSheet(context),
+            child: KeyedSubtree(
+              key: _menuKey,
+              child: _ActionCard(
+                imagePath: controller.selectedDrinkType.value.imagePath,
+                label: 'Menu',
+                onTap: () => showDrinkTypeSheet(context),
+              ),
             ),
           ),
         ],
       ),
     );
   }
-
 }
 
 // ─── Stat card ────────────────────────────────────────────────────────────────

@@ -236,14 +236,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
         if (controller.dayRecords.isEmpty)
           _buildEmptyState(ob)
         else
-          for (final record in controller.dayRecords) ...[
-            DrinkRecordRow(
+          for (final record in controller.dayRecords)
+            RemovableRecordRow(
+              key: ValueKey(
+                'record-${record.id ?? record.timestamp.microsecondsSinceEpoch}',
+              ),
               record: record,
               onEdit: () => _showEditDialog(context, controller, record),
               onDelete: () => controller.deleteRecord(record),
             ),
-            const SizedBox(height: 8),
-          ],
       ],
     );
   }

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="nap_start_title">Giờ bắt đầu ngủ trưa</string>
+    <string name="nap_end_title">Giờ kết thúc ngủ trưa</string>
+    <string name="settings_nap_desc">Tạm dừng nhắc nhở trong giờ ngủ trưa</string>
+    <string name="settings_sound_desc">Âm thanh nhắc nhở</string>
+    <string name="off">Tắt</string>
+    <string name="picker_hour">Giờ</string>
+    <string name="picker_minute">Phút</string>
+    <string name="picker_device_format_hint">Giờ sẽ hiển thị theo định dạng của thiết bị</string>
+    <string name="reminder_pause_info">Thông báo sẽ tạm dừng trong khung giờ này</string>
     <string name="select_your_gender">Chọn giới tính của bạn</string>
     <string name="male">Nam</string>
     <string name="female">Nữ</string>
@@ -95,7 +104,6 @@
     <string name="age">Tuổi</string>
     <string name="daily_goal">Mục Tiêu Hàng Ngày</string>
     <string name="units">Đơn vị</string>
-    <string name="time_format">Định Dạng Thời Gian</string>
     <string name="sound">Âm thanh</string>
     <string name="language">Ngôn ngữ</string>
     <string name="theme">Chủ đề</string>

@@ -1,17 +1,23 @@
 import 'dart:math' as math;
+import 'package:audioplayers/audioplayers.dart';
 import 'package:dsp_base/app_material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:waternudge/controller/languages_controller.dart';
+import 'package:waternudge/controller/reminder_controller.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/circular_time_picker.dart';
+import 'package:waternudge/presentation/common_components/custom_switch.dart';
 import 'package:waternudge/presentation/common_components/gender_card.dart';
+import 'package:waternudge/presentation/common_components/primary_bottom_sheet.dart';
 import 'package:waternudge/presentation/common_components/selectable_option_tile.dart';
 import 'package:waternudge/presentation/common_components/toggle_selector.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/presentation/common_components/wheel_time_picker.dart';
 import 'package:waternudge/presentation/screens_settings/components/language_list_widget.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:get/get.dart';
 
 // Helpers removed - using PrimaryBottomSheet instead
@@ -1865,6 +1871,358 @@ void showBedtimeSheet(BuildContext context) {
       },
     ),
   );
+}
+
+// ─── Sound Effect Sheet ──────────────────────────────────────────────────────
+
+const List<(String, String)> kSoundOptions = [
+  ('golden_bell', 'dragon_studio_correct'),
+  ('dragon_bloom', 'dragon_studio_notification_sound_effect'),
+  ('sparkle_pop', 'universfield_new_notification'),
+  ('modern_chime', 'universfield_notification'),
+  ('system_soft', 'universfield_system_notification'),
+];
+
+String soundDisplayName(String file) {
+  if (file.isEmpty) return 'None';
+  for (final o in kSoundOptions) {
+    if (o.$2 == file) return o.$1.tr;
+  }
+  return file;
+}
+
+void showSoundEffectSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (ctx) => const _SoundEffectSheet(),
+  );
+}
+
+class _SoundEffectSheet extends StatefulWidget {
+  const _SoundEffectSheet();
+
+  @override
+  State<_SoundEffectSheet> createState() => _SoundEffectSheetState();
+}
+
+class _SoundEffectSheetState extends State<_SoundEffectSheet> {
+  final ReminderController _ctrl = Get.find<ReminderController>();
+  final AudioPlayer _player = AudioPlayer();
+
+  @override
+  void dispose() {
+    _player.dispose();
+    super.dispose();
+  }
+
+  void _select(String file) {
+    _ctrl.soundEffect.value = file;
+    if (!_ctrl.soundEffectEnabled.value) _ctrl.soundEffectEnabled.value = true;
+    _ctrl.saveSettings();
+    _player.play(AssetSource('audio/$file.mp3'));
+  }
+
+  Widget _radio(bool selected) {
+    return Container(
+      width: 20,
+      height: 20,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: AppColors.accentTeal, width: 1.5),
+      ),
+      alignment: Alignment.center,
+      child: selected
+          ? Container(
+              width: 10,
+              height: 10,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.accentTeal,
+              ),
+            )
+          : null,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xFF0A2556),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).padding.bottom + 24,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 12),
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: Colors.white24,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'sound'.tr,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Obx(
+              () => Column(
+                children: kSoundOptions.map((o) {
+                  final (name, file) = o;
+                  final selected = _ctrl.soundEffect.value == file;
+                  return GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => _select(file),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              name.tr,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          _radio(selected),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: PrimaryButton(
+              width: double.infinity,
+              text: 'save'.tr,
+              useGradient: true,
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Nap Schedule Sheet ──────────────────────────────────────────────────────
+
+void showNapScheduleSheet(BuildContext context) {
+  final ctrl = Get.find<ReminderController>();
+  bool enabled = ctrl.napEnabled.value;
+  String start = ctrl.napStart.value;
+  String end = ctrl.napEnd.value;
+
+  PrimaryBottomSheet.show(
+    context: context,
+    title: 'nap_time_range',
+    buttonText: 'save',
+    content: _NapSheetContent(
+      initialEnabled: enabled,
+      initialStart: start,
+      initialEnd: end,
+      onChanged: (e, s, en) {
+        enabled = e;
+        start = s;
+        end = en;
+      },
+    ),
+    onButtonPressed: () {
+      ctrl.napEnabled.value = enabled;
+      ctrl.napStart.value = start;
+      ctrl.napEnd.value = end;
+      ctrl.saveSettings();
+      Navigator.pop(context);
+    },
+  );
+}
+
+class _NapSheetContent extends StatefulWidget {
+  final bool initialEnabled;
+  final String initialStart;
+  final String initialEnd;
+  final void Function(bool enabled, String start, String end) onChanged;
+
+  const _NapSheetContent({
+    required this.initialEnabled,
+    required this.initialStart,
+    required this.initialEnd,
+    required this.onChanged,
+  });
+
+  @override
+  State<_NapSheetContent> createState() => _NapSheetContentState();
+}
+
+class _NapSheetContentState extends State<_NapSheetContent> {
+  late bool _enabled;
+  late String _start;
+  late String _end;
+
+  @override
+  void initState() {
+    super.initState();
+    _enabled = widget.initialEnabled;
+    _start = widget.initialStart;
+    _end = widget.initialEnd;
+  }
+
+  void _emit() => widget.onChanged(_enabled, _start, _end);
+
+  void _pickTime({
+    required String initial,
+    required String title,
+    required ValueChanged<String> onSubmit,
+  }) {
+    var picked = initial;
+    PrimaryBottomSheet.show(
+      context: context,
+      title: title,
+      buttonText: 'save',
+      content: WheelTimePicker(
+        initialTime: initial,
+        onChanged: (t) => picked = t,
+        enhanced: true,
+        subtitle: 'picker_device_format_hint',
+        infoText: 'nap_info',
+      ),
+      onButtonPressed: () {
+        onSubmit(picked);
+        Get.back();
+      },
+    );
+  }
+
+  Widget _timeField({required String label, required String time, required VoidCallback onTap}) {
+    final ob = OnboardingTheme.of(context);
+    return Expanded(
+      child: GestureDetector(
+        onTap: _enabled ? onTap : null,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.06),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: ob.textAccent.withValues(alpha: 0.4)),
+          ),
+          child: Column(
+            children: [
+              AppText(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: ob.textPrimary.withValues(alpha: 0.6),
+                ),
+              ),
+              const SizedBox(height: 4),
+              AppText(
+                time,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  color: ob.textPrimary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ob = OnboardingTheme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: AppText(
+                'nap_title'.tr,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: ob.textPrimary,
+                ),
+              ),
+            ),
+            CustomSwitch(
+              value: _enabled,
+              onChanged: (v) {
+                setState(() => _enabled = v);
+                _emit();
+              },
+              activeColor: AppColors.accentTeal,
+              trackColor: AppColors.basic500.withValues(alpha: 0.2),
+              width: 46,
+              height: 26,
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        AnimatedOpacity(
+          duration: const Duration(milliseconds: 200),
+          opacity: _enabled ? 1 : 0.4,
+          child: IgnorePointer(
+            ignoring: !_enabled,
+            child: Row(
+              children: [
+                _timeField(
+                  label: 'nap_start_title'.tr,
+                  time: _start,
+                  onTap: () => _pickTime(
+                    initial: _start,
+                    title: 'nap_start_title'.tr,
+                    onSubmit: (t) {
+                      setState(() => _start = t);
+                      _emit();
+                    },
+                  ),
+                ),
+                const SizedBox(width: 12),
+                _timeField(
+                  label: 'nap_end_title'.tr,
+                  time: _end,
+                  onTap: () => _pickTime(
+                    initial: _end,
+                    title: 'nap_end_title'.tr,
+                    onSubmit: (t) {
+                      setState(() => _end = t);
+                      _emit();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class _TimeSheet extends StatefulWidget {

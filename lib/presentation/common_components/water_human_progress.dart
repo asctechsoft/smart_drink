@@ -2,7 +2,7 @@
 import "dart:ui" as ui;
 
 import "package:dsp_base/app_material.dart";
-import "package:flutter_svg/svg.dart";
+import "package:flutter/services.dart" show rootBundle;
 
 /// Human-body-shaped water level indicator. Water rises from feet to headsửa
 /// as [progress] goes from 0.0 to 1.0, clipped to the human silhouette.
@@ -26,12 +26,12 @@ class WaterHumanProgress extends StatefulWidget {
   final double width;
   final double textScale;
 
-  /// Female uses women.svg (viewBox 83×298); male uses human.svg (130×298).
+  /// Female / male body artwork (raster PNG, 1024×1536).
   final bool isFemale;
 
-  /// Male silhouette aspect (human.svg 298/130). Kept for layouts that size a
-  /// male body prop, e.g. the organ diagram.
-  static const double svgAspect = 298 / 130; // ~2.292
+  /// Body-art aspect (1536/1024). Kept for layouts that size a body prop,
+  /// e.g. the organ diagram.
+  static const double svgAspect = 1536 / 1024; // 1.5
 
   @override
   State<WaterHumanProgress> createState() => _WaterHumanProgressState();
@@ -45,9 +45,10 @@ class _WaterHumanProgressState extends State<WaterHumanProgress>
   // Silhouette + its viewBox, switched by gender. Both the outline and the
   // clipped water rise must use the same asset/geometry.
   String get _asset => widget.isFemale
-      ? "assets/images/svg/women.svg"
-      : "assets/images/svg/human.svg";
-  double get vbW => widget.isFemale ? 83 : 130;
+      ? "assets/images/png/img_women_drink.png"
+      : "assets/images/png/img_human_drink.png";
+  // Logical wave-space coords; only the ratio matters (painter scales to size).
+  double get vbW => 198.67; // 298 / 1.5
   double get vbH => 298;
   double get _svgAspect => vbH / vbW;
 
@@ -76,38 +77,14 @@ class _WaterHumanProgressState extends State<WaterHumanProgress>
 
   // Rasterises human.svg at display size for use as alpha mask in _HumanWaterPainter.
   // Water animates immediately; clip is applied once mask is ready.
+  // Decode the body PNG (transparent background) for use as the alpha mask that
+  // clips the rising water to the body shape.
   Future<void> _loadMask() async {
-    final bodyW = _bodyWidth;
-    final bodyH = bodyW * _svgAspect;
-    final iW = bodyW.toInt().clamp(60, 600);
-    final iH = bodyH.toInt().clamp(60, 1400);
-    final asset = _asset;
     try {
-      final loader = SvgAssetLoader(asset);
-      final pictureInfo = await vg.loadPicture(loader, null);
-      final svgSize = pictureInfo.size;
-
-      // Scale the SVG picture to the display dimensions.
-      // Inset by 3px so the mask is slightly smaller than the body silhouette —
-      // this keeps water from overlapping the outer glow/border of the body.
-      const inset = 3.0;
-      final recorder = ui.PictureRecorder();
-      final canvas = ui.Canvas(
-        recorder,
-        Rect.fromLTWH(0, 0, iW.toDouble(), iH.toDouble()),
-      );
-      canvas.translate(inset, inset);
-      canvas.scale(
-        (iW - inset * 2) / svgSize.width,
-        (iH - inset * 2) / svgSize.height,
-      );
-      canvas.drawPicture(pictureInfo.picture);
-      pictureInfo.picture.dispose();
-      final scaled = recorder.endRecording();
-      final img = await scaled.toImage(iW, iH);
-      scaled.dispose();
-
-      if (mounted) setState(() => _maskImage = img);
+      final data = await rootBundle.load(_asset);
+      final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
+      final frame = await codec.getNextFrame();
+      if (mounted) setState(() => _maskImage = frame.image);
     } catch (_) {}
   }
 
@@ -140,8 +117,8 @@ class _WaterHumanProgressState extends State<WaterHumanProgress>
           child: Stack(
             fit: StackFit.expand,
             children: [
-              // Layer 1: Human body in natural teal colour (unfilled region).
-              SvgPicture.asset(_asset, fit: BoxFit.fill),
+              // Layer 1: Human body artwork (unfilled region).
+              Image.asset(_asset, fit: BoxFit.fill),
 
               // Layer 2: Animated water rising from the feet, clipped to body shape.
               AnimatedBuilder(
@@ -197,13 +174,25 @@ class _HumanWaterPainter extends CustomPainter {
     // Outer compositing group: water drawn here, then masked to body shape.
     canvas.saveLayer(Offset.zero & size, Paint());
 
+    // Guard strip: exclude the very top edge of the artwork. The exported PNG
+    // has a faint non-transparent top row; without this, a full-width line
+    // appears across the top when the body fills completely.
+    final topGuard = size.height * 0.02;
+    canvas.clipRect(
+      Rect.fromLTWH(0, topGuard, size.width, size.height - topGuard),
+    );
+
     // Draw in viewBox space so wave parameters are SVG-coordinate-relative.
     canvas.save();
     canvas.scale(size.width / vbW, size.height / vbH);
 
     final bob = sin(phase * 2 * pi) * 3.0 * fill;
-    final surfaceY = vbH * (1 - fill) + bob;
     final amplitude = (4.0 + 4.5 * fill) * (fill < 0.06 ? fill / 0.06 : 1.0);
+    // When (near) full, push the whole surface above the body top so its wavy
+    // crest + glint line get clipped away by the mask — otherwise a stray
+    // horizontal line shows across the chest.
+    final atTop = fill >= 0.985;
+    final surfaceY = atTop ? -amplitude - 6 : vbH * (1 - fill) + bob;
 
     // Back wave: lighter, slightly higher, drifts right.
     canvas.drawPath(
@@ -234,14 +223,16 @@ class _HumanWaterPainter extends CustomPainter {
         ..style = PaintingStyle.fill,
     );
 
-    // Glint along the front wave crest.
-    canvas.drawPath(
-      _waveLine(surfaceY, amplitude, 1, -phase * 2 * pi + pi / 3),
-      Paint()
-        ..color = Colors.white.withValues(alpha: 0.35)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 3,
-    );
+    // Glint along the front wave crest — hidden when full (no surface to show).
+    if (!atTop) {
+      canvas.drawPath(
+        _waveLine(surfaceY, amplitude, 1, -phase * 2 * pi + pi / 3),
+        Paint()
+          ..color = Colors.white.withValues(alpha: 0.35)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 3,
+      );
+    }
 
     canvas.restore();
 

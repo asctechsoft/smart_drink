@@ -157,6 +157,9 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
                       context,
                       title: 'sleep_time_start'.tr,
                       initialTime: controller.sleepTimeStart.value,
+                      enhanced: true,
+                      subtitle: 'picker_device_format_hint',
+                      infoText: 'reminder_pause_info',
                       onSave: (t) {
                         if (t == controller.sleepTimeEnd.value) {
                           ToastUtils.showToast(
@@ -185,6 +188,9 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
                       context,
                       title: 'sleep_time_end'.tr,
                       initialTime: controller.sleepTimeEnd.value,
+                      enhanced: true,
+                      subtitle: 'picker_device_format_hint',
+                      infoText: 'reminder_pause_info',
                       onSave: (t) {
                         if (t == controller.sleepTimeStart.value) {
                           ToastUtils.showToast(

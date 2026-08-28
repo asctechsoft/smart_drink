@@ -86,7 +86,7 @@ class NapScreen extends StatelessWidget {
                   'nap_title'.tr,
                   style: const TextStyle(
                     color: AppColors.basic500,
-                    fontSize: 17,
+                    fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -119,7 +119,10 @@ class NapScreen extends StatelessWidget {
   }
 
   // ── Time range + duration chips + info ───────────────────────────────────────
-  Widget _buildRangeCard(BuildContext context, OnboardingController controller) {
+  Widget _buildRangeCard(
+    BuildContext context,
+    OnboardingController controller,
+  ) {
     return _card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,13 +145,15 @@ class NapScreen extends StatelessWidget {
                     onTap: () => _pickTime(
                       context,
                       initial: controller.napStart.value,
+                      title: 'nap_start_title'.tr,
                       onSubmit: (t) {
                         controller.napStart.value = t;
                         // Keep the chosen duration: shift end to start + duration.
-                        controller.napEnd.value = OnboardingController.addMinutes(
-                          t,
-                          controller.napDurationMinutes.value,
-                        );
+                        controller.napEnd.value =
+                            OnboardingController.addMinutes(
+                              t,
+                              controller.napDurationMinutes.value,
+                            );
                       },
                     ),
                   ),
@@ -168,13 +173,14 @@ class NapScreen extends StatelessWidget {
                     onTap: () => _pickTime(
                       context,
                       initial: controller.napEnd.value,
+                      title: 'nap_end_title'.tr,
                       onSubmit: (t) {
                         controller.napEnd.value = t;
                         controller.napDurationMinutes.value =
                             OnboardingController.diffMinutes(
-                          controller.napStart.value,
-                          t,
-                        );
+                              controller.napStart.value,
+                              t,
+                            );
                       },
                     ),
                   ),
@@ -225,16 +231,20 @@ class NapScreen extends StatelessWidget {
   void _pickTime(
     BuildContext context, {
     required String initial,
+    required String title,
     required ValueChanged<String> onSubmit,
   }) {
     var picked = initial;
     PrimaryBottomSheet.show(
       context: context,
-      title: 'nap_time_range'.tr,
+      title: title,
       buttonText: 'save'.tr,
       content: WheelTimePicker(
         initialTime: initial,
         onChanged: (t) => picked = t,
+        enhanced: true,
+        subtitle: 'picker_device_format_hint',
+        infoText: 'nap_info',
       ),
       onButtonPressed: () {
         onSubmit(picked);

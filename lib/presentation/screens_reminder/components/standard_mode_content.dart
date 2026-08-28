@@ -554,12 +554,15 @@ void showWheelTimePicker(
   required String title,
   required String initialTime,
   required ValueChanged<String> onSave,
+  bool enhanced = false,
+  String? subtitle,
+  String? infoText,
 }) {
   String selectedTime = initialTime;
   PrimaryBottomSheet.show(
     context: context,
     title: title,
-    buttonText: 'Save',
+    buttonText: 'save',
     onButtonPressed: () {
       Navigator.pop(context);
       onSave(selectedTime);
@@ -567,6 +570,9 @@ void showWheelTimePicker(
     content: WheelTimePicker(
       initialTime: initialTime,
       onChanged: (t) => selectedTime = t,
+      enhanced: enhanced,
+      subtitle: subtitle,
+      infoText: infoText,
     ),
   );
 }

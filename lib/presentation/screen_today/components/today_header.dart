@@ -5,7 +5,11 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 class TodayHeader extends StatelessWidget {
-  const TodayHeader({super.key});
+  const TodayHeader({super.key, this.streakKey, this.chatKey});
+
+  /// Optional keys so a coach-mark can spotlight the header shortcut buttons.
+  final GlobalKey? streakKey;
+  final GlobalKey? chatKey;
 
   /// Greeting keyed to the current time of day.
   String _greeting(int hour) {
@@ -54,25 +58,31 @@ class TodayHeader extends StatelessWidget {
           ),
 
           // Right: streak + avatar shortcuts
-          _CircleButton(
-            onTap: () => Get.toNamed(RouteName.streak),
-            child: Padding(
-              padding: const EdgeInsets.all(5),
-              child: Image.asset(
-                'assets/images/webp/img_drink_streak.webp',
-                fit: BoxFit.contain,
+          KeyedSubtree(
+            key: streakKey,
+            child: _CircleButton(
+              onTap: () => Get.toNamed(RouteName.streak),
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Image.asset(
+                  'assets/images/webp/img_drink_streak.webp',
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),
           const SizedBox(width: 10),
           // Chat bot shortcut (replaced the avatar button).
-          _CircleButton(
-            onTap: () => Get.toNamed(RouteName.chatBot),
-            child: Padding(
-              padding: const EdgeInsets.all(6),
-              child: Image.asset(
-                'assets/images/png/ic_chat_bot.png',
-                fit: BoxFit.contain,
+          KeyedSubtree(
+            key: chatKey,
+            child: _CircleButton(
+              onTap: () => Get.toNamed(RouteName.chatBot),
+              child: Padding(
+                padding: const EdgeInsets.all(6),
+                child: Image.asset(
+                  'assets/images/png/ic_chat_bot.png',
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),

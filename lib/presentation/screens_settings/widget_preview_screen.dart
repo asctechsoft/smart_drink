@@ -459,7 +459,6 @@ class _MediumWidgetA extends StatelessWidget {
                     'next_reminder'.trParams({
                       "args1": UnitConverter.formatTime(
                         controller.nextReminderTime.value,
-                        Get.find<SettingsController>().timeFormat.value,
                       ),
                     }),
                     textAlign: TextAlign.center,
@@ -878,9 +877,6 @@ class _LargeWidget extends StatelessWidget {
       final volumeUnit = Get.isRegistered<SettingsController>()
           ? Get.find<SettingsController>().volumeUnit.value
           : 'ml';
-      final timeFormat = Get.isRegistered<SettingsController>()
-          ? Get.find<SettingsController>().timeFormat.value
-          : '24h';
 
       return Container(
         padding: const EdgeInsets.all(20),
@@ -992,7 +988,6 @@ class _LargeWidget extends StatelessWidget {
                 final color = _getDrinkColor(type);
                 final timeStr = UnitConverter.formatTime(
                   '${r.timestamp.hour.toString().padLeft(2, '0')}:${r.timestamp.minute.toString().padLeft(2, '0')}',
-                  timeFormat,
                 );
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8),

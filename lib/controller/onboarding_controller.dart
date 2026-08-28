@@ -190,6 +190,9 @@ class OnboardingController extends GetxController {
       await prefs.setString(PrefConst.reminderMode, ReminderMode.interval.name);
       await prefs.setString(PrefConst.sleepTimeStart, bedTime.value);
       await prefs.setString(PrefConst.sleepTimeEnd, wakeUpTime.value);
+      await prefs.setBool(PrefConst.napEnabled, napEnabled.value);
+      await prefs.setString(PrefConst.napTimeStart, napStart.value);
+      await prefs.setString(PrefConst.napTimeEnd, napEnd.value);
 
       await NotificationChannel.startOngoingNotification();
 

@@ -7,8 +7,8 @@
     "platforms": {
       "android": {
         "default": {
-          "projectId": "drink-water-1d8a1",
-          "appId": "1:852025725267:android:49f3d2152d5cadcf2a91a6",
+          "projectId": "smartdrink-ai",
+          "appId": "1:879252460066:android:704e691af5de6445c2b07b",
           "fileOutput": "android/app/google-services.json"
         }
       },
@@ -22,10 +22,9 @@
       },
       "dart": {
         "lib/firebase_options.dart": {
-          "projectId": "drink-water-1d8a1",
+          "projectId": "smartdrink-ai",
           "configurations": {
-            "android": "1:852025725267:android:49f3d2152d5cadcf2a91a6",
-            "ios": "1:852025725267:ios:01c98b4130ee58b22a91a6"
+            "android": "1:879252460066:android:704e691af5de6445c2b07b"
           }
         }
       }

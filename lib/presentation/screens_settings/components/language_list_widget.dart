@@ -159,7 +159,7 @@ class LanguageListWidget extends StatelessWidget {
               AppSpacerW(16),
               Expanded(
                 child: AppText(
-                  CommLocalize.getLocaleName(locale),
+                  CommLocalize.getLocaleName(locale).split(' (').first,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

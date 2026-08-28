@@ -61,7 +61,6 @@ class TodayController extends GetxController with WidgetsBindingObserver {
 
   late final Worker _profileWorker;
   Worker? _languageWorker;
-  Worker? _timeFormatWorker;
 
   int get adjustedGoal => profileCtrl.profile.value.dailyGoalMl;
 
@@ -91,7 +90,6 @@ class TodayController extends GetxController with WidgetsBindingObserver {
     if (Get.isRegistered<SettingsController>()) {
       final settingsCtrl = Get.find<SettingsController>();
       _languageWorker = ever(settingsCtrl.language, (_) => loadTodayData());
-      _timeFormatWorker = ever(settingsCtrl.timeFormat, (_) => updateWidget());
     }
 
     _checkPendingWaterAndReload();
@@ -101,7 +99,6 @@ class TodayController extends GetxController with WidgetsBindingObserver {
   void onClose() {
     _profileWorker.dispose();
     _languageWorker?.dispose();
-    _timeFormatWorker?.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.onClose();
   }
@@ -478,15 +475,11 @@ class TodayController extends GetxController with WidgetsBindingObserver {
     final volumeUnit = Get.isRegistered<SettingsController>()
         ? Get.find<SettingsController>().volumeUnit.value
         : 'ml';
-    final timeFormat = Get.isRegistered<SettingsController>()
-        ? Get.find<SettingsController>().timeFormat.value
-        : '24h';
 
     // Build recent drinks list (last 2, newest first) for the large widget
     final recent = todayRecords.reversed.take(2).map((r) {
       final timeStr = UnitConverter.formatTime(
         '${r.timestamp.hour.toString().padLeft(2, '0')}:${r.timestamp.minute.toString().padLeft(2, '0')}',
-        timeFormat,
       );
 
       final String displayAmount;
