@@ -4,10 +4,12 @@ import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
+import 'package:waternudge/presentation/common_components/app_touchable.dart';
 import 'package:waternudge/presentation/common_components/coach_mark.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/screen_today/components/streak_dialog.dart';
 import 'package:waternudge/values/app_colors.dart';
+import 'package:waternudge/values/route_name.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 
 import 'package:get/get.dart';
@@ -346,6 +348,7 @@ class _TodayScreenState extends State<TodayScreen> {
               bg: Colors.white.withValues(alpha: 0.07),
               border: Colors.white.withValues(alpha: 0.1),
               textColor: Colors.white,
+              onTap: () => Get.toNamed(RouteName.streak),
             ),
           ),
           const SizedBox(width: 8),
@@ -376,6 +379,7 @@ class _StatCard extends StatelessWidget {
     required this.bg,
     required this.border,
     required this.textColor,
+    this.onTap,
   });
 
   final Widget? iconWidget;
@@ -385,69 +389,78 @@ class _StatCard extends StatelessWidget {
   final Color bg;
   final Color border;
   final Color textColor;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: border, width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(width: 24, height: 24, child: Center(child: iconWidget)),
-              const SizedBox(width: 4),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 14,
-                  height: 1,
-                  color: Colors.white60,
-                  fontWeight: FontWeight.w600,
+    return AppTouchable(
+      onTap: onTap,
+      borderRadius: const BorderRadius.all(Radius.circular(16)),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        decoration: BoxDecoration(
+          color: bg,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: border, width: 1),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: Center(child: iconWidget),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                value,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  color: textColor,
-                  height: 1,
-                ),
-              ),
-              if (unit.isNotEmpty) ...[
-                const SizedBox(width: 3),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    unit,
-                    style: TextStyle(
-                      fontSize: 12,
-                      height: 1,
-                      color: Colors.white60,
-                      fontWeight: FontWeight.w500,
-                    ),
+                const SizedBox(width: 4),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 14,
+                    height: 1,
+                    color: Colors.white60,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
-            ],
-          ),
-        ],
+            ),
+            const SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                    color: textColor,
+                    height: 1,
+                  ),
+                ),
+                if (unit.isNotEmpty) ...[
+                  const SizedBox(width: 3),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      unit,
+                      style: TextStyle(
+                        fontSize: 12,
+                        height: 1,
+                        color: Colors.white60,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -468,9 +481,9 @@ class _ActionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return AppTouchable(
       onTap: onTap,
-      behavior: HitTestBehavior.opaque,
+      borderRadius: const BorderRadius.all(Radius.circular(16)),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(

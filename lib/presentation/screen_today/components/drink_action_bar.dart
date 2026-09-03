@@ -2,6 +2,7 @@ import 'package:dsp_base/app_material.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/models/ui_models/drink_type.dart';
+import 'package:waternudge/presentation/common_components/app_touchable.dart';
 import 'package:waternudge/presentation/common_components/primary_bottom_sheet.dart';
 import 'package:waternudge/utils/toast_utils.dart';
 import 'package:waternudge/utils/unit_converter.dart';
@@ -144,9 +145,11 @@ class _AddDrinkPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return AppTouchable(
       onTap: onTap,
-      behavior: HitTestBehavior.opaque,
+      borderRadius: const BorderRadius.all(Radius.circular(28)),
+      splashColor: Colors.white.withValues(alpha: 0.32),
+      highlightColor: Colors.white.withValues(alpha: 0.16),
       child: Container(
         height: 56,
         width: Get.width * 0.8,

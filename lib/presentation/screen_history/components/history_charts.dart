@@ -104,29 +104,129 @@ class _AxisUnitLabel extends StatelessWidget {
   }
 }
 
-Widget _axisValue(BuildContext context, double value, {bool compact = false}) {
-  if (value <= 0) {
-    return const Text(
-      '0',
-      textAlign: TextAlign.right,
-      style: TextStyle(fontSize: 10, color: Colors.white70),
-    );
+/// Y-axis tick labels for one chart.
+///
+/// [reservedSize] is measured from the widest tick this chart will actually
+/// draw rather than fixed per tab, because fl_chart centres each label inside
+/// the reserved gutter: a fixed 34 px gutter looks flush with the "Unit (ml)"
+/// caption on the Day tab (four digits, "2000") but leaves the Week tab's
+/// three-digit ticks — and the whole plot with them — floating ~14 px to the
+/// right. Each label then fills the gutter and right-aligns in it, so the ticks
+/// stay lined up against the axis whatever their length.
+class _LeftAxis {
+  _LeftAxis({
+    required this.maxY,
+    required this.interval,
+    required BuildContext context,
+    this.compact = false,
+  }) // Resolved against the ambient default so the measurement below uses the
+    // very same font the label will be painted with. Measuring with a bare
+    // `fontSize: 10` picks up the platform font instead of the app's
+    // PlusJakartaSans, whose wider digits then wrap "2000" onto two lines.
+    : style = DefaultTextStyle.of(context).style.merge(_baseStyle),
+       _scaler = MediaQuery.textScalerOf(context) {
+    var widest = 0.0;
+    if (interval > 0) {
+      // Nudge the bound so the top tick isn't dropped by float drift.
+      for (
+        var value = 0.0;
+        value <= maxY + interval / 1000;
+        value += interval
+      ) {
+        final painter = TextPainter(
+          text: TextSpan(text: _format(value, compact), style: style),
+          textDirection: TextDirection.ltr,
+          textScaler: _scaler,
+        )..layout();
+        widest = math.max(widest, painter.width);
+      }
+    }
+    reservedSize = widest + _gap + _slack;
   }
-  return Text(
-    compact ? UnitConverter.formatCompact(value) : value.round().toString(),
-    textAlign: TextAlign.right,
-    style: const TextStyle(fontSize: 10, color: Colors.white70),
+
+  final double maxY;
+  final double interval;
+  final bool compact;
+
+  /// Style the ticks are both measured and painted with.
+  final TextStyle style;
+
+  final TextScaler _scaler;
+
+  /// Width of the widest tick label, its gap to the axis and [_slack].
+  late final double reservedSize;
+
+  /// Gap between a tick and the axis it labels.
+  static const _gap = 4.0;
+
+  /// Rounding-error cushion. Raise this if a tick ever renders clipped.
+  static const _slack = 1.0;
+
+  static const _baseStyle = TextStyle(fontSize: 10, color: Colors.white70);
+
+  static String _format(double value, bool compact) => value <= 0
+      ? '0'
+      : compact
+      ? UnitConverter.formatCompact(value)
+      : value.round().toString();
+
+  AxisTitles get titles => AxisTitles(
+    sideTitles: SideTitles(
+      showTitles: true,
+      reservedSize: reservedSize,
+      interval: interval,
+      getTitlesWidget: (value, meta) => SizedBox(
+        // Filling the gutter is what makes textAlign.right bite — a bare Text
+        // shrinks to its glyphs and gets centred instead.
+        width: reservedSize,
+        child: Padding(
+          padding: const EdgeInsets.only(right: _gap),
+          child: Text(
+            _format(value, compact),
+            textAlign: TextAlign.right,
+            // The gutter is sized to the widest tick, so a wrap here would
+            // only ever be a measurement slip — fail visibly instead.
+            maxLines: 1,
+            softWrap: false,
+            style: style,
+          ),
+        ),
+      ),
+    ),
   );
 }
 
-FlGridData _grid(BuildContext context, double interval) {
+/// [verticalInterval] adds vertical rules along the X axis; leave it null to
+/// keep horizontal rules only. Only usable on line charts — [BarChartData]
+/// pins minX/maxX to 0..1, so vertical grid lines there land nowhere near the
+/// bars. Bar charts get [_rodTrack] instead.
+FlGridData _grid(
+  BuildContext context,
+  double interval, {
+  double? verticalInterval,
+}) {
   final ob = OnboardingTheme.of(context);
   return FlGridData(
     show: true,
-    drawVerticalLine: false,
+    drawVerticalLine: verticalInterval != null,
+    verticalInterval: verticalInterval,
     horizontalInterval: interval,
     getDrawingHorizontalLine: (_) =>
         FlLine(color: ob.textPrimary.withValues(alpha: 0.12), strokeWidth: 0.6),
+    getDrawingVerticalLine: (_) =>
+        FlLine(color: ob.textPrimary.withValues(alpha: 0.18), strokeWidth: 1),
+  );
+}
+
+/// Faint full-height track drawn behind a bar, marking the column the intake
+/// fills. Gives every chart vertical structure aligned exactly to the bars,
+/// which [FlGridData.drawVerticalLine] cannot do on a bar chart.
+BackgroundBarChartRodData _rodTrack(BuildContext context, double maxY) {
+  final ob = OnboardingTheme.of(context);
+  return BackgroundBarChartRodData(
+    show: true,
+    toY: maxY,
+    color: ob.textPrimary.withValues(alpha: 0.08),
   );
 }
 
@@ -256,6 +356,11 @@ class DayHourlyChart extends StatelessWidget {
       divisions: 5,
     );
     final interval = maxY / 5;
+    final leftAxis = _LeftAxis(
+      maxY: maxY,
+      interval: interval,
+      context: context,
+    );
     final showGoal = dailyGoal > 0;
 
     final groups = <BarChartGroupData>[
@@ -268,6 +373,7 @@ class DayHourlyChart extends StatelessWidget {
               gradient: _ChartStyle.barGradient,
               width: 10,
               borderRadius: BorderRadius.zero,
+              backDrawRodData: _rodTrack(context, maxY),
             ),
           ],
         ),
@@ -316,24 +422,7 @@ class DayHourlyChart extends StatelessWidget {
                 topTitles: const AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
                 ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 34,
-                    interval: interval,
-                    getTitlesWidget: (value, meta) {
-                      final label = value <= 0 ? '0' : value.round().toString();
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 4),
-                        child: Text(
-                          label,
-                          textAlign: TextAlign.right,
-                          style: TextStyle(fontSize: 10, color: Colors.white70),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                leftTitles: leftAxis.titles,
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
@@ -533,14 +622,14 @@ class WeekBarChart extends StatelessWidget {
     final dataMax = values.fold<double>(0, (m, v) => v > m ? v : m);
     // Five divisions and a non-zero floor, as on the Day tab, so an empty week
     // still draws a full gridline ladder instead of collapsing onto the axis.
-    final axis = _Axis.fit(
-      dataMax,
-      goal,
-      divisions: 5,
-      floor: isOz ? 8 : 100,
-    );
+    final axis = _Axis.fit(dataMax, goal, divisions: 5, floor: isOz ? 8 : 100);
     final maxY = axis.maxY;
     final interval = axis.interval;
+    final leftAxis = _LeftAxis(
+      maxY: maxY,
+      interval: interval,
+      context: context,
+    );
 
     const labels = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
@@ -569,6 +658,7 @@ class WeekBarChart extends StatelessWidget {
                         gradient: _ChartStyle.barGradient,
                         width: 18,
                         borderRadius: BorderRadius.zero,
+                        backDrawRodData: _rodTrack(context, maxY),
                       ),
                     ],
                   ),
@@ -588,17 +678,7 @@ class WeekBarChart extends StatelessWidget {
                 topTitles: const AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
                 ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 34,
-                    interval: interval,
-                    getTitlesWidget: (value, meta) => Padding(
-                      padding: const EdgeInsets.only(right: 4),
-                      child: _axisValue(context, value),
-                    ),
-                  ),
-                ),
+                leftTitles: leftAxis.titles,
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
@@ -663,6 +743,11 @@ class MonthLineChart extends StatelessWidget {
     final axis = _Axis.fit(dataMax, goal, divisions: 3);
     final maxY = axis.maxY;
     final interval = axis.interval;
+    final leftAxis = _LeftAxis(
+      maxY: maxY,
+      interval: interval,
+      context: context,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -687,7 +772,8 @@ class MonthLineChart extends StatelessWidget {
                       ),
                     )
                   : ExtraLinesData(),
-              gridData: _grid(context, interval),
+              // Matches the day labels below (1st, then every 5th).
+              gridData: _grid(context, interval, verticalInterval: 5),
               borderData: _bottomBorderOnly(context),
               lineTouchData: const LineTouchData(enabled: false),
               lineBarsData: [
@@ -731,17 +817,7 @@ class MonthLineChart extends StatelessWidget {
                 topTitles: const AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
                 ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 38,
-                    interval: interval,
-                    getTitlesWidget: (value, meta) => Padding(
-                      padding: const EdgeInsets.only(right: 6),
-                      child: _axisValue(context, value),
-                    ),
-                  ),
-                ),
+                leftTitles: leftAxis.titles,
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
@@ -810,6 +886,11 @@ class MonthBarChart extends StatelessWidget {
     final axis = _Axis.fit(dataMax, goal, divisions: 4);
     final maxY = axis.maxY;
     final interval = axis.interval;
+    final leftAxis = _LeftAxis(
+      maxY: maxY,
+      interval: interval,
+      context: context,
+    );
     final lastDay = dailyTotals.length;
 
     return Column(
@@ -844,6 +925,7 @@ class MonthBarChart extends StatelessWidget {
                         gradient: _ChartStyle.barGradient,
                         width: 6,
                         borderRadius: BorderRadius.zero,
+                        backDrawRodData: _rodTrack(context, maxY),
                       ),
                     ],
                   ),
@@ -859,17 +941,7 @@ class MonthBarChart extends StatelessWidget {
                 topTitles: const AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
                 ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 38,
-                    interval: interval,
-                    getTitlesWidget: (value, meta) => Padding(
-                      padding: const EdgeInsets.only(right: 6),
-                      child: _axisValue(context, value),
-                    ),
-                  ),
-                ),
+                leftTitles: leftAxis.titles,
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
@@ -936,6 +1008,11 @@ class YearGoalRateChart extends StatelessWidget {
       divisions: 4,
     );
     final interval = maxY / 4;
+    final leftAxis = _LeftAxis(
+      maxY: maxY,
+      interval: interval,
+      context: context,
+    );
 
     final barData = LineChartBarData(
       spots: spots,
@@ -984,14 +1061,13 @@ class YearGoalRateChart extends StatelessWidget {
                 targetPct,
                 '${targetPct.round()}%',
               ),
-              gridData: _grid(context, interval),
+              // One rule per month, matching the T1–T12 labels below.
+              gridData: _grid(context, interval, verticalInterval: 1),
               borderData: _bottomBorderOnly(context),
               lineBarsData: [barData],
               showingTooltipIndicators: [
                 for (var i = 0; i < spots.length; i++)
-                  ShowingTooltipIndicators([
-                    LineBarSpot(barData, 0, spots[i]),
-                  ]),
+                  ShowingTooltipIndicators([LineBarSpot(barData, 0, spots[i])]),
               ],
               lineTouchData: LineTouchData(
                 enabled: false,
@@ -1020,17 +1096,7 @@ class YearGoalRateChart extends StatelessWidget {
                 topTitles: const AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
                 ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 34,
-                    interval: interval,
-                    getTitlesWidget: (value, meta) => Padding(
-                      padding: const EdgeInsets.only(right: 6),
-                      child: _axisValue(context, value),
-                    ),
-                  ),
-                ),
+                leftTitles: leftAxis.titles,
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
@@ -1105,6 +1171,12 @@ class YearBarChart extends StatelessWidget {
     final axis = _Axis.fit(dataMax, avgMonthlyGoal, divisions: 3);
     final maxY = axis.maxY;
     final interval = axis.interval;
+    final leftAxis = _LeftAxis(
+      maxY: maxY,
+      interval: interval,
+      context: context,
+      compact: true,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1131,6 +1203,7 @@ class YearBarChart extends StatelessWidget {
                         gradient: _ChartStyle.barGradient,
                         width: 13,
                         borderRadius: BorderRadius.zero,
+                        backDrawRodData: _rodTrack(context, maxY),
                       ),
                     ],
                   ),
@@ -1149,17 +1222,7 @@ class YearBarChart extends StatelessWidget {
                 topTitles: const AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
                 ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 38,
-                    interval: interval,
-                    getTitlesWidget: (value, meta) => Padding(
-                      padding: const EdgeInsets.only(right: 6),
-                      child: _axisValue(context, value, compact: true),
-                    ),
-                  ),
-                ),
+                leftTitles: leftAxis.titles,
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
