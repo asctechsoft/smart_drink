@@ -257,6 +257,7 @@
     <string name="settings_feedback_desc">Share your thoughts with us</string>
     <string name="settings_share">Share App</string>
     <string name="settings_share_desc">Invite friends to drink water</string>
+    <string name="settings_share_message">I am using this app to drink enough water every day. Try it with me!</string>
     <string name="settings_logout">Log out</string>
     <string name="settings_logout_desc">Sign out of your account</string>
     <string name="logout_confirm_title">Log out?</string>
@@ -300,4 +301,13 @@
     <string name="nap_toggle_desc">Pause reminders while you nap</string>
     <string name="nap_time_range">Nap time</string>
     <string name="nap_info">During this period, the app won\'t send drink reminders.</string>
+    <string name="chat_typing">Typing…</string>
+    <string name="chat_retry">Try again</string>
+    <string name="chat_disclaimer">For reference only, not a substitute for medical advice.</string>
+    <string name="chat_error_offline">No internet connection. Check your network and try again.</string>
+    <string name="chat_error_auth">Couldn\'t verify your device. Please try again in a moment.</string>
+    <string name="chat_error_quota_minute">That is a lot of questions at once. Try again in %1$s seconds.</string>
+    <string name="chat_error_quota_day">You have used up today\'s questions. See you tomorrow!</string>
+    <string name="chat_error_too_long">That message is too long. Please shorten it and send again.</string>
+    <string name="chat_error_generic">The assistant couldn\'t answer right now. Please try again.</string>
 </resources>

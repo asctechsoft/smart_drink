@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import '../controller/chat_controller.dart';
 import '../controller/onboarding_controller.dart';
 import '../controller/reminder_controller.dart';
 import '../controller/languages_controller.dart';
@@ -93,7 +94,13 @@ class AppPages {
       }),
     ),
     GetPage(name: RouteName.avatarSelection, page: () => const AvatarScreen()),
-    GetPage(name: RouteName.chatBot, page: () => const ChatBotScreen()),
+    GetPage(
+      name: RouteName.chatBot,
+      page: () => const ChatBotScreen(),
+      binding: BindingsBuilder(() {
+        Get.put(ChatController());
+      }),
+    ),
     GetPage(name: RouteName.feedback, page: () => const FeedbackScreen()),
     GetPage(name: RouteName.premium, page: () => const PremiumScreen()),
     GetPage(

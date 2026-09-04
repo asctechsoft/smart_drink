@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:waternudge/configs/ai_gateway_config.dart';
+import 'package:waternudge/controller/chat_controller.dart';
+import 'package:waternudge/models/ui_models/chat_message.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 
-/// AI chat assistant screen ("Hỏi AI"). UI-first: the input appends the user's
-/// message and a canned assistant reply — no live backend yet.
+/// AI chat assistant screen ("Hỏi AI").
+///
+/// Every message goes to `server_gateway_ai`, which holds the provider key and
+/// the system prompt; [ChatController] owns the transcript and the in-flight
+/// state, so this file is only the presentation of it.
 class ChatBotScreen extends StatefulWidget {
   const ChatBotScreen({super.key});
 
@@ -22,26 +28,20 @@ const _kOnBg = Colors.white; // text on the dark background
 const _kOnBgSoft = Colors.white70;
 const _kUserBubble = Color(0xFFDCEAFB);
 const _kCardBorder = Color(0x14243A5E);
-
-class _ChatMessage {
-  final bool isUser;
-  final String text;
-  final String time;
-  const _ChatMessage({
-    required this.isUser,
-    required this.text,
-    required this.time,
-  });
-}
+const _kError = Color(0xFFD14343);
 
 class _ChatBotScreenState extends State<ChatBotScreen> {
   final _inputCtrl = TextEditingController();
   final _scrollCtrl = ScrollController();
+  final ChatController _chat = ChatController.to;
 
   // Suggestion chips.
   static const _topChips = [
     (icon: Icons.water_drop_outlined, label: 'Uống bao nhiêu nước là đủ?'),
-    (icon: Icons.bedtime_outlined, label: 'Uống nước trước khi ngủ có tốt không?'),
+    (
+      icon: Icons.bedtime_outlined,
+      label: 'Uống nước trước khi ngủ có tốt không?',
+    ),
     (icon: Icons.directions_run_rounded, label: 'Uống nước khi vận động thế nào?'),
   ];
   static const _bottomChips = [
@@ -50,63 +50,45 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     (icon: Icons.directions_run_rounded, label: 'Uống nước khi tập luyện'),
   ];
 
-  late List<_ChatMessage> _messages;
+  final List<Worker> _workers = [];
 
   @override
   void initState() {
     super.initState();
-    _messages = _seed();
+    // Every append should land in view, including the assistant's reply, which
+    // arrives long after the send.
+    _workers
+      ..add(ever(_chat.messages, (_) => _scrollToBottom()))
+      ..add(ever(_chat.isSending, (_) => _scrollToBottom()));
   }
-
-  List<_ChatMessage> _seed() => const [
-        _ChatMessage(
-          isUser: true,
-          text: 'Uống bao nhiêu nước là đủ?',
-          time: '09:41',
-        ),
-      ];
 
   @override
   void dispose() {
+    for (final worker in _workers) {
+      worker.dispose();
+    }
     _inputCtrl.dispose();
     _scrollCtrl.dispose();
     super.dispose();
   }
 
-  String _now() {
-    final t = TimeOfDay.fromDateTime(DateTime.now());
-    return '${t.hour.toString().padLeft(2, '0')}:'
-        '${t.minute.toString().padLeft(2, '0')}';
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_scrollCtrl.hasClients) return;
+      _scrollCtrl.animateTo(
+        _scrollCtrl.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    });
   }
 
   void _send(String raw) {
-    final text = raw.trim();
-    if (text.isEmpty) return;
-    setState(() {
-      _messages.add(_ChatMessage(isUser: true, text: text, time: _now()));
-      _messages.add(
-        _ChatMessage(
-          isUser: false,
-          time: _now(),
-          text: 'Mình đã ghi nhận câu hỏi của bạn. Trợ lý AI sẽ trả lời chi '
-              'tiết về "$text" ở đây.',
-        ),
-      );
-    });
+    if (_chat.isSending.value) return;
+    if (raw.trim().isEmpty) return;
     _inputCtrl.clear();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollCtrl.hasClients) {
-        _scrollCtrl.animateTo(
-          _scrollCtrl.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
-    });
-  }
-
-  void _newChat() {
-    setState(() => _messages = _seed());
+    FocusScope.of(context).unfocus();
+    _chat.send(raw);
   }
 
   @override
@@ -119,19 +101,22 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
             children: [
               _buildHeader(),
               Expanded(
-                child: ListView(
-                  controller: _scrollCtrl,
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-                  children: [
-                    _buildIntro(),
-                    const SizedBox(height: 16),
-                    _buildChipRow(_topChips),
-                    const SizedBox(height: 18),
-                    for (var i = 0; i < _messages.length; i++) ...[
-                      _buildMessage(_messages[i]),
-                      const SizedBox(height: 14),
+                child: Obx(
+                  () => ListView(
+                    controller: _scrollCtrl,
+                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                    children: [
+                      _buildIntro(),
+                      const SizedBox(height: 16),
+                      _buildChipRow(_topChips),
+                      const SizedBox(height: 18),
+                      for (final message in _chat.messages) ...[
+                        _buildMessage(message),
+                        const SizedBox(height: 14),
+                      ],
+                      if (_chat.isSending.value) _buildTyping(),
                     ],
-                  ],
+                  ),
                 ),
               ),
               _buildChipRow(_bottomChips),
@@ -183,7 +168,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
           ),
           _circleBtn(
             child: const Icon(Icons.add_rounded, color: _kInk, size: 24),
-            onTap: _newChat,
+            onTap: _chat.newChat,
           ),
         ],
       ),
@@ -230,7 +215,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   }
 
   // ── Message bubble ────────────────────────────────────────────────────────────
-  Widget _buildMessage(_ChatMessage m) {
+  Widget _buildMessage(ChatMessage m) {
     if (m.isUser) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,7 +247,10 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(m.time, style: const TextStyle(color: _kOnBgSoft, fontSize: 11)),
+                Text(
+                  m.timeLabel,
+                  style: const TextStyle(color: _kOnBgSoft, fontSize: 11),
+                ),
               ],
             ),
           ),
@@ -293,27 +281,111 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               children: [
                 Text(
                   m.text,
-                  style: const TextStyle(color: _kInk, fontSize: 14, height: 1.5),
+                  style: TextStyle(
+                    color: m.isError ? _kError : _kInk,
+                    fontSize: 14,
+                    height: 1.5,
+                  ),
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  children: [
-                    const Icon(Icons.info_outline_rounded,
-                        color: _kInkSoft, size: 15),
-                    const SizedBox(width: 6),
-                    const Expanded(
-                      child: Text(
-                        'Thông tin mang tính tham khảo, không thay thế tư vấn y tế.',
-                        style: TextStyle(color: _kInkSoft, fontSize: 11.5),
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    Text(m.time,
-                        style: const TextStyle(color: _kInkSoft, fontSize: 11)),
-                  ],
+                if (m.isError) _buildErrorFooter(m) else _buildReplyFooter(m),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Answers carry the medical disclaimer — the server prompt tells the model
+  /// to defer to a professional, and this repeats it where the user reads.
+  Widget _buildReplyFooter(ChatMessage m) {
+    return Row(
+      children: [
+        const Icon(Icons.info_outline_rounded, color: _kInkSoft, size: 15),
+        const SizedBox(width: 6),
+        Expanded(
+          child: Text(
+            'chat_disclaimer'.tr,
+            style: const TextStyle(color: _kInkSoft, fontSize: 11.5),
+          ),
+        ),
+        const SizedBox(width: 6),
+        Text(
+          m.timeLabel,
+          style: const TextStyle(color: _kInkSoft, fontSize: 11),
+        ),
+      ],
+    );
+  }
+
+  /// A retry button only when the controller kept the message — a rejected
+  /// request would fail the same way and spend another call from the quota.
+  Widget _buildErrorFooter(ChatMessage m) {
+    return Row(
+      children: [
+        const Icon(Icons.error_outline_rounded, color: _kError, size: 15),
+        const SizedBox(width: 6),
+        if (_chat.canRetry)
+          GestureDetector(
+            onTap: _chat.retry,
+            behavior: HitTestBehavior.opaque,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.refresh_rounded, color: _kBlue, size: 16),
+                const SizedBox(width: 4),
+                Text(
+                  'chat_retry'.tr,
+                  style: const TextStyle(
+                    color: _kBlue,
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ],
             ),
+          ),
+        const Spacer(),
+        Text(
+          m.timeLabel,
+          style: const TextStyle(color: _kInkSoft, fontSize: 11),
+        ),
+      ],
+    );
+  }
+
+  // ── Typing indicator ────────────────────────────────────────────────────────
+  Widget _buildTyping() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Image.asset(
+          'assets/images/png/ic_bot.png',
+          width: 40,
+          height: 40,
+          fit: BoxFit.contain,
+        ),
+        const SizedBox(width: 8),
+        _cardBox(
+          width: null,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(
+                width: 14,
+                height: 14,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation(_kBlue),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                'chat_typing'.tr,
+                style: const TextStyle(color: _kInkSoft, fontSize: 13),
+              ),
+            ],
           ),
         ),
       ],
@@ -370,70 +442,97 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
 
   // ── Input bar ────────────────────────────────────────────────────────────────
   Widget _buildInputBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(28),
-                border: Border.all(color: _kCardBorder),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.auto_awesome_rounded, color: _kBlue, size: 20),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: TextField(
-                      controller: _inputCtrl,
-                      textInputAction: TextInputAction.send,
-                      onSubmitted: _send,
-                      cursorColor: _kBlue,
-                      style: const TextStyle(color: _kInk, fontSize: 14.5),
-                      decoration: const InputDecoration(
-                        hintText: 'Hỏi AI...',
-                        hintStyle: TextStyle(color: _kInkSoft, fontSize: 14.5),
-                        border: InputBorder.none,
-                        isCollapsed: true,
-                        contentPadding: EdgeInsets.symmetric(vertical: 16),
+    return Obx(() {
+      final sending = _chat.isSending.value;
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(28),
+                  border: Border.all(color: _kCardBorder),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.auto_awesome_rounded, color: _kBlue, size: 20),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: TextField(
+                        controller: _inputCtrl,
+                        enabled: !sending,
+                        textInputAction: TextInputAction.send,
+                        onSubmitted: _send,
+                        // The gateway rejects anything longer, so stop the
+                        // keyboard rather than the server.
+                        maxLength: AiGatewayConfig.maxPromptChars,
+                        buildCounter:
+                            (
+                              _, {
+                              required currentLength,
+                              required isFocused,
+                              maxLength,
+                            }) => null,
+                        cursorColor: _kBlue,
+                        style: const TextStyle(color: _kInk, fontSize: 14.5),
+                        decoration: const InputDecoration(
+                          hintText: 'Hỏi AI...',
+                          hintStyle: TextStyle(color: _kInkSoft, fontSize: 14.5),
+                          border: InputBorder.none,
+                          isCollapsed: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 16),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  const Icon(Icons.mic_none_rounded, color: _kInkSoft, size: 22),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          GestureDetector(
-            onTap: () => _send(_inputCtrl.text),
-            child: Container(
-              width: 52,
-              height: 52,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [_kBlue, _kBlueDeep],
+                    const SizedBox(width: 8),
+                    const Icon(Icons.mic_none_rounded, color: _kInkSoft, size: 22),
+                  ],
                 ),
               ),
-              child: const Icon(Icons.send_rounded, color: Colors.white, size: 22),
             ),
-          ),
-        ],
-      ),
-    );
+            const SizedBox(width: 10),
+            GestureDetector(
+              onTap: sending ? null : () => _send(_inputCtrl.text),
+              child: Opacity(
+                opacity: sending ? 0.5 : 1,
+                child: Container(
+                  width: 52,
+                  height: 52,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [_kBlue, _kBlueDeep],
+                    ),
+                  ),
+                  child: sending
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                          ),
+                        )
+                      : const Icon(Icons.send_rounded, color: Colors.white, size: 22),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   // ── Small helpers ────────────────────────────────────────────────────────────
-  Widget _cardBox({required Widget child}) {
+  Widget _cardBox({required Widget child, double? width = double.infinity}) {
     return Container(
-      width: double.infinity,
+      width: width,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,

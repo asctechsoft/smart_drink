@@ -7,6 +7,7 @@ import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/auth_loading_overlay.dart';
 import 'package:waternudge/presentation/common_components/custom_switch.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/utils/share_utils.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -256,7 +257,7 @@ class SettingsScreen extends StatelessWidget {
                       iconData: Icons.share_outlined,
                       title: 'settings_share'.tr,
                       subtitle: 'settings_share_desc'.tr,
-                      onTap: () {},
+                      onTap: () => ShareUtils.shareApp(context),
                     ),
                     // Logout at the very bottom, only when signed in
                     Obx(

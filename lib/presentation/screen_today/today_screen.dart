@@ -5,6 +5,7 @@ import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/app_touchable.dart';
+import 'package:waternudge/presentation/common_components/bubble_celebration.dart';
 import 'package:waternudge/presentation/common_components/coach_mark.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/screen_today/components/streak_dialog.dart';
@@ -26,6 +27,7 @@ class TodayScreen extends StatefulWidget {
 
 class _TodayScreenState extends State<TodayScreen> {
   Worker? _streakWorker;
+  Worker? _goalWorker;
 
   // Coach-mark spotlight targets.
   final GlobalKey _drinkKey = GlobalKey();
@@ -45,6 +47,10 @@ class _TodayScreenState extends State<TodayScreen> {
           currentStreak: controller.streakDays.value,
         );
       }
+    });
+
+    _goalWorker = ever(controller.goalReachedEvent, (_) {
+      if (mounted) showBubbleCelebration(context);
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _maybeShowCoachMarks());
@@ -82,6 +88,7 @@ class _TodayScreenState extends State<TodayScreen> {
   @override
   void dispose() {
     _streakWorker?.dispose();
+    _goalWorker?.dispose();
     super.dispose();
   }
 

@@ -11,7 +11,13 @@ class AuthController extends GetxController {
   final Rx<User?> user = Rx<User?>(null);
   final RxBool isLoading = false.obs;
 
-  bool get isLoggedIn => user.value != null;
+  /// Signed in with a real account.
+  ///
+  /// The AI chat signs in anonymously to get an ID token for the gateway's
+  /// per-user quota, so `user != null` alone would light up the Settings
+  /// profile row and its "Log out" entry for someone who never signed in.
+  bool get isLoggedIn =>
+      user.value != null && !(user.value?.isAnonymous ?? false);
   String get displayName => user.value?.displayName ?? '';
   String get email => user.value?.email ?? '';
   String? get photoUrl => user.value?.photoURL;

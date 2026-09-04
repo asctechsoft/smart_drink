@@ -257,6 +257,7 @@
     <string name="settings_feedback_desc">Chia sẻ ý kiến của bạn với chúng tôi</string>
     <string name="settings_share">Chia sẻ ứng dụng</string>
     <string name="settings_share_desc">Mời bạn bè cùng uống nước</string>
+    <string name="settings_share_message">Mình đang dùng app này để uống đủ nước mỗi ngày. Thử cùng mình nhé!</string>
     <string name="settings_logout">Đăng xuất</string>
     <string name="settings_logout_desc">Đăng xuất khỏi tài khoản</string>
     <string name="logout_confirm_title">Đăng xuất?</string>
@@ -300,4 +301,13 @@
     <string name="nap_toggle_desc">Tạm dừng nhắc nước khi bạn nghỉ trưa</string>
     <string name="nap_time_range">Khung giờ ngủ trưa</string>
     <string name="nap_info">Trong khung giờ này, ứng dụng sẽ không gửi nhắc uống nước.</string>
+    <string name="chat_typing">Đang trả lời…</string>
+    <string name="chat_retry">Thử lại</string>
+    <string name="chat_disclaimer">Thông tin mang tính tham khảo, không thay thế tư vấn y tế.</string>
+    <string name="chat_error_offline">Không có kết nối mạng. Hãy kiểm tra kết nối và thử lại.</string>
+    <string name="chat_error_auth">Không xác thực được thiết bị. Vui lòng thử lại sau ít phút.</string>
+    <string name="chat_error_quota_minute">Bạn hỏi hơi nhanh rồi. Thử lại sau %1$s giây nhé.</string>
+    <string name="chat_error_quota_day">Bạn đã dùng hết lượt hỏi hôm nay. Hẹn gặp lại ngày mai nhé!</string>
+    <string name="chat_error_too_long">Câu hỏi quá dài. Hãy viết ngắn gọn hơn và gửi lại.</string>
+    <string name="chat_error_generic">Trợ lý chưa trả lời được lúc này. Vui lòng thử lại.</string>
 </resources>

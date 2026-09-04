@@ -10,7 +10,6 @@ import 'package:waternudge/services/application/drink_data_service.dart';
 import 'package:waternudge/services/native/notification_channel.dart';
 import 'package:waternudge/services/native/widget_channel.dart';
 import 'package:waternudge/utils/date_utils.dart';
-import 'package:waternudge/utils/loading_utils.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/utils/water_calculation.dart';
 import 'package:flutter/widgets.dart';
@@ -33,6 +32,11 @@ class TodayController extends GetxController with WidgetsBindingObserver {
   final RxInt streakDays = 0.obs;
   // Emits previousStreak when streak just incremented for the first time today.
   final Rx<int?> streakIncreasedEvent = Rx<int?>(null);
+
+  // Bumped each time intake crosses up over the daily goal. A counter rather
+  // than a flag so a second crossing (after deleting a record, say) still
+  // notifies — `ever` only fires when the value actually changes.
+  final RxInt goalReachedEvent = 0.obs;
 
   // Drink-action state shared between the top stat row (cup size / menu) and the
   // add-drink bar. Kept here so both widgets read and mutate the same choice.
@@ -278,7 +282,7 @@ class TodayController extends GetxController with WidgetsBindingObserver {
     _refreshHistoryIfNeeded();
 
     if (wasBelowGoal && currentIntakeMl.value >= adjustedGoal) {
-      LoadingUtils.showConfetti();
+      goalReachedEvent.value++;
     }
 
     // Show streak dialog once per day when streak increments.
@@ -542,4 +546,3 @@ class TodayController extends GetxController with WidgetsBindingObserver {
     );
   }
 }
-

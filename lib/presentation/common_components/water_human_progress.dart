@@ -45,8 +45,8 @@ class _WaterHumanProgressState extends State<WaterHumanProgress>
   // Silhouette + its viewBox, switched by gender. Both the outline and the
   // clipped water rise must use the same asset/geometry.
   String get _asset => widget.isFemale
-      ? "assets/images/png/img_women_drink.png"
-      : "assets/images/png/img_human_drink.png";
+      ? "assets/images/png/img_women.png"
+      : "assets/images/png/img_men.png";
   // Logical wave-space coords; only the ratio matters (painter scales to size).
   double get vbW => 198.67; // 298 / 1.5
   double get vbH => 298;

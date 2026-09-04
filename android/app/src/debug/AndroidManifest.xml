@@ -4,4 +4,9 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- Debug only, so a gateway running on the developer's machine can be
+         reached over plain http (AI_GATEWAY_URL, 10.0.2.2 from the emulator).
+         Release builds keep Android's cleartext block and must use https. -->
+    <application android:usesCleartextTraffic="true" />
 </manifest>
