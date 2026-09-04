@@ -4,3 +4,6 @@
 [submodule "server_noti_drink"]
 	path = server_noti_drink
 	url = https://github.com/asctechsoft/server_noti_drink.git
+[submodule "server_gateway_ai"]
+	path = server_gateway_ai
+	url = https://github.com/Duc113311/server-gateway-ai.git
