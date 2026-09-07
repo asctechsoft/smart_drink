@@ -193,6 +193,8 @@
     <string name="wake_up_and_bedtime_cannot_be_same">Wake-up and bedtime must differ</string>
     <string name="sleep_start_end_cannot_be_same">Start and end must differ</string>
     <string name="interval_min_5">Interval must be at least 5 minutes</string>
+    <string name="interval_picker_hint">Choose the gap between reminders</string>
+    <string name="interval_pill_info">You'll be reminded every %1$s.</string>
     <string name="the_target_cannot_exceed">The target cannot exceed %1$s</string>
     <string name="drink">Drink</string>
     <string name="coming_soon">Coming soon</string>

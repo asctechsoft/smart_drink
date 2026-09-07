@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dsp_base/app_localize.dart';
@@ -65,6 +66,29 @@ class AiChatReply {
   });
 }
 
+/// One event from [AiChatService.sendStream]: either a [delta] of new text or
+/// the terminal event ([done] = true) carrying the model and token usage.
+class AiChatEvent {
+  final String delta;
+  final bool done;
+  final String model;
+  final int inputTokens;
+  final int outputTokens;
+
+  const AiChatEvent.delta(this.delta)
+    : done = false,
+      model = '',
+      inputTokens = 0,
+      outputTokens = 0;
+
+  const AiChatEvent.done({
+    required this.model,
+    required this.inputTokens,
+    required this.outputTokens,
+  }) : delta = '',
+       done = true;
+}
+
 /// Client for `server_gateway_ai`'s `POST /v1/chat`.
 ///
 /// The provider key lives on the gateway, so this class only ever handles a
@@ -98,6 +122,76 @@ class AiChatService {
   /// Throws [AiChatException] for every failure; the caller never sees a raw
   /// socket or format error.
   Future<AiChatReply> send(List<ChatMessage> history) async {
+    final body = _requestBody(history, stream: false);
+
+    // An expired ID token is the routine 401 here, and `getIdToken(true)`
+    // fixes it — so one forced-refresh retry, then give up rather than loop.
+    var forceRefresh = false;
+    while (true) {
+      final token = await _tokenProvider(forceRefresh: forceRefresh);
+      final response = await _post(body, token);
+
+      if (response.statusCode == 401 && !forceRefresh) {
+        forceRefresh = true;
+        continue;
+      }
+      return _parse(response);
+    }
+  }
+
+  /// Same call as [send] but yields the reply as it arrives from the gateway's
+  /// Server-Sent-Events stream: [AiChatEvent.delta] for each token, then one
+  /// [AiChatEvent.done] with the model and usage.
+  ///
+  /// Throws [AiChatException] for every failure, whether it strikes before the
+  /// first byte (a real status) or mid-stream (an in-band error event).
+  Stream<AiChatEvent> sendStream(List<ChatMessage> history) async* {
+    final body = _requestBody(history, stream: true);
+
+    var forceRefresh = false;
+    while (true) {
+      final token = await _tokenProvider(forceRefresh: forceRefresh);
+
+      final request = http.Request('POST', AiGatewayConfig.chatEndpoint)
+        ..headers['content-type'] = 'application/json'
+        ..headers['authorization'] = 'Bearer $token'
+        ..body = body;
+
+      http.StreamedResponse response;
+      try {
+        response = await _client
+            .send(request)
+            .timeout(AiGatewayConfig.requestTimeout);
+      } catch (e) {
+        throw AiChatException(
+          AiChatException.codeNetwork,
+          retryable: true,
+          detail: '${AiGatewayConfig.chatEndpoint}: $e',
+        );
+      }
+
+      // An expired token is the routine 401; drain the socket and retry once
+      // with a fresh one before giving up.
+      if (response.statusCode == 401 && !forceRefresh) {
+        await response.stream.drain<void>();
+        forceRefresh = true;
+        continue;
+      }
+
+      if (response.statusCode != 200) {
+        final text = await response.stream.bytesToString();
+        throw _httpError(response.statusCode, response.headers, text);
+      }
+
+      yield* _parseSse(response);
+      return;
+    }
+  }
+
+  /// Trims the transcript to what the gateway will keep and encodes the wire
+  /// body. Throws `last_not_user` when the last turn is not the user's, which
+  /// the gateway would otherwise reject with a 400.
+  String _requestBody(List<ChatMessage> history, {required bool stream}) {
     // Error bubbles are ours, not the model's: replaying one would tell the
     // model it had already said "the assistant couldn't answer", and bill for
     // the privilege.
@@ -117,23 +211,81 @@ class AiChatService {
       );
     }
 
-    final body = jsonEncode({
+    return jsonEncode({
+      if (stream) 'stream': true,
       'messages': turns.map((m) => m.toWireJson()).toList(),
       'locale': _localeTag(),
     });
+  }
 
-    // An expired ID token is the routine 401 here, and `getIdToken(true)`
-    // fixes it — so one forced-refresh retry, then give up rather than loop.
-    var forceRefresh = false;
-    while (true) {
-      final token = await _tokenProvider(forceRefresh: forceRefresh);
-      final response = await _post(body, token);
+  /// Parses the SSE body: `data: {...}` lines, one JSON object each. A
+  /// `{"error":...}` event or a network stall mid-stream surfaces as an
+  /// [AiChatException], exactly as a failed non-streaming call would.
+  Stream<AiChatEvent> _parseSse(http.StreamedResponse response) async* {
+    // A gap between events longer than the deadline means the connection
+    // stalled — treat it as a retryable network failure, not a hang.
+    final lines = response.stream
+        .timeout(AiGatewayConfig.requestTimeout)
+        .transform(utf8.decoder)
+        .transform(const LineSplitter());
 
-      if (response.statusCode == 401 && !forceRefresh) {
-        forceRefresh = true;
-        continue;
+    try {
+      await for (final line in lines) {
+        if (!line.startsWith('data:')) continue;
+        final payload = line.substring(5).trim();
+        if (payload.isEmpty || payload == '[DONE]') continue;
+
+        Map<String, dynamic> obj;
+        try {
+          final decoded = jsonDecode(payload);
+          if (decoded is! Map<String, dynamic>) continue;
+          obj = decoded;
+        } catch (_) {
+          continue;
+        }
+
+        final error = obj['error'];
+        if (error is String) {
+          throw AiChatException(
+            error,
+            retryable: obj['retryable'] == true,
+            detail: 'stream error: $payload',
+          );
+        }
+
+        if (obj['done'] == true) {
+          final usage = obj['usage'];
+          yield AiChatEvent.done(
+            model: obj['model'] as String? ?? '',
+            inputTokens: usage is Map
+                ? (usage['input'] as num?)?.toInt() ?? 0
+                : 0,
+            outputTokens: usage is Map
+                ? (usage['output'] as num?)?.toInt() ?? 0
+                : 0,
+          );
+          return;
+        }
+
+        final delta = obj['delta'];
+        if (delta is String && delta.isNotEmpty) {
+          yield AiChatEvent.delta(delta);
+        }
       }
-      return _parse(response);
+    } on AiChatException {
+      rethrow;
+    } on TimeoutException catch (e) {
+      throw AiChatException(
+        AiChatException.codeNetwork,
+        retryable: true,
+        detail: 'stream idle: $e',
+      );
+    } catch (e) {
+      throw AiChatException(
+        AiChatException.codeNetwork,
+        retryable: true,
+        detail: 'stream: $e',
+      );
     }
   }
 
@@ -187,7 +339,26 @@ class AiChatService {
       );
     }
 
-    final code = json['error'] as String? ?? 'http_${response.statusCode}';
+    throw _httpError(response.statusCode, response.headers, response.body);
+  }
+
+  /// Maps a non-200 response to an [AiChatException]. Shared by the streaming
+  /// and non-streaming paths, since a failure before the first byte looks the
+  /// same to both.
+  AiChatException _httpError(
+    int statusCode,
+    Map<String, String> headers,
+    String body,
+  ) {
+    Map<String, dynamic> json;
+    try {
+      final decoded = jsonDecode(body);
+      json = decoded is Map<String, dynamic> ? decoded : <String, dynamic>{};
+    } catch (_) {
+      json = <String, dynamic>{};
+    }
+
+    final code = json['error'] as String? ?? 'http_$statusCode';
     // The gateway states `retryable` on every upstream failure and is the
     // authority on it: a 502 means the provider rejected the call, so resending
     // just spends another one, while a 503 or 504 means it was merely busy.
@@ -197,16 +368,16 @@ class AiChatService {
     final declared = json['retryable'];
     final retryable = declared is bool
         ? declared
-        : response.statusCode == 429 || response.statusCode >= 500;
+        : statusCode == 429 || statusCode >= 500;
 
-    throw AiChatException(
+    return AiChatException(
       code,
       retryable: retryable,
       retryAfterSeconds:
           (json['retryAfter'] as num?)?.toInt() ??
-          int.tryParse(response.headers['retry-after'] ?? ''),
+          int.tryParse(headers['retry-after'] ?? ''),
       rateScope: json['scope'] as String?,
-      detail: 'http ${response.statusCode} ${response.body}',
+      detail: 'http $statusCode $body',
     );
   }
 

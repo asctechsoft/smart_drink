@@ -16,6 +16,10 @@ class HistoryController extends GetxController {
   final RxList<DrinkRecord> dayRecords = <DrinkRecord>[].obs;
   final RxList<DailySummary> summaries = <DailySummary>[].obs;
   final RxList<DailySummary> weekSummariesForDay = <DailySummary>[].obs;
+
+  /// Records across the selected week — loaded only for the week tab, so its
+  /// "best time" stat can bucket drinks by hour.
+  final RxList<DrinkRecord> weekRecords = <DrinkRecord>[].obs;
   final RxInt totalMl = 0.obs;
   final RxInt goalMl = 2000.obs;
 
@@ -48,6 +52,49 @@ class HistoryController extends GetxController {
 
   int get goalDaysCount =>
       summaries.where((s) => s.totalMl >= _goalFor(s)).length;
+
+  /// Busiest 3-hour drinking window this week, as "6h-9h". Null when the week
+  /// has no records yet.
+  String? get bestTimeRange {
+    if (weekRecords.isEmpty) return null;
+    final buckets = List<int>.filled(8, 0); // eight 3-hour bands
+    for (final r in weekRecords) {
+      buckets[r.timestamp.hour ~/ 3] += 1;
+    }
+    var best = 0;
+    for (var i = 1; i < buckets.length; i++) {
+      if (buckets[i] > buckets[best]) best = i;
+    }
+    if (buckets[best] == 0) return null;
+    final startH = best * 3;
+    return '${startH}h-${startH + 3}h';
+  }
+
+  /// Trailing consecutive goal-met days within the selected week. A day still
+  /// in progress (today, nothing logged) does not break the run.
+  int get weekStreak {
+    final monday = AppDateUtils.startOfWeek(selectedDate.value);
+    final today = DateTime.now();
+    final todayKey = AppDateUtils.formatDateKey(today);
+    final byKey = {for (final s in summaries) s.dateKey: s};
+
+    var streak = 0;
+    for (var i = 6; i >= 0; i--) {
+      final day = monday.add(Duration(days: i));
+      if (day.isAfter(today)) continue;
+      final key = AppDateUtils.formatDateKey(day);
+      final s = byKey[key];
+      final met = s != null && s.totalMl > 0 && s.totalMl >= _goalFor(s);
+      if (met) {
+        streak++;
+      } else if (key == todayKey) {
+        continue; // not done yet, keep any streak alive from earlier days
+      } else {
+        break;
+      }
+    }
+    return streak;
+  }
 
   /// Number of drinks logged on the selected day.
   int get dayDrinkCount => dayRecords.length;
@@ -233,12 +280,14 @@ class HistoryController extends GetxController {
   Future<void> _loadWeekData() async {
     final start = AppDateUtils.startOfWeek(selectedDate.value);
     final end = AppDateUtils.endOfWeek(selectedDate.value);
-    final data = await _drinkService.getSummariesBetween(
-      AppDateUtils.formatDateKey(start),
-      AppDateUtils.formatDateKey(end),
-    );
+    final startKey = AppDateUtils.formatDateKey(start);
+    final endKey = AppDateUtils.formatDateKey(end);
+    final data = await _drinkService.getSummariesBetween(startKey, endKey);
     summaries.assignAll(data);
     totalMl.value = data.fold(0, (sum, s) => sum + s.totalMl);
+    weekRecords.assignAll(
+      await _drinkService.getRecordsBetween(startKey, endKey),
+    );
   }
 
   Future<void> _loadMonthData() async {
@@ -291,6 +340,29 @@ class HistoryController extends GetxController {
 
   void backToToday() {
     selectedDate.value = DateTime.now();
+  }
+
+  /// Whether the selected date is the current day/week/month/year for the
+  /// active tab. Drives the "reset to current" button in the header.
+  bool get isCurrentPeriod {
+    final now = DateTime.now();
+    final sel = selectedDate.value;
+    switch (viewMode.value) {
+      case HistoryViewMode.day:
+        return sel.year == now.year &&
+            sel.month == now.month &&
+            sel.day == now.day;
+      case HistoryViewMode.week:
+        final selW = AppDateUtils.startOfWeek(sel);
+        final nowW = AppDateUtils.startOfWeek(now);
+        return selW.year == nowW.year &&
+            selW.month == nowW.month &&
+            selW.day == nowW.day;
+      case HistoryViewMode.month:
+        return sel.year == now.year && sel.month == now.month;
+      case HistoryViewMode.year:
+        return sel.year == now.year;
+    }
   }
 
   Future<void> updateRecord(DrinkRecord record) async {

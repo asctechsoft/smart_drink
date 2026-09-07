@@ -19,7 +19,7 @@ class HistorySectionTitle extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w700,
-              color: Colors.white60,
+              color: Colors.white,
             ),
           ),
         ),

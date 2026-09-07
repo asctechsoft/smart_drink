@@ -8,7 +8,6 @@ import 'package:waternudge/presentation/common_components/app_touchable.dart';
 import 'package:waternudge/presentation/common_components/bubble_celebration.dart';
 import 'package:waternudge/presentation/common_components/coach_mark.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
-import 'package:waternudge/presentation/screen_today/components/streak_dialog.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
@@ -26,29 +25,17 @@ class TodayScreen extends StatefulWidget {
 }
 
 class _TodayScreenState extends State<TodayScreen> {
-  Worker? _streakWorker;
   Worker? _goalWorker;
 
   // Coach-mark spotlight targets.
   final GlobalKey _drinkKey = GlobalKey();
   final GlobalKey _menuKey = GlobalKey();
-  final GlobalKey _streakKey = GlobalKey();
   final GlobalKey _chatKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     final controller = Get.find<TodayController>();
-    _streakWorker = ever(controller.streakIncreasedEvent, (prev) {
-      if (prev != null && mounted) {
-        showStreakDialog(
-          context,
-          previousStreak: prev,
-          currentStreak: controller.streakDays.value,
-        );
-      }
-    });
-
     _goalWorker = ever(controller.goalReachedEvent, (_) {
       if (mounted) showBubbleCelebration(context);
     });
@@ -73,11 +60,6 @@ class _TodayScreenState extends State<TodayScreen> {
         radius: 16,
       ),
       CoachStep(
-        key: _streakKey,
-        text: 'Xem chuỗi ngày uống nước đều đặn của bạn.',
-        radius: 12,
-      ),
-      CoachStep(
         key: _chatKey,
         text: 'Trợ lý AI — hỏi đáp về uống nước & sức khoẻ tại đây.',
         radius: 12,
@@ -87,7 +69,6 @@ class _TodayScreenState extends State<TodayScreen> {
 
   @override
   void dispose() {
-    _streakWorker?.dispose();
     _goalWorker?.dispose();
     super.dispose();
   }
@@ -116,7 +97,7 @@ class _TodayScreenState extends State<TodayScreen> {
               child: Column(
                 children: [
                   // Header
-                  TodayHeader(streakKey: _streakKey, chatKey: _chatKey),
+                  TodayHeader(chatKey: _chatKey),
 
                   Expanded(
                     child: Stack(

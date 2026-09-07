@@ -30,8 +30,6 @@ class TodayController extends GetxController with WidgetsBindingObserver {
   final RxString nextReminderTime = ''.obs;
   final RxString reminderCountdown = ''.obs;
   final RxInt streakDays = 0.obs;
-  // Emits previousStreak when streak just incremented for the first time today.
-  final Rx<int?> streakIncreasedEvent = Rx<int?>(null);
 
   // Bumped each time intake crosses up over the daily goal. A counter rather
   // than a flag so a second crossing (after deleting a record, say) still
@@ -270,7 +268,6 @@ class TodayController extends GetxController with WidgetsBindingObserver {
       return; // Guard: reject invalid original capacity, but allow 0 hydration amount
 
     final wasBelowGoal = currentIntakeMl.value < adjustedGoal;
-    final prevStreak = streakDays.value;
 
     await _drinkService.addDrink(
       amountMl: amountMl,
@@ -283,17 +280,6 @@ class TodayController extends GetxController with WidgetsBindingObserver {
 
     if (wasBelowGoal && currentIntakeMl.value >= adjustedGoal) {
       goalReachedEvent.value++;
-    }
-
-    // Show streak dialog once per day when streak increments.
-    if (streakDays.value > prevStreak) {
-      final prefs = await SharedPreferences.getInstance();
-      final todayKey = AppDateUtils.todayKey();
-      final shownDate = prefs.getString(PrefConst.streakDialogShownDate) ?? '';
-      if (shownDate != todayKey) {
-        await prefs.setString(PrefConst.streakDialogShownDate, todayKey);
-        streakIncreasedEvent.value = prevStreak;
-      }
     }
   }
 

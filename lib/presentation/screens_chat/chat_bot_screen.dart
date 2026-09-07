@@ -4,6 +4,7 @@ import 'package:waternudge/configs/ai_gateway_config.dart';
 import 'package:waternudge/controller/chat_controller.dart';
 import 'package:waternudge/models/ui_models/chat_message.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
 
 /// AI chat assistant screen ("Hỏi AI").
 ///
@@ -26,28 +27,28 @@ const _kInk = Color(0xFF2A3A4D); // text inside light cards
 const _kInkSoft = Color(0xFF6B7A8D); // secondary text inside light cards
 const _kOnBg = Colors.white; // text on the dark background
 const _kOnBgSoft = Colors.white70;
-const _kUserBubble = Color(0xFFDCEAFB);
 const _kCardBorder = Color(0x14243A5E);
 const _kError = Color(0xFFD14343);
+
+// On-gradient surfaces (suggestion chips, header buttons, user avatar): a wash
+// of white over the blue background rather than an opaque card.
+const _kChipBg = Color(0x1FFFFFFF); // ~12% white
+const _kChipBorder = Color(0x2EFFFFFF); // ~18% white
+const _kChipIconBg = Color(0x333B8CFF); // soft blue tile behind the icon
+const _kChevron = Color(0x8AFFFFFF); // white54
 
 class _ChatBotScreenState extends State<ChatBotScreen> {
   final _inputCtrl = TextEditingController();
   final _scrollCtrl = ScrollController();
   final ChatController _chat = ChatController.to;
 
-  // Suggestion chips.
-  static const _topChips = [
-    (icon: Icons.water_drop_outlined, label: 'Uống bao nhiêu nước là đủ?'),
-    (
-      icon: Icons.bedtime_outlined,
-      label: 'Uống nước trước khi ngủ có tốt không?',
-    ),
-    (icon: Icons.directions_run_rounded, label: 'Uống nước khi vận động thế nào?'),
-  ];
-  static const _bottomChips = [
-    (icon: Icons.water_drop_outlined, label: 'Uống nước đúng cách'),
-    (icon: Icons.bedtime_outlined, label: 'Lợi ích của việc uống nước'),
-    (icon: Icons.directions_run_rounded, label: 'Uống nước khi tập luyện'),
+  // Starter prompts: a 2×2 grid on the empty screen, a horizontal strip once a
+  // conversation is under way.
+  static const _suggestions = [
+    (icon: Icons.water_drop_rounded, label: 'Uống bao nhiêu nước là đủ?', tint: _kOnBg),
+    (icon: Icons.bedtime_rounded, label: 'Uống nước trước khi ngủ có tốt không?', tint: _kOnBg),
+    (icon: Icons.bar_chart_rounded, label: 'Lợi ích của việc uống nước', tint: _kOnBg),
+    (icon: Icons.favorite_rounded, label: 'Dấu hiệu thiếu nước', tint: Color(0xFFFF6B8A)),
   ];
 
   final List<Worker> _workers = [];
@@ -104,23 +105,39 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                 child: Obx(
                   () => ListView(
                     controller: _scrollCtrl,
-                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-                    children: [
-                      _buildIntro(),
-                      const SizedBox(height: 16),
-                      _buildChipRow(_topChips),
-                      const SizedBox(height: 18),
-                      for (final message in _chat.messages) ...[
-                        _buildMessage(message),
-                        const SizedBox(height: 14),
-                      ],
-                      if (_chat.isSending.value) _buildTyping(),
-                    ],
+                    padding: const EdgeInsets.fromLTRB(16, 4, 12, 16),
+                    children: _chat.messages.isEmpty
+                        ? [
+                            StaggerReveal(index: 0, child: _buildIntro()),
+                            const SizedBox(height: 16),
+                            StaggerReveal(
+                              index: 1,
+                              child: _buildSuggestionsGrid(),
+                            ),
+                            const SizedBox(height: 16),
+                            StaggerReveal(index: 2, child: _buildEmptyState()),
+                          ]
+                        : [
+                            for (final message in _chat.messages) ...[
+                              _buildMessage(message),
+                              const SizedBox(height: 14),
+                            ],
+                            if (_chat.isSending.value &&
+                                !_chat.isStreaming.value)
+                              _buildTyping(),
+                          ],
                   ),
                 ),
               ),
-              _buildChipRow(_bottomChips),
-              const SizedBox(height: 10),
+              // Suggestions pinned above the input bar during a conversation.
+              Obx(
+                () => _chat.messages.isEmpty
+                    ? const SizedBox.shrink()
+                    : Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                        child: _buildSuggestions(),
+                      ),
+              ),
               _buildInputBar(),
               const SizedBox(height: 8),
             ],
@@ -137,7 +154,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
       child: Row(
         children: [
           _circleBtn(
-            child: const Icon(Icons.chevron_left_rounded, color: _kInk, size: 26),
+            child: const Icon(Icons.chevron_left_rounded, color: _kOnBg, size: 26),
             onTap: () => Get.back(),
           ),
           Expanded(
@@ -167,7 +184,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
             ),
           ),
           _circleBtn(
-            child: const Icon(Icons.add_rounded, color: _kInk, size: 24),
+            child: const Icon(Icons.add_rounded, color: _kOnBg, size: 24),
             onTap: _chat.newChat,
           ),
         ],
@@ -228,9 +245,13 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: _kUserBubble,
-                    borderRadius: const BorderRadius.only(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [_kBlue, _kBlueDeep],
+                    ),
+                    borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(18),
                       topRight: Radius.circular(18),
                       bottomLeft: Radius.circular(18),
@@ -240,23 +261,31 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                   child: Text(
                     m.text,
                     style: const TextStyle(
-                      color: _kInk,
+                      color: _kOnBg,
                       fontSize: 14.5,
                       fontWeight: FontWeight.w600,
+                      height: 1.35,
                     ),
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  m.timeLabel,
-                  style: const TextStyle(color: _kOnBgSoft, fontSize: 11),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      m.timeLabel,
+                      style: const TextStyle(color: _kOnBgSoft, fontSize: 11),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(Icons.done_all_rounded, color: _kOnBgSoft, size: 14),
+                  ],
                 ),
               ],
             ),
           ),
           const SizedBox(width: 8),
           _avatarCircle(
-            child: const Icon(Icons.person_rounded, color: _kBlue, size: 20),
+            child: const Icon(Icons.person_rounded, color: _kOnBg, size: 20),
           ),
         ],
       );
@@ -393,49 +422,138 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   }
 
   // ── Suggestion chips ────────────────────────────────────────────────────────
-  Widget _buildChipRow(List<({IconData icon, String label})> chips) {
+  /// The starter prompts under the intro, in a single horizontally-scrolling
+  /// row so more can be added without stacking.
+  Widget _buildSuggestions() {
     return SizedBox(
-      height: 62,
+      height: 58,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: chips.length,
+        padding: EdgeInsets.zero,
+        itemCount: _suggestions.length,
         separatorBuilder: (_, _) => const SizedBox(width: 10),
-        itemBuilder: (_, i) {
-          final c = chips[i];
-          return GestureDetector(
-            onTap: () => _send(c.label),
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 210),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.85),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: _kCardBorder),
+        itemBuilder: (_, i) =>
+            SizedBox(width: 230, child: _suggestionChip(_suggestions[i])),
+      ),
+    );
+  }
+
+  Widget _suggestionChip(({IconData icon, String label, Color tint}) s) {
+    return Material(
+      color: _kChipBg,
+      borderRadius: BorderRadius.circular(16),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => _send(s.label),
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: _kChipBorder),
+          ),
+          child: Row(
+          children: [
+            Container(
+              width: 34,
+              height: 34,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                color: _kChipIconBg,
+                shape: BoxShape.circle,
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(c.icon, color: _kBlue, size: 18),
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: Text(
-                      c.label,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: _kInk,
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.w600,
-                        height: 1.2,
-                      ),
-                    ),
-                  ),
-                ],
+              child: Icon(s.icon, color: s.tint, size: 18),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                s.label,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: _kOnBg,
+                  fontSize: 12.5,
+                  fontWeight: FontWeight.w600,
+                  height: 1.25,
+                ),
               ),
             ),
-          );
-        },
+            const SizedBox(width: 4),
+            const Icon(Icons.chevron_right_rounded, color: _kChevron, size: 20),
+          ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// The 2×2 starter grid shown on the empty screen.
+  Widget _buildSuggestionsGrid() {
+    const gap = 10.0;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final chipWidth = (constraints.maxWidth - gap) / 2;
+        return Wrap(
+          spacing: gap,
+          runSpacing: gap,
+          children: [
+            for (final s in _suggestions)
+              SizedBox(width: chipWidth, height: 58, child: _suggestionChip(s)),
+          ],
+        );
+      },
+    );
+  }
+
+  // ── Empty state (before the first message) ──────────────────────────────────
+  Widget _buildEmptyState() {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
+      decoration: BoxDecoration(
+        color: _kChipBg,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: _kChipBorder),
+      ),
+      child: Column(
+        children: [
+          Image.asset(
+            'assets/images/png/ic_chat_bot.png',
+            width: 120,
+            height: 120,
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            'Chưa có cuộc trò chuyện nào',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: _kOnBg,
+              fontSize: 17,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Hãy chọn một câu hỏi gợi ý hoặc nhập câu hỏi của bạn để bắt đầu.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: _kOnBgSoft, fontSize: 13.5, height: 1.4),
+          ),
+          const SizedBox(height: 16),
+          Divider(color: Colors.white.withValues(alpha: 0.12), height: 1),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              const Icon(Icons.info_outline_rounded, color: _kChevron, size: 16),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'chat_disclaimer'.tr,
+                  style: const TextStyle(color: _kChevron, fontSize: 11.5),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -494,14 +612,13 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               ),
             ),
             const SizedBox(width: 10),
-            GestureDetector(
-              onTap: sending ? null : () => _send(_inputCtrl.text),
-              child: Opacity(
-                opacity: sending ? 0.5 : 1,
-                child: Container(
-                  width: 52,
-                  height: 52,
-                  alignment: Alignment.center,
+            Opacity(
+              opacity: sending ? 0.5 : 1,
+              child: Material(
+                color: Colors.transparent,
+                shape: const CircleBorder(),
+                clipBehavior: Clip.antiAlias,
+                child: Ink(
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
@@ -510,16 +627,32 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                       colors: [_kBlue, _kBlueDeep],
                     ),
                   ),
-                  child: sending
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation(Colors.white),
-                          ),
-                        )
-                      : const Icon(Icons.send_rounded, color: Colors.white, size: 22),
+                  child: InkWell(
+                    onTap: sending ? null : () => _send(_inputCtrl.text),
+                    customBorder: const CircleBorder(),
+                    child: SizedBox(
+                      width: 52,
+                      height: 52,
+                      child: Center(
+                        child: sending
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation(
+                                    Colors.white,
+                                  ),
+                                ),
+                              )
+                            : const Icon(
+                                Icons.send_rounded,
+                                color: Colors.white,
+                                size: 22,
+                              ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -551,19 +684,18 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   }
 
   Widget _circleBtn({required Widget child, required VoidCallback onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        width: 42,
-        height: 42,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.7),
-          shape: BoxShape.circle,
-          border: Border.all(color: _kCardBorder),
+    return Material(
+      color: _kChipBg,
+      shape: const CircleBorder(side: BorderSide(color: _kChipBorder)),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        customBorder: const CircleBorder(),
+        child: SizedBox(
+          width: 42,
+          height: 42,
+          child: Center(child: child),
         ),
-        child: child,
       ),
     );
   }
@@ -573,8 +705,8 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
       width: 40,
       height: 40,
       alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: _kBlue.withValues(alpha: 0.14),
+      decoration: const BoxDecoration(
+        color: _kChipIconBg,
         shape: BoxShape.circle,
       ),
       child: child,

@@ -1,6 +1,5 @@
 import 'package:dsp_base/app_localize.dart';
 import 'package:dsp_base/app_material.dart';
-import 'package:waternudge/controller/auth_controller.dart';
 import 'package:waternudge/controller/reminder_controller.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
@@ -14,7 +13,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'settings_bottom_sheets.dart';
 import 'rate_app_dialog.dart';
-import 'logout_dialog.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -35,9 +33,6 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 // ── Header ──
                 _buildHeader(context),
-                const SizedBox(height: 8),
-                // ── User card ──
-                _UserCard(),
                 const SizedBox(height: 24),
 
                 // ── 1. DRINK ── things that affect hydration goal ──
@@ -179,17 +174,6 @@ class SettingsScreen extends StatelessWidget {
                       ),
                     ),
                     _Divider(),
-                    // Reminder sound (moved here from the Reminder tab).
-                    Obx(
-                      () => _SettingsTile(
-                        iconData: Icons.volume_up_outlined,
-                        title: 'sound'.tr,
-                        subtitle: 'settings_sound_desc'.tr,
-                        value: soundDisplayName(reminderCtrl.soundEffect.value),
-                        onTap: () => showSoundEffectSheet(context),
-                      ),
-                    ),
-                    _Divider(),
                     Obx(() {
                       final vol = settingsCtrl.volumeUnit.value;
                       final wt = settingsCtrl.weightUnit.value;
@@ -259,22 +243,6 @@ class SettingsScreen extends StatelessWidget {
                       subtitle: 'settings_share_desc'.tr,
                       onTap: () => ShareUtils.shareApp(context),
                     ),
-                    // Logout at the very bottom, only when signed in
-                    Obx(
-                      () => AuthController.to.isLoggedIn
-                          ? Column(
-                              children: [
-                                _Divider(),
-                                _SettingsTile(
-                                  iconData: Icons.logout_rounded,
-                                  title: 'settings_logout'.tr,
-                                  subtitle: 'settings_logout_desc'.tr,
-                                  onTap: () => showLogoutConfirmDialog(context),
-                                ),
-                              ],
-                            )
-                          : const SizedBox.shrink(),
-                    ),
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -342,221 +310,6 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-// ─── User Card ────────────────────────────────────────────────────────────────
-
-class _UserCard extends StatefulWidget {
-  @override
-  State<_UserCard> createState() => _UserCardState();
-}
-
-class _UserCardState extends State<_UserCard>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _syncSpin;
-  bool _syncing = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _syncSpin = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 700),
-    );
-  }
-
-  @override
-  void dispose() {
-    _syncSpin.dispose();
-    super.dispose();
-  }
-
-  Future<void> _onSync() async {
-    if (_syncing) return;
-    final msg = 'sync_success'.tr; // capture before async
-    setState(() => _syncing = true);
-    _syncSpin.repeat();
-    await Future.delayed(const Duration(milliseconds: 1500));
-    if (!mounted) return;
-    _syncSpin.stop();
-    _syncSpin.reset();
-    setState(() => _syncing = false);
-    Get.showSnackbar(
-      GetSnackBar(
-        backgroundColor: Colors.transparent,
-        snackPosition: SnackPosition.TOP,
-        padding: EdgeInsets.zero,
-        margin: EdgeInsets.zero,
-        duration: const Duration(seconds: 3),
-        messageText: Align(
-          alignment: Alignment.topCenter,
-          child: Container(
-            margin: const EdgeInsets.only(top: kToolbarHeight),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.check_circle_rounded,
-                  size: 18,
-                  color: Color(0xFF57DCC0),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  msg,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      final auth = AuthController.to;
-      final loggedIn = auth.isLoggedIn;
-
-      return GestureDetector(
-        onTap: loggedIn ? null : () => auth.signInWithGoogle(),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.08),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
-          ),
-          child: Row(
-            children: [
-              _buildAvatar(auth, loggedIn),
-              const SizedBox(width: 12),
-              Expanded(
-                child: loggedIn
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            auth.displayName,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 3),
-                          Text(
-                            auth.email,
-                            style: const TextStyle(
-                              color: Colors.white60,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Login with Google',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          const SizedBox(height: 3),
-                          Text(
-                            'settings_login_desc'.tr,
-                            style: const TextStyle(
-                              color: Colors.white60,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              height: 1.35,
-                            ),
-                          ),
-                        ],
-                      ),
-              ),
-              if (loggedIn)
-                GestureDetector(
-                  onTap: _onSync,
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.1),
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.2),
-                      ),
-                    ),
-                    child: AnimatedBuilder(
-                      animation: _syncSpin,
-                      builder: (_, child) => Transform.rotate(
-                        angle: _syncSpin.value * 6.2832,
-                        child: child,
-                      ),
-                      child: const Icon(
-                        Icons.sync_rounded,
-                        size: 20,
-                        color: Colors.white70,
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
-      );
-    });
-  }
-
-  Widget _buildAvatar(AuthController auth, bool loggedIn) {
-    if (loggedIn && auth.photoUrl != null) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(14),
-        child: Image.network(
-          auth.photoUrl!,
-          width: 48,
-          height: 48,
-          fit: BoxFit.cover,
-          errorBuilder: (_, _, _) => _defaultAvatar(),
-        ),
-      );
-    }
-    return _defaultAvatar();
-  }
-
-  Widget _defaultAvatar() {
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: SvgPicture.asset('assets/images/svg/ic_google.svg'),
       ),
     );
   }
@@ -652,7 +405,7 @@ class _SectionTitle extends StatelessWidget {
       child: Text(
         label,
         style: const TextStyle(
-          color: Colors.white60,
+          color: Colors.white,
           fontSize: 14,
           fontWeight: FontWeight.w700,
         ),

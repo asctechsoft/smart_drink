@@ -48,7 +48,16 @@ class GenderCard extends StatelessWidget {
         child: AppColumn(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AppIcon(icon, size: 116),
+            // Decode at display size, not the asset's full ~1024px resolution:
+            // AppIcon/Image.asset without cacheWidth decoded the whole webp on
+            // first show, which stalled this sheet for a noticeable beat.
+            Image.asset(
+              icon,
+              width: 116,
+              height: 116,
+              fit: BoxFit.contain,
+              cacheWidth: (116 * MediaQuery.of(context).devicePixelRatio).round(),
+            ),
             AppSpacerH4,
             AppText(
               label.tr,

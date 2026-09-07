@@ -3,7 +3,9 @@ class PrefDefaults {
   static const String themeMode = 'system';
   static const bool reminderEnabled = true;
   static const String reminderMode = 'standard';
-  static const String soundEffect = 'universfield_notification';
+  // Single fixed notification sound. Matches android/app/src/main/res/raw/
+  // mixkit_water_bubble.* — the only ringtone the app ships now.
+  static const String soundEffect = 'mixkit_water_bubble';
   static const bool vibrateEnabled = true;
   static const String volumeUnit = 'ml';
   static const String weightUnit = 'kg';

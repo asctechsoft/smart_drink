@@ -23,6 +23,10 @@ class ChatController extends GetxController {
   /// bubble is shown.
   final RxBool isSending = false.obs;
 
+  /// True once the first streamed token has landed, so the typing bubble gives
+  /// way to the answer filling in live.
+  final RxBool isStreaming = false.obs;
+
   /// The message whose send failed, kept so "retry" can resend it without the
   /// user retyping. Cleared on success or when a new message is sent.
   ChatMessage? _pendingRetry;
@@ -73,13 +77,48 @@ class ChatController extends GetxController {
 
   Future<void> _request() async {
     isSending.value = true;
+    isStreaming.value = false;
+
+    // The bubble is added only when the first token lands, so an empty card
+    // never flashes: until then the typing indicator stands in.
+    int? index;
+    final buffer = StringBuffer();
+
+    void writeDelta(String delta) {
+      buffer.write(delta);
+      final bubble = ChatMessage.assistant(buffer.toString());
+      if (index == null) {
+        index = messages.length;
+        messages.add(bubble);
+        isStreaming.value = true;
+      } else {
+        // Reassigning the slot is what makes the RxList notify, so the bubble
+        // repaints with each token.
+        messages[index!] = bubble;
+      }
+    }
+
     try {
-      final reply = await _service.send(messages);
-      messages.add(ChatMessage.assistant(reply.text));
-      if (kDebugMode) {
-        debugPrint(
-          'ChatController: ${reply.model} '
-          'in=${reply.inputTokens} out=${reply.outputTokens}',
+      await for (final event in _service.sendStream(messages)) {
+        if (event.done) {
+          if (kDebugMode) {
+            debugPrint(
+              'ChatController: ${event.model} '
+              'in=${event.inputTokens} out=${event.outputTokens}',
+            );
+          }
+        } else {
+          writeDelta(event.delta);
+        }
+      }
+
+      // A stream that closed without a single token is a gateway version
+      // mismatch — surface it as a retryable error rather than an empty bubble.
+      if (index == null) {
+        throw const AiChatException(
+          AiChatException.codeBadResponse,
+          retryable: true,
+          detail: 'stream closed with no tokens',
         );
       }
     } on AiChatException catch (e) {
@@ -87,10 +126,16 @@ class ChatController extends GetxController {
       // Only offer a retry when the gateway said the failure was transient —
       // resending a rejected request just spends another call from the quota.
       if (e.retryable) _pendingRetry = _lastUserMessage();
-      messages.add(
-        ChatMessage.assistant(_messageFor(e), errorCode: e.code),
-      );
+      final errorBubble = ChatMessage.assistant(_messageFor(e), errorCode: e.code);
+      // Replace the partial answer with the error, or append one if nothing
+      // had streamed yet.
+      if (index == null) {
+        messages.add(errorBubble);
+      } else {
+        messages[index!] = errorBubble;
+      }
     } finally {
+      isStreaming.value = false;
       isSending.value = false;
     }
   }

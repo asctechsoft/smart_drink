@@ -554,8 +554,10 @@ void showWheelTimePicker(
   required String title,
   required String initialTime,
   required ValueChanged<String> onSave,
-  bool enhanced = false,
-  String? subtitle,
+  // Default to the unified enhanced layout (headers, glow slots, big preview);
+  // callers only pass infoText when a context-specific note applies.
+  bool enhanced = true,
+  String? subtitle = 'picker_device_format_hint',
   String? infoText,
 }) {
   String selectedTime = initialTime;

@@ -27,7 +27,8 @@ class OnboardingController extends GetxController {
   final RxString napEnd = '13:30'.obs;
   final RxInt napDurationMinutes = 30.obs;
   final RxInt intervalMinutes = 90.obs;
-  final RxString soundEffect = 'universfield_notification'.obs;
+  // Fixed ringtone — the sound picker was removed; see PrefDefaults.soundEffect.
+  final RxString soundEffect = 'mixkit_water_bubble'.obs;
   final RxBool vibrate = true.obs;
   final RxInt dailyGoalMl = 2000.obs;
   final RxString volumeUnit = 'ml'.obs;

@@ -406,7 +406,14 @@ class DayHourlyChart extends StatelessWidget {
               minY: 0,
               barGroups: groups,
               extraLinesData: showGoal
-                  ? _goalLineTeal(goalY)
+                  ? _goalLine(
+                      context,
+                      goalY,
+                      UnitConverter.formatVolumeValue(
+                        dailyGoal.toDouble(),
+                        isOz ? 'oz' : 'ml',
+                      ),
+                    )
                   : ExtraLinesData(),
               gridData: _grid(context, interval),
               borderData: _bottomBorderOnly(context),
@@ -455,21 +462,6 @@ class DayHourlyChart extends StatelessWidget {
       ],
     );
   }
-}
-
-/// Dashed target line with no printed value — the Day tab's treatment, shared
-/// by every chart that follows it.
-ExtraLinesData _goalLineTeal(double goal) {
-  return ExtraLinesData(
-    horizontalLines: [
-      HorizontalLine(
-        y: goal,
-        color: _ChartStyle.goalLine.withValues(alpha: 0.7),
-        strokeWidth: 1,
-        dashArray: const [5, 4],
-      ),
-    ],
-  );
 }
 
 class _HourlyStats extends StatelessWidget {
@@ -646,7 +638,14 @@ class WeekBarChart extends StatelessWidget {
               maxY: maxY,
               minY: 0,
               extraLinesData: axis.showGoal
-                  ? _goalLineTeal(goal)
+                  ? _goalLine(
+                      context,
+                      goal,
+                      UnitConverter.formatVolumeValue(
+                        dailyGoal.toDouble(),
+                        isOz ? 'oz' : 'ml',
+                      ),
+                    )
                   : ExtraLinesData(),
               barGroups: [
                 for (var i = 0; i < values.length; i++)
@@ -1103,6 +1102,11 @@ class YearGoalRateChart extends StatelessWidget {
                     reservedSize: 22,
                     interval: 1,
                     getTitlesWidget: (value, meta) {
+                      // Only whole months get a label; the maxX padding (12.5)
+                      // would otherwise round down to a second "T12".
+                      if (value != value.roundToDouble()) {
+                        return const SizedBox.shrink();
+                      }
                       final i = value.toInt();
                       if (i < 1 || i > 12) return const SizedBox.shrink();
                       return Padding(

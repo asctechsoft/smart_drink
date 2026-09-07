@@ -99,7 +99,12 @@ void _showEditTimerSheet(
     showSubmitButton: false,
     content: AppColumn(
       children: [
-        WheelTimePicker(initialTime: time, onChanged: (t) => time = t),
+        WheelTimePicker(
+          initialTime: time,
+          onChanged: (t) => time = t,
+          enhanced: true,
+          subtitle: 'picker_device_format_hint',
+        ),
         const AppSpacerH(24),
         AppRow(
           children: [
@@ -176,7 +181,12 @@ void _showAddTimerSheet(BuildContext context, ReminderController controller) {
       controller.addSchedule(ReminderSchedule(mode: 'custom', time: time));
       Navigator.pop(context);
     },
-    content: WheelTimePicker(initialTime: time, onChanged: (t) => time = t),
+    content: WheelTimePicker(
+      initialTime: time,
+      onChanged: (t) => time = t,
+      enhanced: true,
+      subtitle: 'picker_device_format_hint',
+    ),
   );
 }
 

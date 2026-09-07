@@ -5,10 +5,9 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 class TodayHeader extends StatelessWidget {
-  const TodayHeader({super.key, this.streakKey, this.chatKey});
+  const TodayHeader({super.key, this.chatKey});
 
-  /// Optional keys so a coach-mark can spotlight the header shortcut buttons.
-  final GlobalKey? streakKey;
+  /// Optional key so a coach-mark can spotlight the chat shortcut button.
   final GlobalKey? chatKey;
 
   /// Greeting keyed to the current time of day.
@@ -57,22 +56,7 @@ class TodayHeader extends StatelessWidget {
             ),
           ),
 
-          // Right: streak + avatar shortcuts
-          KeyedSubtree(
-            key: streakKey,
-            child: _CircleButton(
-              onTap: () => Get.toNamed(RouteName.streak),
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: Image.asset(
-                  'assets/images/webp/img_drink_streak.webp',
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          // Chat bot shortcut (replaced the avatar button).
+          // Right: chat bot shortcut only.
           KeyedSubtree(
             key: chatKey,
             child: _CircleButton(
@@ -100,22 +84,25 @@ class _CircleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.12),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: Colors.white.withValues(alpha: 0.2),
-            width: 1,
+    return Material(
+      color: Colors.white.withValues(alpha: 0.12),
+      borderRadius: BorderRadius.circular(12),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.2),
+              width: 1,
+            ),
           ),
+          child: child,
         ),
-        clipBehavior: Clip.antiAlias,
-        child: child,
       ),
     );
   }

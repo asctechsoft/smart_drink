@@ -18,6 +18,7 @@ class WeekChartCard extends StatelessWidget {
     required this.dailyGoal,
     required this.totalDrinkCount,
     required this.streak,
+    required this.bestTimeRange,
     required this.isOz,
   });
 
@@ -26,6 +27,7 @@ class WeekChartCard extends StatelessWidget {
   final int dailyGoal;
   final int totalDrinkCount;
   final int streak;
+  final String? bestTimeRange;
   final bool isOz;
 
   @override
@@ -72,7 +74,7 @@ class WeekChartCard extends StatelessWidget {
                 icon: Icons.trending_up_rounded,
                 iconColor: AppColors.primary500Dark,
                 label: 'best_time_range'.tr,
-                value: '--',
+                value: bestTimeRange ?? '--',
               ),
               ChartStat(
                 icon: Icons.local_fire_department_rounded,
@@ -161,10 +163,13 @@ class WeekDayRow extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 52,
+            width: 74,
             child: Text(
               volumeLabel,
               textAlign: TextAlign.right,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.visible,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,

@@ -103,7 +103,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
             val channelId: String
             val builder: NotificationCompat.Builder
 
-            val soundEffectName = soundEffectOverride ?: PrefAssist.getString(context, "flutter.sound_effect", "universfield_notification")
+            val soundEffectName = soundEffectOverride ?: PrefAssist.getString(context, "flutter.sound_effect", "mixkit_water_bubble")
 
             if (playSound) {
                 val soundResId = context.resources.getIdentifier(soundEffectName, "raw", context.packageName)

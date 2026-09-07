@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'package:audioplayers/audioplayers.dart';
 import 'package:dsp_base/app_material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:waternudge/controller/languages_controller.dart';
@@ -26,6 +25,17 @@ import 'package:get/get.dart';
 
 void showGenderSheet(BuildContext context) {
   final ctrl = Get.find<UserProfileController>();
+  // Warm the decode at the exact size GenderCard requests, so the sheet's two
+  // images are ready the moment it opens instead of decoding full-res on show.
+  final w = (116 * MediaQuery.of(context).devicePixelRatio).round();
+  precacheImage(
+    ResizeImage(const AssetImage('assets/images/webp/img_men.webp'), width: w),
+    context,
+  );
+  precacheImage(
+    ResizeImage(const AssetImage('assets/images/webp/img_women.webp'), width: w),
+    context,
+  );
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -1873,159 +1883,6 @@ void showBedtimeSheet(BuildContext context) {
   );
 }
 
-// ─── Sound Effect Sheet ──────────────────────────────────────────────────────
-
-const List<(String, String)> kSoundOptions = [
-  ('golden_bell', 'dragon_studio_correct'),
-  ('dragon_bloom', 'dragon_studio_notification_sound_effect'),
-  ('sparkle_pop', 'universfield_new_notification'),
-  ('modern_chime', 'universfield_notification'),
-  ('system_soft', 'universfield_system_notification'),
-];
-
-String soundDisplayName(String file) {
-  if (file.isEmpty) return 'None';
-  for (final o in kSoundOptions) {
-    if (o.$2 == file) return o.$1.tr;
-  }
-  return file;
-}
-
-void showSoundEffectSheet(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    builder: (ctx) => const _SoundEffectSheet(),
-  );
-}
-
-class _SoundEffectSheet extends StatefulWidget {
-  const _SoundEffectSheet();
-
-  @override
-  State<_SoundEffectSheet> createState() => _SoundEffectSheetState();
-}
-
-class _SoundEffectSheetState extends State<_SoundEffectSheet> {
-  final ReminderController _ctrl = Get.find<ReminderController>();
-  final AudioPlayer _player = AudioPlayer();
-
-  @override
-  void dispose() {
-    _player.dispose();
-    super.dispose();
-  }
-
-  void _select(String file) {
-    _ctrl.soundEffect.value = file;
-    if (!_ctrl.soundEffectEnabled.value) _ctrl.soundEffectEnabled.value = true;
-    _ctrl.saveSettings();
-    _player.play(AssetSource('audio/$file.mp3'));
-  }
-
-  Widget _radio(bool selected) {
-    return Container(
-      width: 20,
-      height: 20,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: AppColors.accentTeal, width: 1.5),
-      ),
-      alignment: Alignment.center,
-      child: selected
-          ? Container(
-              width: 10,
-              height: 10,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.accentTeal,
-              ),
-            )
-          : null,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF0A2556),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).padding.bottom + 24,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 12),
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: Colors.white24,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            'sound'.tr,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Obx(
-              () => Column(
-                children: kSoundOptions.map((o) {
-                  final (name, file) = o;
-                  final selected = _ctrl.soundEffect.value == file;
-                  return GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () => _select(file),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              name.tr,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          _radio(selected),
-                        ],
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: PrimaryButton(
-              width: double.infinity,
-              text: 'save'.tr,
-              useGradient: true,
-              onPressed: () => Navigator.pop(context),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 // ─── Nap Schedule Sheet ──────────────────────────────────────────────────────
 
@@ -2370,7 +2227,7 @@ class _LanguageSheetState extends State<_LanguageSheet> {
     return Container(
       height: screenH * 0.88,
       decoration: const BoxDecoration(
-        color: Color(0xFF0A2556),
+        gradient: AppColors.gradientBgDark,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(

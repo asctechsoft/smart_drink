@@ -20,7 +20,6 @@ import 'components/history_charts.dart';
 import 'components/history_date_picker.dart';
 import 'components/history_detail_section.dart';
 import 'components/history_section.dart';
-import 'components/day_progress_card.dart';
 import 'components/week_widgets.dart';
 import 'components/month_widgets.dart';
 import 'components/year_widgets.dart';
@@ -97,27 +96,57 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
           ),
           const Spacer(),
+          // Reset to the current day/week/month/year — shown only when the user
+          // has navigated away from it.
+          Obx(
+            () => controller.isCurrentPeriod
+                ? const SizedBox.shrink()
+                : Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: _headerIconButton(
+                      ob,
+                      icon: Icons.restart_alt_rounded,
+                      onTap: () {
+                        controller.backToToday();
+                        controller.selectedDate.refresh();
+                      },
+                    ),
+                  ),
+          ),
           // Single entry point for period navigation: opens the date picker to
           // jump to any day/week/month/year.
-          GestureDetector(
+          _headerIconButton(
+            ob,
+            icon: Icons.calendar_month_rounded,
             onTap: () => _pickDate(context, controller),
-            behavior: HitTestBehavior.opaque,
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.07),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
-              ),
-              child: Icon(
-                Icons.calendar_month_rounded,
-                color: ob.textPrimary,
-                size: 20,
-              ),
-            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _headerIconButton(
+    OnboardingTheme ob, {
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.white.withValues(alpha: 0.07),
+      borderRadius: BorderRadius.circular(12),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          width: 40,
+          height: 40,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+          ),
+          child: Icon(icon, color: ob.textPrimary, size: 20),
+        ),
       ),
     );
   }
@@ -196,25 +225,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget _buildDayTab(BuildContext context, HistoryController controller) {
     final ob = OnboardingTheme.of(context);
     final unit = Get.find<SettingsController>().volumeUnit.value;
-    final total = controller.computedTotal;
     final goal = controller.dailyGoalMl;
-    final progress = goal > 0 ? (total / goal).clamp(0.0, 1.0) : 0.0;
-    final selected = controller.selectedDate.value;
 
     return ListView(
       key: const ValueKey('history_day'),
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 132),
       children: [
-        DayProgressCard(
-          totalLabel: UnitConverter.formatVolumeValue(total.toDouble(), unit),
-          goalLabel: UnitConverter.formatVolumeValue(goal.toDouble(), unit),
-          unit: unit,
-          progress: progress,
-          dateLabel: DateFormat('d MMMM, y', _locale).format(selected),
-          drinkCount: controller.dayDrinkCount,
-          lastDrinkTime: controller.lastDrinkTime,
-        ),
-        const SizedBox(height: 14),
         HistoryCard(
           padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
           child: Column(
@@ -287,11 +303,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
           dailyTotals: dailyTotals,
           dailyGoal: goal,
           totalDrinkCount: totalDrinkCount,
-          streak: 0,
+          streak: controller.weekStreak,
+          bestTimeRange: controller.bestTimeRange,
           isOz: isOz,
         ),
         const SizedBox(height: 20),
-        HistorySectionTitle('detail_history'.tr),
+        HistorySectionTitle('history_current_week'.tr),
         const SizedBox(height: 12),
         for (var i = 0; i < 7; i++) ...[
           Builder(
@@ -498,6 +515,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
   ) {
     final volumeUnit = Get.find<SettingsController>().volumeUnit.value;
     final isOz = volumeUnit == 'oz';
+    // Show the artwork of whatever drink this record is, matching the list row.
+    final drinkType = DrinkType.values.firstWhere(
+      (t) => t.name == record.drinkType,
+      orElse: () => DrinkType.water,
+    );
     final displayMl = record.originalAmountMl > 0
         ? record.originalAmountMl
         : record.amountMl.toDouble();
@@ -513,25 +535,69 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
     PrimaryDialog.show(
       context: context,
-      title: 'edit_drink'.tr,
       content: StatefulBuilder(
         builder: (ctx, setState) {
           final ob = OnboardingTheme.of(ctx);
+          final double sliderMax = isOz ? 101 : 3000;
+          final String sliderMaxLabel = isOz ? '101' : '3000';
           return AppColumn(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  AppText(
+                    'edit_drink'.tr,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: ob.textPrimary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(ctx),
+                      behavior: HitTestBehavior.opaque,
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: ob.bgToggle,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.close_rounded,
+                          size: 18,
+                          color: ob.textSecondary,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const AppSpacerH(20),
               AppRow(
                 modifier: Modifier.background(
                   color: ob.bgToggle,
-                  radius: 12,
-                ).padding(horizontal: 16),
+                  radius: 14,
+                ).padding(horizontal: 16, vertical: 4),
                 children: [
-                  AppIcon(
-                    'assets/images/webp/img_measuring_cup.webp',
-                    size: 24,
-                    tint: ob.switchActive,
+                  Image.asset(
+                    drinkType.imagePath,
+                    width: 24,
+                    height: 24,
+                    fit: BoxFit.contain,
                   ),
-                  const AppSpacerW(8),
+                  const AppSpacerW(10),
+                  Container(
+                    width: 1,
+                    height: 24,
+                    color: ob.textSecondary.withValues(alpha: 0.3),
+                  ),
+                  const AppSpacerW(10),
                   Expanded(
                     child: TextField(
                       controller: textController,
@@ -552,7 +618,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         hintText: '',
                       ),
                       autofocus: false,
-                      onChanged: (_) => setState(() {}),
+                      onChanged: (v) {
+                        // Cap typed values at the same ceiling as the slider.
+                        final parsed = double.tryParse(v);
+                        if (parsed != null && parsed > sliderMax) {
+                          final capped = sliderMax.round().toString();
+                          textController.value = TextEditingValue(
+                            text: capped,
+                            selection: TextSelection.collapsed(
+                              offset: capped.length,
+                            ),
+                          );
+                        }
+                        setState(() {});
+                      },
                     ),
                   ),
                   AppText(
@@ -565,7 +644,53 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   ),
                 ],
               ),
-              const AppSpacerH(32),
+              const AppSpacerH(16),
+              Row(
+                children: [
+                  AppText(
+                    '0',
+                    style: TextStyle(color: ob.textSecondary, fontSize: 12),
+                  ),
+                  Expanded(
+                    child: SliderTheme(
+                      data: SliderTheme.of(ctx).copyWith(
+                        trackHeight: 4,
+                        activeTrackColor: ob.switchActive,
+                        inactiveTrackColor: ob.switchActive.withValues(
+                          alpha: 0.2,
+                        ),
+                        thumbColor: ob.switchActive,
+                        thumbShape: const RoundSliderThumbShape(
+                          enabledThumbRadius: 10,
+                        ),
+                        overlayShape: const RoundSliderOverlayShape(
+                          overlayRadius: 18,
+                        ),
+                      ),
+                      child: Slider(
+                        min: 0,
+                        max: sliderMax,
+                        value: (double.tryParse(textController.text) ?? 0).clamp(
+                          0,
+                          sliderMax,
+                        ),
+                        onChanged: (v) {
+                          setState(() {
+                            textController.text = isOz
+                                ? v.toStringAsFixed(1)
+                                : v.round().toString();
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  AppText(
+                    sliderMaxLabel,
+                    style: TextStyle(color: ob.textSecondary, fontSize: 12),
+                  ),
+                ],
+              ),
+              const AppSpacerH(24),
               Row(
                 children: [
                   Expanded(

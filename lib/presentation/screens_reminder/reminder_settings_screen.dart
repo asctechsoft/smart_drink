@@ -121,7 +121,7 @@ class _ModeTabs extends StatelessWidget {
           children: [
             _ModeTab(
               icon: Icons.access_time_rounded,
-              label: 'Standard',
+              label: 'Custom',
               selected: mode == ReminderMode.standard,
               onTap: () => ctrl.setMode(ReminderMode.standard),
             ),
@@ -133,7 +133,7 @@ class _ModeTabs extends StatelessWidget {
             ),
             _ModeTab(
               icon: Icons.edit_calendar_outlined,
-              label: 'Custom',
+              label: 'Standard',
               selected: mode == ReminderMode.custom,
               onTap: () => ctrl.setMode(ReminderMode.custom),
             ),
