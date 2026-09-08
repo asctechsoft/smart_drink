@@ -33,7 +33,10 @@ void showGenderSheet(BuildContext context) {
     context,
   );
   precacheImage(
-    ResizeImage(const AssetImage('assets/images/webp/img_women.webp'), width: w),
+    ResizeImage(
+      const AssetImage('assets/images/webp/img_women.webp'),
+      width: w,
+    ),
     context,
   );
   showModalBottomSheet(
@@ -1883,7 +1886,6 @@ void showBedtimeSheet(BuildContext context) {
   );
 }
 
-
 // ─── Nap Schedule Sheet ──────────────────────────────────────────────────────
 
 void showNapScheduleSheet(BuildContext context) {
@@ -1972,7 +1974,11 @@ class _NapSheetContentState extends State<_NapSheetContent> {
     );
   }
 
-  Widget _timeField({required String label, required String time, required VoidCallback onTap}) {
+  Widget _timeField({
+    required String label,
+    required String time,
+    required VoidCallback onTap,
+  }) {
     final ob = OnboardingTheme.of(context);
     return Expanded(
       child: GestureDetector(
@@ -2227,7 +2233,7 @@ class _LanguageSheetState extends State<_LanguageSheet> {
     return Container(
       height: screenH * 0.88,
       decoration: const BoxDecoration(
-        gradient: AppColors.gradientBgDark,
+        color: Color(0xFF0A2556),
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
