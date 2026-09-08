@@ -60,7 +60,7 @@ void showCupSizeSheet(BuildContext context) {
   int tempIndex = controller.selectedAmountIndex.value;
   PrimaryBottomSheet.show(
     context: context,
-    title: 'Loại cốc'.tr,
+    title: 'cup_type'.tr,
     buttonText: 'save'.tr,
     onButtonPressed: () {
       controller.selectedAmountIndex.value = tempIndex;
@@ -74,7 +74,7 @@ void showCupSizeSheet(BuildContext context) {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Chọn kiểu cốc và dung tích phù hợp',
+              'select_cup_and_capacity_hint'.tr,
               style: TextStyle(
                 fontSize: 13,
                 color: ob.textPrimary.withValues(alpha: 0.6),
@@ -116,7 +116,7 @@ void showDrinkTypeSheet(BuildContext context) {
   final controller = Get.find<TodayController>();
   PrimaryBottomSheet.show(
     context: context,
-    title: 'Loại đồ uống',
+    title: 'drink_type'.tr,
     showSubmitButton: false,
     content: _DrinkTypePicker(
       selected: controller.selectedDrinkType.value,
@@ -288,7 +288,7 @@ class _DrinkTypePicker extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          'Chọn loại đồ uống và xem % nước đóng góp',
+          'select_drink_type_and_ratio_hint'.tr,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 13,
@@ -373,7 +373,7 @@ class _DrinkCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        type.viName,
+                        type.label.tr,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

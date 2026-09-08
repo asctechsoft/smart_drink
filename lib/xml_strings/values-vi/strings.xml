@@ -313,4 +313,16 @@
     <string name="chat_error_quota_day">Bạn đã dùng hết lượt hỏi hôm nay. Hẹn gặp lại ngày mai nhé!</string>
     <string name="chat_error_too_long">Câu hỏi quá dài. Hãy viết ngắn gọn hơn và gửi lại.</string>
     <string name="chat_error_generic">Trợ lý chưa trả lời được lúc này. Vui lòng thử lại.</string>
+    <string name="greeting_morning">Chào buổi sáng ☀️</string>
+    <string name="greeting_noon">Chào buổi trưa 🌤️</string>
+    <string name="greeting_afternoon">Chào buổi chiều ⛅</string>
+    <string name="greeting_evening">Chào buổi tối 🌙</string>
+    <string name="today_drink_water_hint">Hôm nay hãy uống đủ nước nhé! 💧</string>
+    <string name="last_time">Lần cuối</string>
+    <string name="cup_type">Loại cốc</string>
+    <string name="select_cup_and_capacity_hint">Chọn kiểu cốc và dung tích phù hợp</string>
+    <string name="drink_type">Loại đồ uống</string>
+    <string name="select_drink_type_and_ratio_hint">Chọn loại đồ uống và xem % nước đóng góp</string>
+    <string name="exceeded_by_pct">Vượt quá %1$s%%</string>
+    <string name="remaining_prefix">Còn lại </string>
 </resources>

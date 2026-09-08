@@ -6,6 +6,9 @@
 		}
 	],
 	"settings": {
+		"git.ignoredRepositories": [
+			"C:\\Users\\admin\\AppData\\Local\\Fluter\\flutter"
+		],
 		"explorer.autoReveal": true,
 		"search.exclude": {
 			"amobi_common/.dart_tool": true,
