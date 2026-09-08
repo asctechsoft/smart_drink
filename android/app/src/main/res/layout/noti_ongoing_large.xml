@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Expanded ongoing notification content. App icon, "Drink Water" name, time and
-     collapse chevron come from DecoratedCustomViewStyle (system chrome); this view
-     supplies the body below the header. -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -32,7 +30,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginBottom="4dp"
             android:text="/ 1947 ml"
-            android:textColor="#FF75758F"
+            android:textColor="#FF3A3A55"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -43,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="Còn 1747 ml hôm nay"
-        android:textColor="#FF75758F"
+        android:textColor="#FF3A3A55"
         android:textSize="14sp" />
 
     <!-- Progress bar + percent at the right end -->

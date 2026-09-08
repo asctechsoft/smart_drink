@@ -19,7 +19,6 @@ import 'values/app_pages.dart';
 import 'values/route_name.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'services/storage/sqflite_web_helper.dart';
 
 void _ensureLocaleConfigured() {
   // 1. Try to load saved language first
@@ -71,11 +70,8 @@ Future<void> main() async {
   late ThemeMode initialThemeMode;
 
   await commRunApp(
-    () => DrinkWaterApp(initialThemeMode: initialThemeMode),
+    () => WaterNudgeApp(initialThemeMode: initialThemeMode),
     onBindingInitialized: (widgetsBinding) async {
-      // 0. Configure sqflite for web (no-op on native)
-      await configureSqfliteForWeb();
-
       // Lock orientation to portrait only
       await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
@@ -115,15 +111,15 @@ Future<void> main() async {
   );
 }
 
-class DrinkWaterApp extends StatelessWidget {
+class WaterNudgeApp extends StatelessWidget {
   final ThemeMode initialThemeMode;
 
-  const DrinkWaterApp({super.key, required this.initialThemeMode});
+  const WaterNudgeApp({super.key, required this.initialThemeMode});
 
   @override
   Widget build(BuildContext context) {
     return CommApp(
-      title: 'Aquvia',
+      title: 'Water Nudge',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
