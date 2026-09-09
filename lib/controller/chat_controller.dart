@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:waternudge/configs/ai_gateway_config.dart';
+import 'package:waternudge/models/ui_models/chat_card.dart';
 import 'package:waternudge/models/ui_models/chat_message.dart';
 import 'package:waternudge/services/application/ai_chat_service.dart';
 
@@ -23,8 +24,8 @@ class ChatController extends GetxController {
   /// bubble is shown.
   final RxBool isSending = false.obs;
 
-  /// True once the first streamed token has landed, so the typing bubble gives
-  /// way to the answer filling in live.
+  /// True once the first card snapshot has landed, so the typing bubble gives
+  /// way to the card filling in live.
   final RxBool isStreaming = false.obs;
 
   /// The message whose send failed, kept so "retry" can resend it without the
@@ -79,21 +80,21 @@ class ChatController extends GetxController {
     isSending.value = true;
     isStreaming.value = false;
 
-    // The bubble is added only when the first token lands, so an empty card
-    // never flashes: until then the typing indicator stands in.
+    // The card streams in: each snapshot is the answer so far. The bubble is
+    // added on the first snapshot (until then the typing indicator stands in),
+    // then reassigned as the card grows — reassigning the slot is what makes the
+    // RxList notify and repaint.
     int? index;
-    final buffer = StringBuffer();
+    String lastText = '';
 
-    void writeDelta(String delta) {
-      buffer.write(delta);
-      final bubble = ChatMessage.assistant(buffer.toString());
+    void render(ChatCard card, {String? text}) {
+      if (text != null && text.isNotEmpty) lastText = text;
+      final bubble = ChatMessage.assistant(lastText, card: card);
       if (index == null) {
         index = messages.length;
         messages.add(bubble);
         isStreaming.value = true;
       } else {
-        // Reassigning the slot is what makes the RxList notify, so the bubble
-        // repaints with each token.
         messages[index!] = bubble;
       }
     }
@@ -101,26 +102,35 @@ class ChatController extends GetxController {
     try {
       await for (final event in _service.sendStream(messages)) {
         if (event.done) {
+          final card = event.card;
+          if (card != null) {
+            render(
+              card,
+              text: event.reply.isNotEmpty ? event.reply : card.toPlainText(),
+            );
+          }
           if (kDebugMode) {
             debugPrint(
               'ChatController: ${event.model} '
-              'in=${event.inputTokens} out=${event.outputTokens}',
+              'in=${event.inputTokens} out=${event.outputTokens} '
+              'card=${card != null}',
             );
           }
-        } else {
-          writeDelta(event.delta);
+        } else if (event.card != null) {
+          render(event.card!);
         }
       }
 
-      // A stream that closed without a single token is a gateway version
+      // A stream that closed without a single card is a gateway version
       // mismatch — surface it as a retryable error rather than an empty bubble.
       if (index == null) {
         throw const AiChatException(
           AiChatException.codeBadResponse,
           retryable: true,
-          detail: 'stream closed with no tokens',
+          detail: 'stream closed with no card',
         );
       }
+      _pendingRetry = null;
     } on AiChatException catch (e) {
       debugPrint('ChatController: $e');
       // Only offer a retry when the gateway said the failure was transient —

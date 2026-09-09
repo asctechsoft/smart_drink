@@ -197,7 +197,7 @@ class _TodayScreenState extends State<TodayScreen> {
       final pct = ((currentMl - goalMl) / goalMl * 100).round();
       content = [
         Text(
-          'Vượt quá $pct%',
+          'exceeded_by_pct'.trArgs(['$pct']),
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,
@@ -207,9 +207,9 @@ class _TodayScreenState extends State<TodayScreen> {
       ];
     } else if (goalMl > 0 && currentMl >= goalMl) {
       content = [
-        const Text(
-          'Hoàn thành mục tiêu',
-          style: TextStyle(
+        Text(
+          'goal_completed'.tr,
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,
             color: AppColors.success,
@@ -220,7 +220,7 @@ class _TodayScreenState extends State<TodayScreen> {
       final remaining = goalMl - currentMl;
       content = [
         Text(
-          'Còn lại ',
+          'remaining_prefix'.tr,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
@@ -261,7 +261,7 @@ class _TodayScreenState extends State<TodayScreen> {
     String lastTime = '--:--';
     String lastAmPm = '';
     if (lastDrink != null) {
-      lastAmPm = lastDrink.timestamp.hour >= 12 ? 'chiều' : 'sáng';
+      lastAmPm = lastDrink.timestamp.hour >= 12 ? 'pm'.tr : 'am'.tr;
       int h = lastDrink.timestamp.hour % 12;
       if (h == 0) h = 12;
       lastTime =
@@ -287,7 +287,7 @@ class _TodayScreenState extends State<TodayScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Lần cuối', style: labelStyle()),
+              Text('last_time'.tr, style: labelStyle()),
               const SizedBox(height: 2),
               Text(
                 lastAmPm.isEmpty ? lastTime : '$lastTime $lastAmPm',
@@ -299,7 +299,7 @@ class _TodayScreenState extends State<TodayScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('Mục tiêu', style: labelStyle()),
+              Text('goal'.tr, style: labelStyle()),
               const SizedBox(height: 2),
               Text('$goalMl ml', style: valueStyle()),
             ],
@@ -317,7 +317,7 @@ class _TodayScreenState extends State<TodayScreen> {
           Expanded(
             child: _ActionCard(
               imagePath: controller.currentCupImage,
-              label: 'Loại cốc',
+              label: 'cup_type'.tr,
               onTap: () => showCupSizeSheet(context),
             ),
           ),

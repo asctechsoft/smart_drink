@@ -71,7 +71,14 @@ class AppPages {
       name: RouteName.onboardingDailyGoal,
       page: () => const DailyGoalResultScreen(),
     ),
-    GetPage(name: RouteName.home, page: () => const HomeScreen()),
+    GetPage(
+      name: RouteName.home,
+      page: () => const HomeScreen(),
+      // Cross-fade in from the splash instead of a hard cut / native slide,
+      // which reads as a jump while the first heavy frame paints.
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 350),
+    ),
     GetPage(name: RouteName.addDrink, page: () => const AddDrinkScreen()),
 
     GetPage(

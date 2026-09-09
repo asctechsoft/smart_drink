@@ -1,4 +1,4 @@
-name: waternudge
+﻿name: waternudge
 description: "WaterNudge"
 publish_to: 'none'
 version: 1.0.0+1
@@ -12,7 +12,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   get:
   sqflite: ^2.4.2
-  sqflite_common_ffi_web: any
   fl_chart: ^0.70.2
   flutter_svg: ^2.2.3
   vector_graphics: ^1.1.21
@@ -70,7 +69,6 @@ flutter:
     - lib/xml_strings/values-be/
     - lib/xml_strings/values-bg/
     - lib/xml_strings/values-bn/
-    - lib/xml_strings/values-ca/
     - lib/xml_strings/values-cs/
     - lib/xml_strings/values-da/
     - lib/xml_strings/values-de/
@@ -80,38 +78,23 @@ flutter:
     - lib/xml_strings/values-en-rCA/
     - lib/xml_strings/values-en-rGB/
     - lib/xml_strings/values-es/
-    - lib/xml_strings/values-es-rBR/
     - lib/xml_strings/values-es-rUS/
     - lib/xml_strings/values-es-rMX/
-    - lib/xml_strings/values-et/
-    - lib/xml_strings/values-eu/
     - lib/xml_strings/values-fa/
     - lib/xml_strings/values-fi/
     - lib/xml_strings/values-fil/
     - lib/xml_strings/values-fr/
     - lib/xml_strings/values-fr-rCA/
-    - lib/xml_strings/values-gl/
     - lib/xml_strings/values-gu/
     - lib/xml_strings/values-hi/
     - lib/xml_strings/values-hr/
     - lib/xml_strings/values-hu/
-    - lib/xml_strings/values-hy/
     - lib/xml_strings/values-id/
-    - lib/xml_strings/values-in/
-    - lib/xml_strings/values-is/
     - lib/xml_strings/values-it/
-    - lib/xml_strings/values-iw/
     - lib/xml_strings/values-ja/
-    - lib/xml_strings/values-ka/
-    - lib/xml_strings/values-kk/
     - lib/xml_strings/values-km/
     - lib/xml_strings/values-kn/
     - lib/xml_strings/values-ko/
-    - lib/xml_strings/values-ky/
-    - lib/xml_strings/values-lo/
-    - lib/xml_strings/values-lt/
-    - lib/xml_strings/values-lv/
-    - lib/xml_strings/values-mk/
     - lib/xml_strings/values-ml/
     - lib/xml_strings/values-mn/
     - lib/xml_strings/values-mr/
@@ -120,22 +103,16 @@ flutter:
     - lib/xml_strings/values-nb/
     - lib/xml_strings/values-ne/
     - lib/xml_strings/values-nl/
-    - lib/xml_strings/values-no/
     - lib/xml_strings/values-pa/
     - lib/xml_strings/values-pl/
     - lib/xml_strings/values-pt/
     - lib/xml_strings/values-pt-rBR/
     - lib/xml_strings/values-ro/
     - lib/xml_strings/values-ru/
-    - lib/xml_strings/values-si/
-    - lib/xml_strings/values-sk/
-    - lib/xml_strings/values-sl/
-    - lib/xml_strings/values-sq/
     - lib/xml_strings/values-sr/
     - lib/xml_strings/values-sv/
     - lib/xml_strings/values-sw/
     - lib/xml_strings/values-ta/
-    - lib/xml_strings/values-ta-rIN/
     - lib/xml_strings/values-te/
     - lib/xml_strings/values-th/
     - lib/xml_strings/values-tr/
@@ -145,7 +122,6 @@ flutter:
     - lib/xml_strings/values-zh-rCN/
     - lib/xml_strings/values-zh-rHK/
     - lib/xml_strings/values-zh-rTW/
-    - lib/xml_strings/values-zu/
     
 
   fonts:

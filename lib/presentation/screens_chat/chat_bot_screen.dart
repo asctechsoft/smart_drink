@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waternudge/configs/ai_gateway_config.dart';
 import 'package:waternudge/controller/chat_controller.dart';
+import 'package:waternudge/models/ui_models/chat_card.dart';
 import 'package:waternudge/models/ui_models/chat_message.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
@@ -37,7 +38,8 @@ const _kChipBorder = Color(0x2EFFFFFF); // ~18% white
 const _kChipIconBg = Color(0x333B8CFF); // soft blue tile behind the icon
 const _kChevron = Color(0x8AFFFFFF); // white54
 
-class _ChatBotScreenState extends State<ChatBotScreen> {
+class _ChatBotScreenState extends State<ChatBotScreen>
+    with WidgetsBindingObserver {
   final _inputCtrl = TextEditingController();
   final _scrollCtrl = ScrollController();
   final ChatController _chat = ChatController.to;
@@ -56,6 +58,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     // Every append should land in view, including the assistant's reply, which
     // arrives long after the send.
     _workers
@@ -63,8 +66,14 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
       ..add(ever(_chat.isSending, (_) => _scrollToBottom()));
   }
 
+  // The keyboard opening changes the bottom inset; keep the last message in view
+  // above it instead of leaving it hidden behind the input bar.
+  @override
+  void didChangeMetrics() => _scrollToBottom();
+
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     for (final worker in _workers) {
       worker.dispose();
     }
@@ -219,7 +228,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                 ),
                 const SizedBox(height: 6),
                 const Text(
-                  'Mình là trợ lý AI của Drink Water.\n'
+                  'Mình là trợ lý AI của Water Nudge.\n'
                   'Hỏi mình mọi thắc mắc về uống nước và sức khỏe nhé!',
                   style: TextStyle(color: _kInkSoft, fontSize: 13.5, height: 1.45),
                 ),
@@ -235,11 +244,10 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   Widget _buildMessage(ChatMessage m) {
     if (m.isUser) {
       return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Spacer(),
           Flexible(
-            flex: 5,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -283,46 +291,215 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               ],
             ),
           ),
-          const SizedBox(width: 8),
-          _avatarCircle(
-            child: const Icon(Icons.person_rounded, color: _kOnBg, size: 20),
-          ),
         ],
       );
     }
 
     // Bot message
+    final suggestions = m.card?.suggestions ?? const <String>[];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(
+              'assets/images/png/ic_bot.png',
+              width: 40,
+              height: 40,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(width: 8),
+            Flexible(child: _cardBox(child: _botContent(m))),
+          ],
+        ),
+        // Follow-up questions the user can tap, laid out under the bubble and
+        // indented to line up with the card (bot avatar + gap = 48).
+        if (!m.isError && suggestions.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(left: 48, top: 10),
+            child: _buildFollowUps(suggestions),
+          ),
+      ],
+    );
+  }
+
+  /// The inner content of a bot bubble: a rich card when the reply parsed, else
+  /// plain text. Both close with the disclaimer/retry footer.
+  Widget _botContent(ChatMessage m) {
+    if (m.isError) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            m.text,
+            style: const TextStyle(color: _kError, fontSize: 14, height: 1.5),
+          ),
+          const SizedBox(height: 10),
+          _buildErrorFooter(m),
+        ],
+      );
+    }
+
+    final card = m.card;
+    if (card == null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            m.text,
+            style: const TextStyle(color: _kInk, fontSize: 14, height: 1.5),
+          ),
+          const SizedBox(height: 10),
+          _buildReplyFooter(m),
+        ],
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (card.intro.isNotEmpty)
+          Text(
+            card.intro,
+            style: const TextStyle(
+              color: _kInk,
+              fontSize: 15,
+              height: 1.4,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        if (card.points.isNotEmpty) ...[
+          const SizedBox(height: 14),
+          for (var i = 0; i < card.points.length; i++) ...[
+            if (i > 0) const SizedBox(height: 14),
+            _pointRow(card.points[i]),
+          ],
+        ],
+        if (card.hasOutro) ...[
+          const SizedBox(height: 12),
+          Text(
+            card.outro,
+            style: const TextStyle(color: _kInkSoft, fontSize: 13.5, height: 1.45),
+          ),
+        ],
+        const SizedBox(height: 12),
+        _buildReplyFooter(m),
+      ],
+    );
+  }
+
+  /// One bullet: a colour-tinted icon, a bold title and a soft body.
+  Widget _pointRow(ChatCardPoint p) {
+    final (icon, color) = _iconFor(p.icon);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset(
-          'assets/images/png/ic_bot.png',
+        Container(
           width: 40,
           height: 40,
-          fit: BoxFit.contain,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: 0.12),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, color: color, size: 20),
         ),
-        const SizedBox(width: 8),
-        Flexible(
-          flex: 6,
-          child: _cardBox(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (p.title.isNotEmpty)
                 Text(
-                  m.text,
-                  style: TextStyle(
-                    color: m.isError ? _kError : _kInk,
+                  p.title,
+                  style: const TextStyle(
+                    color: _kInk,
                     fontSize: 14,
-                    height: 1.5,
+                    fontWeight: FontWeight.w800,
+                    height: 1.3,
                   ),
                 ),
-                const SizedBox(height: 10),
-                if (m.isError) _buildErrorFooter(m) else _buildReplyFooter(m),
-              ],
-            ),
+              if (p.title.isNotEmpty && p.body.isNotEmpty)
+                const SizedBox(height: 3),
+              if (p.body.isNotEmpty)
+                Text(
+                  p.body,
+                  style: const TextStyle(
+                    color: _kInkSoft,
+                    fontSize: 13,
+                    height: 1.4,
+                  ),
+                ),
+            ],
           ),
         ),
       ],
+    );
+  }
+
+  /// Maps a gateway icon keyword to a Material icon and its accent colour. An
+  /// unknown keyword falls back to a neutral info icon.
+  (IconData, Color) _iconFor(String key) {
+    return switch (key) {
+      'water' => (Icons.water_drop_rounded, _kBlue),
+      'heart' => (Icons.favorite_rounded, const Color(0xFFF2547D)),
+      'moon' || 'sleep' => (Icons.bedtime_rounded, const Color(0xFF6C63FF)),
+      'sun' => (Icons.wb_sunny_rounded, const Color(0xFFF5A623)),
+      'warning' => (Icons.warning_amber_rounded, const Color(0xFFE8833A)),
+      'timer' => (Icons.timer_rounded, const Color(0xFF3AA0E8)),
+      'exercise' => (Icons.fitness_center_rounded, const Color(0xFF2FB57A)),
+      'food' => (Icons.restaurant_rounded, const Color(0xFF2FA6A0)),
+      'brain' => (Icons.psychology_rounded, const Color(0xFF9B59B6)),
+      'energy' => (Icons.bolt_rounded, const Color(0xFFF5A623)),
+      'coffee' => (Icons.local_cafe_rounded, const Color(0xFF8D6E63)),
+      'check' => (Icons.check_circle_rounded, const Color(0xFF2FB57A)),
+      _ => (Icons.info_rounded, _kInkSoft),
+    };
+  }
+
+  /// Tappable follow-up questions under a bot answer.
+  Widget _buildFollowUps(List<String> suggestions) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [for (final q in suggestions) _followUpChip(q)],
+    );
+  }
+
+  Widget _followUpChip(String question) {
+    return Material(
+      color: _kChipBg,
+      borderRadius: BorderRadius.circular(20),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: _chat.isSending.value ? null : () => _send(question),
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: _kChipBorder),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.add_rounded, color: _kOnBgSoft, size: 16),
+              const SizedBox(width: 6),
+              Flexible(
+                child: Text(
+                  question,
+                  style: const TextStyle(
+                    color: _kOnBg,
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -565,25 +742,49 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
+          // As the field grows to several lines, keep the icon and the send
+          // button pinned to the bottom line, like ChatGPT.
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Expanded(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(28),
+                  borderRadius: BorderRadius.circular(24),
                   border: Border.all(color: _kCardBorder),
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Icon(Icons.auto_awesome_rounded, color: _kBlue, size: 20),
-                    const SizedBox(width: 8),
+                    // The sparkle only decorates the empty field; once the user
+                    // types it gets out of the way.
+                    ValueListenableBuilder(
+                      valueListenable: _inputCtrl,
+                      builder: (_, value, _) {
+                        if (value.text.isNotEmpty) {
+                          return const SizedBox.shrink();
+                        }
+                        return const Padding(
+                          padding: EdgeInsets.only(right: 8, bottom: 14),
+                          child: Icon(
+                            Icons.auto_awesome_rounded,
+                            color: _kBlue,
+                            size: 20,
+                          ),
+                        );
+                      },
+                    ),
                     Expanded(
                       child: TextField(
                         controller: _inputCtrl,
                         enabled: !sending,
-                        textInputAction: TextInputAction.send,
-                        onSubmitted: _send,
+                        // Enter inserts a newline; sending is the button's job,
+                        // so a long question can grow to several lines.
+                        keyboardType: TextInputType.multiline,
+                        textInputAction: TextInputAction.newline,
+                        minLines: 1,
+                        maxLines: 5,
                         // The gateway rejects anything longer, so stop the
                         // keyboard rather than the server.
                         maxLength: AiGatewayConfig.maxPromptChars,
@@ -595,18 +796,20 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                               maxLength,
                             }) => null,
                         cursorColor: _kBlue,
-                        style: const TextStyle(color: _kInk, fontSize: 14.5),
+                        style: const TextStyle(
+                          color: _kInk,
+                          fontSize: 14.5,
+                          height: 1.35,
+                        ),
                         decoration: const InputDecoration(
                           hintText: 'Hỏi AI...',
                           hintStyle: TextStyle(color: _kInkSoft, fontSize: 14.5),
                           border: InputBorder.none,
                           isCollapsed: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 16),
+                          contentPadding: EdgeInsets.symmetric(vertical: 14),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    const Icon(Icons.mic_none_rounded, color: _kInkSoft, size: 22),
                   ],
                 ),
               ),
@@ -697,19 +900,6 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
           child: Center(child: child),
         ),
       ),
-    );
-  }
-
-  Widget _avatarCircle({required Widget child}) {
-    return Container(
-      width: 40,
-      height: 40,
-      alignment: Alignment.center,
-      decoration: const BoxDecoration(
-        color: _kChipIconBg,
-        shape: BoxShape.circle,
-      ),
-      child: child,
     );
   }
 }

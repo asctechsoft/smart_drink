@@ -77,7 +77,7 @@ android {
         create("alpha") {
             dimension = "environment"
             applicationIdSuffix = ""
-            resValue("string", "app_name", "Drink Water Alpha")
+            resValue("string", "app_name", "Water Nudge Alpha")
             ndk {
                 abiFilters += listOf("arm64-v8a")
             }
@@ -85,20 +85,20 @@ android {
         create("dev") {
             dimension = "environment"
             applicationIdSuffix = ""
-            resValue("string", "app_name", "Drink Water Dev")
+            resValue("string", "app_name", "Water Nudge Dev")
             ndk {
                 abiFilters += listOf("arm64-v8a")
             }
         }
         create("product") {
             dimension = "environment"
-            resValue("string", "app_name", "Drink Water")
+            resValue("string", "app_name", "Water Nudge")
             signingConfig = signingConfigs.getByName("productRelease")
         }
         create("claude") {
             dimension = "environment"
             applicationIdSuffix = ""
-            resValue("string", "app_name", "Drink Water Claude")
+            resValue("string", "app_name", "Water Nudge Claude")
             signingConfig = signingConfigs.getByName("release")
         }
     }

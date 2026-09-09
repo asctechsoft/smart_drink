@@ -50,3 +50,6 @@ pubspec.lock
 build_release_notes.txt
 build_version.txt
 .translate_temp
+
+# Build script contains credentials (Gmail App Password) — keep local only
+build.py

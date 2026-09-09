@@ -12,10 +12,10 @@ class TodayHeader extends StatelessWidget {
 
   /// Greeting keyed to the current time of day.
   String _greeting(int hour) {
-    if (hour < 11) return 'Chào buổi sáng ☀️';
-    if (hour < 13) return 'Chào buổi trưa 🌤️';
-    if (hour < 18) return 'Chào buổi chiều ⛅';
-    return 'Chào buổi tối 🌙';
+    if (hour < 11) return 'greeting_morning'.tr;
+    if (hour < 13) return 'greeting_noon'.tr;
+    if (hour < 18) return 'greeting_afternoon'.tr;
+    return 'greeting_evening'.tr;
   }
 
   @override
@@ -45,7 +45,7 @@ class TodayHeader extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Hôm nay hãy uống đủ nước nhé! 💧',
+                  'today_drink_water_hint'.tr,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,

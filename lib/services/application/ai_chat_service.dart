@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:waternudge/configs/ai_gateway_config.dart';
+import 'package:waternudge/models/ui_models/chat_card.dart';
 import 'package:waternudge/models/ui_models/chat_message.dart';
 
 /// A chat request that did not produce an answer.
@@ -58,35 +59,49 @@ class AiChatReply {
   final int inputTokens;
   final int outputTokens;
 
+  /// The structured card, when the gateway parsed one. Null falls back to
+  /// rendering [text].
+  final ChatCard? card;
+
   const AiChatReply({
     required this.text,
     required this.model,
     required this.inputTokens,
     required this.outputTokens,
+    this.card,
   });
 }
 
-/// One event from [AiChatService.sendStream]: either a [delta] of new text or
-/// the terminal event ([done] = true) carrying the model and token usage.
+/// One event from [AiChatService.sendStream]: either a [snapshot] — the card as
+/// it has arrived so far — or the terminal event ([done] = true) carrying the
+/// final card, its plain-text form, the model and token usage.
 class AiChatEvent {
-  final String delta;
   final bool done;
+
+  /// The card so far (a snapshot) or the final card (on [done]).
+  final ChatCard? card;
+
+  /// The gateway's flattened answer, only set on [done].
+  final String reply;
+
   final String model;
   final int inputTokens;
   final int outputTokens;
 
-  const AiChatEvent.delta(this.delta)
+  const AiChatEvent.snapshot(this.card)
     : done = false,
+      reply = '',
       model = '',
       inputTokens = 0,
       outputTokens = 0;
 
   const AiChatEvent.done({
+    required this.card,
+    required this.reply,
     required this.model,
     required this.inputTokens,
     required this.outputTokens,
-  }) : delta = '',
-       done = true;
+  }) : done = true;
 }
 
 /// Client for `server_gateway_ai`'s `POST /v1/chat`.
@@ -139,9 +154,9 @@ class AiChatService {
     }
   }
 
-  /// Same call as [send] but yields the reply as it arrives from the gateway's
-  /// Server-Sent-Events stream: [AiChatEvent.delta] for each token, then one
-  /// [AiChatEvent.done] with the model and usage.
+  /// Same call as [send] but yields the card as it arrives from the gateway's
+  /// Server-Sent-Events stream: an [AiChatEvent.snapshot] for each growing card,
+  /// then one [AiChatEvent.done] with the final card, model and usage.
   ///
   /// Throws [AiChatException] for every failure, whether it strikes before the
   /// first byte (a real status) or mid-stream (an in-band error event).
@@ -256,6 +271,8 @@ class AiChatService {
         if (obj['done'] == true) {
           final usage = obj['usage'];
           yield AiChatEvent.done(
+            card: ChatCard.fromJson(obj['card']),
+            reply: (obj['reply'] as String? ?? '').trim(),
             model: obj['model'] as String? ?? '',
             inputTokens: usage is Map
                 ? (usage['input'] as num?)?.toInt() ?? 0
@@ -267,9 +284,9 @@ class AiChatService {
           return;
         }
 
-        final delta = obj['delta'];
-        if (delta is String && delta.isNotEmpty) {
-          yield AiChatEvent.delta(delta);
+        final card = ChatCard.fromJson(obj['card']);
+        if (card != null) {
+          yield AiChatEvent.snapshot(card);
         }
       }
     } on AiChatException {
@@ -336,6 +353,7 @@ class AiChatService {
         outputTokens: usage is Map
             ? (usage['output'] as num?)?.toInt() ?? 0
             : 0,
+        card: ChatCard.fromJson(json['card']),
       );
     }
 

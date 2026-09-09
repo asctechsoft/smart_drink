@@ -19,6 +19,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
+  /// Tabs built so far. Only Today is built on entry; the others are deferred
+  /// until first visited, so arriving from the splash paints one screen, not
+  /// four — the rest were the jank on the way in.
+  final Set<int> _built = {0};
+
   final _screens = const [
     TodayScreen(),
     HistoryScreen(),
@@ -28,11 +33,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static const _pillH = 68.0;
 
+  void _select(int index) => setState(() {
+    _currentIndex = index;
+    _built.add(index);
+  });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: IndexedStack(index: _currentIndex, children: _screens),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: [
+          for (var i = 0; i < _screens.length; i++)
+            _built.contains(i) ? _screens[i] : const SizedBox.shrink(),
+        ],
+      ),
       bottomNavigationBar: _buildBottomNavBar(context),
     );
   }
@@ -73,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: 'assets/images/svg/ic_cup_water_bar.svg',
             label: 'today'.tr,
             currentIndex: _currentIndex,
-            onTap: () => setState(() => _currentIndex = 0),
+            onTap: () => _select(0),
           ),
           _PillNavItem(
             index: 1,
@@ -81,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'history'.tr,
             currentIndex: _currentIndex,
             onTap: () {
-              setState(() => _currentIndex = 1);
+              _select(1);
               if (Get.isRegistered<HistoryController>()) {
                 final h = Get.find<HistoryController>();
                 // Always land on the Day tab at the current date on entry.
@@ -96,14 +112,14 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: 'assets/images/svg/ic_ring_tabbar.svg',
             label: 'reminders'.tr,
             currentIndex: _currentIndex,
-            onTap: () => setState(() => _currentIndex = 2),
+            onTap: () => _select(2),
           ),
           _PillNavItem(
             index: 3,
             icon: 'assets/images/svg/ic_setting_tabbar.svg',
             label: 'settings'.tr,
             currentIndex: _currentIndex,
-            onTap: () => setState(() => _currentIndex = 3),
+            onTap: () => _select(3),
           ),
         ],
       ),
