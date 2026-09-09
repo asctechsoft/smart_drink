@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "water_nudge (AlphaDebug)",
+      "name": "water_nudge (NoAds Debug)",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
@@ -12,7 +12,7 @@
       ]
     },
     {
-      "name": "water_nudge (DevDebug)",
+      "name": "water_nudge (Dev Debug)",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
@@ -22,18 +22,17 @@
       ]
     },
     {
-      "name": "water_nudge (DevRelease)",
+      "name": "water_nudge (Product Debug)",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "release",
       "program": "lib/main.dart",
       "args": [
         "--flavor",
-        "dev"
+        "product"
       ]
     },
     {
-      "name": "water_nudge (ProductRelease)",
+      "name": "water_nudge (Product Release)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
@@ -42,7 +41,6 @@
         "--flavor",
         "product"
       ]
-    },
-    
+    }
   ]
 }
