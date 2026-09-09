@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
@@ -41,7 +42,7 @@ class YearVolumeCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Tổng lượng nước theo tháng',
+            'history_year_volume_title'.tr,
             style: TextStyle(
               color: ob.textPrimary,
               fontSize: 14,
@@ -62,7 +63,7 @@ class YearVolumeCard extends StatelessWidget {
               ChartStat(
                 icon: Icons.trending_down_rounded,
                 iconColor: const Color(0xFFFF6B6B),
-                label: 'Tháng thấp nhất',
+                label: 'history_stat_lowest_month'.tr,
                 value: minMl > 0
                     ? UnitConverter.formatVolumeGrouped(minMl.toDouble(), unit)
                     : '--',
@@ -70,7 +71,7 @@ class YearVolumeCard extends StatelessWidget {
               ChartStat(
                 icon: Icons.water_rounded,
                 iconColor: AppColors.accentTeal,
-                label: 'Trung bình tháng',
+                label: 'history_stat_avg_per_month'.tr,
                 value: UnitConverter.formatVolumeGrouped(
                   avgPerMonthMl.toDouble(),
                   unit,
@@ -79,7 +80,7 @@ class YearVolumeCard extends StatelessWidget {
               ChartStat(
                 icon: Icons.trending_up_rounded,
                 iconColor: AppColors.primary500Dark,
-                label: 'Tháng cao nhất',
+                label: 'history_stat_highest_month'.tr,
                 value: maxMl > 0
                     ? UnitConverter.formatVolumeGrouped(maxMl.toDouble(), unit)
                     : '--',
@@ -113,7 +114,7 @@ class YearGoalRateCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Tỷ lệ đạt mục tiêu theo tháng',
+            'history_year_goal_rate_title'.tr,
             style: TextStyle(
               color: ob.textPrimary,
               fontSize: 14,

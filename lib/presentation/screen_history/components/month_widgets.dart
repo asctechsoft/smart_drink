@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
@@ -81,7 +82,7 @@ class MonthSummaryCard extends StatelessWidget {
                       BlendMode.srcIn,
                     ),
                   ),
-                  label: 'Tổng nước',
+                  label: 'history_stat_total_water'.tr,
                   value: UnitConverter.formatVolumeGrouped(
                     totalMl.toDouble(),
                     unit,
@@ -95,7 +96,7 @@ class MonthSummaryCard extends StatelessWidget {
                     size: 22,
                     color: _statIconColor,
                   ),
-                  label: 'Trung bình / ngày',
+                  label: 'history_stat_avg_per_day'.tr,
                   value: UnitConverter.formatVolumeGrouped(
                     avgPerDayMl.toDouble(),
                     unit,
@@ -113,8 +114,10 @@ class MonthSummaryCard extends StatelessWidget {
                       BlendMode.srcIn,
                     ),
                   ),
-                  label: 'Ngày đạt mục tiêu',
-                  value: '$goalDaysCount ngày',
+                  label: 'history_stat_goal_days'.tr,
+                  value: 'history_stat_goal_days_value'.trParams({
+                    'args1': '$goalDaysCount',
+                  }),
                 ),
               ),
             ],
@@ -198,7 +201,7 @@ class MonthChartCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Biểu đồ tổng lượng nước',
+            'history_chart_daily_title'.tr,
             style: TextStyle(
               color: ob.textPrimary,
               fontSize: 14,
@@ -217,7 +220,7 @@ class MonthChartCard extends StatelessWidget {
               ChartStat(
                 icon: Icons.trending_down_rounded,
                 iconColor: const Color(0xFFFF6B6B),
-                label: 'Ngày thấp nhất',
+                label: 'history_stat_lowest_day'.tr,
                 value: minMl > 0
                     ? UnitConverter.formatVolumeGrouped(minMl.toDouble(), unit)
                     : '--',
@@ -225,7 +228,7 @@ class MonthChartCard extends StatelessWidget {
               ChartStat(
                 icon: Icons.water_rounded,
                 iconColor: AppColors.accentTeal,
-                label: 'Trung bình',
+                label: 'history_stat_average'.tr,
                 value: UnitConverter.formatVolumeGrouped(
                   avgPerDayMl.toDouble(),
                   unit,
@@ -234,7 +237,7 @@ class MonthChartCard extends StatelessWidget {
               ChartStat(
                 icon: Icons.trending_up_rounded,
                 iconColor: AppColors.primary500Dark,
-                label: 'Ngày cao nhất',
+                label: 'history_stat_highest_day'.tr,
                 value: maxMl > 0
                     ? UnitConverter.formatVolumeGrouped(maxMl.toDouble(), unit)
                     : '--',
@@ -305,8 +308,7 @@ class MonthCalendarGrid extends StatelessWidget {
                     data: cells[r + c],
                     dailyGoal: dailyGoal,
                     selected:
-                        cells[r + c].inMonth &&
-                        cells[r + c].day == selectedDay,
+                        cells[r + c].inMonth && cells[r + c].day == selectedDay,
                     isOz: isOz,
                   ),
                 ),
@@ -324,11 +326,11 @@ class MonthCalendarGrid extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: const [
+            children: [
               Expanded(
                 child: Text(
-                  'Tổng quan theo ngày',
-                  style: TextStyle(
+                  'history_calendar_title'.tr,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
@@ -345,7 +347,7 @@ class MonthCalendarGrid extends StatelessWidget {
               for (final w in _weekdays) ...[
                 Expanded(
                   child: Text(
-                    w,
+                    w.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 11,
@@ -456,8 +458,11 @@ class _DayCell extends StatelessWidget {
               ),
               if (reached) ...[
                 const SizedBox(width: 2),
-                const Icon(Icons.star_rounded,
-                    size: 11, color: Color(0xFFFACA1F)),
+                const Icon(
+                  Icons.star_rounded,
+                  size: 11,
+                  color: Color(0xFFFACA1F),
+                ),
               ],
             ],
           ),
@@ -482,40 +487,50 @@ class _Legend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ob = OnboardingTheme.of(context);
-    TextStyle style() => TextStyle(
-          fontSize: 10,
-          color: ob.textPrimary.withValues(alpha: 0.7),
-        );
+    TextStyle style() =>
+        TextStyle(fontSize: 10, color: ob.textPrimary.withValues(alpha: 0.7));
     Widget dot(Color c) => Container(
-          width: 8,
-          height: 8,
-          decoration: BoxDecoration(color: c, shape: BoxShape.circle),
-        );
+      width: 8,
+      height: 8,
+      decoration: BoxDecoration(color: c, shape: BoxShape.circle),
+    );
 
     return Wrap(
       spacing: 12,
       runSpacing: 6,
       children: [
-        Row(mainAxisSize: MainAxisSize.min, children: [
-          dot(const Color(0xFFE5484D)),
-          const SizedBox(width: 4),
-          Text('< 1.5L', style: style()),
-        ]),
-        Row(mainAxisSize: MainAxisSize.min, children: [
-          dot(const Color(0xFF3B82F6)),
-          const SizedBox(width: 4),
-          Text('1.5L - 3L', style: style()),
-        ]),
-        Row(mainAxisSize: MainAxisSize.min, children: [
-          dot(const Color(0xFF2FB89C)),
-          const SizedBox(width: 4),
-          Text('> 3L', style: style()),
-        ]),
-        Row(mainAxisSize: MainAxisSize.min, children: [
-          const Icon(Icons.star_rounded, size: 11, color: Color(0xFFFACA1F)),
-          const SizedBox(width: 4),
-          Text('Đạt mục tiêu', style: style()),
-        ]),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            dot(const Color(0xFFE5484D)),
+            const SizedBox(width: 4),
+            Text('< 1.5L', style: style()),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            dot(const Color(0xFF3B82F6)),
+            const SizedBox(width: 4),
+            Text('1.5L - 3L', style: style()),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            dot(const Color(0xFF2FB89C)),
+            const SizedBox(width: 4),
+            Text('> 3L', style: style()),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.star_rounded, size: 11, color: Color(0xFFFACA1F)),
+            const SizedBox(width: 4),
+            Text('history_legend_goal_reached'.tr, style: style()),
+          ],
+        ),
       ],
     );
   }

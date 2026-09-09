@@ -361,7 +361,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 142),
       children: [
         MonthSummaryCard(
-          title: 'Tổng quan',
+          title: 'history_overview_title'.tr,
           subtitle: AppDateUtils.monthLabel(selected),
           totalMl: total,
           monthGoalMl: goal * daysInMonth,
@@ -437,7 +437,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 142),
       children: [
         MonthSummaryCard(
-          title: 'Tổng quan',
+          title: 'history_overview_title'.tr,
           subtitle: '$year',
           totalMl: total,
           monthGoalMl: yearGoal,

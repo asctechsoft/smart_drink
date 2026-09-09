@@ -23,7 +23,7 @@ class ReminderSlotsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Các mốc nhắc',
+          'reminder_slots_title'.tr,
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w700,
@@ -32,7 +32,7 @@ class ReminderSlotsSection extends StatelessWidget {
         ),
         const SizedBox(height: 2),
         Text(
-          'Nhấn vào mốc để chỉnh giờ',
+          'reminder_slots_subtitle'.tr,
           style: TextStyle(fontSize: 11, color: ob.textSecondary),
         ),
         const SizedBox(height: 12),

@@ -139,7 +139,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
             // Full-screen intent only on first show
             if (playSound) {
                 val isFullScreen = PrefAssist.getBoolean(
-                    context, PrefConst.IS_FULL_SCREEN_INTENT_ENABLED, true
+                    context, PrefConst.IS_FULL_SCREEN_INTENT_ENABLED, false
                 )
                 if (isFullScreen) {
                     val fullScreenIntent =

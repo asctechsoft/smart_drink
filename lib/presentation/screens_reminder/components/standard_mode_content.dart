@@ -80,7 +80,7 @@ class _StandardModeContentState extends State<StandardModeContent> {
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              'Khung giờ nhắc',
+              'reminder_window_title'.tr,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -104,7 +104,7 @@ class _StandardModeContentState extends State<StandardModeContent> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Áp dụng lịch nhắc',
+          'reminder_schedule_title'.tr,
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w700,
@@ -113,7 +113,7 @@ class _StandardModeContentState extends State<StandardModeContent> {
         ),
         const SizedBox(height: 2),
         Text(
-          'Chọn những ngày bạn muốn áp dụng lịch nhắc này.',
+          'reminder_schedule_subtitle'.tr,
           style: TextStyle(fontSize: 11, color: ob.textSecondary),
         ),
         const SizedBox(height: 12),
@@ -127,7 +127,7 @@ class _StandardModeContentState extends State<StandardModeContent> {
               children: [
                 _presetChip(
                   Icons.calendar_month_rounded,
-                  'Every day',
+                  'preset_everyday'.tr,
                   null,
                   preset == 'everyday',
                   () => _setPreset([1, 2, 3, 4, 5, 6, 7]),
@@ -135,24 +135,24 @@ class _StandardModeContentState extends State<StandardModeContent> {
                 const SizedBox(width: 8),
                 _presetChip(
                   Icons.calendar_view_week_rounded,
-                  'Weekdays',
-                  'T2 - T6',
+                  'preset_weekdays'.tr,
+                  'preset_weekdays_range'.tr,
                   preset == 'weekdays',
                   () => _setPreset([1, 2, 3, 4, 5]),
                 ),
                 const SizedBox(width: 8),
                 _presetChip(
                   Icons.weekend_outlined,
-                  'Weekends',
-                  'T7 - CN',
+                  'preset_weekends'.tr,
+                  'preset_weekends_range'.tr,
                   preset == 'weekends',
                   () => _setPreset([6, 7]),
                 ),
                 const SizedBox(width: 8),
                 _presetChip(
                   Icons.edit_calendar_outlined,
-                  'Custom',
-                  'Chọn ngày',
+                  'preset_custom'.tr,
+                  'preset_custom_sub'.tr,
                   preset == 'custom',
                   null,
                 ),
@@ -167,7 +167,7 @@ class _StandardModeContentState extends State<StandardModeContent> {
             children: [
               for (var d = 1; d <= 7; d++) ...[
                 _dayChip(
-                  _dayLabels[d - 1],
+                  _dayLabels[d - 1].tr,
                   days.contains(d),
                   () => ctrl.toggleDay(d),
                 ),
@@ -203,7 +203,7 @@ class _StandardModeContentState extends State<StandardModeContent> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Lịch cuối tuần riêng',
+                      'reminder_weekend_title'.tr,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -212,7 +212,7 @@ class _StandardModeContentState extends State<StandardModeContent> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'Thiết lập khung giờ khác cho cuối tuần.',
+                      'reminder_weekend_subtitle'.tr,
                       style: TextStyle(fontSize: 11, color: ob.textSecondary),
                     ),
                   ],
@@ -228,7 +228,7 @@ class _StandardModeContentState extends State<StandardModeContent> {
           ),
           const SizedBox(height: 14),
           _weekendSubRow(
-            'Ngày thường',
+            'reminder_weekday_label'.tr,
             _weekdayStart,
             _weekdayEnd,
             subColor,
@@ -244,7 +244,7 @@ class _StandardModeContentState extends State<StandardModeContent> {
           ),
           const SizedBox(height: 10),
           _weekendSubRow(
-            'Cuối tuần',
+            'reminder_weekend_label'.tr,
             _weekendStart,
             _weekendEnd,
             subColor,
@@ -505,13 +505,13 @@ class _StandardModeContentState extends State<StandardModeContent> {
     String newEnd = end;
     showWheelTimePicker(
       context,
-      title: 'Từ',
+      title: 'picker_from'.tr,
       initialTime: start,
       onSave: (s) {
         newStart = s;
         showWheelTimePicker(
           context,
-          title: 'Đến',
+          title: 'picker_to'.tr,
           initialTime: end,
           onSave: (e) {
             newEnd = e;

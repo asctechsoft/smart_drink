@@ -73,7 +73,7 @@ class _HeaderBanner extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Nhắc nhở',
+                  'reminder_screen_title'.tr,
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.w800,
@@ -82,7 +82,7 @@ class _HeaderBanner extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Thiết lập nhắc uống nước mỗi ngày',
+                  'reminder_screen_subtitle'.tr,
                   style: TextStyle(fontSize: 13, color: ob.textSecondary),
                 ),
               ],
@@ -121,19 +121,19 @@ class _ModeTabs extends StatelessWidget {
           children: [
             _ModeTab(
               icon: Icons.access_time_rounded,
-              label: 'Custom',
+              label: 'mode_tab_standard'.tr,
               selected: mode == ReminderMode.standard,
               onTap: () => ctrl.setMode(ReminderMode.standard),
             ),
             _ModeTab(
               icon: Icons.timer_outlined,
-              label: 'Interval',
+              label: 'mode_tab_interval'.tr,
               selected: mode == ReminderMode.interval,
               onTap: () => ctrl.setMode(ReminderMode.interval),
             ),
             _ModeTab(
               icon: Icons.edit_calendar_outlined,
-              label: 'Standard',
+              label: 'mode_tab_custom'.tr,
               selected: mode == ReminderMode.custom,
               onTap: () => ctrl.setMode(ReminderMode.custom),
             ),

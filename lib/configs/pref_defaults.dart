@@ -30,7 +30,7 @@ class PrefDefaults {
   static const int notificationDailyHourMorning = 8;
   static const int notificationDailyHourAfternoon = 13;
   static const int notificationDailyHourNight = 21;
-  static const bool isFullScreenIntentEnabled = true;
+  static const bool isFullScreenIntentEnabled = false;
   static const String languageSelectionHistory = '';
   static const bool smartNotification = true;
   static const String selectedAvatar = 'human_1';

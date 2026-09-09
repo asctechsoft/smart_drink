@@ -77,7 +77,7 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
                 _iconCircle(Icons.timer_outlined),
                 const SizedBox(width: 12),
                 Text(
-                  'Khoảng thời gian',
+                  'interval_title'.tr,
                   style: TextStyle(
                     color: ob.textPrimary,
                     fontSize: 16,
@@ -112,7 +112,7 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
 
             // ── Quick interval chips ──
             Text(
-              'Chọn nhanh khoảng thời gian',
+              'interval_quick_pick'.tr,
               style: TextStyle(color: ob.textSecondary, fontSize: 12),
             ),
             const SizedBox(height: 10),
@@ -138,7 +138,7 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
 
             // ── Sleep window ──
             Text(
-              'Khoảng thời gian ngủ',
+              'interval_sleep_window'.tr,
               style: TextStyle(color: ob.textSecondary, fontSize: 12),
             ),
             const SizedBox(height: 10),
@@ -149,7 +149,7 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
                     ob,
                     icon: Icons.nightlight_round,
                     iconColor: const Color(0xFF7C83FF),
-                    label: 'Giờ đi ngủ',
+                    label: 'interval_bedtime_label'.tr,
                     time: controller.formatDisplayTime(
                       controller.sleepTimeStart.value,
                     ),
@@ -180,7 +180,7 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
                     ob,
                     icon: Icons.wb_sunny_rounded,
                     iconColor: const Color(0xFFFFC107),
-                    label: 'Giờ thức dậy',
+                    label: 'interval_wakeup_label'.tr,
                     time: controller.formatDisplayTime(
                       controller.sleepTimeEnd.value,
                     ),
@@ -227,9 +227,7 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Chúng tôi sẽ nhắc bạn mỗi ${controller.intervalDisplay} '
-                      'trong khoảng thời gian bạn thức dậy, không nhắc trong '
-                      'giờ ngủ đã thiết lập.',
+                      'interval_info'.trParams({'args1': controller.intervalDisplay}),
                       style: TextStyle(
                         color: ob.textSecondary,
                         fontSize: 12,
@@ -293,7 +291,7 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
               : null,
         ),
         child: Text(
-          '$minutes phút',
+          '$minutes ${'unit_minutes'.tr}',
           maxLines: 1,
           style: TextStyle(
             fontSize: 14,

@@ -164,8 +164,8 @@ class SettingsScreen extends StatelessWidget {
                     Obx(
                       () => _SettingsToggleTile(
                         iconData: Icons.notifications_outlined,
-                        title: 'Bật nhắc nhở uống nước',
-                        subtitle: 'Nhận thông báo nhắc uống nước mỗi ngày.',
+                        title: 'reminder_enable_title'.tr,
+                        subtitle: 'reminder_enable_subtitle'.tr,
                         value: reminderCtrl.enabled.value,
                         onChanged: (v) {
                           reminderCtrl.enabled.value = v;
@@ -212,7 +212,7 @@ class SettingsScreen extends StatelessWidget {
                       iconData: Icons.shield_outlined,
                       title: 'settings_privacy'.tr,
                       subtitle: 'settings_privacy_desc'.tr,
-                      onTap: () {},
+                      onTap: () => Get.toNamed(RouteName.privacyPolicy),
                     ),
                     _Divider(),
                     _SettingsTile(

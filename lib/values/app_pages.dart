@@ -21,6 +21,7 @@ import '../presentation/screen_today/add_drink_screen.dart';
 import '../presentation/screens_settings/widget_preview_screen.dart';
 import '../presentation/screens_settings/theme_screen.dart';
 import '../presentation/screens_settings/feedback_screen.dart';
+import '../presentation/screens_settings/privacy_policy_screen.dart';
 import '../presentation/screens_settings/language_screen.dart';
 import '../presentation/screens_settings/premium_screen.dart';
 import '../presentation/screens_reminder/reminder_settings_screen.dart';
@@ -109,6 +110,10 @@ class AppPages {
       }),
     ),
     GetPage(name: RouteName.feedback, page: () => const FeedbackScreen()),
+    GetPage(
+      name: RouteName.privacyPolicy,
+      page: () => const PrivacyPolicyScreen(),
+    ),
     GetPage(name: RouteName.premium, page: () => const PremiumScreen()),
     GetPage(
       name: RouteName.languageSelection,

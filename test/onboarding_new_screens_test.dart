@@ -61,10 +61,12 @@ void main() {
 
   test('weather choice is carried into the saved profile fields', () {
     controller.weather.value = WeatherCondition.cold;
-    expect(controller.weather.value.name, 'cold');
+    final weather = controller.weather.value;
+    expect(weather, isNotNull);
+    expect(weather!.name, 'cold');
     expect(
       WeatherCondition.values.map((e) => e.name),
-      contains(controller.weather.value.name),
+      contains(weather.name),
     );
   });
 }
