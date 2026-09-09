@@ -50,18 +50,18 @@ class _TodayScreenState extends State<TodayScreen> {
     showCoachMarks(context, [
       CoachStep(
         key: _drinkKey,
-        text: 'Nhấn vào đây để ghi nhận lượng nước bạn vừa uống.',
+        text: 'coach_drink'.tr,
         radius: 999, // pill
         spotlightBuilder: () => const DrinkActionBar(),
       ),
       CoachStep(
         key: _menuKey,
-        text: 'Chọn loại đồ uống (nước, cà phê, trà...) tại đây.',
+        text: 'coach_menu'.tr,
         radius: 16,
       ),
       CoachStep(
         key: _chatKey,
-        text: 'Trợ lý AI — hỏi đáp về uống nước & sức khoẻ tại đây.',
+        text: 'coach_chat'.tr,
         radius: 12,
       ),
     ], onFinish: () => prefs.setBool(PrefConst.coachMarkHomeSeen, true));
@@ -330,9 +330,9 @@ class _TodayScreenState extends State<TodayScreen> {
                 height: 24,
                 fit: BoxFit.contain,
               ),
-              label: 'Streak',
+              label: 'label_streak'.tr,
               value: '${controller.streakDays.value}',
-              unit: 'ngày',
+              unit: 'unit_day'.tr,
               bg: Colors.white.withValues(alpha: 0.07),
               border: Colors.white.withValues(alpha: 0.1),
               textColor: Colors.white,
@@ -345,7 +345,7 @@ class _TodayScreenState extends State<TodayScreen> {
               key: _menuKey,
               child: _ActionCard(
                 imagePath: controller.selectedDrinkType.value.imagePath,
-                label: 'Menu',
+                label: 'label_menu'.tr,
                 onTap: () => showDrinkTypeSheet(context),
               ),
             ),

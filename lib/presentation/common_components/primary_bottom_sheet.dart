@@ -52,9 +52,17 @@ class PrimaryBottomSheet extends StatelessWidget {
     final ob = OnboardingTheme.of(context);
     return AppColumn(
       mainAxisSize: MainAxisSize.min,
-      modifier: Modifier.background(
+      modifier: Modifier.boxDecoration(
         color: ob.bgBottomSheet,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.10),
+            blurRadius: 24,
+            spreadRadius: 1,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ).padding(horizontal: 24, vertical: 12),
       children: [
         _dragHandle(context),

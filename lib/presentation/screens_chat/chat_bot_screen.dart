@@ -44,13 +44,12 @@ class _ChatBotScreenState extends State<ChatBotScreen>
   final _scrollCtrl = ScrollController();
   final ChatController _chat = ChatController.to;
 
-  // Starter prompts: a 2×2 grid on the empty screen, a horizontal strip once a
-  // conversation is under way.
-  static const _suggestions = [
-    (icon: Icons.water_drop_rounded, label: 'Uống bao nhiêu nước là đủ?', tint: _kOnBg),
-    (icon: Icons.bedtime_rounded, label: 'Uống nước trước khi ngủ có tốt không?', tint: _kOnBg),
-    (icon: Icons.bar_chart_rounded, label: 'Lợi ích của việc uống nước', tint: _kOnBg),
-    (icon: Icons.favorite_rounded, label: 'Dấu hiệu thiếu nước', tint: Color(0xFFFF6B8A)),
+  // Starter prompts: converted to getter so .tr can be called at runtime.
+  static List<({IconData icon, String label, Color tint})> get _suggestions => [
+    (icon: Icons.water_drop_rounded, label: 'suggest_how_much_water'.tr, tint: _kOnBg),
+    (icon: Icons.bedtime_rounded, label: 'suggest_water_before_sleep'.tr, tint: _kOnBg),
+    (icon: Icons.bar_chart_rounded, label: 'suggest_water_benefits'.tr, tint: _kOnBg),
+    (icon: Icons.favorite_rounded, label: 'suggest_dehydration_signs'.tr, tint: const Color(0xFFFF6B8A)),
   ];
 
   final List<Worker> _workers = [];
@@ -175,7 +174,7 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                     const Icon(Icons.auto_awesome_rounded, color: _kBlue, size: 20),
                     const SizedBox(width: 6),
                     Text(
-                      'Hỏi AI',
+                      'chat_screen_title'.tr,
                       style: const TextStyle(
                         color: _kOnBg,
                         fontSize: 20,
@@ -185,9 +184,9 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                   ],
                 ),
                 const SizedBox(height: 2),
-                const Text(
-                  'Trợ lý sức khỏe & uống nước',
-                  style: TextStyle(color: _kOnBgSoft, fontSize: 12.5),
+                Text(
+                  'chat_screen_subtitle'.tr,
+                  style: const TextStyle(color: _kOnBgSoft, fontSize: 12.5),
                 ),
               ],
             ),
@@ -218,19 +217,18 @@ class _ChatBotScreenState extends State<ChatBotScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Chào bạn! 👋',
-                  style: TextStyle(
+                Text(
+                  'chat_greeting_title'.tr,
+                  style: const TextStyle(
                     color: _kInk,
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: 6),
-                const Text(
-                  'Mình là trợ lý AI của Water Nudge.\n'
-                  'Hỏi mình mọi thắc mắc về uống nước và sức khỏe nhé!',
-                  style: TextStyle(color: _kInkSoft, fontSize: 13.5, height: 1.45),
+                Text(
+                  'chat_greeting_body'.tr,
+                  style: const TextStyle(color: _kInkSoft, fontSize: 13.5, height: 1.45),
                 ),
               ],
             ),
@@ -700,20 +698,20 @@ class _ChatBotScreenState extends State<ChatBotScreen>
             fit: BoxFit.contain,
           ),
           const SizedBox(height: 12),
-          const Text(
-            'Chưa có cuộc trò chuyện nào',
+          Text(
+            'chat_empty_title'.tr,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: _kOnBg,
               fontSize: 17,
               fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Hãy chọn một câu hỏi gợi ý hoặc nhập câu hỏi của bạn để bắt đầu.',
+          Text(
+            'chat_empty_body'.tr,
             textAlign: TextAlign.center,
-            style: TextStyle(color: _kOnBgSoft, fontSize: 13.5, height: 1.4),
+            style: const TextStyle(color: _kOnBgSoft, fontSize: 13.5, height: 1.4),
           ),
           const SizedBox(height: 16),
           Divider(color: Colors.white.withValues(alpha: 0.12), height: 1),
@@ -801,12 +799,12 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                           fontSize: 14.5,
                           height: 1.35,
                         ),
-                        decoration: const InputDecoration(
-                          hintText: 'Hỏi AI...',
-                          hintStyle: TextStyle(color: _kInkSoft, fontSize: 14.5),
+                        decoration: InputDecoration(
+                          hintText: 'chat_input_hint'.tr,
+                          hintStyle: const TextStyle(color: _kInkSoft, fontSize: 14.5),
                           border: InputBorder.none,
                           isCollapsed: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 14),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 14),
                         ),
                       ),
                     ),

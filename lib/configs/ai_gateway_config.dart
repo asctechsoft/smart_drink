@@ -14,11 +14,7 @@ class AiGatewayConfig {
   /// Flutter web build wants `http://localhost:8080`.
   static const String baseUrl = String.fromEnvironment(
     'AI_GATEWAY_URL',
-<<<<<<< HEAD
     defaultValue: 'http://192.168.1.51:8080',
-=======
-    defaultValue: 'http://192.168.1.46:8080',
->>>>>>> 7d948db7340d5691b122170687dc4d2fb20510f4
   );
 
   static Uri get chatEndpoint => Uri.parse('$baseUrl/v1/chat');

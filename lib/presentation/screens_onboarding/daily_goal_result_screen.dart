@@ -15,11 +15,11 @@ import 'package:waternudge/values/route_name.dart';
 class DailyGoalResultScreen extends StatelessWidget {
   const DailyGoalResultScreen({super.key});
 
-  static const Map<String, String> _activityLabels = {
-    'sedentary': 'Ít vận động',
-    'light_active': 'Vận động nhẹ',
-    'moderate_active': 'Trung bình',
-    'very_active': 'Vận động nhiều',
+  static const Map<String, String> _activityLabelKeys = {
+    'sedentary': 'activity_sedentary',
+    'light_active': 'activity_light_active',
+    'moderate_active': 'activity_moderate_active',
+    'very_active': 'activity_very_active',
   };
 
   @override
@@ -48,7 +48,7 @@ class DailyGoalResultScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Mục tiêu hàng ngày của bạn',
+                        'daily_goal_title'.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 22,
@@ -58,8 +58,7 @@ class DailyGoalResultScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        'Dựa trên thông tin bạn đã cung cấp, lượng nước '
-                        'khuyến nghị mỗi ngày của bạn là:',
+                        'daily_goal_subtitle'.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14,
@@ -87,7 +86,7 @@ class DailyGoalResultScreen extends StatelessWidget {
                 child: StaggerReveal(
                   index: 8,
                   child: PrimaryButton(
-                    text: 'Tuyệt vời! Bắt đầu nào',
+                    text: 'btn_lets_start'.tr,
                     width: double.infinity,
                     useGradient: true,
                     trailing: const Icon(
@@ -144,7 +143,7 @@ class DailyGoalResultScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 8),
           child: Text(
-            'ml / ngày',
+            'ml_per_day'.tr,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
@@ -170,7 +169,7 @@ class DailyGoalResultScreen extends StatelessWidget {
             ob,
             icon: Icons.person_rounded,
             color: const Color(0xFF4FA9FF),
-            label: 'Cân nặng',
+            label: 'stat_weight'.tr,
             value: '${profile.weight.round()} ${profile.weightUnit}',
           ),
           _statDivider(),
@@ -178,7 +177,7 @@ class DailyGoalResultScreen extends StatelessWidget {
             ob,
             icon: Icons.straighten_rounded,
             color: const Color(0xFF57DCC0),
-            label: 'Chiều cao',
+            label: 'stat_height'.tr,
             value: '${profile.height.round()} ${profile.heightUnit}',
           ),
           _statDivider(),
@@ -186,8 +185,8 @@ class DailyGoalResultScreen extends StatelessWidget {
             ob,
             icon: Icons.favorite_rounded,
             color: const Color(0xFFA98BFF),
-            label: 'Mức độ hoạt động',
-            value: _activityLabels[profile.activityLevel] ?? 'Trung bình',
+            label: 'stat_activity'.tr,
+            value: (_activityLabelKeys[profile.activityLevel] ?? 'activity_moderate_active').tr,
           ),
         ],
       ),

@@ -74,9 +74,17 @@ class _GenderSheetState extends State<_GenderSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF0A2556),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0A2556),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.10),
+            blurRadius: 24,
+            spreadRadius: 1,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).padding.bottom + 24,
@@ -187,9 +195,17 @@ class _WeatherSheetState extends State<_WeatherSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF0A2556),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0A2556),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.10),
+            blurRadius: 24,
+            spreadRadius: 1,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).padding.bottom + 24,
@@ -372,9 +388,17 @@ class _WeightSheetState extends State<_WeightSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF0A2556),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0A2556),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.10),
+            blurRadius: 24,
+            spreadRadius: 1,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       padding: EdgeInsets.only(
         bottom:
@@ -703,9 +727,17 @@ class _HeightSheetState extends State<_HeightSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF0A2556),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0A2556),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.10),
+            blurRadius: 24,
+            spreadRadius: 1,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       padding: EdgeInsets.only(
         bottom:
@@ -1049,9 +1081,17 @@ class _DailyGoalSheetState extends State<_DailyGoalSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF0A2556),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0A2556),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.10),
+            blurRadius: 24,
+            spreadRadius: 1,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       padding: EdgeInsets.only(
         bottom:
@@ -1596,9 +1636,17 @@ class _UnitsSheetState extends State<_UnitsSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF0A2556),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0A2556),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.10),
+            blurRadius: 24,
+            spreadRadius: 1,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       padding: EdgeInsets.only(
         bottom:
@@ -2119,9 +2167,17 @@ class _TimeSheetState extends State<_TimeSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF0A2556),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0A2556),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.10),
+            blurRadius: 24,
+            spreadRadius: 1,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).padding.bottom + 24,
@@ -2232,9 +2288,17 @@ class _LanguageSheetState extends State<_LanguageSheet> {
     final screenH = MediaQuery.of(context).size.height;
     return Container(
       height: screenH * 0.88,
-      decoration: const BoxDecoration(
-        color: Color(0xFF0A2556),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0A2556),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.10),
+            blurRadius: 24,
+            spreadRadius: 1,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       child: Column(
         children: [
