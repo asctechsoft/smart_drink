@@ -61,8 +61,9 @@ class ReminderController extends GetxController {
     enabled.value =
         prefs.getBool(PrefConst.reminderEnabled) ??
         PrefDefaults.reminderEnabled;
-    // Always open on the Standard tab regardless of the last saved mode.
-    mode.value = ReminderMode.standard;
+    mode.value = ReminderMode.fromString(
+      prefs.getString(PrefConst.reminderMode) ?? PrefDefaults.reminderMode,
+    );
     // Sound is no longer user-selectable: one fixed ringtone, always on. Force
     // the values (overwriting any old picked sound saved by a previous version)
     // so native — which reads `flutter.sound_effect` — picks the right raw.

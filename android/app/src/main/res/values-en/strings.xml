@@ -10,7 +10,7 @@
     <string name="today_s_intake">Today\'s intake</string>
     <string name="no_records_today">No records today</string>
     <string name="add_drink">Add Drink</string>
-    <string name="time_to_drink_water">Time to drink water!</string>
+    <string name="time_to_drink_water">Don\'t forget to hydrate!</string>
     <string name="water_tracking">Water Tracking</string>
     <string name="ongoing_desc">Ongoing water intake tracking notification</string>
     <string name="drink_reminders">Drink Reminders</string>
@@ -20,8 +20,8 @@
     <string name="ml">ml</string>
     <string name="oz">oz</string>
     <string name="motivation_1">Stay hydrated for better focus and energy!</string>
-    <string name="motivation_2">Your body needs water to function at its best!</string>
-    <string name="motivation_3">A glass of water can boost your mood!</string>
+    <string name="motivation_2">Even a small sip can recharge you!</string>
+ko     <string name="motivation_3">A glass of water can boost your mood!</string>
     <string name="motivation_4">Keep up your hydration streak!</string>
     <string name="motivation_5">Water is the best fuel for your brain!</string>
     <string name="no_reminder_set">No reminder set</string>

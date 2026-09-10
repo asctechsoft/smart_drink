@@ -89,16 +89,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".notification.DailyFullScreenActivity"
-            android:exported="false"
-            android:theme="@style/DailyFullScreenTheme"
-            android:showWhenLocked="true"
-            android:turnScreenOn="true"
-            android:excludeFromRecents="true"
-            android:taskAffinity=""
-            android:launchMode="singleInstance" />
-
         <!-- Home screen widgets -->
         <receiver
             android:name=".widget.SmallWidgetAProvider"

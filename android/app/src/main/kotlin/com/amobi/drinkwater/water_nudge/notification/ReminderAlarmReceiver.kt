@@ -55,7 +55,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
             val percent = if (goalMl > 0) (currentMl * 100 / goalMl) else 0
             val localizedContext = PrefAssist.getLocalizedContext(context)
             val motivation = bodyOverride ?: (motivationOverride ?: localizedContext.getString(MOTIVATION_RES_IDS.random()))
-            val titleText = titleOverride ?: localizedContext.getString(R.string.time_to_drink_water)
+            val titleText = (titleOverride ?: localizedContext.getString(R.string.time_to_drink_water)) + " 💧"
+            val percentDisplay = percent.coerceIn(0, 100)
 
             val unit = PrefAssist.getString(context, PrefConst.WIDGET_VOLUME_UNIT, "ml")
             val currentDisplay =
@@ -68,10 +69,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
             val smallView =
                 RemoteViews(context.packageName, R.layout.noti_daily_small).apply {
                     setTextViewText(R.id.tv_title, titleText)
-                    setTextViewText(
-                        R.id.tv_progress,
-                        "$currentDisplay/$goalDisplay $unitLabel"
-                    )
+                    setTextViewText(R.id.tv_percent, "$percentDisplay%")
                 }
 
             // Add Water PendingIntent (broadcast → NotificationClickHandler)
@@ -89,6 +87,9 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 RemoteViews(context.packageName, R.layout.noti_daily_large).apply {
                     setTextViewText(R.id.tv_title, titleText)
                     setTextViewText(R.id.tv_motivation, motivation)
+                    setTextViewText(R.id.tv_progress, "$currentDisplay/$goalDisplay $unitLabel")
+                    setProgressBar(R.id.pb_daily, 100, percentDisplay, false)
+                    setTextViewText(R.id.tv_percent, "$percentDisplay%")
                 }
 
             // Content intent
@@ -135,25 +136,6 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 .setStyle(NotificationCompat.DecoratedCustomViewStyle())
                 .setAutoCancel(false)
                 .setContentIntent(contentPending)
-
-            // Full-screen intent only on first show
-            if (playSound) {
-                val isFullScreen = PrefAssist.getBoolean(
-                    context, PrefConst.IS_FULL_SCREEN_INTENT_ENABLED, false
-                )
-                if (isFullScreen) {
-                    val fullScreenIntent =
-                        Intent(context, DailyFullScreenActivity::class.java).apply {
-                            flags =
-                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        }
-                    val fullScreenPending = PendingIntent.getActivity(
-                        context, 4, fullScreenIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                    )
-                    builder.setFullScreenIntent(fullScreenPending, true)
-                }
-            }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ActivityCompat.checkSelfPermission(

@@ -197,7 +197,7 @@ class _TodayScreenState extends State<TodayScreen> {
       final pct = ((currentMl - goalMl) / goalMl * 100).round();
       content = [
         Text(
-          'exceeded_by_pct'.trArgs(['$pct']),
+          'exceeded_by_pct'.trParams({'args1': '$pct'}),
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,

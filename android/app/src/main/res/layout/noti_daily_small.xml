@@ -7,25 +7,23 @@
     android:paddingTop="4dp"
     android:paddingBottom="4dp">
 
-    <!-- Removed water drop icon per user request -->
-
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Time to drink water!"
-        android:textColor="@color/clr_text_dark"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="14sp"
         android:textStyle="bold"
         android:layout_marginEnd="8dp" />
 
     <TextView
-        android:id="@+id/tv_progress"
+        android:id="@+id/tv_percent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="750/2000 ml"
-        android:textColor="@color/clr_water_blue"
-        android:textSize="12sp"
+        android:text="37%"
+        android:textColor="@color/widget_blue_accent"
+        android:textSize="13sp"
         android:textStyle="bold" />
 </LinearLayout>

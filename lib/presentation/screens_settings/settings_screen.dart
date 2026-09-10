@@ -33,7 +33,7 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 // ── Header ──
                 _buildHeader(context),
-                const SizedBox(height: 24),
+                // const SizedBox(height: 24),
 
                 // ── 1. DRINK ── things that affect hydration goal ──
                 _SectionTitle(label: 'section_drink'.tr),
