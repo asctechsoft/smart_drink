@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">Escolha o estilo do copo e a capacidade adequada</string>
     <string name="drink_type">Tipo de bebida</string>
     <string name="select_drink_type_and_ratio_hint">Selecione o tipo de bebida e veja a porcentagem de contribuição de água</string>
-    <string name="exceeded_by_pct">Excedido em %1$s%%</string>
+    <string name="exceeded_by_pct">Excedido em %1$s%</string>
     <string name="remaining_prefix">Restante</string>
     <string name="daily_goal_title">Sua meta diária</string>
     <string name="daily_goal_subtitle">Com base nas informações fornecidas, a ingestão diária recomendada de água é:</string>

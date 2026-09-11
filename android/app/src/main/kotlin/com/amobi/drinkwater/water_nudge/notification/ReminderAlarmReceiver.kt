@@ -64,12 +64,15 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
             val goalDisplay =
                 if (unit == "oz") "${Math.round(goalMl * 0.033814)}" else "$goalMl"
             val unitLabel = if (unit == "oz") localizedContext.getString(R.string.oz) else localizedContext.getString(R.string.ml)
+            val remainingMl = (goalMl - currentMl).coerceAtLeast(0)
+            val remainingDisplay = if (unit == "oz") "${Math.round(remainingMl * 0.033814)}" else "$remainingMl"
 
             // Small RemoteViews
             val smallView =
                 RemoteViews(context.packageName, R.layout.noti_daily_small).apply {
                     setTextViewText(R.id.tv_title, titleText)
                     setTextViewText(R.id.tv_percent, "$percentDisplay%")
+                    setTextViewText(R.id.tv_remaining, "Còn $remainingDisplay $unitLabel hôm nay")
                 }
 
             // Add Water PendingIntent (broadcast → NotificationClickHandler)

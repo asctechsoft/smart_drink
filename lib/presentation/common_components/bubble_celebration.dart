@@ -1,8 +1,19 @@
 import 'dart:math' as math;
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:dsp_base/app_material.dart';
 import 'package:get/get.dart';
 import 'package:waternudge/values/app_colors.dart';
+
+/// Play celebration sound effect when goal is reached
+Future<void> playBubbleSound() async {
+  try {
+    final player = AudioPlayer();
+    await player.play(AssetSource('audio/soundreality-bubble-fx.mp3'));
+  } catch (e) {
+    debugPrint('Error playing celebration sound: $e');
+  }
+}
 
 /// Plays the daily-goal celebration: translucent bubbles rise from the bottom
 /// of the screen, and the larger ones burst into a firework spray on the way up.

@@ -37,7 +37,10 @@ class _TodayScreenState extends State<TodayScreen> {
     super.initState();
     final controller = Get.find<TodayController>();
     _goalWorker = ever(controller.goalReachedEvent, (_) {
-      if (mounted) showBubbleCelebration(context);
+      if (mounted) {
+        playBubbleSound();
+        showBubbleCelebration(context);
+      }
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _maybeShowCoachMarks());

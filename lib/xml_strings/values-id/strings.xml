@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">Pilih gaya cangkir dan kapasitas yang sesuai</string>
     <string name="drink_type">Jenis minuman</string>
     <string name="select_drink_type_and_ratio_hint">Pilih jenis minuman dan lihat kontribusi air%</string>
-    <string name="exceeded_by_pct">Melebihi %1$s%%</string>
+    <string name="exceeded_by_pct">Melebihi %1$s%</string>
     <string name="remaining_prefix">Tersisa</string>
     <string name="daily_goal_title">Tujuan harian Anda</string>
     <string name="daily_goal_subtitle">Berdasarkan informasi yang Anda berikan, asupan air harian yang disarankan adalah:</string>

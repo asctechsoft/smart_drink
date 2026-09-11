@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">Выберите стиль чашки и подходящую емкость.</string>
     <string name="drink_type">Тип напитка</string>
     <string name="select_drink_type_and_ratio_hint">Выберите тип напитка и посмотрите процент содержания воды</string>
-    <string name="exceeded_by_pct">Превышено на %1$s%%</string>
+    <string name="exceeded_by_pct">Превышено на %1$s%</string>
     <string name="remaining_prefix">Оставшийся</string>
     <string name="daily_goal_title">Ваша ежедневная цель</string>
     <string name="daily_goal_subtitle">На основании предоставленной вами информации рекомендуемая суточная норма воды составляет:</string>

@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">컵 스타일과 적합한 용량을 선택하세요.</string>
     <string name="drink_type">음료 종류</string>
     <string name="select_drink_type_and_ratio_hint">음료 종류를 선택하고 물 기여도(%)를 확인하세요.</string>
-    <string name="exceeded_by_pct">%1$s%% 초과</string>
+    <string name="exceeded_by_pct">%1$s% 초과</string>
     <string name="remaining_prefix">남은</string>
     <string name="daily_goal_title">일일 목표</string>
     <string name="daily_goal_subtitle">귀하가 제공한 정보에 따르면 일일 권장 수분 섭취량은 다음과 같습니다.</string>

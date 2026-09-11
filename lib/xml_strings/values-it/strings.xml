@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">Scegli lo stile della tazza e la capacità adatta</string>
     <string name="drink_type">Tipo di bevanda</string>
     <string name="select_drink_type_and_ratio_hint">Seleziona il tipo di bevanda e vedi il contributo idrico %</string>
-    <string name="exceeded_by_pct">Superato da %1$s%%</string>
+    <string name="exceeded_by_pct">Superato da %1$s%</string>
     <string name="remaining_prefix">Rimanente</string>
     <string name="daily_goal_title">Il tuo obiettivo quotidiano</string>
     <string name="daily_goal_subtitle">In base alle informazioni fornite, l\'assunzione giornaliera raccomandata di acqua è:</string>

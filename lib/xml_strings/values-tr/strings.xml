@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">Fincan stilini ve uygun kapasiteyi seçin</string>
     <string name="drink_type">İçecek türü</string>
     <string name="select_drink_type_and_ratio_hint">İçecek türünü seçin ve su katkı yüzdesini görün</string>
-    <string name="exceeded_by_pct">%1$s%% aşıldı</string>
+    <string name="exceeded_by_pct">%1$s% aşıldı</string>
     <string name="remaining_prefix">Geriye kalan</string>
     <string name="daily_goal_title">Günlük hedefiniz</string>
     <string name="daily_goal_subtitle">Verdiğiniz bilgilere göre önerilen günlük su alımınız:</string>

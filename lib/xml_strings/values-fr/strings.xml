@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">Choisissez le style de tasse et la capacité appropriée</string>
     <string name="drink_type">Type de boisson</string>
     <string name="select_drink_type_and_ratio_hint">Sélectionnez le type de boisson et voyez le pourcentage de contribution en eau</string>
-    <string name="exceeded_by_pct">Dépassé de %1$s%%</string>
+    <string name="exceeded_by_pct">Dépassé de %1$s%</string>
     <string name="remaining_prefix">Restant</string>
     <string name="daily_goal_title">Votre objectif quotidien</string>
     <string name="daily_goal_subtitle">D’après les informations que vous avez fournies, votre consommation d’eau quotidienne recommandée est :</string>

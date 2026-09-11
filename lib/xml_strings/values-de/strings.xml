@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">Wählen Sie den Tassenstil und das passende Fassungsvermögen</string>
     <string name="drink_type">Getränketyp</string>
     <string name="select_drink_type_and_ratio_hint">Wählen Sie die Getränkeart aus und sehen Sie sich den Wasseranteil in % an.</string>
-    <string name="exceeded_by_pct">Um %1$s%% überschritten</string>
+    <string name="exceeded_by_pct">Um %1$s% überschritten</string>
     <string name="remaining_prefix">Übrig</string>
     <string name="daily_goal_title">Ihr tägliches Ziel</string>
     <string name="daily_goal_subtitle">Basierend auf den von Ihnen bereitgestellten Informationen beträgt Ihre empfohlene tägliche Wasseraufnahme:</string>

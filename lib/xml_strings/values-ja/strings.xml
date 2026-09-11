@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">カップのスタイルと適切な容量を選択してください</string>
     <string name="drink_type">ドリンクの種類</string>
     <string name="select_drink_type_and_ratio_hint">飲み物の種類を選択し、水分の割合を確認します</string>
-    <string name="exceeded_by_pct">%1$s%%を超えました</string>
+    <string name="exceeded_by_pct">%1$s%を超えました</string>
     <string name="remaining_prefix">残り</string>
     <string name="daily_goal_title">毎日の目標</string>
     <string name="daily_goal_subtitle">提供された情報に基づいて、推奨される 1 日あたりの水分摂取量は次のとおりです。</string>

@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">اختر نمط الكوب والسعة المناسبة</string>
     <string name="drink_type">نوع الشراب</string>
     <string name="select_drink_type_and_ratio_hint">حدد نوع المشروب وانظر نسبة مساهمة المياه</string>
-    <string name="exceeded_by_pct">تم تجاوزه بنسبة %1$s%%</string>
+    <string name="exceeded_by_pct">تم تجاوزه بنسبة %1$s%</string>
     <string name="remaining_prefix">متبقي</string>
     <string name="daily_goal_title">هدفك اليومي</string>
     <string name="daily_goal_subtitle">بناءً على المعلومات التي قدمتها، فإن كمية المياه اليومية الموصى بها هي:</string>

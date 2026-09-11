@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">选择杯子款式和合适的容量</string>
     <string name="drink_type">饮料类型</string>
     <string name="select_drink_type_and_ratio_hint">选择饮料类型并查看水贡献百分比</string>
-    <string name="exceeded_by_pct">超过%1$s%%</string>
+    <string name="exceeded_by_pct">超过%1$s%</string>
     <string name="remaining_prefix">其余的</string>
     <string name="daily_goal_title">您的每日目标</string>
     <string name="daily_goal_subtitle">根据您提供的信息，您建议的每日饮水量为：</string>

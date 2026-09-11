@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">Choose the cup style and suitable capacity</string>
     <string name="drink_type">Drink type</string>
     <string name="select_drink_type_and_ratio_hint">Select drink type and see water contribution %</string>
-    <string name="exceeded_by_pct">Exceeded by %1$s%%</string>
+    <string name="exceeded_by_pct">Exceeded by %1$s%</string>
     <string name="remaining_prefix">Remaining </string>
     <string name="daily_goal_title">Your daily goal</string>
     <string name="daily_goal_subtitle">Based on the information you provided, your recommended daily water intake is:</string>

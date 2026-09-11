@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">Chọn kiểu cốc và dung tích phù hợp</string>
     <string name="drink_type">Loại đồ uống</string>
     <string name="select_drink_type_and_ratio_hint">Chọn loại đồ uống và xem % nước đóng góp</string>
-    <string name="exceeded_by_pct">Vượt quá %1$s%%</string>
+    <string name="exceeded_by_pct">Vượt quá %1$s%</string>
     <string name="remaining_prefix">Còn lại </string>
     <string name="daily_goal_title">Mục tiêu hàng ngày của bạn</string>
     <string name="daily_goal_subtitle">Dựa trên thông tin bạn đã cung cấp, lượng nước khuyến nghị mỗi ngày của bạn là:</string>

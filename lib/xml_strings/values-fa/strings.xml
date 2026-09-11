@@ -333,7 +333,7 @@
     <string name="select_cup_and_capacity_hint">سبک جام و ظرفیت مناسب را انتخاب کنید</string>
     <string name="drink_type">نوع نوشیدنی</string>
     <string name="select_drink_type_and_ratio_hint">نوع نوشیدنی را انتخاب کنید و درصد سهم آب را ببینید</string>
-    <string name="exceeded_by_pct">بیش از %1$s%%</string>
+    <string name="exceeded_by_pct">بیش از %1$s%</string>
     <string name="remaining_prefix">باقی مانده است</string>
     <string name="daily_goal_title">هدف روزانه شما</string>
     <string name="daily_goal_subtitle">بر اساس اطلاعاتی که ارائه کردید، میزان مصرف آب روزانه توصیه شده شما عبارت است از:</string>
