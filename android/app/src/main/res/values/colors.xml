@@ -38,4 +38,13 @@
     <color name="widget_digit_bg">#1AFFFFFF</color>
 
     <color name="widget_cyan_40">#40FFFFFF</color>
+
+    <!-- Notification colors. Custom notification RemoteViews are rendered by
+         SystemUI using the OS dark-mode setting, so every colour the ongoing
+         notification draws needs a values-night counterpart (or a
+         ?android:attr text colour) to stay readable when the device theme flips. -->
+    <color name="noti_accent">#3A2FD1</color>
+    <color name="noti_progress_fill">#3A2FD1</color>
+    <color name="noti_progress_track">#33808080</color>
+    <color name="noti_progress_head">#FFFFFF</color>
 </resources>

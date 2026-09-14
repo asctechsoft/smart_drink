@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="200"
-            android:textColor="#FF000000"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginBottom="4dp"
             android:text="/ 1947 ml"
-            android:textColor="#FF3A3A55"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="Còn 1747 ml hôm nay"
-        android:textColor="#FF3A3A55"
+        android:textColor="?android:attr/textColorSecondary"
         android:textSize="14sp" />
 
     <!-- Progress bar + percent at the right end -->
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="10%"
-            android:textColor="#FF3A2FD1"
+            android:textColor="@color/noti_accent"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>

@@ -3,6 +3,8 @@ package com.amobi.drinkwater.water_nudge.widget
 import android.content.Context
 import android.graphics.*
 import android.util.TypedValue
+import androidx.core.content.ContextCompat
+import com.amobi.drinkwater.water_nudge.R
 
 object WidgetDrawHelper {
 
@@ -145,8 +147,9 @@ object WidgetDrawHelper {
         widthPx: Int,
         heightDp: Float = 16f,
         barThicknessDp: Float = 6f,
-        fillColor: Int = Color.parseColor("#3A2FD1"),
-        trackColor: Int = Color.parseColor("#33808080")
+        fillColor: Int = ContextCompat.getColor(context, R.color.noti_progress_fill),
+        trackColor: Int = ContextCompat.getColor(context, R.color.noti_progress_track),
+        headColor: Int = ContextCompat.getColor(context, R.color.noti_progress_head)
     ): Bitmap {
         val h = dpToPx(context, heightDp).toInt().coerceAtLeast(1)
         val w = widthPx.coerceAtLeast(1)
@@ -185,8 +188,8 @@ object WidgetDrawHelper {
             }
             canvas.drawCircle(headX, cy, dotRadius, glowPaint)
 
-            // Bright white head dot
-            val dotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.WHITE }
+            // Bright head dot
+            val dotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = headColor }
             canvas.drawCircle(headX, cy, dotRadius, dotPaint)
         }
 

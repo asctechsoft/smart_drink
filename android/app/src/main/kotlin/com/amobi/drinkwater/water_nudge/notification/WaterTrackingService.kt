@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
@@ -62,7 +63,33 @@ class WaterTrackingService : Service() {
         }
     }
 
+    /**
+     * Night-mode flag the ongoing notification was last rendered with, so a
+     * configuration change that is not a light/dark flip (locale, font scale,
+     * rotation...) does not re-post the notification for nothing.
+     */
+    private var lastNightMode: Int = Configuration.UI_MODE_NIGHT_UNDEFINED
+
+    override fun onCreate() {
+        super.onCreate()
+        lastNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+    }
+
     override fun onBind(intent: Intent?): IBinder? = null
+
+    /**
+     * The ongoing notification bakes the progress bar into a Bitmap, and a baked
+     * bitmap cannot follow the OS dark-mode setting the way the layout's
+     * ?android:attr text colours do. Re-post the notification when the device
+     * theme flips so the bar is redrawn with the values-night colours.
+     */
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        val nightMode = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        if (nightMode == lastNightMode) return
+        lastNightMode = nightMode
+        updateForegroundNotification()
+    }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)

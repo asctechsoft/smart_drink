@@ -1,4 +1,5 @@
 import 'package:dsp_base/app_material.dart';
+import 'package:waternudge/presentation/common_components/wheel_picker_chrome.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:get/get.dart';
 
@@ -83,10 +84,13 @@ class _WheelTimePickerState extends State<WheelTimePicker> {
     required int selectedIndex,
     double width = 60,
   }) {
-    final ob = OnboardingTheme.of(context);
     final bool isLooping = itemCount > 2;
-    final double selectedSize = widget.enhanced ? 24 : 32;
-    final double unselectedSize = widget.enhanced ? 13 : 16;
+    final double selectedSize = widget.enhanced
+        ? WheelPickerChrome.selectedFontSize
+        : 32;
+    final double unselectedSize = widget.enhanced
+        ? WheelPickerChrome.unselectedFontSize
+        : 16;
 
     Widget itemFor(int index, int selected) {
       int distance = (index - selected).abs();
@@ -94,31 +98,21 @@ class _WheelTimePickerState extends State<WheelTimePicker> {
         final half = itemCount ~/ 2;
         if (distance > half) distance = itemCount - distance;
       }
-      final isSelected = distance == 0;
-      Color itemColor = ob.textPrimary;
-      if (distance == 1) {
-        itemColor = ob.textPrimary.withValues(alpha: 0.5);
-      } else if (distance >= 2) {
-        itemColor = ob.textPrimary.withValues(alpha: 0.1);
-      }
-      return Center(
-        child: AppText(
-          labelBuilder(index),
-          style: TextStyle(
-            fontSize: isSelected ? selectedSize : unselectedSize,
-            fontWeight: FontWeight.w600,
-            color: itemColor,
-          ),
-        ),
+      return WheelPickerChrome.wheelItem(
+        context,
+        labelBuilder(index),
+        distance,
+        selectedSize: selectedSize,
+        unselectedSize: unselectedSize,
       );
     }
 
     return SizedBox(
       width: width,
-      height: 200,
+      height: WheelPickerChrome.wheelHeight,
       child: ListWheelScrollView.useDelegate(
         controller: controller,
-        itemExtent: 50,
+        itemExtent: WheelPickerChrome.slotHeight,
         physics: const FixedExtentScrollPhysics(),
         overAndUnderCenterOpacity: 1.0,
         onSelectedItemChanged: (i) {
@@ -144,103 +138,6 @@ class _WheelTimePickerState extends State<WheelTimePicker> {
                 },
                 childCount: itemCount,
               ),
-      ),
-    );
-  }
-
-  /// Wheel wrapped with a glowing selection box centered behind it.
-  Widget _glowSlot(double width, Widget wheel) {
-    final ob = OnboardingTheme.of(context);
-    return SizedBox(
-      width: width,
-      height: 200,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          IgnorePointer(
-            child: Container(
-              width: width,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: ob.textAccent, width: 1.5),
-                boxShadow: [
-                  BoxShadow(
-                    color: ob.textAccent.withValues(alpha: 0.5),
-                    blurRadius: 16,
-                    spreadRadius: 1,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          wheel,
-        ],
-      ),
-    );
-  }
-
-  Widget _columnHeader(double width, String key) {
-    final ob = OnboardingTheme.of(context);
-    return SizedBox(
-      width: width,
-      child: Center(
-        child: AppText(
-          key.tr,
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-            color: ob.textAccent,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _bigPreview() {
-    final ob = OnboardingTheme.of(context);
-    final display = '${_two(_hour)}:${_two(_minute)}';
-    return ShaderMask(
-      shaderCallback: (bounds) => LinearGradient(
-        colors: [ob.buttonStart, ob.buttonEnd],
-      ).createShader(bounds),
-      child: Text(
-        display,
-        style: const TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.w700,
-          color: Colors.white,
-          letterSpacing: 1,
-        ),
-      ),
-    );
-  }
-
-  Widget _infoPill(String key) {
-    final ob = OnboardingTheme.of(context);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: ob.textAccent.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: ob.textAccent.withValues(alpha: 0.3)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.bedtime_rounded, size: 20, color: ob.textAccent),
-          const SizedBox(width: 10),
-          Flexible(
-            child: AppText(
-              key.tr,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: ob.textPrimary.withValues(alpha: 0.85),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -281,18 +178,6 @@ class _WheelTimePickerState extends State<WheelTimePicker> {
       },
     );
 
-    final Widget separator = Padding(
-      padding: EdgeInsets.symmetric(horizontal: widget.enhanced ? 10 : 4),
-      child: Text(
-        ':',
-        style: TextStyle(
-          fontSize: widget.enhanced ? 16 : 24,
-          fontWeight: FontWeight.w700,
-          color: ob.textPrimary,
-        ),
-      ),
-    );
-
     // Compact layout (default): original full-width band highlight.
     if (!widget.enhanced) {
       return Stack(
@@ -321,7 +206,21 @@ class _WheelTimePickerState extends State<WheelTimePicker> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [hourWheel, separator, minuteWheel],
+            children: [
+              hourWheel,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Text(
+                  ':',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    color: ob.textPrimary,
+                  ),
+                ),
+              ),
+              minuteWheel,
+            ],
           ),
         ],
       );
@@ -329,47 +228,44 @@ class _WheelTimePickerState extends State<WheelTimePicker> {
 
     // Enhanced layout: each column stacks its header over its wheel so labels
     // stay aligned; the ":" is nudged down to the wheel's centre band.
-    Widget labeledColumn(double width, String headerKey, Widget wheel) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _columnHeader(width, headerKey),
-          const SizedBox(height: 6),
-          _glowSlot(width, wheel),
-        ],
-      );
-    }
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         if (widget.subtitle != null) ...[
-          AppText(
-            widget.subtitle!.tr,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: ob.textSubtitle,
-            ),
-          ),
+          WheelPickerChrome.subtitle(context, widget.subtitle!),
           const SizedBox(height: 20),
         ],
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            labeledColumn(hourW, 'picker_hour', hourWheel),
-            // header (~20) + gap (6) + half wheel (100) - half glyph.
-            Padding(padding: const EdgeInsets.only(top: 116), child: separator),
-            labeledColumn(minW, 'picker_minute', minuteWheel),
+            WheelPickerChrome.labeledColumn(
+              context,
+              hourW,
+              'picker_hour',
+              hourWheel,
+            ),
+            WheelPickerChrome.separator(context),
+            WheelPickerChrome.labeledColumn(
+              context,
+              minW,
+              'picker_minute',
+              minuteWheel,
+            ),
           ],
         ),
         const SizedBox(height: 8),
-        _bigPreview(),
+        WheelPickerChrome.gradientPreview(
+          context,
+          '${_two(_hour)}:${_two(_minute)}',
+        ),
         if (widget.infoText != null) ...[
           const SizedBox(height: 20),
-          _infoPill(widget.infoText!),
+          WheelPickerChrome.infoPill(
+            context,
+            icon: Icons.bedtime_rounded,
+            text: widget.infoText!.tr,
+          ),
         ],
       ],
     );

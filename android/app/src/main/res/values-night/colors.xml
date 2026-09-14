@@ -20,4 +20,10 @@
     <color name="widget_badge_bg">#1FFFFFFF</color>
     <color name="widget_text_disabled">#59FFFFFF</color>
     <color name="widget_text_primary">#FFFFFF</color>
+
+    <!-- Notification colors (dark) -->
+    <color name="noti_accent">#A9A2FF</color>
+    <color name="noti_progress_fill">#6C5DFF</color>
+    <color name="noti_progress_track">#33AAAAAA</color>
+    <color name="noti_progress_head">#FFFFFF</color>
 </resources>

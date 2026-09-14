@@ -72,7 +72,10 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
                 RemoteViews(context.packageName, R.layout.noti_daily_small).apply {
                     setTextViewText(R.id.tv_title, titleText)
                     setTextViewText(R.id.tv_percent, "$percentDisplay%")
-                    setTextViewText(R.id.tv_remaining, "Còn $remainingDisplay $unitLabel hôm nay")
+                    setTextViewText(
+                        R.id.tv_remaining,
+                        localizedContext.getString(R.string.noti_remaining_today, remainingDisplay, unitLabel)
+                    )
                 }
 
             // Add Water PendingIntent (broadcast → NotificationClickHandler)
