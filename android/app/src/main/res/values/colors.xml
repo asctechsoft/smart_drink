@@ -47,4 +47,12 @@
     <color name="noti_progress_fill">#3A2FD1</color>
     <color name="noti_progress_track">#33808080</color>
     <color name="noti_progress_head">#FFFFFF</color>
+
+    <!-- Notification text. Replaces ?android:attr/textColorPrimary and
+         ?android:attr/textColorSecondary: those attrs resolve against the
+         inflating context's theme, which for custom RemoteViews is not
+         reliably the notification shade's, so the text came out washed-out
+         grey on the dark shade. These pick up values-night directly instead. -->
+    <color name="noti_text_primary">#1A1A2E</color>
+    <color name="noti_text_secondary">#45464F</color>
 </resources>

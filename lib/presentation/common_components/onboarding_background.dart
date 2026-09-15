@@ -9,7 +9,9 @@ class OnboardingBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLight = Theme.of(context).brightness == Brightness.light;
+    // Always the deep-navy gradient, never the device's theme. The foreground
+    // palette (OnboardingTheme) is fixed dark-on-dark, so following the system
+    // brightness here repainted the background out from under it.
     // Transparent system bars keep the gradient unbroken behind the status bar
     // and navigation bar; the gradient is dark enough for light icons.
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -26,11 +28,7 @@ class OnboardingBackground extends StatelessWidget {
         systemNavigationBarContrastEnforced: false,
       ),
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: isLight
-              ? AppColors.gradientBgLight
-              : AppColors.gradientBgDark,
-        ),
+        decoration: const BoxDecoration(gradient: AppColors.gradientBgDark),
         child: child,
       ),
     );

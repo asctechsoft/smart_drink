@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Don't forget to hydrate!"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@color/noti_text_primary"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Còn 1560 ml hôm nay"
-        android:textColor="?android:attr/textColorSecondary"
+        android:textColor="@color/noti_text_secondary"
         android:textSize="12sp"
         android:layout_marginTop="2dp" />
 

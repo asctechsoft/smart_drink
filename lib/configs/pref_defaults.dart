@@ -37,5 +37,8 @@ class PrefDefaults {
 
   // AI chat: free questions every device gets each day.
   static const int chatFreeQuestionsPerDay = 5;
+
+  // Health Connect sync is opt-in: nothing leaves the app until the user asks.
+  static const bool healthConnectEnabled = false;
 }
 

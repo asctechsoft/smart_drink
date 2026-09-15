@@ -30,7 +30,9 @@ android {
         applicationId = "com.dsp.smartdrinkai"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        // Health Connect needs API 26+; the health plugin declares minSdk 26, so the
+        // app has to match or the manifest merge fails.
+        minSdk = maxOf(26, flutter.minSdkVersion)
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -77,7 +79,7 @@ android {
         create("alpha") {
             dimension = "environment"
             applicationIdSuffix = ""
-            resValue("string", "app_name", "Water Nudge Alpha")
+            resValue("string", "app_name", "AquaMind Alpha")
             ndk {
                 abiFilters += listOf("arm64-v8a")
             }
@@ -85,20 +87,20 @@ android {
         create("dev") {
             dimension = "environment"
             applicationIdSuffix = ""
-            resValue("string", "app_name", "Water Nudge Dev")
+            resValue("string", "app_name", "AquaMind Dev")
             ndk {
                 abiFilters += listOf("arm64-v8a")
             }
         }
         create("product") {
             dimension = "environment"
-            resValue("string", "app_name", "Water Nudge")
+            resValue("string", "app_name", "AquaMind")
             signingConfig = signingConfigs.getByName("productRelease")
         }
         create("claude") {
             dimension = "environment"
             applicationIdSuffix = ""
-            resValue("string", "app_name", "Water Nudge Claude")
+            resValue("string", "app_name", "AquaMind Claude")
             signingConfig = signingConfigs.getByName("release")
         }
     }

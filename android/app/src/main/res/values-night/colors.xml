@@ -22,6 +22,11 @@
     <color name="widget_text_primary">#FFFFFF</color>
 
     <!-- Notification colors (dark) -->
+    <!-- White on the dark shade; the secondary line stays white at 90% so it
+         reads as a quieter line without going grey and sinking into the
+         background. -->
+    <color name="noti_text_primary">#FFFFFF</color>
+    <color name="noti_text_secondary">#E6FFFFFF</color>
     <color name="noti_accent">#A9A2FF</color>
     <color name="noti_progress_fill">#6C5DFF</color>
     <color name="noti_progress_track">#33AAAAAA</color>

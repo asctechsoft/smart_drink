@@ -1,3 +1,4 @@
+import 'package:waternudge/services/application/health_sync_service.dart';
 import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/models/data_models/daily_summary.dart';
 import 'package:waternudge/models/data_models/drink_record.dart';
@@ -367,12 +368,18 @@ class HistoryController extends GetxController {
 
   Future<void> updateRecord(DrinkRecord record) async {
     await _drinkService.updateRecord(record, goalMl.value);
+    await HealthSyncService.onDrinkUpdated(
+      drinkRecordId: record.id!,
+      amountMl: record.amountMl,
+      at: record.timestamp,
+    );
     await loadData();
     _refreshTodayIfNeeded(record.dateKey);
   }
 
   Future<void> deleteRecord(DrinkRecord record) async {
     await _drinkService.deleteRecord(record.id!, record.dateKey, goalMl.value);
+    await HealthSyncService.onDrinkDeleted(record.id!);
     await loadData();
     _refreshTodayIfNeeded(record.dateKey);
   }

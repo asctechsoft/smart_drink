@@ -10,21 +10,57 @@ import androidx.core.content.ContextCompat
 import com.amobi.drinkwater.water_nudge.notification.FCMTokenManager
 import com.amobi.drinkwater.water_nudge.notification.NotificationCenter
 import com.amobi.drinkwater.water_nudge.widget.*
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import org.json.JSONArray
 import org.json.JSONObject
 
-class MainActivity : FlutterActivity() {
+// FlutterFragmentActivity (an AndroidX ComponentActivity) rather than
+// FlutterActivity: Health Connect's permission request is an ActivityResult
+// contract, which only a ComponentActivity can launch.
+class MainActivity : FlutterFragmentActivity() {
 
     companion object {
         private const val CHANNEL = "com.amobi.drinkwater/notifications"
         private const val WIDGET_CHANNEL = "com.amobi.drinkwater/widget"
         private const val REQUEST_NOTIFICATION_PERMISSION = 1001
+        private const val ACTION_SHOW_PERMISSIONS_RATIONALE =
+            "androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE"
+        private const val ACTION_VIEW_PERMISSION_USAGE =
+            "android.intent.action.VIEW_PERMISSION_USAGE"
     }
 
     private var pendingPermissionResult: MethodChannel.Result? = null
+
+    /** Set when Health Connect launched us to show the privacy policy. */
+    private var pendingShowPrivacyPolicy = false
+
+    /**
+     * Health Connect requires the app to show its privacy policy on request:
+     * on Android 13 and below it fires ACTION_SHOW_PERMISSIONS_RATIONALE at the
+     * activity, on 14+ it goes through the ViewPermissionUsageActivity alias.
+     * Either way it lands here, and the flag is picked up by Flutter, which
+     * opens the policy.
+     */
+    private fun captureHealthRationale(intent: android.content.Intent?) {
+        val action = intent?.action ?: return
+        if (action == ACTION_SHOW_PERMISSIONS_RATIONALE ||
+            action == ACTION_VIEW_PERMISSION_USAGE
+        ) {
+            pendingShowPrivacyPolicy = true
+        }
+    }
+
+    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+        super.onCreate(savedInstanceState)
+        captureHealthRationale(intent)
+    }
+
+    override fun onNewIntent(intent: android.content.Intent) {
+        super.onNewIntent(intent)
+        captureHealthRationale(intent)
+    }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -71,6 +107,14 @@ class MainActivity : FlutterActivity() {
                     } else {
                         result.success(true)
                     }
+                }
+
+                // Reports — once — that Health Connect asked us to show the
+                // privacy policy, so Flutter can open it.
+                "consumeShowPrivacyPolicy" -> {
+                    val pending = pendingShowPrivacyPolicy
+                    pendingShowPrivacyPolicy = false
+                    result.success(pending)
                 }
 
                 "startOngoingNotification" -> {

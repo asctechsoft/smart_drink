@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'configs/pref_const.dart';
-import 'configs/pref_defaults.dart';
 import 'controller/user_profile_controller.dart';
 import 'controller/today_controller.dart';
 import 'controller/history_controller.dart';
@@ -67,10 +66,8 @@ void _ensureLocaleConfigured() {
 }
 
 Future<void> main() async {
-  late ThemeMode initialThemeMode;
-
   await commRunApp(
-    () => WaterNudgeApp(initialThemeMode: initialThemeMode),
+    () => const WaterNudgeApp(),
     onBindingInitialized: (widgetsBinding) async {
       // Lock orientation to portrait only
       await SystemChrome.setPreferredOrientations([
@@ -97,33 +94,25 @@ Future<void> main() async {
       // 2. Initialize translations
       await CommLocalize.loadTranslations("lib/xml_strings", "strings.xml");
 
-      // 3. Load saved theme
-      final savedTheme = PrefAssist.getString(
-        PrefConst.themeMode,
-        defaultValue: PrefDefaults.themeMode,
-      );
-      initialThemeMode = switch (savedTheme) {
-        'light' => ThemeMode.light,
-        'dark' => ThemeMode.dark,
-        _ => ThemeMode.system,
-      };
     },
   );
 }
 
 class WaterNudgeApp extends StatelessWidget {
-  final ThemeMode initialThemeMode;
-
-  const WaterNudgeApp({super.key, required this.initialThemeMode});
+  const WaterNudgeApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return CommApp(
-      title: 'Water Nudge',
+      title: 'AquaMind',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
+      // The app has one look: every screen sits on the dark gradient and the
+      // foreground palette is fixed dark-on-dark. Both slots get the dark
+      // theme and the mode is pinned, so flipping the phone between light and
+      // dark cannot repaint Material defaults (dialogs, fields, switches).
+      theme: AppTheme.dark,
       darkTheme: AppTheme.dark,
-      themeMode: initialThemeMode,
+      themeMode: ThemeMode.dark,
       locale: CommLocalize.getAppLocale(),
       fallbackLocale: const Locale('en', 'US'),
       supportedLocales: CommLocalize.supportedLocales,

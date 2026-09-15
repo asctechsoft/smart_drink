@@ -104,21 +104,33 @@ class _ConfirmButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: AppColors.basic500.withValues(alpha: 0.12),
-          border: Border.all(
-            color: AppColors.basic500.withValues(alpha: 0.55),
-            width: 1.5,
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: AppColors.basic500.withValues(alpha: 0.12),
+        border: Border.all(
+          color: AppColors.basic500.withValues(alpha: 0.55),
+          width: 1.5,
+        ),
+      ),
+      // Material + InkWell rather than a bare GestureDetector so the tap gives
+      // a ripple; the decoration stays on the Container so the border and fill
+      // are not swallowed by the ink layer.
+      child: Material(
+        color: Colors.transparent,
+        shape: const CircleBorder(),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          customBorder: const CircleBorder(),
+          splashColor: AppColors.basic500.withValues(alpha: 0.28),
+          highlightColor: AppColors.basic500.withValues(alpha: 0.14),
+          child: const Center(
+            child: Icon(Icons.check, size: 20, color: AppColors.basic500),
           ),
         ),
-        child: const Icon(Icons.check, size: 20, color: AppColors.basic500),
       ),
     );
   }
@@ -137,73 +149,87 @@ class _LanguageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        decoration: BoxDecoration(
-          color: AppColors.neutral500.withValues(alpha: isSelected ? 0.3 : 0.22),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isSelected
-                ? AppColors.primary500Dark
-                : AppColors.basic500.withValues(alpha: 0.14),
-            width: isSelected ? 1.8 : 1,
-          ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: AppColors.primary500Dark.withValues(alpha: 0.45),
-                    blurRadius: 14,
-                    spreadRadius: 1,
-                  ),
-                ]
-              : null,
+    const radius = BorderRadius.all(Radius.circular(16));
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.neutral500.withValues(alpha: isSelected ? 0.3 : 0.22),
+        borderRadius: radius,
+        border: Border.all(
+          color: isSelected
+              ? AppColors.primary500Dark
+              : AppColors.basic500.withValues(alpha: 0.14),
+          width: isSelected ? 1.8 : 1,
         ),
-        child: AppRow(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: CountryFlag.fromCountryCode(
-                locale.countryCode ?? '',
-                width: 42,
-                height: 30,
-                shape: const RoundedRectangle(8),
-              ),
-            ),
-            AppSpacerW16,
-            Expanded(
-              child: AppColumn(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AppText(
-                    LanguageNames.nativeName(locale),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.basic500,
-                    ),
+        boxShadow: isSelected
+            ? [
+                BoxShadow(
+                  color: AppColors.primary500Dark.withValues(alpha: 0.45),
+                  blurRadius: 14,
+                  spreadRadius: 1,
+                ),
+              ]
+            : null,
+      ),
+      // The decoration (incl. the selected glow) stays on the DecoratedBox;
+      // the Material only carries the ink, clipped to the same radius so the
+      // ripple follows the rounded corners. The whole row is the tap target,
+      // radio mark included.
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: radius,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: radius,
+          splashColor: AppColors.primary500Dark.withValues(alpha: 0.22),
+          highlightColor: AppColors.basic500.withValues(alpha: 0.08),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            child: AppRow(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: CountryFlag.fromCountryCode(
+                    locale.countryCode ?? '',
+                    width: 42,
+                    height: 30,
+                    shape: const RoundedRectangle(8),
                   ),
-                  AppText(
-                    CommLocalize.getLocaleName(locale),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.basic500.withValues(alpha: 0.6),
-                    ),
+                ),
+                AppSpacerW16,
+                Expanded(
+                  child: AppColumn(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AppText(
+                        LanguageNames.nativeName(locale),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.basic500,
+                        ),
+                      ),
+                      AppText(
+                        CommLocalize.getLocaleName(locale),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.basic500.withValues(alpha: 0.6),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                AppSpacerW12,
+                RadioMark(isSelected: isSelected),
+              ],
             ),
-            AppSpacerW12,
-            RadioMark(isSelected: isSelected),
-          ],
+          ),
         ),
       ),
     );

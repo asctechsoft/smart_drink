@@ -158,16 +158,24 @@ class AppColors {
 
   static const Color bgHeaderIAP = Color(0xFF1B4577);
 
+  // The two app backgrounds. These names were previously swapped — the one
+  // called "Dark" was the brighter blue — which is why a phone in dark mode
+  // used to show the lighter-looking screen. Named here by how they actually
+  // look.
+
+  /// Deep navy. The app's fixed background (see [gradientBgLight] for the
+  /// brighter variant, kept for a future light theme).
   static const LinearGradient gradientBgDark = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color.fromARGB(255, 11, 39, 32),
-      Color(0xFF1575CE),
       Color(0xFF0B58D6),
+      Color.fromARGB(255, 34, 24, 109),
+      Color.fromARGB(255, 34, 24, 109),
     ],
   );
 
+  /// Brighter blue. Currently unused — no light theme ships yet.
   static const LinearGradient gradientBgLight = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,

@@ -200,6 +200,22 @@ class NotificationChannel {
     }
   }
 
+  /// Whether Health Connect launched the app asking it to show the privacy
+  /// policy. Reading the flag clears it, so one launch opens the policy once.
+  static Future<bool> consumeShowPrivacyPolicy() async {
+    try {
+      final pending = await _channel.invokeMethod<bool>(
+        'consumeShowPrivacyPolicy',
+      );
+      return pending ?? false;
+    } on MissingPluginException {
+      return false;
+    } on PlatformException catch (e) {
+      debugPrint('NotificationChannel.consumeShowPrivacyPolicy failed: $e');
+      return false;
+    }
+  }
+
   static List<dynamic> _parseJson(String json) {
     return jsonDecode(json);
   }

@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="200"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="@color/noti_text_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -42,7 +42,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="/ 1947 ml"
-                android:textColor="?android:attr/textColorSecondary"
+                android:textColor="@color/noti_text_secondary"
                 android:textSize="13sp" />
         </LinearLayout>
 
@@ -55,7 +55,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="Còn 1747 ml hôm nay"
-            android:textColor="?android:attr/textColorSecondary"
+            android:textColor="@color/noti_text_secondary"
             android:textSize="12sp" />
     </LinearLayout>
 

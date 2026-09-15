@@ -69,85 +69,101 @@ class ReminderSlotsSection extends StatelessWidget {
     final enabled = schedule?.enabled ?? true;
     final hour = int.tryParse(time.split(':').first) ?? 8;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    void openTimePicker() => showWheelTimePicker(
+      context,
+      title: label.tr,
+      initialTime: time,
+      onSave: (newTime) {
+        if (schedule != null) {
+          ctrl.updateSchedule(schedule.copyWith(time: newTime));
+        } else {
+          ctrl.addSchedule(
+            ReminderSchedule(mode: 'standard', time: newTime, label: label),
+          );
+        }
+      },
+    );
+
+    const radius = BorderRadius.all(Radius.circular(16));
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: radius,
         border: Border.all(color: Colors.white.withValues(alpha: 0.09)),
       ),
-      child: Row(
-        children: [
-          _iconBox(_slotIcon(hour)),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              label.tr,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: enabled ? ob.textPrimary : ob.textSecondary,
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () => showWheelTimePicker(
-              context,
-              title: label.tr,
-              initialTime: time,
-              onSave: (newTime) {
-                if (schedule != null) {
-                  ctrl.updateSchedule(schedule.copyWith(time: newTime));
-                } else {
-                  ctrl.addSchedule(
-                    ReminderSchedule(
-                      mode: 'standard',
-                      time: newTime,
-                      label: label,
+      // The section's own subtitle says to tap the slot to change its time, so
+      // the whole row is the target — not just the small time pill it used to
+      // be. The switch keeps its own tap: being deeper in the hit-test path, it
+      // wins the gesture arena over this ink well.
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: radius,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: openTimePicker,
+          borderRadius: radius,
+          splashColor: ob.textActiveBottomNavBar.withValues(alpha: 0.18),
+          highlightColor: Colors.white.withValues(alpha: 0.06),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            child: Row(
+              children: [
+                _iconBox(_slotIcon(hour)),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    label.tr,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: enabled ? ob.textPrimary : ob.textSecondary,
                     ),
-                  );
-                }
-              },
-            ),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                border: Border.all(
-                  color: ob.textActiveBottomNavBar.withValues(alpha: 0.5),
-                ),
-              ),
-              child: Text(
-                ctrl.formatDisplayTime(time),
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: ob.textActiveBottomNavBar,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          CustomSwitch(
-            value: enabled,
-            onChanged: (v) {
-              if (schedule != null) {
-                ctrl.updateSchedule(schedule.copyWith(enabled: v));
-              } else {
-                ctrl.addSchedule(
-                  ReminderSchedule(
-                    mode: 'standard',
-                    time: fallback,
-                    label: label,
-                    enabled: v,
                   ),
-                );
-              }
-            },
-            activeColor: ob.switchActive,
-            trackColor: ob.switchTrack,
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    border: Border.all(
+                      color: ob.textActiveBottomNavBar.withValues(alpha: 0.5),
+                    ),
+                  ),
+                  child: Text(
+                    ctrl.formatDisplayTime(time),
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: ob.textActiveBottomNavBar,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                CustomSwitch(
+                  value: enabled,
+                  onChanged: (v) {
+                    if (schedule != null) {
+                      ctrl.updateSchedule(schedule.copyWith(enabled: v));
+                    } else {
+                      ctrl.addSchedule(
+                        ReminderSchedule(
+                          mode: 'standard',
+                          time: fallback,
+                          label: label,
+                          enabled: v,
+                        ),
+                      );
+                    }
+                  },
+                  activeColor: ob.switchActive,
+                  trackColor: ob.switchTrack,
+                ),
+              ],
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -161,7 +177,10 @@ class ReminderSlotsSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.2), width: 1),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.2),
+          width: 1,
+        ),
       ),
       child: Center(child: Icon(icon, size: 24, color: _iconTint)),
     );

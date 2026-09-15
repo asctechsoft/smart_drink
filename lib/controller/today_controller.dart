@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:waternudge/services/application/health_sync_service.dart';
 import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/configs/pref_defaults.dart';
 import 'package:waternudge/models/data_models/drink_record.dart';
@@ -10,6 +13,7 @@ import 'package:waternudge/services/application/drink_data_service.dart';
 import 'package:waternudge/services/native/notification_channel.dart';
 import 'package:waternudge/services/native/widget_channel.dart';
 import 'package:waternudge/utils/date_utils.dart';
+import 'package:waternudge/utils/legal_utils.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/utils/water_calculation.dart';
 import 'package:flutter/widgets.dart';
@@ -112,7 +116,18 @@ class TodayController extends GetxController with WidgetsBindingObserver {
     }
   }
 
+  /// Health Connect can launch the app purely to show the privacy policy (it
+  /// does this from its own permission screen). Checked on start and on every
+  /// resume, since either can be the moment it hands us that intent.
+  Future<void> _checkHealthPrivacyPolicyRequest() async {
+    if (await NotificationChannel.consumeShowPrivacyPolicy()) {
+      await LegalUtils.openPrivacyPolicy();
+    }
+  }
+
   Future<void> _checkPendingWaterAndReload() async {
+    unawaited(_checkHealthPrivacyPolicyRequest());
+
     // Check if date has changed since last load (midnight crossing)
     final currentDateKey = AppDateUtils.todayKey();
     if (_lastLoadedDateKey.isNotEmpty && _lastLoadedDateKey != currentDateKey) {
@@ -269,11 +284,17 @@ class TodayController extends GetxController with WidgetsBindingObserver {
 
     final wasBelowGoal = currentIntakeMl.value < adjustedGoal;
 
-    await _drinkService.addDrink(
+    final recordId = await _drinkService.addDrink(
       amountMl: amountMl,
       originalAmountMl: originalAmountMl,
       drinkType: drinkType,
       goalMl: adjustedGoal,
+    );
+    // Mirror into Health Connect when the user has opted in. Failures are
+    // swallowed inside the service — the drink is already logged locally.
+    await HealthSyncService.onDrinkAdded(
+      drinkRecordId: recordId,
+      amountMl: amountMl,
     );
     await loadTodayData();
     _refreshHistoryIfNeeded();

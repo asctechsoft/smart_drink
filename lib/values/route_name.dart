@@ -23,5 +23,4 @@ class RouteName {
   static const String streak = '/streak';
   static const String avatarSelection = '/avatar_selection';
   static const String chatBot = '/chat_bot';
-  static const String privacyPolicy = '/privacy_policy';
 }

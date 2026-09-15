@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-WaterNudge is a Flutter app for tracking daily water intake. It supports Android and iOS, with an 8-step onboarding flow, daily drink logging, history charts, reminders, and home screen widgets.
+AquaMind (formerly WaterNudge — the Dart package is still named `waternudge`) is a Flutter app for tracking daily water intake. It supports Android and iOS, with an 8-step onboarding flow, daily drink logging, history charts, reminders, AI chat, and home screen widgets.
 
 ## Commands
 

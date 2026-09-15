@@ -4,10 +4,17 @@
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photos so you can attach screenshots to your feedback.</string>
+	<!-- The health plugin links HealthKit on iOS, and App Store validation
+	     rejects a binary that links it without purpose strings — even though
+	     the sync itself is Android/Health Connect only for now. -->
+	<key>NSHealthShareUsageDescription</key>
+	<string>AquaMind reads only the hydration entries it wrote, so your drink log stays in sync.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>AquaMind saves the drinks you log as hydration entries in the Health app.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Water Nudge</string>
+	<string>AquaMind</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +22,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>WaterNudge</string>
+	<string>AquaMind</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

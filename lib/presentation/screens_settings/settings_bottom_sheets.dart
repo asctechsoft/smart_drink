@@ -482,6 +482,10 @@ class _WeightSheetState extends State<_WeightSheet> {
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: ToggleSelector(
               compact: true,
+              // Same gradient pill the onboarding weight/height screens use —
+              // this sheet sits on the same dark gradient, so the plain light
+              // pill read as a different control.
+              onGradient: true,
               options: const ['kg', 'lb'],
               selectedIndex: _unit == 'kg' ? 0 : 1,
               onChanged: (i) => _switchUnit(i == 0 ? 'kg' : 'lb'),
@@ -820,6 +824,7 @@ class _HeightSheetState extends State<_HeightSheet> {
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: ToggleSelector(
               compact: true,
+              onGradient: true,
               options: const ['cm', 'ft/in'],
               selectedIndex: _unit == 'cm' ? 0 : 1,
               onChanged: (i) => setState(() => _unit = i == 0 ? 'cm' : 'ft/in'),
@@ -1163,7 +1168,7 @@ class _DailyGoalSheetState extends State<_DailyGoalSheet> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SvgPicture.asset(
-                        'assets/images/svg/img_cup.svg',
+                        'assets/images/svg/ic_cup_water_bar.svg',
                         height: 60,
                         fit: BoxFit.contain,
                       ),
@@ -1284,7 +1289,7 @@ class _DailyGoalSheetState extends State<_DailyGoalSheet> {
                   ),
                   const SizedBox(width: 8),
                   SvgPicture.asset(
-                    'assets/images/svg/img_cup.svg',
+                    'assets/images/svg/ic_cup_water_bar.svg',
                     height: 72,
                     fit: BoxFit.contain,
                   ),
@@ -1822,6 +1827,7 @@ class _UnitRow extends StatelessWidget {
         const SizedBox(width: 8),
         ToggleSelector(
           compact: true,
+          onGradient: true,
           options: options,
           selectedIndex: options.indexOf(
             options.firstWhere(

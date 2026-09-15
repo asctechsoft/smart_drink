@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Time to drink water!"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@color/noti_text_primary"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Stay hydrated for better focus and energy!"
-            android:textColor="?android:attr/textColorSecondary"
+            android:textColor="@color/noti_text_secondary"
             android:textSize="12sp" />
 
         <LinearLayout

@@ -44,5 +44,8 @@ class PrefConst {
   // AI chat free quota — counted per device, reset on the local calendar day.
   static const String chatFreeUsedDate = 'chat_free_used_date';
   static const String chatFreeUsedCount = 'chat_free_used_count';
+
+  // Health Connect (Android): mirror each logged drink as a hydration record.
+  static const String healthConnectEnabled = 'health_connect_enabled';
 }
 

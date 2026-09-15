@@ -1,4 +1,5 @@
 import 'package:dsp_base/app_material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:waternudge/controller/reminder_controller.dart';
 import 'package:waternudge/presentation/common_components/wheel_duration_picker.dart';
 import 'package:waternudge/utils/toast_utils.dart';
@@ -244,8 +245,8 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Image.asset(
-                    'assets/images/webp/img_cup_water.webp',
+                  SvgPicture.asset(
+                    'assets/images/svg/ic_cup_water_bar.svg',
                     width: 44,
                     height: 44,
                     fit: BoxFit.contain,

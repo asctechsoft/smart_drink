@@ -6,7 +6,9 @@ import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/auth_loading_overlay.dart';
 import 'package:waternudge/presentation/common_components/custom_switch.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/utils/legal_utils.dart';
 import 'package:waternudge/utils/share_utils.dart';
+import 'package:waternudge/utils/toast_utils.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -173,6 +175,30 @@ class SettingsScreen extends StatelessWidget {
                         },
                       ),
                     ),
+                    // Health Connect sync — Android only, and only once the
+                    // platform app is actually installed, so the row never
+                    // offers something the device cannot do.
+                    Obx(() {
+                      if (!settingsCtrl.healthConnectAvailable.value) {
+                        return const SizedBox.shrink();
+                      }
+                      return Column(
+                        children: [
+                          _Divider(),
+                          _SettingsToggleTile(
+                            iconData: Icons.favorite_outline_rounded,
+                            title: 'health_connect_title'.tr,
+                            subtitle: 'health_connect_desc'.tr,
+                            value: settingsCtrl.healthConnectEnabled.value,
+                            onChanged: (v) => _onHealthConnectChanged(
+                              context,
+                              settingsCtrl,
+                              v,
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
                     _Divider(),
                     Obx(() {
                       final vol = settingsCtrl.volumeUnit.value;
@@ -212,7 +238,7 @@ class SettingsScreen extends StatelessWidget {
                       iconData: Icons.shield_outlined,
                       title: 'settings_privacy'.tr,
                       subtitle: 'settings_privacy_desc'.tr,
-                      onTap: () => Get.toNamed(RouteName.privacyPolicy),
+                      onTap: LegalUtils.openPrivacyPolicy,
                     ),
                     _Divider(),
                     _SettingsTile(
@@ -264,6 +290,25 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// Flips the Health Connect sync, and explains itself when the permission
+  /// does not come back.
+  ///
+  /// Health Connect stops showing its own sheet after the user has refused
+  /// twice, so a silent failure would look like a broken toggle. When the
+  /// request comes back denied the user is told, and Health Connect is opened
+  /// so the permission can be granted there instead.
+  Future<void> _onHealthConnectChanged(
+    BuildContext context,
+    SettingsController settingsCtrl,
+    bool value,
+  ) async {
+    final granted = await settingsCtrl.setHealthConnectEnabled(value);
+    if (!value || granted || !context.mounted) return;
+
+    ToastUtils.showToast(context, 'health_connect_permission_denied'.tr);
+    await settingsCtrl.openHealthConnect();
   }
 
   Widget _buildHeader(BuildContext context) {
