@@ -359,6 +359,10 @@
     <string name="chat_empty_title">Chưa có cuộc trò chuyện nào</string>
     <string name="chat_empty_body">Hãy chọn một câu hỏi gợi ý hoặc nhập câu hỏi của bạn để bắt đầu.</string>
     <string name="chat_input_hint">Hỏi AI...</string>
+    <string name="chat_free_remaining">Còn %1$s/%2$s câu hỏi miễn phí hôm nay</string>
+    <string name="chat_free_exhausted_title">Đã dùng hết %1$s câu hỏi miễn phí</string>
+    <string name="chat_free_exhausted_desc">Quay lại vào ngày mai để có lượt mới nhé.</string>
+    <string name="chat_input_hint_locked">Hết lượt hỏi miễn phí hôm nay</string>
     <string name="suggest_how_much_water">Uống bao nhiêu nước là đủ?</string>
     <string name="suggest_water_before_sleep">Uống nước trước khi ngủ có tốt không?</string>
     <string name="suggest_water_benefits">Lợi ích của việc uống nước</string>

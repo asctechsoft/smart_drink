@@ -40,5 +40,9 @@ class PrefConst {
   static const String selectedAvatar = 'selected_avatar';
   static const String streakDialogShownDate = 'streak_dialog_shown_date';
   static const String coachMarkHomeSeen = 'coach_mark_home_seen';
+
+  // AI chat free quota — counted per device, reset on the local calendar day.
+  static const String chatFreeUsedDate = 'chat_free_used_date';
+  static const String chatFreeUsedCount = 'chat_free_used_count';
 }
 

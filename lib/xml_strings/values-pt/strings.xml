@@ -359,6 +359,10 @@
     <string name="chat_empty_title">Ainda não há conversas</string>
     <string name="chat_empty_body">Escolha uma pergunta sugerida ou digite a sua própria para começar.</string>
     <string name="chat_input_hint">Pergunte à IA...</string>
+    <string name="chat_free_remaining">Restam %1$s/%2$s perguntas gratuitas hoje</string>
+    <string name="chat_free_exhausted_title">Você usou as %1$s perguntas gratuitas</string>
+    <string name="chat_free_exhausted_desc">Volte amanhã para novas perguntas.</string>
+    <string name="chat_input_hint_locked">Sem perguntas gratuitas hoje</string>
     <string name="suggest_how_much_water">Quanta água devo beber?</string>
     <string name="suggest_water_before_sleep">Beber água antes de dormir é bom?</string>
     <string name="suggest_water_benefits">Benefícios de beber água</string>

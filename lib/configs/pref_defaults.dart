@@ -34,5 +34,8 @@ class PrefDefaults {
   static const String languageSelectionHistory = '';
   static const bool smartNotification = true;
   static const String selectedAvatar = 'human_1';
+
+  // AI chat: free questions every device gets each day.
+  static const int chatFreeQuestionsPerDay = 5;
 }
 

@@ -359,6 +359,10 @@
     <string name="chat_empty_title">Aucune conversation pour l\'instant</string>
     <string name="chat_empty_body">Choisissez une question suggérée ou saisissez la vôtre pour commencer.</string>
     <string name="chat_input_hint">Demandez à l\'IA...</string>
+    <string name="chat_free_remaining">Il reste %1$s/%2$s questions gratuites aujourd\'hui</string>
+    <string name="chat_free_exhausted_title">Vos %1$s questions gratuites sont épuisées</string>
+    <string name="chat_free_exhausted_desc">Revenez demain pour en avoir de nouvelles.</string>
+    <string name="chat_input_hint_locked">Plus de questions gratuites aujourd\'hui</string>
     <string name="suggest_how_much_water">Quelle quantité d’eau dois-je boire ?</string>
     <string name="suggest_water_before_sleep">Est-ce que boire de l’eau avant de se coucher est une bonne chose ?</string>
     <string name="suggest_water_benefits">Avantages de l\'eau potable</string>

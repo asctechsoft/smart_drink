@@ -70,6 +70,13 @@ class _ChatBotScreenState extends State<ChatBotScreen>
   @override
   void didChangeMetrics() => _scrollToBottom();
 
+  // Coming back to the screen may mean a new day — re-read the free allowance
+  // rather than leaving yesterday's "out of questions" state on screen.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) _chat.refreshQuota();
+  }
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -138,13 +145,19 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                 ),
               ),
               // Suggestions pinned above the input bar during a conversation.
+              // They send on tap, so they go away once today's quota is spent.
               Obx(
-                () => _chat.messages.isEmpty
+                () => _chat.messages.isEmpty || !_chat.hasFreeQuestions
                     ? const SizedBox.shrink()
                     : Padding(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                         child: _buildSuggestions(),
                       ),
+              ),
+              Obx(
+                () => _chat.hasFreeQuestions
+                    ? _buildQuotaLine()
+                    : _buildQuotaExhausted(),
               ),
               _buildInputBar(),
               const SizedBox(height: 8),
@@ -734,9 +747,96 @@ class _ChatBotScreenState extends State<ChatBotScreen>
   }
 
   // ── Input bar ────────────────────────────────────────────────────────────────
+  // ── Free quota ───────────────────────────────────────────────────────────────
+
+  /// "Còn 3/5 câu hỏi miễn phí hôm nay" — shown while the device still has
+  /// questions left today.
+  Widget _buildQuotaLine() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.bolt_rounded, color: _kOnBgSoft, size: 16),
+          const SizedBox(width: 5),
+          Flexible(
+            child: Text(
+              'chat_free_remaining'.trParams({
+                'args1': '${_chat.freeRemaining.value}',
+                'args2': '${_chat.freePerDay}',
+              }),
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: _kOnBgSoft, fontSize: 12),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Replaces the quota line once today's questions are spent. The input bar
+  /// below it locks until the device's next calendar day.
+  Widget _buildQuotaExhausted() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: _kChipBg,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: _kChipBorder),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 34,
+              height: 34,
+              decoration: const BoxDecoration(
+                color: _kChipIconBg,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.hourglass_bottom_rounded,
+                color: _kOnBg,
+                size: 19,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'chat_free_exhausted_title'.trParams({
+                      'args1': '${_chat.freePerDay}',
+                    }),
+                    style: const TextStyle(
+                      color: _kOnBg,
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'chat_free_exhausted_desc'.tr,
+                    style: const TextStyle(color: _kOnBgSoft, fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildInputBar() {
     return Obx(() {
       final sending = _chat.isSending.value;
+      // Out of free questions: the field and the send button go inert until the
+      // allowance resets, so a tap cannot spend a call that would be refused.
+      final locked = !_chat.hasFreeQuestions;
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
@@ -776,7 +876,7 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                     Expanded(
                       child: TextField(
                         controller: _inputCtrl,
-                        enabled: !sending,
+                        enabled: !sending && !locked,
                         // Enter inserts a newline; sending is the button's job,
                         // so a long question can grow to several lines.
                         keyboardType: TextInputType.multiline,
@@ -800,7 +900,9 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                           height: 1.35,
                         ),
                         decoration: InputDecoration(
-                          hintText: 'chat_input_hint'.tr,
+                          hintText: locked
+                              ? 'chat_input_hint_locked'.tr
+                              : 'chat_input_hint'.tr,
                           hintStyle: const TextStyle(color: _kInkSoft, fontSize: 14.5),
                           border: InputBorder.none,
                           isCollapsed: true,
@@ -814,7 +916,7 @@ class _ChatBotScreenState extends State<ChatBotScreen>
             ),
             const SizedBox(width: 10),
             Opacity(
-              opacity: sending ? 0.5 : 1,
+              opacity: sending || locked ? 0.5 : 1,
               child: Material(
                 color: Colors.transparent,
                 shape: const CircleBorder(),
@@ -829,7 +931,7 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                     ),
                   ),
                   child: InkWell(
-                    onTap: sending ? null : () => _send(_inputCtrl.text),
+                    onTap: sending || locked ? null : () => _send(_inputCtrl.text),
                     customBorder: const CircleBorder(),
                     child: SizedBox(
                       width: 52,

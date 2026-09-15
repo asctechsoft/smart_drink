@@ -359,6 +359,10 @@
     <string name="chat_empty_title">還沒有對話</string>
     <string name="chat_empty_body">選擇一個建議的問題或輸入您自己的問題即可開始。</string>
     <string name="chat_input_hint">問人工智慧...</string>
+    <string name="chat_free_remaining">今日還剩 %1$s/%2$s 次免費提問</string>
+    <string name="chat_free_exhausted_title">%1$s 次免費提問已用完</string>
+    <string name="chat_free_exhausted_desc">明天再來領取新的提問次數。</string>
+    <string name="chat_input_hint_locked">今日免費提問已用完</string>
     <string name="suggest_how_much_water">我應該喝多少水？</string>
     <string name="suggest_water_before_sleep">睡前喝水好嗎？</string>
     <string name="suggest_water_benefits">飲用水的好處</string>

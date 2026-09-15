@@ -4,6 +4,7 @@ import 'package:waternudge/configs/ai_gateway_config.dart';
 import 'package:waternudge/models/ui_models/chat_card.dart';
 import 'package:waternudge/models/ui_models/chat_message.dart';
 import 'package:waternudge/services/application/ai_chat_service.dart';
+import 'package:waternudge/services/application/chat_quota_service.dart';
 
 /// State for the "Hỏi AI" screen.
 ///
@@ -13,10 +14,12 @@ import 'package:waternudge/services/application/ai_chat_service.dart';
 class ChatController extends GetxController {
   static ChatController get to => Get.find();
 
-  ChatController({AiChatService? service})
-    : _service = service ?? AiChatService();
+  ChatController({AiChatService? service, ChatQuotaService? quota})
+    : _service = service ?? AiChatService(),
+      _quota = quota ?? ChatQuotaService();
 
   final AiChatService _service;
+  final ChatQuotaService _quota;
 
   final RxList<ChatMessage> messages = <ChatMessage>[].obs;
 
@@ -32,8 +35,33 @@ class ChatController extends GetxController {
   /// user retyping. Cleared on success or when a new message is sent.
   ChatMessage? _pendingRetry;
 
+  /// Free questions left for today on this device. Seeded optimistically with
+  /// the full allowance so the first frame doesn't read as "out of questions"
+  /// while prefs are still loading.
+  final RxInt freeRemaining = ChatQuotaService.perDay.obs;
+
+  /// How many free questions a device gets each day — for the UI's "3/5" line.
+  int get freePerDay => ChatQuotaService.perDay;
+
   bool get hasMessages => messages.isNotEmpty;
   bool get canRetry => _pendingRetry != null && !isSending.value;
+
+  /// False once today's free questions are spent; the input bar locks and the
+  /// screen shows the "come back tomorrow" notice.
+  bool get hasFreeQuestions => freeRemaining.value > 0;
+
+  @override
+  void onInit() {
+    super.onInit();
+    refreshQuota();
+  }
+
+  /// Re-reads today's allowance. Called on open and when the app comes back to
+  /// the foreground, so a device left on the screen past midnight picks up its
+  /// new day without a restart.
+  Future<void> refreshQuota() async {
+    freeRemaining.value = await _quota.remainingToday();
+  }
 
   @override
   void onClose() {
@@ -54,6 +82,14 @@ class ChatController extends GetxController {
   Future<void> send(String raw) async {
     final text = raw.trim();
     if (text.isEmpty || isSending.value) return;
+
+    // Out of free questions: refuse before the message is appended, so nothing
+    // is sent and the transcript doesn't gain a turn that never got an answer.
+    // Re-read first — the day may have rolled over while the screen sat open.
+    if (!hasFreeQuestions) {
+      await refreshQuota();
+      if (!hasFreeQuestions) return;
+    }
 
     // Matches the gateway's MAX_PROMPT_CHARS, so an over-long message is cut
     // here rather than coming back as a 400 the user cannot act on.
@@ -131,6 +167,9 @@ class ChatController extends GetxController {
         );
       }
       _pendingRetry = null;
+      // Only an answered question costs a free slot — a failed send (and the
+      // retry that follows it) is charged once, when it finally succeeds.
+      freeRemaining.value = await _quota.consume();
     } on AiChatException catch (e) {
       debugPrint('ChatController: $e');
       // Only offer a retry when the gateway said the failure was transient —

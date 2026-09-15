@@ -359,6 +359,10 @@
     <string name="chat_empty_title">لا توجد محادثات حتى الآن</string>
     <string name="chat_empty_body">اختر سؤالاً مقترحًا أو اكتب سؤالك الخاص للبدء.</string>
     <string name="chat_input_hint">اسأل الذكاء الاصطناعي...</string>
+    <string name="chat_free_remaining">بقي %1$s/%2$s سؤال مجاني اليوم</string>
+    <string name="chat_free_exhausted_title">تم استخدام كل الأسئلة المجانية (%1$s)</string>
+    <string name="chat_free_exhausted_desc">عد غدًا للحصول على أسئلة جديدة.</string>
+    <string name="chat_input_hint_locked">لا توجد أسئلة مجانية اليوم</string>
     <string name="suggest_how_much_water">ما هي كمية الماء التي يجب أن أشربها؟</string>
     <string name="suggest_water_before_sleep">هل شرب الماء قبل النوم مفيد؟</string>
     <string name="suggest_water_benefits">فوائد شرب الماء</string>

@@ -359,6 +359,10 @@
     <string name="chat_empty_title">Henüz görüşme yok</string>
     <string name="chat_empty_body">Başlamak için önerilen bir soruyu seçin veya kendi sorunuzu yazın.</string>
     <string name="chat_input_hint">AI\'a sorun...</string>
+    <string name="chat_free_remaining">Bugün %1$s/%2$s ücretsiz soru kaldı</string>
+    <string name="chat_free_exhausted_title">%1$s ücretsiz sorunun hepsi kullanıldı</string>
+    <string name="chat_free_exhausted_desc">Yarın yeni sorular için geri gel.</string>
+    <string name="chat_input_hint_locked">Bugünlük ücretsiz soru kalmadı</string>
     <string name="suggest_how_much_water">Ne kadar su içmeliyim?</string>
     <string name="suggest_water_before_sleep">Yatmadan önce su içmek faydalı mıdır?</string>
     <string name="suggest_water_benefits">İçme suyunun faydaları</string>

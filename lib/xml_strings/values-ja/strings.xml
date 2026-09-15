@@ -359,6 +359,10 @@
     <string name="chat_empty_title">まだ会話はありません</string>
     <string name="chat_empty_body">提案された質問を選択するか、独自の質問を入力して開始してください。</string>
     <string name="chat_input_hint">AIに聞いてみると…</string>
+    <string name="chat_free_remaining">今日の無料質問は残り %1$s/%2$s 回</string>
+    <string name="chat_free_exhausted_title">無料質問 %1$s 回をすべて使いました</string>
+    <string name="chat_free_exhausted_desc">明日またご利用ください。</string>
+    <string name="chat_input_hint_locked">今日の無料質問は終了しました</string>
     <string name="suggest_how_much_water">水をどれくらい飲めばいいですか？</string>
     <string name="suggest_water_before_sleep">寝る前に水を飲むのは良いのでしょうか？</string>
     <string name="suggest_water_benefits">飲料水の利点</string>

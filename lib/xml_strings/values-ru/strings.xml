@@ -359,6 +359,10 @@
     <string name="chat_empty_title">Пока нет разговоров</string>
     <string name="chat_empty_body">Чтобы начать, выберите предложенный вопрос или введите свой собственный.</string>
     <string name="chat_input_hint">Спроси у ИИ...</string>
+    <string name="chat_free_remaining">Осталось %1$s/%2$s бесплатных вопросов сегодня</string>
+    <string name="chat_free_exhausted_title">Все %1$s бесплатных вопросов использованы</string>
+    <string name="chat_free_exhausted_desc">Возвращайтесь завтра за новыми.</string>
+    <string name="chat_input_hint_locked">Бесплатные вопросы на сегодня закончились</string>
     <string name="suggest_how_much_water">Сколько воды мне следует пить?</string>
     <string name="suggest_water_before_sleep">Полезно ли пить воду перед сном?</string>
     <string name="suggest_water_benefits">Польза питьевой воды</string>

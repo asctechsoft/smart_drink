@@ -359,6 +359,10 @@
     <string name="chat_empty_title">还没有对话</string>
     <string name="chat_empty_body">选择一个建议的问题或输入您自己的问题即可开始。</string>
     <string name="chat_input_hint">问人工智能...</string>
+    <string name="chat_free_remaining">今日还剩 %1$s/%2$s 次免费提问</string>
+    <string name="chat_free_exhausted_title">%1$s 次免费提问已用完</string>
+    <string name="chat_free_exhausted_desc">明天再来领取新的提问次数。</string>
+    <string name="chat_input_hint_locked">今日免费提问已用完</string>
     <string name="suggest_how_much_water">我应该喝多少水？</string>
     <string name="suggest_water_before_sleep">睡前喝水好吗？</string>
     <string name="suggest_water_benefits">饮用水的好处</string>

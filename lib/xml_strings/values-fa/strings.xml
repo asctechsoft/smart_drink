@@ -359,6 +359,10 @@
     <string name="chat_empty_title">هنوز مکالمه ای وجود ندارد</string>
     <string name="chat_empty_body">برای شروع، سؤال پیشنهادی را انتخاب کنید یا سؤال خود را تایپ کنید.</string>
     <string name="chat_input_hint">از هوش مصنوعی بپرس...</string>
+    <string name="chat_free_remaining">%1$s/%2$s پرسش رایگان امروز باقی مانده</string>
+    <string name="chat_free_exhausted_title">همه %1$s پرسش رایگان استفاده شد</string>
+    <string name="chat_free_exhausted_desc">فردا برای پرسش‌های تازه برگردید.</string>
+    <string name="chat_input_hint_locked">امروز پرسش رایگان ندارید</string>
     <string name="suggest_how_much_water">چقدر آب بنوشم؟</string>
     <string name="suggest_water_before_sleep">آیا نوشیدن آب قبل از خواب خوب است؟</string>
     <string name="suggest_water_benefits">فواید آب آشامیدنی</string>

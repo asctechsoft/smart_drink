@@ -359,6 +359,10 @@
     <string name="chat_empty_title">Belum ada percakapan</string>
     <string name="chat_empty_body">Pilih pertanyaan yang disarankan atau ketik pertanyaan Anda sendiri untuk memulai.</string>
     <string name="chat_input_hint">Tanya AI...</string>
+    <string name="chat_free_remaining">Sisa %1$s/%2$s pertanyaan gratis hari ini</string>
+    <string name="chat_free_exhausted_title">%1$s pertanyaan gratis sudah terpakai</string>
+    <string name="chat_free_exhausted_desc">Kembali besok untuk jatah baru.</string>
+    <string name="chat_input_hint_locked">Jatah gratis hari ini habis</string>
     <string name="suggest_how_much_water">Berapa banyak air yang harus saya minum?</string>
     <string name="suggest_water_before_sleep">Apakah minum air sebelum tidur itu baik?</string>
     <string name="suggest_water_benefits">Manfaat air minum</string>
