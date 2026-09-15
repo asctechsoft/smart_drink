@@ -43,6 +43,11 @@ class ChatController extends GetxController {
   /// How many free questions a device gets each day — for the UI's "3/5" line.
   int get freePerDay => ChatQuotaService.perDay;
 
+  /// Smallest gap between two repaints of a streaming answer (~20 fps). Fast
+  /// enough to read as typing, slow enough that the transcript is not rebuilt
+  /// once per token.
+  static const Duration _streamFrameInterval = Duration(milliseconds: 50);
+
   bool get hasMessages => messages.isNotEmpty;
   bool get canRetry => _pendingRetry != null && !isSending.value;
 
@@ -123,10 +128,26 @@ class ChatController extends GetxController {
     int? index;
     String lastText = '';
 
-    void render(ChatCard card, {String? text}) {
+    // The gateway emits a frame per token, and every frame repaints the whole
+    // transcript. Past roughly 20 repaints a second that stops reading as
+    // typing and starts reading as stutter, so snapshots are coalesced to
+    // [_streamFrameInterval]. The first snapshot and the final card always go
+    // through, so the bubble appears at once and ends on the complete answer.
+    var lastPaint = DateTime.fromMillisecondsSinceEpoch(0);
+
+    void render(ChatCard card, {String? text, bool force = false}) {
+      final isFirst = index == null;
+      if (!isFirst && !force) {
+        final now = DateTime.now();
+        if (now.difference(lastPaint) < _streamFrameInterval) return;
+        lastPaint = now;
+      } else {
+        lastPaint = DateTime.now();
+      }
+
       if (text != null && text.isNotEmpty) lastText = text;
       final bubble = ChatMessage.assistant(lastText, card: card);
-      if (index == null) {
+      if (isFirst) {
         index = messages.length;
         messages.add(bubble);
         isStreaming.value = true;
@@ -143,6 +164,9 @@ class ChatController extends GetxController {
             render(
               card,
               text: event.reply.isNotEmpty ? event.reply : card.toPlainText(),
+              // The terminal frame is the complete answer — it must never be
+              // dropped by the coalescing gate.
+              force: true,
             );
           }
           if (kDebugMode) {

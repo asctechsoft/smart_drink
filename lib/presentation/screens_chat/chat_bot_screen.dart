@@ -91,8 +91,19 @@ class _ChatBotScreenState extends State<ChatBotScreen>
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_scrollCtrl.hasClients) return;
+      final target = _scrollCtrl.position.maxScrollExtent;
+
+      // While the answer is streaming the transcript changes on every token,
+      // and a 300ms animation per token spends its whole life being cancelled
+      // and restarted — the text ends up lurching instead of scrolling. Follow
+      // the text instantly during the stream and keep the animation for the
+      // ordinary case of a message being appended.
+      if (_chat.isStreaming.value) {
+        _scrollCtrl.jumpTo(target);
+        return;
+      }
       _scrollCtrl.animateTo(
-        _scrollCtrl.position.maxScrollExtent,
+        target,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );

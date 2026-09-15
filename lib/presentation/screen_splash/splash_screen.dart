@@ -57,57 +57,61 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             // Bubbles rise gently behind everything, the same motif as the
             // daily-goal celebration on the Today screen.
-            const Positioned.fill(child: IgnorePointer(child: _SplashBubbles())),
+            const Positioned.fill(
+              child: IgnorePointer(child: _SplashBubbles()),
+            ),
             Positioned.fill(
               child: SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                  const Spacer(flex: 5),
-                  AppIcon('assets/images/png/logo_app_v3.png', size: 104),
-                  AppSpacerH16,
-                  AppText(
-                    'Water Nudge',
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                      letterSpacing: 1.5,
+                    const Spacer(flex: 5),
+                    AppIcon('assets/images/png/logo_app_v3.png', size: 104),
+                    AppSpacerH16,
+                    AppText(
+                      'AquaMind',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                        letterSpacing: 1.5,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  AppText(
-                    'Theo dõi nước uống mỗi ngày',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white.withValues(alpha: 0.82),
+                    const SizedBox(height: 10),
+                    AppText(
+                      'Theo dõi nước uống mỗi ngày',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white.withValues(alpha: 0.82),
+                      ),
                     ),
-                  ),
-                  const Spacer(flex: 5),
-                  const SizedBox(
-                    width: 30,
-                    height: 30,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 3,
-                      valueColor: AlwaysStoppedAnimation(AppColors.btnCyanEnd),
+                    const Spacer(flex: 5),
+                    const SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3,
+                        valueColor: AlwaysStoppedAnimation(
+                          AppColors.btnCyanEnd,
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  AppText(
-                    'Đang khởi động...',
-                    style: TextStyle(
-                      fontSize: 13.5,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white.withValues(alpha: 0.7),
+                    const SizedBox(height: 16),
+                    AppText(
+                      'Đang khởi động...',
+                      style: TextStyle(
+                        fontSize: 13.5,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white.withValues(alpha: 0.7),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 40),
-                ],
+                    const SizedBox(height: 40),
+                  ],
+                ),
               ),
             ),
-          ),
           ],
         ),
       ),

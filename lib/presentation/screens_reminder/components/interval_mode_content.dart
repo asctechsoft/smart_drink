@@ -22,6 +22,11 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
   static const _quickMinutes = [30, 45, 60, 90, 120];
   static const _cyan = Color(0xFF4FC3F7);
 
+  // Shared ink colours for every tappable surface on this tab.
+  static const _rowRadius = BorderRadius.all(Radius.circular(12));
+  static final Color _splash = _cyan.withValues(alpha: 0.18);
+  static final Color _highlight = Colors.white.withValues(alpha: 0.06);
+
   final ScrollController _chipScroll = ScrollController();
   final List<GlobalKey> _chipKeys = List.generate(5, (_) => GlobalKey());
 
@@ -63,30 +68,23 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
       return DisabledOverlay(
         disabled: !controller.enabled.value,
         child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.09)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ── Interval header row ──
-            Row(
-              children: [
-                _iconCircle(Icons.timer_outlined),
-                const SizedBox(width: 12),
-                Text(
-                  'interval_title'.tr,
-                  style: TextStyle(
-                    color: ob.textPrimary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const Spacer(),
-                GestureDetector(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.05),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.09)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ── Interval header row ──
+              // The whole row opens the duration picker, not just the value and
+              // its pencil — the label and icon read as part of the same button.
+              Material(
+                color: Colors.transparent,
+                borderRadius: _rowRadius,
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
                   onTap: () => showWheelDurationPicker(
                     context,
                     title: 'interval_title'.tr,
@@ -96,166 +94,188 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
                       controller.saveSettings();
                     },
                   ),
-                  behavior: HitTestBehavior.opaque,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        controller.intervalDisplay,
-                        style: const TextStyle(
-                          color: _cyan,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
+                  borderRadius: _rowRadius,
+                  splashColor: _splash,
+                  highlightColor: _highlight,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 4,
+                    ),
+                    child: Row(
+                      children: [
+                        _iconCircle(Icons.timer_outlined),
+                        const SizedBox(width: 12),
+                        Text(
+                          'interval_title'.tr,
+                          style: TextStyle(
+                            color: ob.textPrimary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
+                        const Spacer(),
+                        Text(
+                          controller.intervalDisplay,
+                          style: const TextStyle(
+                            color: _cyan,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Icon(Icons.edit_outlined, size: 16, color: _cyan),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 14),
+              Container(height: 1, color: Colors.white.withValues(alpha: 0.08)),
+              const SizedBox(height: 16),
+
+              // ── Quick interval chips ──
+              Text(
+                'interval_quick_pick'.tr,
+                style: TextStyle(color: ob.textSecondary, fontSize: 12),
+              ),
+              const SizedBox(height: 10),
+              SingleChildScrollView(
+                controller: _chipScroll,
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: Row(
+                  children: [
+                    for (var i = 0; i < _quickMinutes.length; i++) ...[
+                      _quickChip(
+                        ob,
+                        _quickMinutes[i],
+                        controller.intervalMinutes.value == _quickMinutes[i],
+                        _chipKeys[i],
                       ),
-                      const SizedBox(width: 8),
-                      const Icon(Icons.edit_outlined, size: 16, color: _cyan),
+                      if (i < _quickMinutes.length - 1)
+                        const SizedBox(width: 12),
                     ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 14),
-            Container(height: 1, color: Colors.white.withValues(alpha: 0.08)),
-            const SizedBox(height: 16),
-
-            // ── Quick interval chips ──
-            Text(
-              'interval_quick_pick'.tr,
-              style: TextStyle(color: ob.textSecondary, fontSize: 12),
-            ),
-            const SizedBox(height: 10),
-            SingleChildScrollView(
-              controller: _chipScroll,
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: Row(
-                children: [
-                  for (var i = 0; i < _quickMinutes.length; i++) ...[
-                    _quickChip(
-                      ob,
-                      _quickMinutes[i],
-                      controller.intervalMinutes.value == _quickMinutes[i],
-                      _chipKeys[i],
-                    ),
-                    if (i < _quickMinutes.length - 1) const SizedBox(width: 12),
                   ],
-                ],
-              ),
-            ),
-            const SizedBox(height: 18),
-
-            // ── Sleep window ──
-            Text(
-              'interval_sleep_window'.tr,
-              style: TextStyle(color: ob.textSecondary, fontSize: 12),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: _sleepCard(
-                    ob,
-                    icon: Icons.nightlight_round,
-                    iconColor: const Color(0xFF7C83FF),
-                    label: 'interval_bedtime_label'.tr,
-                    time: controller.formatDisplayTime(
-                      controller.sleepTimeStart.value,
-                    ),
-                    onTap: () => showWheelTimePicker(
-                      context,
-                      title: 'sleep_time_start'.tr,
-                      initialTime: controller.sleepTimeStart.value,
-                      enhanced: true,
-                      subtitle: 'picker_device_format_hint',
-                      infoText: 'reminder_pause_info',
-                      onSave: (t) {
-                        if (t == controller.sleepTimeEnd.value) {
-                          ToastUtils.showToast(
-                            context,
-                            'sleep_start_end_cannot_be_same'.tr,
-                          );
-                          return;
-                        }
-                        controller.sleepTimeStart.value = t;
-                        controller.saveSettings();
-                      },
-                    ),
-                  ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _sleepCard(
-                    ob,
-                    icon: Icons.wb_sunny_rounded,
-                    iconColor: const Color(0xFFFFC107),
-                    label: 'interval_wakeup_label'.tr,
-                    time: controller.formatDisplayTime(
-                      controller.sleepTimeEnd.value,
-                    ),
-                    onTap: () => showWheelTimePicker(
-                      context,
-                      title: 'sleep_time_end'.tr,
-                      initialTime: controller.sleepTimeEnd.value,
-                      enhanced: true,
-                      subtitle: 'picker_device_format_hint',
-                      infoText: 'reminder_pause_info',
-                      onSave: (t) {
-                        if (t == controller.sleepTimeStart.value) {
-                          ToastUtils.showToast(
-                            context,
-                            'sleep_start_end_cannot_be_same'.tr,
-                          );
-                          return;
-                        }
-                        controller.sleepTimeEnd.value = t;
-                        controller.saveSettings();
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 14),
-
-            // ── Info card ──
-            Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.04),
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
               ),
-              child: Row(
+              const SizedBox(height: 18),
+
+              // ── Sleep window ──
+              Text(
+                'interval_sleep_window'.tr,
+                style: TextStyle(color: ob.textSecondary, fontSize: 12),
+              ),
+              const SizedBox(height: 10),
+              Row(
                 children: [
-                  const Icon(
-                    Icons.info_outline_rounded,
-                    size: 22,
-                    color: _cyan,
+                  Expanded(
+                    child: _sleepCard(
+                      ob,
+                      icon: Icons.nightlight_round,
+                      iconColor: const Color(0xFF7C83FF),
+                      label: 'interval_bedtime_label'.tr,
+                      time: controller.formatDisplayTime(
+                        controller.sleepTimeStart.value,
+                      ),
+                      onTap: () => showWheelTimePicker(
+                        context,
+                        title: 'sleep_time_start'.tr,
+                        initialTime: controller.sleepTimeStart.value,
+                        enhanced: true,
+                        subtitle: 'picker_device_format_hint',
+                        infoText: 'reminder_pause_info',
+                        onSave: (t) {
+                          if (t == controller.sleepTimeEnd.value) {
+                            ToastUtils.showToast(
+                              context,
+                              'sleep_start_end_cannot_be_same'.tr,
+                            );
+                            return;
+                          }
+                          controller.sleepTimeStart.value = t;
+                          controller.saveSettings();
+                        },
+                      ),
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
-                    child: Text(
-                      'interval_info'.trParams({'args1': controller.intervalDisplay}),
-                      style: TextStyle(
-                        color: ob.textSecondary,
-                        fontSize: 12,
-                        height: 1.4,
+                    child: _sleepCard(
+                      ob,
+                      icon: Icons.wb_sunny_rounded,
+                      iconColor: const Color(0xFFFFC107),
+                      label: 'interval_wakeup_label'.tr,
+                      time: controller.formatDisplayTime(
+                        controller.sleepTimeEnd.value,
+                      ),
+                      onTap: () => showWheelTimePicker(
+                        context,
+                        title: 'sleep_time_end'.tr,
+                        initialTime: controller.sleepTimeEnd.value,
+                        enhanced: true,
+                        subtitle: 'picker_device_format_hint',
+                        infoText: 'reminder_pause_info',
+                        onSave: (t) {
+                          if (t == controller.sleepTimeStart.value) {
+                            ToastUtils.showToast(
+                              context,
+                              'sleep_start_end_cannot_be_same'.tr,
+                            );
+                            return;
+                          }
+                          controller.sleepTimeEnd.value = t;
+                          controller.saveSettings();
+                        },
                       ),
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  SvgPicture.asset(
-                    'assets/images/svg/ic_cup_water_bar.svg',
-                    width: 44,
-                    height: 44,
-                    fit: BoxFit.contain,
-                  ),
                 ],
               ),
-            ),
-          ],
-        ),
+              const SizedBox(height: 14),
+
+              // ── Info card ──
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.04),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.08),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.info_outline_rounded,
+                      size: 22,
+                      color: _cyan,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'interval_info'.trParams({
+                          'args1': controller.intervalDisplay,
+                        }),
+                        style: TextStyle(
+                          color: ob.textSecondary,
+                          fontSize: 12,
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    SvgPicture.asset(
+                      'assets/images/svg/ic_cup_water_bar.svg',
+                      width: 44,
+                      height: 44,
+                      fit: BoxFit.contain,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       );
     });
@@ -270,7 +290,10 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.2), width: 1),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.2),
+          width: 1,
+        ),
       ),
       child: Center(
         child: Icon(icon, size: 24, color: const Color(0xFF96D2A8)),
@@ -279,33 +302,45 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
   }
 
   Widget _quickChip(OnboardingTheme ob, int minutes, bool selected, Key key) {
-    return GestureDetector(
+    const radius = BorderRadius.all(Radius.circular(100));
+    return DecoratedBox(
       key: key,
-      onTap: () => _selectMinutes(minutes),
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: selected
-              ? _cyan.withValues(alpha: 0.12)
-              : Colors.white.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(100),
-          border: Border.all(
-            color: selected ? _cyan : Colors.white.withValues(alpha: 0.1),
-            width: selected ? 1.4 : 1,
-          ),
-          boxShadow: selected
-              ? [BoxShadow(color: _cyan.withValues(alpha: 0.3), blurRadius: 8)]
-              : null,
+      decoration: BoxDecoration(
+        color: selected
+            ? _cyan.withValues(alpha: 0.12)
+            : Colors.white.withValues(alpha: 0.05),
+        borderRadius: radius,
+        border: Border.all(
+          color: selected ? _cyan : Colors.white.withValues(alpha: 0.1),
+          width: selected ? 1.4 : 1,
         ),
-        child: Text(
-          '$minutes ${'unit_minutes'.tr}',
-          maxLines: 1,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: selected ? _cyan : ob.textPrimary.withValues(alpha: 0.85),
+        boxShadow: selected
+            ? [BoxShadow(color: _cyan.withValues(alpha: 0.3), blurRadius: 8)]
+            : null,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: radius,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => _selectMinutes(minutes),
+          borderRadius: radius,
+          splashColor: _splash,
+          highlightColor: _highlight,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            alignment: Alignment.center,
+            child: Text(
+              '$minutes ${'unit_minutes'.tr}',
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: selected
+                    ? _cyan
+                    : ob.textPrimary.withValues(alpha: 0.85),
+              ),
+            ),
           ),
         ),
       ),
@@ -320,59 +355,68 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
     required String time,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.04),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, size: 30, color: iconColor),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: ob.textSecondary, fontSize: 12),
-                  ),
-                  const SizedBox(height: 3),
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      time,
-                      maxLines: 1,
-                      softWrap: false,
-                      style: const TextStyle(
-                        color: _cyan,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
+    const radius = BorderRadius.all(Radius.circular(14));
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.04),
+        borderRadius: radius,
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: radius,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: radius,
+          splashColor: _splash,
+          highlightColor: _highlight,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+            child: Row(
+              children: [
+                Icon(icon, size: 30, color: iconColor),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: ob.textSecondary, fontSize: 12),
                       ),
-                    ),
+                      const SizedBox(height: 3),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          time,
+                          maxLines: 1,
+                          softWrap: false,
+                          style: const TextStyle(
+                            color: _cyan,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 4),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  size: 20,
+                  color: ob.textSecondary,
+                ),
+              ],
             ),
-            const SizedBox(width: 4),
-            Icon(
-              Icons.chevron_right_rounded,
-              size: 20,
-              color: ob.textSecondary,
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
-

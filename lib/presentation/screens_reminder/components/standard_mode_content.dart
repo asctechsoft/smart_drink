@@ -272,27 +272,40 @@ class _StandardModeContentState extends State<StandardModeContent> {
     required VoidCallback onTap,
   }) {
     final ob = OnboardingTheme.of(context);
+    const radius = BorderRadius.all(Radius.circular(10));
     return Opacity(
       opacity: enabled ? 1 : 0.5,
-      child: GestureDetector(
-        onTap: enabled ? onTap : null,
-        behavior: HitTestBehavior.opaque,
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                label,
-                style: TextStyle(fontSize: 13, color: labelColor),
-              ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: radius,
+        clipBehavior: Clip.antiAlias,
+        // While the separate-weekend switch is off these rows are inert, so
+        // onTap stays null and InkWell draws no ripple either.
+        child: InkWell(
+          onTap: enabled ? onTap : null,
+          borderRadius: radius,
+          splashColor: _splash,
+          highlightColor: _highlight,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    label,
+                    style: TextStyle(fontSize: 13, color: labelColor),
+                  ),
+                ),
+                _rangePill(start, end),
+                const SizedBox(width: 4),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  size: 20,
+                  color: ob.textSecondary,
+                ),
+              ],
             ),
-            _rangePill(start, end),
-            const SizedBox(width: 4),
-            Icon(
-              Icons.chevron_right_rounded,
-              size: 20,
-              color: ob.textSecondary,
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -305,22 +318,42 @@ class _StandardModeContentState extends State<StandardModeContent> {
     EdgeInsets? padding,
     VoidCallback? onTap,
   }) {
-    final card = Container(
-      padding: padding ?? const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.09)),
-      ),
-      child: child,
+    const radius = BorderRadius.all(Radius.circular(16));
+    final decoration = BoxDecoration(
+      color: Colors.white.withValues(alpha: 0.05),
+      borderRadius: radius,
+      border: Border.all(color: Colors.white.withValues(alpha: 0.09)),
     );
-    if (onTap == null) return card;
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: card,
+    final contentPadding = padding ?? const EdgeInsets.all(14);
+
+    if (onTap == null) {
+      return Container(
+        padding: contentPadding,
+        decoration: decoration,
+        child: child,
+      );
+    }
+    return DecoratedBox(
+      decoration: decoration,
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: radius,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: radius,
+          splashColor: _splash,
+          highlightColor: _highlight,
+          child: Padding(padding: contentPadding, child: child),
+        ),
+      ),
     );
   }
+
+  // Shared ink colours: a soft white wash that reads on both the translucent
+  // cards and the blue gradient of a selected chip.
+  static final Color _splash = Colors.white.withValues(alpha: 0.16);
+  static final Color _highlight = Colors.white.withValues(alpha: 0.07);
 
   // Unified icon box — matches the Settings screen (42×42 rounded square,
   // mint icon, subtle white border). [color]/[size] are ignored so every
@@ -377,63 +410,75 @@ class _StandardModeContentState extends State<StandardModeContent> {
     VoidCallback? onTap,
   ) {
     final ob = OnboardingTheme.of(context);
+    const radius = BorderRadius.all(Radius.circular(12));
     return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
-          decoration: BoxDecoration(
-            gradient: selected
-                ? const LinearGradient(
-                    colors: [Color(0xFF1575CE), Color(0xFF0B58D6)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  )
-                : null,
-            color: selected ? null : Colors.white.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: selected
-                  ? Colors.transparent
-                  : Colors.white.withValues(alpha: 0.1),
-            ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: selected
+              ? const LinearGradient(
+                  colors: [Color(0xFF1575CE), Color(0xFF0B58D6)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : null,
+          color: selected ? null : Colors.white.withValues(alpha: 0.05),
+          borderRadius: radius,
+          border: Border.all(
+            color: selected
+                ? Colors.transparent
+                : Colors.white.withValues(alpha: 0.1),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                size: 18,
-                color: selected ? Colors.white : ob.textActiveBottomNavBar,
-              ),
-              const SizedBox(height: 6),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  color: selected ? Colors.white : ob.textPrimary,
-                ),
-              ),
-              if (sub != null)
-                Text(
-                  sub,
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 9,
-                    color: selected
-                        ? Colors.white.withValues(alpha: 0.85)
-                        : ob.textSecondary,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: radius,
+          clipBehavior: Clip.antiAlias,
+          // The "custom" preset passes a null onTap — it is a state readout,
+          // not a button — so InkWell leaves it inert and rippleless.
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: radius,
+            splashColor: _splash,
+            highlightColor: _highlight,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    icon,
+                    size: 18,
+                    color: selected ? Colors.white : ob.textActiveBottomNavBar,
                   ),
-                ),
-            ],
+                  const SizedBox(height: 6),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: selected ? Colors.white : ob.textPrimary,
+                    ),
+                  ),
+                  if (sub != null)
+                    Text(
+                      sub,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 9,
+                        color: selected
+                            ? Colors.white.withValues(alpha: 0.85)
+                            : ob.textSecondary,
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -442,32 +487,42 @@ class _StandardModeContentState extends State<StandardModeContent> {
 
   Widget _dayChip(String label, bool selected, VoidCallback onTap) {
     final ob = OnboardingTheme.of(context);
+    const radius = BorderRadius.all(Radius.circular(100));
     return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 9),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: selected
+              ? const Color(0xFF1575CE)
+              : Colors.white.withValues(alpha: 0.05),
+          borderRadius: radius,
+          border: Border.all(
             color: selected
-                ? const Color(0xFF1575CE)
-                : Colors.white.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(100),
-            border: Border.all(
-              color: selected
-                  ? Colors.transparent
-                  : Colors.white.withValues(alpha: 0.1),
-            ),
+                ? Colors.transparent
+                : Colors.white.withValues(alpha: 0.1),
           ),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: selected
-                  ? Colors.white
-                  : ob.textPrimary.withValues(alpha: 0.85),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: radius,
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: radius,
+            splashColor: _splash,
+            highlightColor: _highlight,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 9),
+              alignment: Alignment.center,
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: selected
+                      ? Colors.white
+                      : ob.textPrimary.withValues(alpha: 0.85),
+                ),
+              ),
             ),
           ),
         ),
