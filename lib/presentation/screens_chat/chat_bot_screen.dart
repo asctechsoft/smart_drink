@@ -46,10 +46,26 @@ class _ChatBotScreenState extends State<ChatBotScreen>
 
   // Starter prompts: converted to getter so .tr can be called at runtime.
   static List<({IconData icon, String label, Color tint})> get _suggestions => [
-    (icon: Icons.water_drop_rounded, label: 'suggest_how_much_water'.tr, tint: _kOnBg),
-    (icon: Icons.bedtime_rounded, label: 'suggest_water_before_sleep'.tr, tint: _kOnBg),
-    (icon: Icons.bar_chart_rounded, label: 'suggest_water_benefits'.tr, tint: _kOnBg),
-    (icon: Icons.favorite_rounded, label: 'suggest_dehydration_signs'.tr, tint: const Color(0xFFFF6B8A)),
+    (
+      icon: Icons.water_drop_rounded,
+      label: 'suggest_how_much_water'.tr,
+      tint: _kOnBg,
+    ),
+    (
+      icon: Icons.bedtime_rounded,
+      label: 'suggest_water_before_sleep'.tr,
+      tint: _kOnBg,
+    ),
+    (
+      icon: Icons.bar_chart_rounded,
+      label: 'suggest_water_benefits'.tr,
+      tint: _kOnBg,
+    ),
+    (
+      icon: Icons.favorite_rounded,
+      label: 'suggest_dehydration_signs'.tr,
+      tint: const Color(0xFFFF6B8A),
+    ),
   ];
 
   final List<Worker> _workers = [];
@@ -186,7 +202,11 @@ class _ChatBotScreenState extends State<ChatBotScreen>
       child: Row(
         children: [
           _circleBtn(
-            child: const Icon(Icons.chevron_left_rounded, color: _kOnBg, size: 26),
+            child: const Icon(
+              Icons.chevron_left_rounded,
+              color: _kOnBg,
+              size: 26,
+            ),
             onTap: () => Get.back(),
           ),
           Expanded(
@@ -195,7 +215,11 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.auto_awesome_rounded, color: _kBlue, size: 20),
+                    const Icon(
+                      Icons.auto_awesome_rounded,
+                      color: _kBlue,
+                      size: 20,
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       'chat_screen_title'.tr,
@@ -252,7 +276,11 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                 const SizedBox(height: 6),
                 Text(
                   'chat_greeting_body'.tr,
-                  style: const TextStyle(color: _kInkSoft, fontSize: 13.5, height: 1.45),
+                  style: const TextStyle(
+                    color: _kInkSoft,
+                    fontSize: 13.5,
+                    height: 1.45,
+                  ),
                 ),
               ],
             ),
@@ -274,7 +302,10 @@ class _ChatBotScreenState extends State<ChatBotScreen>
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
@@ -307,7 +338,11 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                       style: const TextStyle(color: _kOnBgSoft, fontSize: 11),
                     ),
                     const SizedBox(width: 4),
-                    const Icon(Icons.done_all_rounded, color: _kOnBgSoft, size: 14),
+                    const Icon(
+                      Icons.done_all_rounded,
+                      color: _kOnBgSoft,
+                      size: 14,
+                    ),
                   ],
                 ),
               ],
@@ -402,7 +437,11 @@ class _ChatBotScreenState extends State<ChatBotScreen>
           const SizedBox(height: 12),
           Text(
             card.outro,
-            style: const TextStyle(color: _kInkSoft, fontSize: 13.5, height: 1.45),
+            style: const TextStyle(
+              color: _kInkSoft,
+              fontSize: 13.5,
+              height: 1.45,
+            ),
           ),
         ],
         const SizedBox(height: 12),
@@ -624,20 +663,31 @@ class _ChatBotScreenState extends State<ChatBotScreen>
   /// The starter prompts under the intro, in a single horizontally-scrolling
   /// row so more can be added without stacking.
   Widget _buildSuggestions() {
+    // A horizontal scroller needs a bounded height, so this strip keeps a cap —
+    // but it is wider and allows three lines, which is more than any of the
+    // starter questions needs, so nothing is cut off here either.
     return SizedBox(
-      height: 58,
+      height: 76,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.zero,
         itemCount: _suggestions.length,
         separatorBuilder: (_, _) => const SizedBox(width: 10),
-        itemBuilder: (_, i) =>
-            SizedBox(width: 230, child: _suggestionChip(_suggestions[i])),
+        itemBuilder: (_, i) => SizedBox(
+          width: 250,
+          child: _suggestionChip(_suggestions[i], maxLines: 3),
+        ),
       ),
     );
   }
 
-  Widget _suggestionChip(({IconData icon, String label, Color tint}) s) {
+  /// [maxLines] null lets the label wrap to whatever it needs — the chip grows
+  /// instead of ellipsizing. Only the horizontal strip, which has to live
+  /// inside a fixed-height scroller, passes a cap.
+  Widget _suggestionChip(
+    ({IconData icon, String label, Color tint}) s, {
+    int? maxLines,
+  }) {
     return Material(
       color: _kChipBg,
       borderRadius: BorderRadius.circular(16),
@@ -652,34 +702,40 @@ class _ChatBotScreenState extends State<ChatBotScreen>
             border: Border.all(color: _kChipBorder),
           ),
           child: Row(
-          children: [
-            Container(
-              width: 34,
-              height: 34,
-              alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                color: _kChipIconBg,
-                shape: BoxShape.circle,
+            children: [
+              Container(
+                width: 34,
+                height: 34,
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                  color: _kChipIconBg,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(s.icon, color: s.tint, size: 18),
               ),
-              child: Icon(s.icon, color: s.tint, size: 18),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                s.label,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: _kOnBg,
-                  fontSize: 12.5,
-                  fontWeight: FontWeight.w600,
-                  height: 1.25,
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  s.label,
+                  maxLines: maxLines,
+                  overflow: maxLines == null
+                      ? TextOverflow.clip
+                      : TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: _kOnBg,
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w600,
+                    height: 1.25,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(width: 4),
-            const Icon(Icons.chevron_right_rounded, color: _kChevron, size: 20),
-          ],
+              const SizedBox(width: 4),
+              const Icon(
+                Icons.chevron_right_rounded,
+                color: _kChevron,
+                size: 20,
+              ),
+            ],
           ),
         ),
       ),
@@ -689,18 +745,40 @@ class _ChatBotScreenState extends State<ChatBotScreen>
   /// The 2×2 starter grid shown on the empty screen.
   Widget _buildSuggestionsGrid() {
     const gap = 10.0;
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final chipWidth = (constraints.maxWidth - gap) / 2;
-        return Wrap(
-          spacing: gap,
-          runSpacing: gap,
-          children: [
-            for (final s in _suggestions)
-              SizedBox(width: chipWidth, height: 58, child: _suggestionChip(s)),
-          ],
-        );
-      },
+    final items = _suggestions;
+
+    // Two per row, and no fixed height: the chips grow to fit the whole
+    // question instead of cutting it off. IntrinsicHeight + stretch keeps the
+    // pair in a row the same height even when one wraps to more lines.
+    final rows = <Widget>[];
+    for (var i = 0; i < items.length; i += 2) {
+      final left = items[i];
+      final right = i + 1 < items.length ? items[i + 1] : null;
+      rows.add(
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(child: _suggestionChip(left)),
+              const SizedBox(width: gap),
+              Expanded(
+                child: right == null
+                    ? const SizedBox.shrink()
+                    : _suggestionChip(right),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        for (var i = 0; i < rows.length; i++) ...[
+          if (i > 0) const SizedBox(height: gap),
+          rows[i],
+        ],
+      ],
     );
   }
 
@@ -735,14 +813,22 @@ class _ChatBotScreenState extends State<ChatBotScreen>
           Text(
             'chat_empty_body'.tr,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: _kOnBgSoft, fontSize: 13.5, height: 1.4),
+            style: const TextStyle(
+              color: _kOnBgSoft,
+              fontSize: 13.5,
+              height: 1.4,
+            ),
           ),
           const SizedBox(height: 16),
           Divider(color: Colors.white.withValues(alpha: 0.12), height: 1),
           const SizedBox(height: 12),
           Row(
             children: [
-              const Icon(Icons.info_outline_rounded, color: _kChevron, size: 16),
+              const Icon(
+                Icons.info_outline_rounded,
+                color: _kChevron,
+                size: 16,
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -914,10 +1000,15 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                           hintText: locked
                               ? 'chat_input_hint_locked'.tr
                               : 'chat_input_hint'.tr,
-                          hintStyle: const TextStyle(color: _kInkSoft, fontSize: 14.5),
+                          hintStyle: const TextStyle(
+                            color: _kInkSoft,
+                            fontSize: 14.5,
+                          ),
                           border: InputBorder.none,
                           isCollapsed: true,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 14,
+                          ),
                         ),
                       ),
                     ),
@@ -942,7 +1033,9 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                     ),
                   ),
                   child: InkWell(
-                    onTap: sending || locked ? null : () => _send(_inputCtrl.text),
+                    onTap: sending || locked
+                        ? null
+                        : () => _send(_inputCtrl.text),
                     customBorder: const CircleBorder(),
                     child: SizedBox(
                       width: 52,
@@ -1005,11 +1098,7 @@ class _ChatBotScreenState extends State<ChatBotScreen>
       child: InkWell(
         onTap: onTap,
         customBorder: const CircleBorder(),
-        child: SizedBox(
-          width: 42,
-          height: 42,
-          child: Center(child: child),
-        ),
+        child: SizedBox(width: 42, height: 42, child: Center(child: child)),
       ),
     );
   }

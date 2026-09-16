@@ -3,6 +3,7 @@ import 'package:dsp_base/app_material.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:waternudge/controller/languages_controller.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
+import 'package:waternudge/values/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -142,8 +143,19 @@ class LanguageListWidget extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        onTap: () {
-          controller.changeLanguage(locale);
+        onTap: () async {
+          // Tapping the language already in use changes nothing — restarting
+          // for that would just look like a glitch.
+          if (locale == controller.currentAppLocale.value) return;
+
+          await controller.changeLanguage(locale);
+
+          // Re-enter through the splash instead of translating in place. The
+          // stack behind this sheet was built in the old language, and some
+          // strings are read once at construction (controller labels, the
+          // native notification channels, the home widget), so a live swap
+          // leaves the app half-translated. The splash rebuilds everything.
+          Get.offAllNamed(RouteName.splash);
         },
         child: Obx(() {
           final isSelected = locale == controller.currentAppLocale.value;

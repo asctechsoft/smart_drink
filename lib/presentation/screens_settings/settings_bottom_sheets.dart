@@ -2265,26 +2265,19 @@ class _LanguageSheet extends StatefulWidget {
 class _LanguageSheetState extends State<_LanguageSheet> {
   final TextEditingController _searchCtrl = TextEditingController();
   final Rx<String> _query = ''.obs;
-  late final LanguagesController _langCtrl;
-  late Locale _initialLocale;
-  late Worker _worker;
 
   @override
   void initState() {
     super.initState();
-    _langCtrl = Get.find<LanguagesController>();
-    _initialLocale = _langCtrl.currentAppLocale.value;
+    // No locale watcher here any more: picking a language restarts the app
+    // through the splash, which clears this sheet along with the rest of the
+    // stack. Popping it from a watcher as well raced with the loading dialog's
+    // own pop and could take the wrong route off the stack.
     _searchCtrl.addListener(() => _query.value = _searchCtrl.text.trim());
-    _worker = ever(_langCtrl.currentAppLocale, (locale) {
-      if (locale != _initialLocale && mounted) {
-        Navigator.of(context).pop();
-      }
-    });
   }
 
   @override
   void dispose() {
-    _worker.dispose();
     _searchCtrl.dispose();
     super.dispose();
   }
