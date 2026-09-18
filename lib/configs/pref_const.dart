@@ -48,4 +48,3 @@ class PrefConst {
   // Health Connect (Android): mirror each logged drink as a hydration record.
   static const String healthConnectEnabled = 'health_connect_enabled';
 }
-
