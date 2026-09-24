@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'configs/ads_config.dart';
 import 'configs/pref_const.dart';
+import 'presentation/common_components/app_reopen_native_ad.dart';
 import 'services/app_localize.dart';
 import 'controller/user_profile_controller.dart';
 import 'controller/today_controller.dart';
@@ -119,6 +121,20 @@ Future<void> main() async {
       } catch (e) {
         debugPrint("MobileAds initialization failed: $e");
       }
+
+      // Preload now so it's ready by the time the splash screen (~900ms)
+      // hands off to Home — SplashScreen looks these back up to show them.
+      // Only fires for returning users (see SplashScreen._navigate);
+      // first-time installs go through onboarding instead, never through
+      // this path.
+      //
+      // Android shows the Native Ad below (custom-styled, blends into the
+      // app); iOS falls back to this App Open ad — NativeAdController is
+      // Android-only in dsp_base.
+      OpenAdController.newInstance(
+        adUnitId: AdsConfig.appOpenAdUnitId,
+      ).requestOpenAd();
+      AppReopenNativeAd.preload();
 
       // 1.5 Initialize intl date formatting
       await initializeDateFormatting();

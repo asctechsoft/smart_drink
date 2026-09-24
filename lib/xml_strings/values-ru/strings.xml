@@ -333,6 +333,8 @@
     <string name="coach_drink">Нажмите здесь, чтобы записать количество воды, которую вы только что выпили.</string>
     <string name="coach_menu">Выберите тип напитка (вода, кофе, чай...) здесь.</string>
     <string name="coach_chat">AI-помощник — спросите здесь о гидратации и здоровье.</string>
+    <string name="previous">Назад</string>
+    <string name="got_it">Понятно</string>
     <string name="label_streak">Полоса</string>
     <string name="unit_day">дни</string>
     <string name="label_menu">Меню</string>

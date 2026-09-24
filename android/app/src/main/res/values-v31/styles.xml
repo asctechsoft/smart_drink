@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android 12+ (API 31) shows its own system splash screen regardless of
+         `launch_background.xml` — the plain drawable-list trick only ever
+         reached pre-12 devices. This is the API that actually controls it:
+         our own logo instead of the adaptive launcher icon (whose baked-in
+         safe-zone padding is why it rendered tiny), and the app's own dark
+         background instead of a stock white flash before the Flutter splash
+         takes over. -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowSplashScreenBackground">#22186D</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">#22186D</item>
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">?android:colorBackground</item>
+    </style>
+</resources>

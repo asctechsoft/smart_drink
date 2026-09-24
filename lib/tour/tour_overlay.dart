@@ -22,8 +22,11 @@ class TourOverlay extends StatelessWidget {
         child,
         Obx(() {
           // Also depend on anchorGeneration so a late-registering anchor
-          // (registered mid-build, after `active` flips) triggers a re-measure.
+          // (registered mid-build, after `active` flips) triggers a
+          // re-measure, and on index so tapping Next/Previous actually swaps
+          // the step instead of leaving _TourStepView stuck on the first one.
           controller.anchorGeneration.value;
+          controller.index.value;
           if (!controller.active.value) return const SizedBox.shrink();
           return _TourStepView(controller: controller);
         }),

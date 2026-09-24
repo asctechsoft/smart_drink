@@ -333,6 +333,8 @@
     <string name="coach_drink">방금 마신 물을 기록하려면 여기를 탭하세요.</string>
     <string name="coach_menu">여기에서 음료 종류(물, 커피, 차...)를 선택하세요.</string>
     <string name="coach_chat">AI 비서 - 여기에서 수분 공급 및 건강에 대해 물어보세요.</string>
+    <string name="previous">이전</string>
+    <string name="got_it">알겠어요</string>
     <string name="label_streak">줄</string>
     <string name="unit_day">날</string>
     <string name="label_menu">메뉴</string>

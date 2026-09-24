@@ -1,8 +1,12 @@
+import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:dsp_base/advertisements.dart';
 import 'package:dsp_base/app_material.dart';
+import 'package:waternudge/configs/ads_config.dart';
 import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
+import 'package:waternudge/presentation/common_components/app_reopen_native_ad.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/app_colors.dart';
@@ -33,10 +37,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _navigate() async {
-    // Wait for both the minimum splash duration and profile loading to finish
+    // Wait for both the minimum splash duration and profile loading to
+    // finish. Kept short — the native Android splash (app icon on launch,
+    // before Flutter's first frame) already covers cold-start time; this is
+    // just enough for the branded screen to register, not a second hold.
     final profileCtrl = Get.find<UserProfileController>();
     await Future.wait([
-      Future.delayed(const Duration(seconds: 2)),
+      Future.delayed(const Duration(milliseconds: 900)),
       _waitForProfile(profileCtrl),
     ]);
     if (!mounted) return;
@@ -45,9 +52,35 @@ class _SplashScreenState extends State<SplashScreen> {
     Analytics.splashEnd(onboarded: onboarded);
     if (onboarded) {
       Get.offAllNamed(RouteName.home);
+      // Only a returning user hits this path — first-time installs go
+      // through onboarding instead, so the app-reopen ad never interrupts it.
+      _showAppReopenAdOverHome();
     } else {
       Get.offAllNamed(RouteName.onboardingLanguage);
     }
+  }
+
+  /// Android: the app-styled Native Ad bottom sheet. iOS: falls back to the
+  /// App Open ad — NativeAdController is Android-only in dsp_base.
+  void _showAppReopenAdOverHome() {
+    // Let Home paint a frame first so the ad appears over it, not mid-nav.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final overlayContext = Get.overlayContext;
+      if (Platform.isAndroid && overlayContext != null) {
+        AppReopenNativeAd.show(overlayContext);
+        return;
+      }
+      _showAppOpenAdOverHome();
+    });
+  }
+
+  void _showAppOpenAdOverHome() {
+    if (!Get.isRegistered<OpenAdController>(
+      tag: AdsConfig.appOpenAdUnitId,
+    )) {
+      return;
+    }
+    OpenAdController.getInstance(adUnitId: AdsConfig.appOpenAdUnitId).showAd();
   }
 
   Future<void> _waitForProfile(UserProfileController ctrl) async {

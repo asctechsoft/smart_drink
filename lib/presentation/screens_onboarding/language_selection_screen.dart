@@ -81,15 +81,21 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
       child: Row(
         children: [
           Expanded(
-            child: Text(
-              'language'.tr,
-              style: const TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.w700,
-                color: AppColors.basic500,
-                letterSpacing: 0.3,
-              ),
-            ),
+            // `.tr` itself isn't reactive — without this Obx, tapping a row
+            // updates the list's checkmark (that one IS wrapped) but leaves
+            // this title showing the language you tapped away from.
+            child: Obx(() {
+              controller.currentAppLocale.value;
+              return Text(
+                'language'.tr,
+                style: const TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.basic500,
+                  letterSpacing: 0.3,
+                ),
+              );
+            }),
           ),
           _ConfirmButton(
             onTap: () {

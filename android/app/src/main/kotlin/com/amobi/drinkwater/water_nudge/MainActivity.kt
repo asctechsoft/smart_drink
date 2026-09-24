@@ -13,6 +13,7 @@ import com.amobi.drinkwater.water_nudge.widget.*
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugins.googlemobileads.GoogleMobileAdsPlugin
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -29,6 +30,10 @@ class MainActivity : FlutterFragmentActivity() {
             "androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE"
         private const val ACTION_VIEW_PERMISSION_USAGE =
             "android.intent.action.VIEW_PERMISSION_USAGE"
+
+        // Must match the factoryId passed to NativeAdController on the Dart
+        // side (see AdsConfig.nativeAdFactoryId).
+        const val NATIVE_AD_FACTORY_ID = "appOpenReplacement"
     }
 
     private var pendingPermissionResult: MethodChannel.Result? = null
@@ -64,6 +69,12 @@ class MainActivity : FlutterFragmentActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+
+        GoogleMobileAdsPlugin.registerNativeAdFactory(
+            flutterEngine,
+            NATIVE_AD_FACTORY_ID,
+            AppNativeAdFactory(this)
+        )
 
         NotificationCenter.createNotificationChannels(this)
 
@@ -327,6 +338,11 @@ class MainActivity : FlutterFragmentActivity() {
         val provider = ComponentName(this, providerClass)
         awm.requestPinAppWidget(provider, null, null)
         result.success(true)
+    }
+
+    override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
+        GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, NATIVE_AD_FACTORY_ID)
+        super.cleanUpFlutterEngine(flutterEngine)
     }
 
     override fun onRequestPermissionsResult(

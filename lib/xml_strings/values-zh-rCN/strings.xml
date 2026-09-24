@@ -333,6 +333,8 @@
     <string name="coach_drink">点击此处记录您刚刚喝的水。</string>
     <string name="coach_menu">在这里选择您的饮料类型（水、咖啡、茶...）。</string>
     <string name="coach_chat">AI 助手 — 在此询问水分和健康问题。</string>
+    <string name="previous">上一步</string>
+    <string name="got_it">知道了</string>
     <string name="label_streak">条纹</string>
     <string name="unit_day">天</string>
     <string name="label_menu">菜单</string>

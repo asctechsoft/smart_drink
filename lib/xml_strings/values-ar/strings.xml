@@ -333,6 +333,8 @@
     <string name="coach_drink">انقر هنا لتسجيل الماء الذي شربته للتو.</string>
     <string name="coach_menu">اختر نوع مشروبك (ماء، قهوة، شاي...) هنا.</string>
     <string name="coach_chat">مساعد الذكاء الاصطناعي – اسأل عن الترطيب والصحة هنا.</string>
+    <string name="previous">السابق</string>
+    <string name="got_it">فهمت</string>
     <string name="label_streak">أثَر</string>
     <string name="unit_day">أيام</string>
     <string name="label_menu">قائمة طعام</string>

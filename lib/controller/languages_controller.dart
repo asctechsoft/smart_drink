@@ -62,26 +62,32 @@ class LanguagesController extends GetxController {
     // Show loading overlay
     LoadingUtils.show();
 
-    // Small delay to allow the loading dialog to render before the heavy UI blocking task
-    await Future.delayed(const Duration(milliseconds: 150));
+    // try/finally: a failure part-way through (e.g. a translation asset
+    // failing to load — more likely on a fresh install than a warm one)
+    // must not leave this barrier stuck on screen forever, stacking with
+    // whatever's drawn on top of it (the guided tour's own scrim, on Today).
+    try {
+      // Small delay to allow the loading dialog to render before the heavy UI blocking task
+      await Future.delayed(const Duration(milliseconds: 150));
 
-    await AppLocalize.setAppLocale(locale);
-    currentAppLocale.value = locale;
-    await _pushLocaleToHistory(locale);
+      await AppLocalize.setAppLocale(locale);
+      currentAppLocale.value = locale;
+      await _pushLocaleToHistory(locale);
 
-    // AppLocalize.setAppLocale already persisted PrefConst.language.
-    final key = _localeToKey(locale);
+      // AppLocalize.setAppLocale already persisted PrefConst.language.
+      final key = _localeToKey(locale);
 
-    // Sync with SettingsController so the settings screen updates reactively
-    if (Get.isRegistered<SettingsController>()) {
-      Get.find<SettingsController>().language.value = key;
+      // Sync with SettingsController so the settings screen updates reactively
+      if (Get.isRegistered<SettingsController>()) {
+        Get.find<SettingsController>().language.value = key;
+      }
+
+      Analytics.languageSelect(key);
+      Analytics.userLanguage(key);
+    } finally {
+      // Dismiss loading overlay
+      LoadingUtils.hide();
     }
-
-    Analytics.languageSelect(key);
-    Analytics.userLanguage(key);
-
-    // Dismiss loading overlay
-    LoadingUtils.hide();
   }
 
   Future<void> _pushLocaleToHistory(Locale locale) async {

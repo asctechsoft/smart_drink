@@ -333,6 +333,8 @@
     <string name="coach_drink">برای ثبت آبی که اخیراً نوشیده‌اید، اینجا ضربه بزنید.</string>
     <string name="coach_menu">نوع نوشیدنی خود (آب، قهوه، چای...) را در اینجا انتخاب کنید.</string>
     <string name="coach_chat">دستیار هوش مصنوعی - در اینجا در مورد هیدراتاسیون و سلامت بپرسید.</string>
+    <string name="previous">قبلی</string>
+    <string name="got_it">متوجه شدم</string>
     <string name="label_streak">رگه</string>
     <string name="unit_day">روز</string>
     <string name="label_menu">منو</string>

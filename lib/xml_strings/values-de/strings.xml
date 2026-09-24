@@ -333,6 +333,8 @@
     <string name="coach_drink">Tippen Sie hier, um das Wasser zu protokollieren, das Sie gerade getrunken haben.</string>
     <string name="coach_menu">Wählen Sie hier Ihre Getränkeart (Wasser, Kaffee, Tee...).</string>
     <string name="coach_chat">KI-Assistent – ​​fragen Sie hier nach Flüssigkeitszufuhr und Gesundheit.</string>
+    <string name="previous">Zurück</string>
+    <string name="got_it">Verstanden</string>
     <string name="label_streak">Strähne</string>
     <string name="unit_day">Tage</string>
     <string name="label_menu">Speisekarte</string>

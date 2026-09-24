@@ -58,19 +58,30 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// Anchored banner above the bottom nav, shared across every tab so it
-  /// doesn't reload on each tab switch.
+  /// doesn't reload on each tab switch. Not requested until
+  /// [_runFirstVisitFlowThenLoadAds] clears the tour/rate-sheet gate below.
   late final BannerAdController _bannerAdController;
 
   @override
   void initState() {
     super.initState();
     _logTabView(_currentIndex);
-    _maybeShowFirstRateSheet();
     _bannerAdController = BannerAdController.newInstance(
       adUnitId: AdsConfig.bannerAdUnitId,
       tag: 'home_bottom',
     );
-    _loadBannerAd();
+    _runFirstVisitFlowThenLoadAds();
+  }
+
+  /// Sequences the one-time first-visit experience — guided tour, then the
+  /// rate prompt — before the banner ad ever requests a slot, so a
+  /// first-time user's attention isn't split between the intro and an ad. A
+  /// returning visitor has both gates return immediately (already seen), so
+  /// for them the ad loads right away.
+  Future<void> _runFirstVisitFlowThenLoadAds() async {
+    await _maybeShowFirstRateSheet();
+    if (!mounted) return;
+    await _loadBannerAd();
   }
 
   Future<void> _loadBannerAd() async {
@@ -87,7 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Held back until the Today guided tour (Cup type / Menu intro) is done —
   /// it starts from `TodayScreen`'s own `initState`, racing this one, so
   /// showing the rate sheet on a fixed delay could pop it up on top of, or
-  /// even before, the tour.
+  /// even before, the tour. Awaits the sheet's own dismissal too, so
+  /// [_runFirstVisitFlowThenLoadAds] doesn't load the banner ad underneath it.
   Future<void> _maybeShowFirstRateSheet() async {
     final prefs = await SharedPreferences.getInstance();
     final alreadyShown =
@@ -101,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await prefs.setBool(PrefConst.firstRateSheetShown, true);
     await Future.delayed(const Duration(milliseconds: 500));
     if (!mounted) return;
-    showRateAppSheet(context);
+    await showRateAppSheet(context);
   }
 
   /// Waits out the guided tour: gives it a moment to start (it needs its
@@ -149,11 +161,29 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
+      // Each tab paints its own gradient via OnboardingBackground, but the
+      // nav pill's rounded top corners leave slivers uncovered by that — this
+      // backdrop (the gradient's own tail colour) is what shows through them,
+      // instead of the Scaffold's default black.
+      backgroundColor: const Color.fromARGB(255, 34, 24, 109),
+      // A crossfade, not IndexedStack directly — each tab keeps a stable key
+      // so switching never disposes/recreates its state (scroll position,
+      // the tour's post-frame callback, preloaded ads, etc.), only its
+      // opacity and hit-testing change.
+      body: Stack(
         children: [
           for (var i = 0; i < _screens.length; i++)
-            _built.contains(i) ? _screens[i] : const SizedBox.shrink(),
+            if (_built.contains(i))
+              AnimatedOpacity(
+                key: ValueKey('tab_$i'),
+                opacity: i == _currentIndex ? 1 : 0,
+                duration: const Duration(milliseconds: 220),
+                curve: Curves.easeInOut,
+                child: IgnorePointer(
+                  ignoring: i != _currentIndex,
+                  child: _screens[i],
+                ),
+              ),
         ],
       ),
       // Nav pill on top, banner ad below it, flush against the true bottom
@@ -169,10 +199,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildBottomNavBar(BuildContext context) {
-    final systemPadding = MediaQuery.of(context).padding.bottom;
-
+    // Fixed height, independent of MediaQuery's bottom inset: the system nav
+    // bar is kept hidden (see main.dart), but a swipe-up briefly reveals it
+    // and changes that inset — reacting to it made this pill visibly jump
+    // for the ~2s until it re-hides. The banner ad below it absorbs that
+    // inset instead when it's temporarily nonzero.
     return Container(
-      height: systemPadding + _pillH,
+      height: _pillH,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topCenter,
@@ -196,7 +229,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      padding: EdgeInsets.only(bottom: systemPadding),
       child: Row(
         children: [
           _PillNavItem(

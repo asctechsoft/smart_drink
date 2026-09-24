@@ -8,6 +8,7 @@
     <color name="clr_text_secondary">#45464F</color>
     <color name="clr_text_muted">#80FFFFFF</color>
     <color name="clr_border_bth">#4000E0FF</color>
+    <color name="splash_bg">#22186D</color>
 
     <!-- Widget colors -->
     <color name="widget_bg_dark">#FFFFFFFF</color>

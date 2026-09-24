@@ -333,6 +333,8 @@
     <string name="coach_drink">Ketuk di sini untuk mencatat air yang baru saja Anda minum.</string>
     <string name="coach_menu">Pilih jenis minuman Anda (air, kopi, teh...) di sini.</string>
     <string name="coach_chat">Asisten AI — tanyakan tentang hidrasi &amp; kesehatan di sini.</string>
+    <string name="previous">Sebelumnya</string>
+    <string name="got_it">Paham</string>
     <string name="label_streak">Garis</string>
     <string name="unit_day">hari</string>
     <string name="label_menu">Menu</string>

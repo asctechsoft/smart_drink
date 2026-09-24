@@ -333,6 +333,8 @@
     <string name="coach_drink">Appuyez ici pour enregistrer l\'eau que vous venez de boire.</string>
     <string name="coach_menu">Choisissez ici votre type de boisson (eau, café, thé...).</string>
     <string name="coach_chat">Assistant IA – posez des questions sur l\'hydratation et la santé ici.</string>
+    <string name="previous">Précédent</string>
+    <string name="got_it">J\'ai compris</string>
     <string name="label_streak">Traînée</string>
     <string name="unit_day">jours</string>
     <string name="label_menu">Menu</string>

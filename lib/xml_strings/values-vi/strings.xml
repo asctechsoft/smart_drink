@@ -334,6 +334,8 @@
     <string name="coach_cup_type">Chọn dung tích cốc tại đây — số này sẽ đổ vào nút ghi nhận phía trên.</string>
     <string name="coach_menu">Chọn loại đồ uống (nước, cà phê, trà...) tại đây.</string>
     <string name="coach_chat">Trợ lý AI — hỏi đáp về uống nước &amp; sức khoẻ tại đây.</string>
+    <string name="previous">Quay lại</string>
+    <string name="got_it">Hiểu rồi</string>
     <string name="label_streak">Streak</string>
     <string name="unit_day">ngày</string>
     <string name="label_menu">Menu</string>

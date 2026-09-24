@@ -60,14 +60,20 @@ class _LanguageScreenState extends State<LanguageScreen> {
             onPressed: () => Get.back(),
           ),
           centerTitle: true,
-          title: AppText(
-            'language'.tr,
-            style: TextStyle(
-              color: ob.textPrimary,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          // `.tr` isn't reactive on its own — without this Obx, picking a
+          // row below updates its own checkmark but leaves this title
+          // showing the language you tapped away from.
+          title: Obx(() {
+            controller.currentAppLocale.value;
+            return AppText(
+              'language'.tr,
+              style: TextStyle(
+                color: ob.textPrimary,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            );
+          }),
         ),
         body: SafeArea(
           child: Column(

@@ -333,6 +333,8 @@
     <string name="coach_drink">Az önce içtiğiniz suyu kaydetmek için buraya dokunun.</string>
     <string name="coach_menu">İçecek türünüzü (su, kahve, çay...) buradan seçin.</string>
     <string name="coach_chat">Yapay zeka asistanı — burada sıvı alımı ve sağlık hakkında bilgi alın.</string>
+    <string name="previous">Önceki</string>
+    <string name="got_it">Anladım</string>
     <string name="label_streak">Rüzgâr gibi geçmek</string>
     <string name="unit_day">günler</string>
     <string name="label_menu">Menü</string>
