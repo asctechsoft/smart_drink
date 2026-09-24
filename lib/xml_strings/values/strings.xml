@@ -409,4 +409,7 @@
     <string name="history_overview_title">Overview</string>
     <string name="reminder_slots_title">Reminder slots</string>
     <string name="reminder_slots_subtitle">Tap a slot to edit time</string>
+    <string name="reminder_time_duplicate">A reminder is already set for that time</string>
+    <string name="reminder_custom_times_title">Reminder times</string>
+    <string name="reminder_custom_times_subtitle">Tap a time to edit, tap + to add a new one</string>
 </resources>

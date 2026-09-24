@@ -184,10 +184,14 @@ class ReminderController extends GetxController {
       return _buildIntervalTimes();
     }
 
-    // Standard and Custom tabs both drive the labelled "standard" marks — the
-    // Custom tab is just where those marks are now edited.
+    // "Chi tiết" (ReminderMode.custom) drives the fixed meal-based marks —
+    // unchanged from before. "Tùy chỉnh" (ReminderMode.standard) drives its
+    // own free-form list of exact times the user added.
+    final scheduleMode = mode.value == ReminderMode.standard
+        ? 'custom'
+        : 'standard';
     final modeSchedules = schedules
-        .where((s) => s.mode == 'standard' && s.enabled)
+        .where((s) => s.mode == scheduleMode && s.enabled)
         .toList();
 
     if (modeSchedules.isEmpty) {

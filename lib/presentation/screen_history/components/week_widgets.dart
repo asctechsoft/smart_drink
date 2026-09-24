@@ -90,31 +90,39 @@ class WeekChartCard extends StatelessWidget {
   }
 }
 
-// ── Per-day detail row ────────────────────────────────────────────────────────
+// ── Per-day mini card ─────────────────────────────────────────────────────────
 
-class WeekDayRow extends StatelessWidget {
-  const WeekDayRow({
+/// One day of the current week, shown as a small vertical card: weekday +
+/// date, a mini progress ring, the total, and a goal-status badge. Seven of
+/// these sit in a row — the day tab already shows the full drink-by-drink
+/// list, so this section is a compact overview, not another list.
+class WeekDayCard extends StatelessWidget {
+  const WeekDayCard({
     super.key,
     required this.summary,
     required this.weekdayLabel,
     required this.dateLabel,
     required this.isOz,
+    required this.isSelected,
+    this.onTap,
   });
 
   final DailySummary summary;
   final String weekdayLabel;
   final String dateLabel;
   final bool isOz;
+  final bool isSelected;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    final ob = OnboardingTheme.of(context);
     final unit = isOz ? 'oz' : 'ml';
     final total = summary.totalMl;
     final goal = summary.goalMl;
+    final hasData = total > 0;
 
     final _DayStatus status;
-    if (total <= 0) {
+    if (!hasData) {
       status = _DayStatus.empty;
     } else if (goal > 0 && total > goal) {
       status = _DayStatus.exceeded;
@@ -124,73 +132,112 @@ class WeekDayRow extends StatelessWidget {
       status = _DayStatus.notReached;
     }
 
-    final volumeLabel = total > 0
-        ? UnitConverter.formatVolumeGrouped(total.toDouble(), unit)
+    final volumeLabel = hasData
+        ? UnitConverter.formatVolumeValue(total.toDouble(), unit)
         : '--';
+    final progress = (hasData && goal > 0)
+        ? (total / goal).clamp(0.0, 1.0)
+        : 0.0;
 
-    return HistoryCard(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      child: Row(
-        children: [
-          Image.asset(
-            'assets/images/webp/img_cup_water.webp',
-            width: 24,
-            height: 24,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(width: 10),
-          Expanded(
+    const radius = BorderRadius.all(Radius.circular(18));
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: isSelected
+            ? const LinearGradient(
+                colors: [Color(0xFF1575CE), Color(0xFF0B58D6)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              )
+            : null,
+        color: isSelected ? null : Colors.white.withValues(alpha: 0.05),
+        borderRadius: radius,
+        border: Border.all(
+          color: isSelected
+              ? Colors.transparent
+              : Colors.white.withValues(alpha: 0.08),
+        ),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: radius,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: radius,
+          splashColor: Colors.white.withValues(alpha: 0.16),
+          highlightColor: Colors.white.withValues(alpha: 0.07),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   weekdayLabel,
-                  style: TextStyle(
-                    fontSize: 13,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 12,
                     fontWeight: FontWeight.w700,
-                    color: ob.textPrimary,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  dateLabel,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.white.withValues(alpha: 0.6),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: 34,
+                  height: 34,
+                  child: hasData
+                      ? CircularProgressIndicator(
+                          value: progress,
+                          strokeWidth: 3,
+                          backgroundColor: Colors.white.withValues(
+                            alpha: 0.15,
+                          ),
+                          valueColor: AlwaysStoppedAnimation(
+                            _statusColor(status),
+                          ),
+                        )
+                      : DecoratedBox(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  volumeLabel,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
                   ),
                 ),
                 Text(
-                  dateLabel,
+                  unit,
                   style: TextStyle(
-                    fontSize: 11,
-                    color: ob.textPrimary.withValues(alpha: 0.55),
+                    fontSize: 10,
+                    color: Colors.white.withValues(alpha: 0.6),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(
-            width: 74,
-            child: Text(
-              volumeLabel,
-              textAlign: TextAlign.right,
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.visible,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: ob.textPrimary.withValues(alpha: 0.9),
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          SizedBox(
-            width: 90,
-            child: status == _DayStatus.empty
-                ? const SizedBox.shrink()
-                : _GoalBadge(status: status),
-          ),
-          const SizedBox(width: 4),
-          const Icon(
-            Icons.chevron_right_rounded,
-            size: 22,
-            color: Color(0xFF96D2A8),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -198,44 +245,58 @@ class WeekDayRow extends StatelessWidget {
 
 enum _DayStatus { empty, notReached, reached, exceeded }
 
-class _GoalBadge extends StatelessWidget {
-  const _GoalBadge({required this.status});
-  final _DayStatus status;
+/// Ring colours for each goal status — the card shows the colour only (no
+/// label anymore); [WeekStatusLegend] is the one place that spells out what
+/// each colour means.
+Color _statusColor(_DayStatus status) => switch (status) {
+  _DayStatus.exceeded => WeekStatusColors.exceeded,
+  _DayStatus.reached => WeekStatusColors.reached,
+  _DayStatus.notReached => WeekStatusColors.notReached,
+  _DayStatus.empty => Colors.white24,
+};
+
+class WeekStatusColors {
+  WeekStatusColors._();
+  static const Color exceeded = Color(0xFF4FC3F7);
+  static const Color reached = Color(0xFF57DCC0);
+  static const Color notReached = Color(0xFFFF9B6B);
+}
+
+/// A small colour-key row: which ring colour means "exceeded", "reached" or
+/// "not reached" — shown once above the week's cards instead of repeating the
+/// label as text inside every card.
+class WeekStatusLegend extends StatelessWidget {
+  const WeekStatusLegend({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final String label;
-    final Color color;
-    switch (status) {
-      case _DayStatus.exceeded:
-        label = 'exceeded_goal'.tr;
-        color = const Color(0xFF4FC3F7);
-      case _DayStatus.reached:
-        label = 'goal_reached'.tr;
-        color = const Color(0xFF57DCC0);
-      case _DayStatus.notReached:
-        label = 'not_reached'.tr;
-        color = const Color(0xFFFF9B6B);
-      case _DayStatus.empty:
-        return const SizedBox.shrink();
-    }
+    final ob = OnboardingTheme.of(context);
+    return Wrap(
+      spacing: 14,
+      runSpacing: 4,
+      children: [
+        _dot(ob, WeekStatusColors.exceeded, 'exceeded_goal'.tr),
+        _dot(ob, WeekStatusColors.reached, 'goal_reached'.tr),
+        _dot(ob, WeekStatusColors.notReached, 'not_reached'.tr),
+      ],
+    );
+  }
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withValues(alpha: 0.6)),
-      ),
-      child: Text(
-        label,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: color,
-          fontSize: 10,
-          fontWeight: FontWeight.w600,
+  Widget _dot(OnboardingTheme ob, Color color, String label) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
-      ),
+        const SizedBox(width: 6),
+        Text(
+          label,
+          style: TextStyle(fontSize: 11, color: ob.textPrimary.withValues(alpha: 0.7)),
+        ),
+      ],
     );
   }
 }

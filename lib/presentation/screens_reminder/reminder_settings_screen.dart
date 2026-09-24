@@ -7,6 +7,7 @@ import 'package:waternudge/presentation/common_components/onboarding_background.
 import 'package:waternudge/values/onboarding_theme.dart';
 
 import 'components/interval_mode_content.dart';
+import 'components/reminder_schedule_apply.dart';
 import 'components/standard_mode_content.dart';
 import 'components/reminder_slots_section.dart';
 
@@ -26,6 +27,11 @@ class ReminderSettingsPage extends StatelessWidget {
             children: [
               const _HeaderBanner(),
               const SizedBox(height: 14),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ScheduleApplySection(ctrl: ctrl),
+              ),
+              const SizedBox(height: 18),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: _ModeTabs(ctrl: ctrl),

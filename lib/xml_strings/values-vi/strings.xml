@@ -407,4 +407,7 @@
     <string name="history_overview_title">Tổng quan</string>
     <string name="reminder_slots_title">Các mốc nhắc</string>
     <string name="reminder_slots_subtitle">Nhấn vào mốc để chỉnh giờ</string>
+    <string name="reminder_time_duplicate">Giờ này đã có lời nhắc rồi</string>
+    <string name="reminder_custom_times_title">Các giờ nhắc</string>
+    <string name="reminder_custom_times_subtitle">Nhấn vào giờ để chỉnh, nhấn + để thêm giờ mới</string>
 </resources>

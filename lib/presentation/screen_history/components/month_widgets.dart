@@ -340,7 +340,7 @@ class MonthCalendarGrid extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          const _Legend(),
+          _Legend(isOz: isOz),
           const SizedBox(height: 12),
           Row(
             children: [
@@ -380,10 +380,20 @@ class _CellData {
 }
 
 /// Colour buckets from the legend: <1.5 L red, 1.5–3 L blue, >3 L teal.
+const int _bucketLowMl = 1500;
+const int _bucketHighMl = 3000;
+
 Color _bucketColor(int ml) {
-  if (ml < 1500) return const Color(0xFFE5484D);
-  if (ml <= 3000) return const Color(0xFF3B82F6);
+  if (ml < _bucketLowMl) return const Color(0xFFE5484D);
+  if (ml <= _bucketHighMl) return const Color(0xFF3B82F6);
   return const Color(0xFF2FB89C);
+}
+
+/// Legend threshold label in whichever unit the user picked — "1.5L" or,
+/// under oz, the same 1500 ml threshold shown as ounces instead.
+String _bucketLabel(int ml, bool isOz) {
+  if (isOz) return '${UnitConverter.formatVolumeValue(ml.toDouble(), 'oz')}oz';
+  return '${(ml / 1000).toStringAsFixed(1)}L';
 }
 
 class _DayCell extends StatelessWidget {
@@ -425,9 +435,7 @@ class _DayCell extends StatelessWidget {
 
     final color = _bucketColor(data.ml);
     final reached = dailyGoal > 0 && data.ml >= dailyGoal;
-    final litersLabel = isOz
-        ? UnitConverter.formatVolumeValue(data.ml.toDouble(), 'oz')
-        : '${(data.ml / 1000).toStringAsFixed(1)}L';
+    final litersLabel = _bucketLabel(data.ml, isOz);
 
     return Container(
       height: 52,
@@ -482,7 +490,9 @@ class _DayCell extends StatelessWidget {
 }
 
 class _Legend extends StatelessWidget {
-  const _Legend();
+  const _Legend({required this.isOz});
+
+  final bool isOz;
 
   @override
   Widget build(BuildContext context) {
@@ -495,6 +505,9 @@ class _Legend extends StatelessWidget {
       decoration: BoxDecoration(color: c, shape: BoxShape.circle),
     );
 
+    final low = _bucketLabel(_bucketLowMl, isOz);
+    final high = _bucketLabel(_bucketHighMl, isOz);
+
     return Wrap(
       spacing: 12,
       runSpacing: 6,
@@ -504,7 +517,7 @@ class _Legend extends StatelessWidget {
           children: [
             dot(const Color(0xFFE5484D)),
             const SizedBox(width: 4),
-            Text('< 1.5L', style: style()),
+            Text('< $low', style: style()),
           ],
         ),
         Row(
@@ -512,7 +525,7 @@ class _Legend extends StatelessWidget {
           children: [
             dot(const Color(0xFF3B82F6)),
             const SizedBox(width: 4),
-            Text('1.5L - 3L', style: style()),
+            Text('$low - $high', style: style()),
           ],
         ),
         Row(
@@ -520,7 +533,7 @@ class _Legend extends StatelessWidget {
           children: [
             dot(const Color(0xFF2FB89C)),
             const SizedBox(width: 4),
-            Text('> 3L', style: style()),
+            Text('> $high', style: style()),
           ],
         ),
         Row(

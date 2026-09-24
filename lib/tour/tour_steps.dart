@@ -8,7 +8,6 @@ class TourAnchors {
 
   static const String todayDrinkBar = 'today_drink_bar';
   static const String todayDrinkType = 'today_drink_type';
-  static const String todayChat = 'today_chat';
 }
 
 /// Screen-local groups. A group starts only when its screen is opened. Today
@@ -57,9 +56,8 @@ class TourStep {
   bool get isLastInGroup => groupIndex == groupSize;
 }
 
-/// The Today tour: drink pill → drink-type card → AI chat shortcut. Ported
-/// from the ad-hoc `showCoachMarks` walkthrough that used to live directly in
-/// `TodayScreen`.
+/// The Today tour: drink pill → drink-type card. Ported from the ad-hoc
+/// `showCoachMarks` walkthrough that used to live directly in `TodayScreen`.
 final List<TourStep> tourSteps = [
   TourStep(
     id: 'today_drink',
@@ -67,7 +65,7 @@ final List<TourStep> tourSteps = [
     textKey: 'coach_drink',
     group: TourGroup.today,
     groupIndex: 1,
-    groupSize: 3,
+    groupSize: 2,
     radius: 999, // pill
     spotlightBuilder: () => const DrinkActionBar(),
   ),
@@ -77,16 +75,7 @@ final List<TourStep> tourSteps = [
     textKey: 'coach_menu',
     group: TourGroup.today,
     groupIndex: 2,
-    groupSize: 3,
+    groupSize: 2,
     radius: 16,
-  ),
-  TourStep(
-    id: 'today_chat',
-    anchorId: TourAnchors.todayChat,
-    textKey: 'coach_chat',
-    group: TourGroup.today,
-    groupIndex: 3,
-    groupSize: 3,
-    radius: 12,
   ),
 ];

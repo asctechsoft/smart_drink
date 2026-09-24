@@ -1,9 +1,4 @@
-import 'package:dsp_base/app_material.dart';
-import 'package:waternudge/tour/tour_anchor.dart';
-import 'package:waternudge/tour/tour_steps.dart';
-import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
-import 'package:waternudge/values/route_name.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -56,55 +51,37 @@ class TodayHeader extends StatelessWidget {
             ),
           ),
 
-          // Right: chat bot shortcut only.
-          TourAnchor(
-            id: TourAnchors.todayChat,
-            child: _CircleButton(
-              onTap: () {
-                Analytics.chatView('today_header');
-                Get.toNamed(RouteName.chatBot);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(6),
-                child: Image.asset(
-                  'assets/images/png/ic_chat_bot.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-          ),
+          // Right: the old chat bot icon, kept for the visual layout — no tap
+          // handler, so it navigates nowhere.
+          const _InertCircleIcon(),
         ],
       ),
     );
   }
 }
 
-class _CircleButton extends StatelessWidget {
-  const _CircleButton({required this.child, required this.onTap});
-
-  final Widget child;
-  final VoidCallback onTap;
+/// Same look as the old chat shortcut button, minus any gesture handling.
+class _InertCircleIcon extends StatelessWidget {
+  const _InertCircleIcon();
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white.withValues(alpha: 0.12),
-      borderRadius: BorderRadius.circular(12),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(12),
-        child: Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.2),
-              width: 1,
-            ),
-          ),
-          child: child,
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.2),
+          width: 1,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(6),
+        child: Image.asset(
+          'assets/images/png/ic_chat_bot.png',
+          fit: BoxFit.contain,
         ),
       ),
     );

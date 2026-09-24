@@ -38,7 +38,32 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   static const EdgeInsets _hPad = EdgeInsets.symmetric(horizontal: 16);
 
+  // Week tab: scrolls the day-card row to the selected day whenever it's
+  // built (entering the tab, changing week, or picking another day).
+  final ScrollController _weekScrollController = ScrollController();
+  final List<GlobalKey> _weekDayKeys = List.generate(7, (_) => GlobalKey());
+
   String? get _locale => Get.locale?.toString();
+
+  @override
+  void dispose() {
+    _weekScrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToSelectedWeekDay(int index) {
+    if (index < 0) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final ctx = _weekDayKeys[index].currentContext;
+      if (ctx == null) return;
+      Scrollable.ensureVisible(
+        ctx,
+        alignment: 0.5,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -311,29 +336,61 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ),
         const SizedBox(height: 20),
         HistorySectionTitle('history_current_week'.tr),
+        const SizedBox(height: 8),
+        const WeekStatusLegend(),
         const SizedBox(height: 12),
-        for (var i = 0; i < 7; i++) ...[
-          Builder(
-            builder: (ctx) {
-              final dk = dateKey(i);
-              final dayDate = monday.add(Duration(days: i));
-              final summary =
-                  controller.summaries
-                      .where((s) => s.dateKey == dk)
-                      .firstOrNull ??
-                  DailySummary(dateKey: dk, goalMl: goal);
-              final weekdayLabel = weekdays[i].tr;
-              final dateLabel = DateFormat('d MMMM', _locale).format(dayDate);
-              return WeekDayRow(
-                summary: summary,
-                weekdayLabel: weekdayLabel,
-                dateLabel: dateLabel,
-                isOz: isOz,
-              );
-            },
-          ),
-          const SizedBox(height: 8),
-        ],
+        Obx(() {
+          final sel = controller.selectedDate.value;
+          var selectedIndex = -1;
+          for (var i = 0; i < 7; i++) {
+            final d = monday.add(Duration(days: i));
+            if (d.year == sel.year && d.month == sel.month && d.day == sel.day) {
+              selectedIndex = i;
+              break;
+            }
+          }
+          _scrollToSelectedWeekDay(selectedIndex);
+
+          return SingleChildScrollView(
+            controller: _weekScrollController,
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                for (var i = 0; i < 7; i++) ...[
+                  Builder(
+                    builder: (ctx) {
+                      final dk = dateKey(i);
+                      final dayDate = monday.add(Duration(days: i));
+                      final summary =
+                          controller.summaries
+                              .where((s) => s.dateKey == dk)
+                              .firstOrNull ??
+                          DailySummary(dateKey: dk, goalMl: goal);
+                      final weekdayLabel = weekdays[i].tr;
+                      final dateLabel = DateFormat(
+                        'd MMM',
+                        _locale,
+                      ).format(dayDate);
+                      return SizedBox(
+                        key: _weekDayKeys[i],
+                        width: 84,
+                        child: WeekDayCard(
+                          summary: summary,
+                          weekdayLabel: weekdayLabel,
+                          dateLabel: dateLabel,
+                          isOz: isOz,
+                          isSelected: i == selectedIndex,
+                          onTap: () => controller.selectedDate.value = dayDate,
+                        ),
+                      );
+                    },
+                  ),
+                  if (i < 6) const SizedBox(width: 8),
+                ],
+              ],
+            ),
+          );
+        }),
       ],
     );
   }

@@ -16,9 +16,9 @@ dependencies:
   flutter_svg: ^2.2.3
   vector_graphics: ^1.1.21
   intl: ^0.20.2
-  permission_handler: ^12.0.1
+  permission_handler: ^13.0.2
   path_provider: ^2.1.5
-  share_plus: ^12.0.1
+  share_plus: ^13.3.0
   fluttertoast: ^9.0.0
   in_app_review: ^2.0.10
   shared_preferences: ^2.3.5
@@ -27,6 +27,9 @@ dependencies:
   flutter_slidable: ^3.1.1
   dsp_base:
     path: ./dsp_base
+  asc_common:
+    git:
+      url: https://github.com/asctechsoft/asc_common.git
 
   firebase_core: any
   firebase_auth: any

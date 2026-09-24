@@ -68,7 +68,7 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
       return DisabledOverlay(
         disabled: !controller.enabled.value,
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(20),
@@ -107,35 +107,50 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
                         _iconCircle(Icons.timer_outlined),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: Text(
-                            'interval_title'.tr,
-                            style: TextStyle(
-                              color: ob.textPrimary,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // Full width on its own line — sharing the row
+                              // with the value used to ellipsize this title.
+                              Text(
+                                'interval_title'.tr,
+                                style: TextStyle(
+                                  color: ob.textPrimary,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Row(
+                                children: [
+                                  Text(
+                                    controller.intervalDisplay,
+                                    style: const TextStyle(
+                                      color: _cyan,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const Icon(
+                                    Icons.edit_outlined,
+                                    size: 16,
+                                    color: _cyan,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          controller.intervalDisplay,
-                          style: const TextStyle(
-                            color: _cyan,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        const Icon(Icons.edit_outlined, size: 16, color: _cyan),
                       ],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: 10),
               Container(height: 1, color: Colors.white.withValues(alpha: 0.08)),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
 
               // ── Quick interval chips ──
               Text(
@@ -162,7 +177,7 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
                   ],
                 ),
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 10),
 
               // ── Sleep window ──
               Text(
@@ -376,23 +391,26 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
           highlightColor: _highlight,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(icon, size: 30, color: iconColor),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        label,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: ob.textSecondary, fontSize: 12),
-                      ),
-                      const SizedBox(height: 3),
-                      FittedBox(
+                // The label gets the card's full width on its own line — with
+                // the icon on this row too it was cramped enough to ellipsize
+                // ("Giờ thức ...").
+                Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: ob.textSecondary, fontSize: 12),
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    Icon(icon, size: 30, color: iconColor),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: FittedBox(
                         fit: BoxFit.scaleDown,
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -406,14 +424,14 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Icon(
-                  Icons.chevron_right_rounded,
-                  size: 20,
-                  color: ob.textSecondary,
+                    ),
+                    const SizedBox(width: 4),
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      size: 20,
+                      color: ob.textSecondary,
+                    ),
+                  ],
                 ),
               ],
             ),
