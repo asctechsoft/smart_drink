@@ -6,6 +6,7 @@ import 'package:waternudge/controller/onboarding_controller.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
 import 'package:waternudge/services/native/notification_channel.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/app_colors.dart';
 
 /// Closing onboarding screen: runs a short analysis animation, then persists the
@@ -45,7 +46,11 @@ class _BuildingScheduleScreenState extends State<BuildingScheduleScreen>
     super.initState();
     // Ask for the notification permission here (while the analysis animation
     // runs) instead of at app launch.
-    NotificationChannel.requestPermission();
+    Analytics.notificationPermissionView();
+    NotificationChannel.requestPermission().then(
+      (granted) =>
+          Analytics.notificationPermissionResult(granted: granted),
+    );
     _progress.forward();
     _progress.addStatusListener((status) {
       if (status == AnimationStatus.completed) _finish();

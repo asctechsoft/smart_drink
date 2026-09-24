@@ -3,6 +3,7 @@ import 'package:waternudge/models/data_models/user_profile.dart';
 import 'package:waternudge/models/ui_models/reminder_mode.dart';
 import 'package:waternudge/models/ui_models/weather_condition.dart';
 import 'package:waternudge/services/native/notification_channel.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/water_calculation.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:flutter/foundation.dart';
@@ -42,6 +43,7 @@ class OnboardingController extends GetxController {
       weight.value = weight.value * 2.20462;
     }
     weightUnit.value = unit;
+    Analytics.onboardingWeightSet(unit);
   }
 
   void updateHeightUnit(String unit) {
@@ -53,6 +55,7 @@ class OnboardingController extends GetxController {
       height.value = height.value * 100;
     }
     heightUnit.value = unit;
+    Analytics.onboardingHeightSet(unit);
   }
 
   void updateVolumeUnit(String unit) {
@@ -201,6 +204,7 @@ class OnboardingController extends GetxController {
       final times = _deriveOnboardingScheduleTimes();
       await NotificationChannel.syncReminders(times);
 
+      Analytics.onboardingComplete(dailyGoalMl.value);
       Get.offAllNamed(RouteName.onboardingDailyGoal);
     } catch (e, stackTrace) {
       debugPrint(

@@ -5,6 +5,7 @@ import 'package:waternudge/models/ui_models/chat_card.dart';
 import 'package:waternudge/models/ui_models/chat_message.dart';
 import 'package:waternudge/services/application/ai_chat_service.dart';
 import 'package:waternudge/services/application/chat_quota_service.dart';
+import 'package:waternudge/utils/analytics.dart';
 
 /// State for the "Hỏi AI" screen.
 ///
@@ -81,6 +82,7 @@ class ChatController extends GetxController {
     if (isSending.value) return;
     messages.clear();
     _pendingRetry = null;
+    Analytics.chatNew();
   }
 
   /// Appends [raw] as a user turn and asks the gateway for a reply.
@@ -93,7 +95,10 @@ class ChatController extends GetxController {
     // Re-read first — the day may have rolled over while the screen sat open.
     if (!hasFreeQuestions) {
       await refreshQuota();
-      if (!hasFreeQuestions) return;
+      if (!hasFreeQuestions) {
+        Analytics.chatQuotaExhausted();
+        return;
+      }
     }
 
     // Matches the gateway's MAX_PROMPT_CHARS, so an over-long message is cut
@@ -104,6 +109,7 @@ class ChatController extends GetxController {
 
     _pendingRetry = null;
     messages.add(ChatMessage.user(capped));
+    Analytics.chatSend(isSuggestion: false, quotaLeft: freeRemaining.value);
     await _request();
   }
 
@@ -114,6 +120,7 @@ class ChatController extends GetxController {
 
     _pendingRetry = null;
     if (messages.isNotEmpty && messages.last.isError) messages.removeLast();
+    Analytics.chatRetry();
     await _request();
   }
 
@@ -194,11 +201,13 @@ class ChatController extends GetxController {
       // Only an answered question costs a free slot — a failed send (and the
       // retry that follows it) is charged once, when it finally succeeds.
       freeRemaining.value = await _quota.consume();
+      Analytics.chatResponseSuccess();
     } on AiChatException catch (e) {
       debugPrint('ChatController: $e');
       // Only offer a retry when the gateway said the failure was transient —
       // resending a rejected request just spends another call from the quota.
       if (e.retryable) _pendingRetry = _lastUserMessage();
+      Analytics.chatResponseFail(e.code);
       final errorBubble = ChatMessage.assistant(_messageFor(e), errorCode: e.code);
       // Replace the partial answer with the error, or append one if nothing
       // had streamed yet.

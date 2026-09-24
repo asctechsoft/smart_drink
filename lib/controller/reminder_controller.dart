@@ -4,6 +4,7 @@ import 'package:waternudge/models/data_models/reminder_schedule.dart';
 import 'package:waternudge/models/ui_models/reminder_mode.dart';
 import 'package:waternudge/repository/user_repository.dart';
 import 'package:waternudge/services/native/notification_channel.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -161,6 +162,9 @@ class ReminderController extends GetxController {
     await prefs.setString(PrefConst.napTimeEnd, napEnd.value);
     await prefs.setString(PrefConst.repeatDays, repeatDays.join(','));
     await syncNativeSchedule();
+    Analytics.reminderSave(mode.value.name, schedules.length);
+    Analytics.userReminderEnabled(enabled.value);
+    Analytics.userReminderMode(mode.value.name);
   }
 
   /// Sync all enabled reminder times to native Android alarm scheduling.
@@ -260,6 +264,7 @@ class ReminderController extends GetxController {
 
   Future<void> setMode(ReminderMode newMode) async {
     mode.value = newMode;
+    Analytics.reminderModeSelect(newMode.name);
     await saveSettings(); // saveSettings already calls syncNativeSchedule
   }
 
@@ -288,6 +293,7 @@ class ReminderController extends GetxController {
     final id = await _userRepo.insertReminderSchedule(schedule);
     schedules.add(schedule.copyWith(id: id));
     await syncNativeSchedule();
+    Analytics.reminderSlotAdd();
   }
 
   Future<void> updateSchedule(ReminderSchedule schedule) async {
@@ -297,12 +303,14 @@ class ReminderController extends GetxController {
       schedules[index] = schedule;
     }
     await syncNativeSchedule();
+    Analytics.reminderSlotEdit();
   }
 
   Future<void> removeSchedule(int id) async {
     await _userRepo.deleteReminderSchedule(id);
     schedules.removeWhere((s) => s.id == id);
     await syncNativeSchedule();
+    Analytics.reminderSlotDelete();
   }
 
   Future<void> toggleDay(int day) async {

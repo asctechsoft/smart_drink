@@ -7,6 +7,7 @@ import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
 import 'package:waternudge/presentation/common_components/onboarding_progress_bar.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/common_components/selectable_option_tile.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/route_name.dart';
 
@@ -54,8 +55,12 @@ class WeatherScreen extends StatelessWidget {
                                 label: entry.key.label.tr,
                                 isSelected:
                                     controller.weather.value == entry.key,
-                                onTap: () =>
-                                    controller.weather.value = entry.key,
+                                onTap: () {
+                                  controller.weather.value = entry.key;
+                                  Analytics.onboardingWeatherSelect(
+                                    entry.key.name,
+                                  );
+                                },
                               ),
                             )
                             .toList(),
@@ -69,6 +74,7 @@ class WeatherScreen extends StatelessWidget {
                         useGradient: true,
                         enabled: controller.weather.value != null,
                         onPressed: () {
+                          Analytics.onboardingNext('weather');
                           controller.calculateGoalFromWeight();
                           controller.nextStep();
                           Get.toNamed(RouteName.onboardingWakeup);

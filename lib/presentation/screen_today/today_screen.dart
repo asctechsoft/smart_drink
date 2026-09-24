@@ -1,13 +1,13 @@
 import 'package:dsp_base/app_material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/app_touchable.dart';
 import 'package:waternudge/presentation/common_components/bubble_celebration.dart';
-import 'package:waternudge/presentation/common_components/coach_mark.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/tour/tour_anchor.dart';
+import 'package:waternudge/tour/tour_controller.dart';
+import 'package:waternudge/tour/tour_steps.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
@@ -27,11 +27,6 @@ class TodayScreen extends StatefulWidget {
 class _TodayScreenState extends State<TodayScreen> {
   Worker? _goalWorker;
 
-  // Coach-mark spotlight targets.
-  final GlobalKey _drinkKey = GlobalKey();
-  final GlobalKey _menuKey = GlobalKey();
-  final GlobalKey _chatKey = GlobalKey();
-
   @override
   void initState() {
     super.initState();
@@ -43,31 +38,11 @@ class _TodayScreenState extends State<TodayScreen> {
       }
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeShowCoachMarks());
-  }
-
-  Future<void> _maybeShowCoachMarks() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (prefs.getBool(PrefConst.coachMarkHomeSeen) ?? false) return;
-    if (!mounted) return;
-    showCoachMarks(context, [
-      CoachStep(
-        key: _drinkKey,
-        text: 'coach_drink'.tr,
-        radius: 999, // pill
-        spotlightBuilder: () => const DrinkActionBar(),
-      ),
-      CoachStep(
-        key: _menuKey,
-        text: 'coach_menu'.tr,
-        radius: 16,
-      ),
-      CoachStep(
-        key: _chatKey,
-        text: 'coach_chat'.tr,
-        radius: 12,
-      ),
-    ], onFinish: () => prefs.setBool(PrefConst.coachMarkHomeSeen, true));
+    // Anchors register themselves during this same first build; deferring to
+    // the next frame guarantees they exist before the tour asks for one.
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => Get.find<TourController>().start(),
+    );
   }
 
   @override
@@ -100,7 +75,7 @@ class _TodayScreenState extends State<TodayScreen> {
               child: Column(
                 children: [
                   // Header
-                  TodayHeader(chatKey: _chatKey),
+                  const TodayHeader(),
 
                   Expanded(
                     child: Stack(
@@ -178,7 +153,10 @@ class _TodayScreenState extends State<TodayScreen> {
                   ),
                   const SizedBox(height: 20),
                   // Drink action bar: +amount
-                  KeyedSubtree(key: _drinkKey, child: const DrinkActionBar()),
+                  const TourAnchor(
+                    id: TourAnchors.todayDrinkBar,
+                    child: DrinkActionBar(),
+                  ),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -344,8 +322,8 @@ class _TodayScreenState extends State<TodayScreen> {
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: KeyedSubtree(
-              key: _menuKey,
+            child: TourAnchor(
+              id: TourAnchors.todayDrinkType,
               child: _ActionCard(
                 imagePath: controller.selectedDrinkType.value.imagePath,
                 label: 'label_menu'.tr,

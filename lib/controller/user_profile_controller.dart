@@ -1,5 +1,6 @@
 import 'package:waternudge/models/data_models/user_profile.dart';
 import 'package:waternudge/repository/user_repository.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/water_calculation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -35,6 +36,8 @@ class UserProfileController extends GetxController {
       final withTimestamp = updated.copyWith(updatedAt: DateTime.now());
       await _userRepo.insertOrUpdateProfile(withTimestamp);
       profile.value = withTimestamp;
+      Analytics.userGender(withTimestamp.gender);
+      Analytics.userDailyGoal(withTimestamp.dailyGoalMl);
     } catch (e, stackTrace) {
       debugPrint('UserProfileController.saveProfile failed: $e\n$stackTrace');
     }
@@ -51,6 +54,7 @@ class UserProfileController extends GetxController {
         dailyGoalMl: WaterCalculation.calculateDailyGoalFromProfile(updated),
       ),
     );
+    Analytics.settingsFieldSave('gender', gender);
   }
 
   Future<void> updateWeight(double weight, String unit) async {
@@ -65,10 +69,12 @@ class UserProfileController extends GetxController {
         dailyGoalMl: WaterCalculation.calculateDailyGoalFromProfile(updated),
       ),
     );
+    Analytics.settingsFieldSave('weight', '${weight.round()} $unit');
   }
 
   Future<void> updateHeight(double height, String unit) async {
     await saveProfile(profile.value.copyWith(height: height, heightUnit: unit));
+    Analytics.settingsFieldSave('height', '${height.round()} $unit');
   }
 
   Future<void> updateAge(int age) async {
@@ -77,6 +83,7 @@ class UserProfileController extends GetxController {
 
   Future<void> updateDailyGoal(int goalMl) async {
     await saveProfile(profile.value.copyWith(dailyGoalMl: goalMl));
+    Analytics.settingsGoalEdit(goalMl);
   }
 
   Future<void> updateActivityLevel(String level) async {
@@ -86,6 +93,7 @@ class UserProfileController extends GetxController {
         dailyGoalMl: WaterCalculation.calculateDailyGoalFromProfile(updated),
       ),
     );
+    Analytics.settingsFieldSave('activity_level', level);
   }
 
   Future<void> updateWeatherCondition(String condition) async {
@@ -95,14 +103,17 @@ class UserProfileController extends GetxController {
         dailyGoalMl: WaterCalculation.calculateDailyGoalFromProfile(updated),
       ),
     );
+    Analytics.settingsFieldSave('weather', condition);
   }
 
   Future<void> updateWakeUpTime(String time) async {
     await saveProfile(profile.value.copyWith(wakeUpTime: time));
+    Analytics.settingsFieldSave('wakeup', time);
   }
 
   Future<void> updateBedTime(String time) async {
     await saveProfile(profile.value.copyWith(bedTime: time));
+    Analytics.settingsFieldSave('bedtime', time);
   }
 }
 

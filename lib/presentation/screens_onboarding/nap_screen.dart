@@ -9,6 +9,7 @@ import 'package:waternudge/presentation/common_components/primary_bottom_sheet.d
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
 import 'package:waternudge/presentation/common_components/wheel_time_picker.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/route_name.dart';
 
@@ -58,6 +59,10 @@ class NapScreen extends StatelessWidget {
                       width: double.infinity,
                       useGradient: true,
                       onPressed: () {
+                        Analytics.onboardingNapToggle(
+                          controller.napEnabled.value,
+                        );
+                        Analytics.onboardingNext('nap');
                         controller.nextStep();
                         Get.toNamed(RouteName.onboardingBedtime);
                       },

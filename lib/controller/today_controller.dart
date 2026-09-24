@@ -12,6 +12,7 @@ import 'package:waternudge/repository/user_repository.dart';
 import 'package:waternudge/services/application/drink_data_service.dart';
 import 'package:waternudge/services/native/notification_channel.dart';
 import 'package:waternudge/services/native/widget_channel.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/date_utils.dart';
 import 'package:waternudge/utils/legal_utils.dart';
 import 'package:waternudge/utils/unit_converter.dart';
@@ -277,6 +278,7 @@ class TodayController extends GetxController with WidgetsBindingObserver {
     int amountMl, {
     double? originalAmountMl,
     String drinkType = 'water',
+    String source = 'unknown',
   }) async {
     final actVolume = originalAmountMl ?? amountMl.toDouble();
     if (actVolume <= 0)
@@ -299,8 +301,17 @@ class TodayController extends GetxController with WidgetsBindingObserver {
     await loadTodayData();
     _refreshHistoryIfNeeded();
 
+    Analytics.drinkAddSuccess(
+      drinkType: drinkType,
+      amountMl: amountMl,
+      totalMl: currentIntakeMl.value,
+      goalMl: adjustedGoal,
+      source: source,
+    );
+
     if (wasBelowGoal && currentIntakeMl.value >= adjustedGoal) {
       goalReachedEvent.value++;
+      Analytics.drinkGoalReached(adjustedGoal);
     }
   }
 

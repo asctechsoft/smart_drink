@@ -13,6 +13,9 @@ import 'controller/settings_controller.dart';
 import 'controller/reminder_controller.dart';
 import 'controller/avatar_controller.dart';
 import 'controller/auth_controller.dart';
+import 'tour/tour_controller.dart';
+import 'tour/tour_overlay.dart';
+import 'utils/route_analytics.dart';
 import 'values/app_theme.dart';
 import 'values/app_pages.dart';
 import 'values/route_name.dart';
@@ -94,6 +97,9 @@ Future<void> main() async {
       // 2. Initialize translations
       await CommLocalize.loadTranslations("lib/xml_strings", "strings.xml");
 
+      // 3. Pin this install's guided-tour A/B branch. Sticky, and a no-op on
+      // the Product release build — see TourController.assignLocalVariant.
+      await TourController.assignLocalVariant();
     },
   );
 }
@@ -122,6 +128,11 @@ class WaterNudgeApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       initialRoute: RouteName.splash,
+      routingCallback: RouteAnalytics.onRouting,
+      // Above the navigator, so it can spotlight a widget on any route
+      // without each screen hosting an overlay of its own.
+      builder: (context, child) =>
+          TourOverlay(child: child ?? const SizedBox.shrink()),
       initialBinding: BindingsBuilder(() {
         Get.put(AuthController(), permanent: true);
         Get.put(SettingsController(), permanent: true);
@@ -130,6 +141,7 @@ class WaterNudgeApp extends StatelessWidget {
         Get.put(HistoryController(), permanent: true);
         Get.put(ReminderController(), permanent: true);
         Get.put(AvatarController(), permanent: true);
+        Get.put(TourController(), permanent: true);
       }),
       getPages: AppPages.pages,
     );

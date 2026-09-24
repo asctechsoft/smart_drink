@@ -3,6 +3,7 @@ import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/models/ui_models/drink_type.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/screen_today/components/drink_selection_bottom_sheet.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/toast_utils.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:get/get.dart';
@@ -27,6 +28,7 @@ class _AddDrinkScreenState extends State<AddDrinkScreen> {
 
   void _showDrinkBottomSheet(DrinkType type) {
     setState(() => _selectedType = type);
+    Analytics.addDrinkScreenView();
 
     DrinkSelectionBottomSheet.show(
       context: context,
@@ -43,6 +45,7 @@ class _AddDrinkScreenState extends State<AddDrinkScreen> {
           effectiveWater,
           originalAmountMl: amount,
           drinkType: type.name,
+          source: 'add_drink_screen',
         );
         Get.back(); // Back to TodayScreen
       },

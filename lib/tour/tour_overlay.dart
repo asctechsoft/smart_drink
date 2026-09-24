@@ -1,82 +1,61 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:waternudge/tour/tour_controller.dart';
+import 'package:waternudge/tour/tour_steps.dart';
 
-/// One step in a coach-mark walkthrough: spotlight [key]'s widget and show
-/// [text] in a callout bubble.
-class CoachStep {
-  final GlobalKey key;
-  final String text;
-  final String? title;
+/// Mounted once, above the navigator (`main.dart`'s `CommApp.builder`), so it
+/// can spotlight a widget on any route without each screen hosting an overlay
+/// of its own. Renders nothing while `TourController.active` is false.
+class TourOverlay extends StatelessWidget {
+  const TourOverlay({required this.child, super.key});
 
-  /// Corner radius of the spotlight cutout. Use a large value for pill buttons.
-  final double radius;
-
-  /// Optional: a fresh copy of the target widget. When provided, the coach mark
-  /// paints it scaled-up (pulsing) in place so the button itself appears to
-  /// grow — no white border box around it.
-  final Widget Function()? spotlightBuilder;
-
-  const CoachStep({
-    required this.key,
-    required this.text,
-    this.title,
-    this.radius = 18,
-    this.spotlightBuilder,
-  });
-}
-
-/// Show a sequential coach-mark overlay that spotlights each step's target
-/// widget. Steps whose target isn't laid out are skipped. Calls [onFinish]
-/// once dismissed (use it to persist "seen").
-void showCoachMarks(
-  BuildContext context,
-  List<CoachStep> steps, {
-  VoidCallback? onFinish,
-  String nextLabel = 'Tiếp',
-  String doneLabel = 'Đã hiểu',
-}) {
-  final overlay = Overlay.of(context);
-  late OverlayEntry entry;
-  entry = OverlayEntry(
-    builder: (_) => _CoachMarkOverlay(
-      steps: steps,
-      nextLabel: nextLabel,
-      doneLabel: doneLabel,
-      onFinish: () {
-        entry.remove();
-        onFinish?.call();
-      },
-    ),
-  );
-  overlay.insert(entry);
-}
-
-class _CoachMarkOverlay extends StatefulWidget {
-  final List<CoachStep> steps;
-  final VoidCallback onFinish;
-  final String nextLabel;
-  final String doneLabel;
-
-  const _CoachMarkOverlay({
-    required this.steps,
-    required this.onFinish,
-    required this.nextLabel,
-    required this.doneLabel,
-  });
+  final Widget child;
 
   @override
-  State<_CoachMarkOverlay> createState() => _CoachMarkOverlayState();
+  Widget build(BuildContext context) {
+    if (!Get.isRegistered<TourController>()) return child;
+    final controller = Get.find<TourController>();
+    return Stack(
+      children: [
+        child,
+        Obx(() {
+          // Also depend on anchorGeneration so a late-registering anchor
+          // (registered mid-build, after `active` flips) triggers a re-measure.
+          controller.anchorGeneration.value;
+          if (!controller.active.value) return const SizedBox.shrink();
+          return _TourStepView(controller: controller);
+        }),
+      ],
+    );
+  }
 }
 
-class _CoachMarkOverlayState extends State<_CoachMarkOverlay>
+class _TourStepView extends StatefulWidget {
+  const _TourStepView({required this.controller});
+
+  final TourController controller;
+
+  @override
+  State<_TourStepView> createState() => _TourStepViewState();
+}
+
+class _TourStepViewState extends State<_TourStepView>
     with SingleTickerProviderStateMixin {
-  int _index = 0;
   late final AnimationController _pulse;
+  Timer? _autoAdvanceTimer;
+  int _lastIndex = -1;
 
   static const double _gap = 22; // gap between target and bubble (arrow lives here)
   static const double _arrowW = 26;
   static const double _arrowH = 14;
   static const double _growScale = 0.10; // how much the target grows at peak
   static const Color _accent = Color(0xFF3E79FA);
+
+  /// The target never laid out within this long (e.g. hidden behind a sheet
+  /// on a slow frame): move on instead of trapping the user behind the scrim.
+  static const Duration _autoAdvanceAfter = Duration(seconds: 10);
 
   @override
   void initState() {
@@ -90,44 +69,45 @@ class _CoachMarkOverlayState extends State<_CoachMarkOverlay>
   @override
   void dispose() {
     _pulse.dispose();
+    _autoAdvanceTimer?.cancel();
     super.dispose();
   }
 
-  Rect? _rectFor(GlobalKey key) {
-    final ctx = key.currentContext;
-    if (ctx == null) return null;
-    final box = ctx.findRenderObject() as RenderBox?;
-    if (box == null || !box.hasSize) return null;
-    final offset = box.localToGlobal(Offset.zero);
-    return offset & box.size;
+  void _armAutoAdvance(int forIndex) {
+    if (_lastIndex == forIndex) return;
+    _lastIndex = forIndex;
+    _autoAdvanceTimer?.cancel();
+    _autoAdvanceTimer = Timer(_autoAdvanceAfter, () {
+      if (!mounted) return;
+      widget.controller.next();
+    });
   }
 
-  /// Advance to the next step that has a resolvable target, or finish.
-  void _next() {
-    var i = _index + 1;
-    while (i < widget.steps.length && _rectFor(widget.steps[i].key) == null) {
-      i++;
-    }
-    if (i >= widget.steps.length) {
-      widget.onFinish();
-    } else {
-      setState(() => _index = i);
-    }
+  void _clearAutoAdvance() {
+    _autoAdvanceTimer?.cancel();
+    _autoAdvanceTimer = null;
   }
 
   @override
   Widget build(BuildContext context) {
+    final controller = widget.controller;
+    final step = controller.step;
+    final target = controller.anchorRect(step.anchorId);
     final size = MediaQuery.of(context).size;
-    final step = widget.steps[_index];
-    final target = _rectFor(step.key);
 
     if (target == null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => _next());
+      _armAutoAdvance(controller.index.value);
+      // Not laid out yet (registered this frame) — retry next frame.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) setState(() {});
+      });
       return const SizedBox.shrink();
     }
+    _clearAutoAdvance();
 
-    final isLast = _index == widget.steps.length - 1;
-    final hasClone = step.spotlightBuilder != null;
+    final isPulseVariant =
+        controller.variant.value == TourController.variantPulse;
+    final hasClone = isPulseVariant && step.spotlightBuilder != null;
     // Arrow + bubble anchor on the STATIC target so they never jitter.
     final below = target.center.dy < size.height / 2;
 
@@ -141,7 +121,7 @@ class _CoachMarkOverlayState extends State<_CoachMarkOverlay>
           Positioned.fill(
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTap: _next,
+              onTap: controller.next,
               child: CustomPaint(
                 painter: _HolePainter(
                   rect: hasClone ? null : target,
@@ -150,7 +130,7 @@ class _CoachMarkOverlayState extends State<_CoachMarkOverlay>
               ),
             ),
           ),
-          // Only the Transform.scale rebuilds each frame; the cloned button is
+          // Only the Transform.scale rebuilds each frame; the cloned widget is
           // built once and cached as a layer via RepaintBoundary.
           if (hasClone)
             Positioned(
@@ -164,7 +144,8 @@ class _CoachMarkOverlayState extends State<_CoachMarkOverlay>
                     animation: _pulse,
                     child: step.spotlightBuilder!(),
                     builder: (context, child) => Transform.scale(
-                      scale: 1.0 +
+                      scale:
+                          1.0 +
                           _growScale * Curves.easeInOut.transform(_pulse.value),
                       child: child,
                     ),
@@ -173,16 +154,41 @@ class _CoachMarkOverlayState extends State<_CoachMarkOverlay>
               ),
             ),
           _buildArrow(size, target, below),
-          _buildBubble(size, target, below, step, isLast),
+          _buildBubble(size, target, below, step, controller),
+          _buildSkip(controller),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSkip(TourController controller) {
+    return Positioned(
+      top: 12,
+      right: 12,
+      child: SafeArea(
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: controller.skip,
+          child: Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.35),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.close_rounded, size: 18, color: Colors.white),
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildArrow(Size size, Rect spotlight, bool below) {
     const margin = 20.0;
-    final x = (spotlight.center.dx - _arrowW / 2)
-        .clamp(margin + 8, size.width - margin - 8 - _arrowW);
+    final x = (spotlight.center.dx - _arrowW / 2).clamp(
+      margin + 8,
+      size.width - margin - 8 - _arrowW,
+    );
     // `below` = bubble is under the target → arrow sits above the bubble,
     // pointing UP at the target. Otherwise arrow points DOWN.
     final double top = below
@@ -204,8 +210,8 @@ class _CoachMarkOverlayState extends State<_CoachMarkOverlay>
     Size size,
     Rect spotlight,
     bool below,
-    CoachStep step,
-    bool isLast,
+    TourStep step,
+    TourController controller,
   ) {
     const margin = 20.0;
     final bubble = Container(
@@ -230,9 +236,9 @@ class _CoachMarkOverlayState extends State<_CoachMarkOverlay>
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (step.title != null) ...[
+          if (step.titleKey != null) ...[
             Text(
-              step.title!,
+              step.titleKey!.tr,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -242,7 +248,7 @@ class _CoachMarkOverlayState extends State<_CoachMarkOverlay>
             const SizedBox(height: 6),
           ],
           Text(
-            step.text,
+            step.textKey.tr,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 15,
@@ -250,28 +256,57 @@ class _CoachMarkOverlayState extends State<_CoachMarkOverlay>
               height: 1.35,
             ),
           ),
-          const SizedBox(height: 12),
-          Align(
-            alignment: Alignment.centerRight,
-            child: GestureDetector(
-              onTap: _next,
-              behavior: HitTestBehavior.opaque,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(100),
+          const SizedBox(height: 4),
+          Text(
+            '${step.groupIndex}/${step.groupSize}',
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.7),
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: step.isFirstInGroup
+                ? MainAxisAlignment.end
+                : MainAxisAlignment.spaceBetween,
+            children: [
+              if (!step.isFirstInGroup)
+                GestureDetector(
+                  onTap: controller.previous,
+                  behavior: HitTestBehavior.opaque,
+                  child: Text(
+                    'previous'.tr,
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.85),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
-                child: Text(
-                  isLast ? widget.doneLabel : widget.nextLabel,
-                  style: const TextStyle(
-                    color: Color(0xFF1B3A8C),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
+              GestureDetector(
+                onTap: controller.next,
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: Text(
+                    step.isLastInGroup ? 'got_it'.tr : 'next'.tr,
+                    style: const TextStyle(
+                      color: Color(0xFF1B3A8C),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
         ],
       ),

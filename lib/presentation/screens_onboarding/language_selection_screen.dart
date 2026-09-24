@@ -6,6 +6,7 @@ import 'package:waternudge/controller/languages_controller.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/selectable_option_tile.dart';
 import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/language_names.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/route_name.dart';
@@ -90,7 +91,12 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
               ),
             ),
           ),
-          _ConfirmButton(onTap: () => Get.offNamed(RouteName.welcome)),
+          _ConfirmButton(
+            onTap: () {
+              Analytics.onboardingNext('language');
+              Get.offNamed(RouteName.welcome);
+            },
+          ),
         ],
       ),
     );

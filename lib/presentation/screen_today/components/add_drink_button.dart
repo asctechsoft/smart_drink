@@ -3,6 +3,7 @@ import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/models/ui_models/drink_type.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/screen_today/components/drink_selection_bottom_sheet.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/toast_utils.dart';
 import 'package:get/get.dart';
 
@@ -33,6 +34,7 @@ class AddDrinkButton extends StatelessWidget {
   }
 
   void _showAddDrinkSheet(BuildContext context) {
+    Analytics.drinkAddTap('quick_add_button');
     DrinkSelectionBottomSheet.show(
       context: context,
       drinkType: DrinkType.water,
@@ -49,6 +51,7 @@ class AddDrinkButton extends StatelessWidget {
           effectiveWater,
           originalAmountMl: amount,
           drinkType: DrinkType.water.name,
+          source: 'quick_add_button',
         );
       },
     );

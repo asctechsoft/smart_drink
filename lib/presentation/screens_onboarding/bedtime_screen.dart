@@ -6,6 +6,7 @@ import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
 import 'package:waternudge/presentation/common_components/onboarding_progress_bar.dart';
 import 'package:waternudge/presentation/common_components/onboarding_step_header.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/toast_utils.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:get/get.dart';
@@ -55,6 +56,8 @@ class BedtimeScreen extends StatelessWidget {
                           );
                           return;
                         }
+                        Analytics.onboardingBedtimeSet();
+                        Analytics.onboardingNext('bedtime');
                         Get.toNamed(RouteName.onboardingBuildingSchedule);
                       },
                     ),

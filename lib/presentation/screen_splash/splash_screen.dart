@@ -1,9 +1,11 @@
 import 'dart:math' as math;
 
 import 'package:dsp_base/app_material.dart';
+import 'package:dsp_base/convenience_imports.dart';
 import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:get/get.dart';
@@ -20,6 +22,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    Analytics.splashView();
+    Analytics.appOpen(
+      'direct',
+      isFirstOpen: !(PrefAssist.getBoolean(PrefConst.onboardingCompleted)),
+    );
     _navigate();
   }
 
@@ -33,6 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
     final prefs = await SharedPreferences.getInstance();
     final onboarded = prefs.getBool(PrefConst.onboardingCompleted) ?? false;
+    Analytics.splashEnd(onboarded: onboarded);
     if (onboarded) {
       Get.offAllNamed(RouteName.home);
     } else {

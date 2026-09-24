@@ -5,6 +5,7 @@ import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:waternudge/values/route_name.dart';
@@ -26,6 +27,7 @@ class DailyGoalResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final ob = OnboardingTheme.of(context);
     final profile = Get.find<UserProfileController>().profile.value;
+    Analytics.onboardingGoalView(profile.dailyGoalMl);
 
     return OnboardingBackground(
       child: Scaffold(

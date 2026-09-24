@@ -4,6 +4,7 @@ import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/models/ui_models/drink_type.dart';
 import 'package:waternudge/presentation/common_components/app_touchable.dart';
 import 'package:waternudge/presentation/common_components/primary_bottom_sheet.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/toast_utils.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/app_colors.dart';
@@ -18,6 +19,7 @@ class DrinkActionBar extends StatelessWidget {
     final amount = controller.currentAmount;
     final drinkType = controller.selectedDrinkType.value;
     final effectiveWater = (amount * drinkType.waterPercent / 100).round();
+    Analytics.drinkAddTap('action_bar');
     if (controller.currentIntakeMl.value + effectiveWater > 8000) {
       ToastUtils.showLimitToast(context);
       return;
@@ -26,6 +28,7 @@ class DrinkActionBar extends StatelessWidget {
       effectiveWater,
       originalAmountMl: amount.toDouble(),
       drinkType: drinkType.name,
+      source: 'action_bar',
     );
   }
 
@@ -64,6 +67,7 @@ void showCupSizeSheet(BuildContext context) {
     buttonText: 'save'.tr,
     onButtonPressed: () {
       controller.selectedAmountIndex.value = tempIndex;
+      Analytics.drinkAmountSelect(TodayController.amountPresets[tempIndex]);
       Navigator.pop(context);
     },
     content: StatefulBuilder(
@@ -122,6 +126,7 @@ void showDrinkTypeSheet(BuildContext context) {
       selected: controller.selectedDrinkType.value,
       onSelected: (type) {
         controller.selectedDrinkType.value = type;
+        Analytics.drinkTypeSelect(type.name);
         Navigator.pop(context);
       },
     ),

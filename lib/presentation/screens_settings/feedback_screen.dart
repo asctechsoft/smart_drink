@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/services/feedback_service.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/toast_utils.dart';
 import 'package:get/get.dart';
 
@@ -91,6 +92,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       message: _feedbackCtrl.text,
       attachmentPaths: _attachments.map((e) => e.path).toList(),
     );
+    Analytics.feedbackSubmit(hasText: _feedbackCtrl.text.trim().isNotEmpty);
     // Pop first, THEN toast. Get.showSnackbar is route-based (pushes a
     // SnackRoute); if we showed it before Get.back(), Get.back() would pop the
     // snackbar route instead of this screen — leaving the screen open and the

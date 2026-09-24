@@ -1,6 +1,7 @@
 import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/configs/pref_defaults.dart';
 import 'package:waternudge/services/native/health_connect_service.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -77,6 +78,11 @@ class SettingsController extends GetxController {
     _applyTheme(themeMode.value);
 
     await _loadHealthConnect(prefs);
+
+    Analytics.userTheme(themeMode.value);
+    Analytics.userVolumeUnit(volumeUnit.value);
+    Analytics.userWeightUnit(weightUnit.value);
+    Analytics.userHealthConnectEnabled(healthConnectEnabled.value);
   }
 
   /// Resolves the Health Connect row's state on startup.
@@ -152,6 +158,7 @@ class SettingsController extends GetxController {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(PrefConst.themeMode, mode);
     _applyTheme(mode);
+    Analytics.settingsThemeSelect(mode);
   }
 
   /// The app ships one look, so the theme never follows the device.
@@ -172,18 +179,21 @@ class SettingsController extends GetxController {
     if (Get.isRegistered<TodayController>()) {
       Get.find<TodayController>().updateWidget();
     }
+    Analytics.settingsUnitSelect('volume', unit);
   }
 
   Future<void> setWeightUnit(String unit) async {
     weightUnit.value = unit;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(PrefConst.weightUnit, unit);
+    Analytics.settingsUnitSelect('weight', unit);
   }
 
   Future<void> setHeightUnit(String unit) async {
     heightUnit.value = unit;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(PrefConst.heightUnit, unit);
+    Analytics.settingsUnitSelect('height', unit);
   }
 
   Future<void> setRated() async {

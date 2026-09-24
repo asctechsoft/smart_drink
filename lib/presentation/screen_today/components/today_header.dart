@@ -1,14 +1,14 @@
 import 'package:dsp_base/app_material.dart';
+import 'package:waternudge/tour/tour_anchor.dart';
+import 'package:waternudge/tour/tour_steps.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 class TodayHeader extends StatelessWidget {
-  const TodayHeader({super.key, this.chatKey});
-
-  /// Optional key so a coach-mark can spotlight the chat shortcut button.
-  final GlobalKey? chatKey;
+  const TodayHeader({super.key});
 
   /// Greeting keyed to the current time of day.
   String _greeting(int hour) {
@@ -57,10 +57,13 @@ class TodayHeader extends StatelessWidget {
           ),
 
           // Right: chat bot shortcut only.
-          KeyedSubtree(
-            key: chatKey,
+          TourAnchor(
+            id: TourAnchors.todayChat,
             child: _CircleButton(
-              onTap: () => Get.toNamed(RouteName.chatBot),
+              onTap: () {
+                Analytics.chatView('today_header');
+                Get.toNamed(RouteName.chatBot);
+              },
               child: Padding(
                 padding: const EdgeInsets.all(6),
                 child: Image.asset(

@@ -2,6 +2,7 @@ import 'package:dsp_base/app_localize.dart';
 import 'package:dsp_base/convenience_imports.dart';
 import 'package:device_region/device_region.dart';
 import 'package:waternudge/configs/pref_const.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/loading_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -64,6 +65,9 @@ class LanguagesController extends GetxController {
     if (Get.isRegistered<SettingsController>()) {
       Get.find<SettingsController>().language.value = key;
     }
+
+    Analytics.languageSelect(key);
+    Analytics.userLanguage(key);
 
     // Dismiss loading overlay
     LoadingUtils.hide();

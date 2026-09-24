@@ -7,6 +7,7 @@ import 'package:waternudge/presentation/common_components/onboarding_step_header
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/common_components/ruler_picker.dart';
 import 'package:waternudge/presentation/common_components/toggle_selector.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:get/get.dart';
 
@@ -66,6 +67,7 @@ class WeightScreen extends StatelessWidget {
                       width: double.infinity,
                       useGradient: true,
                       onPressed: () {
+                        Analytics.onboardingNext('weight');
                         controller.nextStep();
                         Get.toNamed(RouteName.onboardingWeather);
                       },

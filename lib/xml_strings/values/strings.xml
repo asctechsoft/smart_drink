@@ -333,6 +333,8 @@
     <string name="coach_drink">Tap here to log the water you just drank.</string>
     <string name="coach_menu">Choose your drink type (water, coffee, tea...) here.</string>
     <string name="coach_chat">AI assistant — ask about hydration &amp; health here.</string>
+    <string name="previous">Previous</string>
+    <string name="got_it">Got it</string>
     <string name="label_streak">Streak</string>
     <string name="unit_day">days</string>
     <string name="label_menu">Menu</string>

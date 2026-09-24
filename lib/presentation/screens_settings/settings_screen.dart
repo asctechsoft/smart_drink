@@ -6,6 +6,7 @@ import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/auth_loading_overlay.dart';
 import 'package:waternudge/presentation/common_components/custom_switch.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/legal_utils.dart';
 import 'package:waternudge/utils/share_utils.dart';
 import 'package:waternudge/utils/toast_utils.dart';
@@ -60,7 +61,10 @@ class SettingsScreen extends StatelessWidget {
                         title: 'daily_goal'.tr,
                         subtitle: 'settings_daily_goal_desc'.tr,
                         value: goalVal,
-                        onTap: () => showDailyGoalSheet(context),
+                        onTap: () {
+                          Analytics.settingsRowTap('daily_goal');
+                          showDailyGoalSheet(context);
+                        },
                       );
                     }),
                     _Divider(),
@@ -72,7 +76,10 @@ class SettingsScreen extends StatelessWidget {
                         title: 'weather'.tr,
                         subtitle: 'settings_weather_desc'.tr,
                         value: weather.tr,
-                        onTap: () => showWeatherSheet(context),
+                        onTap: () {
+                          Analytics.settingsRowTap('weather');
+                          showWeatherSheet(context);
+                        },
                       );
                     }),
                     _Divider(),
@@ -83,7 +90,10 @@ class SettingsScreen extends StatelessWidget {
                         title: 'gender'.tr,
                         subtitle: 'settings_gender_desc'.tr,
                         value: gender.tr,
-                        onTap: () => showGenderSheet(context),
+                        onTap: () {
+                          Analytics.settingsRowTap('gender');
+                          showGenderSheet(context);
+                        },
                       );
                     }),
                     _Divider(),
@@ -95,7 +105,10 @@ class SettingsScreen extends StatelessWidget {
                         title: 'height'.tr,
                         subtitle: 'settings_height_desc'.tr,
                         value: heightVal,
-                        onTap: () => showHeightSheet(context),
+                        onTap: () {
+                          Analytics.settingsRowTap('height');
+                          showHeightSheet(context);
+                        },
                       );
                     }),
                     _Divider(),
@@ -107,7 +120,10 @@ class SettingsScreen extends StatelessWidget {
                         title: 'weight'.tr,
                         subtitle: 'settings_weight_desc'.tr,
                         value: weightVal,
-                        onTap: () => showWeightSheet(context),
+                        onTap: () {
+                          Analytics.settingsRowTap('weight');
+                          showWeightSheet(context);
+                        },
                       );
                     }),
                   ],
@@ -126,7 +142,10 @@ class SettingsScreen extends StatelessWidget {
                         title: 'what_time_do_you_wake_up'.tr,
                         subtitle: 'settings_wakeup_desc'.tr,
                         value: wakeUp,
-                        onTap: () => showWakeupSheet(context),
+                        onTap: () {
+                          Analytics.settingsRowTap('wakeup');
+                          showWakeupSheet(context);
+                        },
                       );
                     }),
                     _Divider(),
@@ -137,7 +156,10 @@ class SettingsScreen extends StatelessWidget {
                         title: 'bedtime'.tr,
                         subtitle: 'settings_bedtime_desc'.tr,
                         value: bedTime,
-                        onTap: () => showBedtimeSheet(context),
+                        onTap: () {
+                          Analytics.settingsRowTap('bedtime');
+                          showBedtimeSheet(context);
+                        },
                       );
                     }),
                     _Divider(),
@@ -150,7 +172,10 @@ class SettingsScreen extends StatelessWidget {
                         title: 'nap_time_range'.tr,
                         subtitle: 'settings_nap_desc'.tr,
                         value: napValue,
-                        onTap: () => showNapScheduleSheet(context),
+                        onTap: () {
+                          Analytics.settingsRowTap('nap');
+                          showNapScheduleSheet(context);
+                        },
                       );
                     }),
                   ],
@@ -170,6 +195,7 @@ class SettingsScreen extends StatelessWidget {
                         subtitle: 'reminder_enable_subtitle'.tr,
                         value: reminderCtrl.enabled.value,
                         onChanged: (v) {
+                          Analytics.reminderToggle(v);
                           reminderCtrl.enabled.value = v;
                           reminderCtrl.saveSettings();
                         },
@@ -209,7 +235,10 @@ class SettingsScreen extends StatelessWidget {
                         title: 'units'.tr,
                         subtitle: 'settings_units_desc'.tr,
                         value: '$vol / $wt / $ht',
-                        onTap: () => showUnitsSheet(context),
+                        onTap: () {
+                          Analytics.settingsRowTap('units');
+                          showUnitsSheet(context);
+                        },
                       );
                     }),
                     _Divider(),
@@ -222,7 +251,10 @@ class SettingsScreen extends StatelessWidget {
                         value: CommLocalize.getLocaleName(
                           CommLocalize.getAppLocale(),
                         ).split(' (').first,
-                        onTap: () => showLanguageSheet(context),
+                        onTap: () {
+                          Analytics.settingsRowTap('language');
+                          showLanguageSheet(context);
+                        },
                       );
                     }),
                   ],
@@ -245,7 +277,10 @@ class SettingsScreen extends StatelessWidget {
                       iconData: Icons.feedback_outlined,
                       title: 'settings_feedback'.tr,
                       subtitle: 'settings_feedback_desc'.tr,
-                      onTap: () => Get.toNamed(RouteName.feedback),
+                      onTap: () {
+                        Analytics.settingsRowTap('feedback');
+                        Get.toNamed(RouteName.feedback);
+                      },
                     ),
                     _Divider(),
                     Obx(
@@ -257,7 +292,10 @@ class SettingsScreen extends StatelessWidget {
                                   svgPath: 'assets/images/svg/ic_rate.svg',
                                   title: 'rate_app'.tr,
                                   subtitle: 'settings_rate_desc'.tr,
-                                  onTap: () => showRateAppDialog(context),
+                                  onTap: () {
+                                    Analytics.settingsRateTap();
+                                    showRateAppDialog(context);
+                                  },
                                 ),
                                 _Divider(),
                               ],
@@ -267,7 +305,10 @@ class SettingsScreen extends StatelessWidget {
                       iconData: Icons.share_outlined,
                       title: 'settings_share'.tr,
                       subtitle: 'settings_share_desc'.tr,
-                      onTap: () => ShareUtils.shareApp(context),
+                      onTap: () {
+                        Analytics.settingsShareTap();
+                        ShareUtils.shareApp(context);
+                      },
                     ),
                   ],
                 ),
@@ -305,6 +346,7 @@ class SettingsScreen extends StatelessWidget {
     bool value,
   ) async {
     final granted = await settingsCtrl.setHealthConnectEnabled(value);
+    Analytics.settingsHealthConnectToggle(enabled: value, success: granted);
     if (!value || granted || !context.mounted) return;
 
     ToastUtils.showToast(context, 'health_connect_permission_denied'.tr);

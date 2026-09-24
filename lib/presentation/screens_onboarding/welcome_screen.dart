@@ -2,6 +2,7 @@ import 'package:dsp_base/app_material.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:get/get.dart';
@@ -44,7 +45,10 @@ class WelcomeScreen extends StatelessWidget {
                   child: PrimaryButton(
                     width: double.infinity,
                     text: 'welcome_start_btn'.tr,
-                    onPressed: () => Get.toNamed(RouteName.onboardingGender),
+                    onPressed: () {
+                      Analytics.onboardingNext('welcome');
+                      Get.toNamed(RouteName.onboardingGender);
+                    },
                     useGradient: true,
                     trailing: Container(
                       width: 32,

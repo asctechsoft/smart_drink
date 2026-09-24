@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:waternudge/models/data_models/daily_summary.dart';
 import 'package:waternudge/services/application/drink_data_service.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/date_utils.dart';
 
 /// How a single calendar day scored against the daily goal.
@@ -63,6 +64,7 @@ class StreakController extends GetxController {
       totalDaysTracked.value = map.length;
       currentStreak.value = _computeCurrentStreak(map);
       longestStreak.value = _computeLongestStreak(map);
+      Analytics.userStreak(currentStreak.value);
     } finally {
       isLoading.value = false;
     }
@@ -141,10 +143,12 @@ class StreakController extends GetxController {
   void previousMonth() {
     final m = visibleMonth.value;
     visibleMonth.value = DateTime(m.year, m.month - 1);
+    Analytics.streakMonthChange('previous');
   }
 
   void nextMonth() {
     final m = visibleMonth.value;
     visibleMonth.value = DateTime(m.year, m.month + 1);
+    Analytics.streakMonthChange('next');
   }
 }

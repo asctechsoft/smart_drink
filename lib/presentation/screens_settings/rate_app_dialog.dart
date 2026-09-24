@@ -4,6 +4,7 @@ import 'package:dsp_base/app_material.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/common_components/primary_dialog.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/toast_utils.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
@@ -150,6 +151,7 @@ class _RateAppDialogContentState extends State<_RateAppDialogContent>
   }
 
   void _onSubmit() {
+    Analytics.settingsRateSubmit(_rating);
     Get.find<SettingsController>().setRated();
     Navigator.of(context).pop();
 

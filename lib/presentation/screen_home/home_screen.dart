@@ -4,6 +4,7 @@ import 'package:waternudge/presentation/screen_history/history_screen.dart';
 import 'package:waternudge/presentation/screen_today/today_screen.dart';
 import 'package:waternudge/presentation/screens_settings/settings_screen.dart';
 import 'package:waternudge/presentation/screens_reminder/reminder_settings_screen.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -33,10 +34,38 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static const _pillH = 68.0;
 
-  void _select(int index) => setState(() {
-    _currentIndex = index;
-    _built.add(index);
-  });
+  /// Tab slug order matches `_screens`/`_currentIndex`, used for both the
+  /// nav-tap and the screen-view event so the two always agree on naming.
+  static const _tabs = ['today', 'history', 'reminders', 'settings'];
+
+  static void _logTabView(int index) {
+    switch (_tabs[index]) {
+      case 'today':
+        Analytics.todayView();
+      case 'history':
+        Analytics.historyView();
+      case 'reminders':
+        Analytics.reminderView();
+      case 'settings':
+        Analytics.settingsView();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _logTabView(_currentIndex);
+  }
+
+  void _select(int index) {
+    if (index == _currentIndex) return;
+    Analytics.navTap(_tabs[index]);
+    setState(() {
+      _currentIndex = index;
+      _built.add(index);
+    });
+    _logTabView(index);
+  }
 
   @override
   Widget build(BuildContext context) {

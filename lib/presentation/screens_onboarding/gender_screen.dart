@@ -6,6 +6,7 @@ import 'package:waternudge/presentation/common_components/onboarding_progress_ba
 import 'package:waternudge/presentation/common_components/onboarding_step_header.dart';
 import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:get/get.dart';
 
@@ -43,14 +44,20 @@ class GenderScreen extends StatelessWidget {
                             label: 'male',
                             icon: 'assets/images/webp/img_men.webp',
                             isSelected: controller.gender.value == 'male',
-                            onTap: () => controller.gender.value = 'male',
+                            onTap: () {
+                              controller.gender.value = 'male';
+                              Analytics.onboardingGenderSelect('male');
+                            },
                           ),
                           AppSpacerW16,
                           GenderCard(
                             label: 'female',
                             icon: 'assets/images/webp/img_women.webp',
                             isSelected: controller.gender.value == 'female',
-                            onTap: () => controller.gender.value = 'female',
+                            onTap: () {
+                              controller.gender.value = 'female';
+                              Analytics.onboardingGenderSelect('female');
+                            },
                           ),
                         ],
                       ),
@@ -63,6 +70,7 @@ class GenderScreen extends StatelessWidget {
                         useGradient: true,
                         enabled: controller.gender.value.isNotEmpty,
                         onPressed: () {
+                          Analytics.onboardingNext('gender');
                           controller.nextStep();
                           Get.toNamed(RouteName.onboardingHeight);
                         },

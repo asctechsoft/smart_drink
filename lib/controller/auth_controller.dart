@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get.dart';
+import 'package:waternudge/utils/analytics.dart';
 
 class AuthController extends GetxController {
   static AuthController get to => Get.find();
@@ -26,9 +27,11 @@ class AuthController extends GetxController {
   void onInit() {
     super.onInit();
     user.bindStream(_auth.authStateChanges());
+    ever(user, (_) => Analytics.userIsLoggedIn(isLoggedIn));
   }
 
   Future<void> signInWithGoogle() async {
+    Analytics.loginTap('google');
     isLoading.value = true;
     try {
       final googleUser = await _googleSignIn.signIn();
@@ -39,7 +42,9 @@ class AuthController extends GetxController {
         idToken: googleAuth.idToken,
       );
       await _auth.signInWithCredential(credential);
+      Analytics.loginSuccess('google');
     } catch (e) {
+      Analytics.loginFail('google');
       Get.snackbar('Error', e.toString());
     } finally {
       isLoading.value = false;
@@ -51,6 +56,7 @@ class AuthController extends GetxController {
     try {
       await _googleSignIn.signOut();
       await _auth.signOut();
+      Analytics.logout();
     } finally {
       isLoading.value = false;
     }

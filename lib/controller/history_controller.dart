@@ -3,6 +3,7 @@ import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/models/data_models/daily_summary.dart';
 import 'package:waternudge/models/data_models/drink_record.dart';
 import 'package:waternudge/services/application/drink_data_service.dart';
+import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/date_utils.dart';
 import 'package:get/get.dart';
 import 'user_profile_controller.dart';
@@ -324,6 +325,7 @@ class HistoryController extends GetxController {
       case HistoryViewMode.year:
         selectedDate.value = DateTime(selectedDate.value.year - 1, 1, 1);
     }
+    Analytics.historyPeriodChange('previous', viewMode.value.name);
   }
 
   void nextPeriod() {
@@ -337,10 +339,12 @@ class HistoryController extends GetxController {
       case HistoryViewMode.year:
         selectedDate.value = DateTime(selectedDate.value.year + 1, 1, 1);
     }
+    Analytics.historyPeriodChange('next', viewMode.value.name);
   }
 
   void backToToday() {
     selectedDate.value = DateTime.now();
+    Analytics.historyBackToToday();
   }
 
   /// Whether the selected date is the current day/week/month/year for the
@@ -375,6 +379,7 @@ class HistoryController extends GetxController {
     );
     await loadData();
     _refreshTodayIfNeeded(record.dateKey);
+    Analytics.historyRecordEdit();
   }
 
   Future<void> deleteRecord(DrinkRecord record) async {
@@ -382,6 +387,7 @@ class HistoryController extends GetxController {
     await HealthSyncService.onDrinkDeleted(record.id!);
     await loadData();
     _refreshTodayIfNeeded(record.dateKey);
+    Analytics.historyRecordDelete();
   }
 
   void _refreshTodayIfNeeded(String dateKey) {
