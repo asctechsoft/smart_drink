@@ -1,4 +1,4 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 
 /// Wraps [child] with the app's standard tap affordance: a Material ripple
 /// clipped to [borderRadius] plus a subtle press-down scale.

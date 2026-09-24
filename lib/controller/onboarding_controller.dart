@@ -163,12 +163,22 @@ class OnboardingController extends GetxController {
 
   Future<void> completeOnboarding() async {
     try {
+      // Height/weight are always persisted in cm/kg — heightUnit/weightUnit
+      // on the onboarding controller are just the display unit the user
+      // picked while entering them (e.g. 'm' or 'lb').
+      final heightCm = heightUnit.value == 'm'
+          ? height.value * 100
+          : height.value;
+      final weightKg = weightUnit.value == 'lb'
+          ? weight.value / 2.20462
+          : weight.value;
+
       final profile = UserProfile(
         gender: gender.value,
-        height: height.value,
-        heightUnit: heightUnit.value,
-        weight: weight.value,
-        weightUnit: weightUnit.value,
+        height: heightCm,
+        heightUnit: 'cm',
+        weight: weightKg,
+        weightUnit: 'kg',
         weatherCondition: (weather.value ?? WeatherCondition.normal).name,
         wakeUpTime: wakeUpTime.value,
         bedTime: bedTime.value,
@@ -183,6 +193,7 @@ class OnboardingController extends GetxController {
       final settingsCtrl = Get.find<SettingsController>();
       await settingsCtrl.setVolumeUnit(volumeUnit.value);
       await settingsCtrl.setWeightUnit(weightUnit.value);
+      await settingsCtrl.setHeightUnit(heightUnit.value == 'm' ? 'cm' : heightUnit.value);
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(PrefConst.onboardingCompleted, true);

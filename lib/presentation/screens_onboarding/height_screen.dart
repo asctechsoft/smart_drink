@@ -1,4 +1,4 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/controller/onboarding_controller.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
@@ -21,7 +21,7 @@ class HeightScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: AppColumn(
+          child: Column(
             children: [
               OnboardingProgressBar(
                 currentStep: 2,
@@ -36,7 +36,7 @@ class HeightScreen extends StatelessWidget {
                       title: 'height'.tr,
                       subtitle: 'personalize_your_water_needs'.tr,
                     ),
-                    AppSpacerH16,
+                    const SizedBox(height: 16),
                     Obx(
                       () => ToggleSelector(
                         options: const ['cm', 'm'],
@@ -48,7 +48,7 @@ class HeightScreen extends StatelessWidget {
                             controller.updateHeightUnit(i == 0 ? 'cm' : 'm'),
                       ),
                     ),
-                    AppSpacerH16,
+                    const SizedBox(height: 16),
                     Obx(() {
                       final isCm = controller.heightUnit.value == 'cm';
                       final cm = isCm
@@ -79,7 +79,7 @@ class HeightScreen extends StatelessWidget {
                         Get.toNamed(RouteName.onboardingWeight);
                       },
                     ),
-                    AppSpacerH20,
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),

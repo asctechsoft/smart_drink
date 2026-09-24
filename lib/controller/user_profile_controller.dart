@@ -23,12 +23,33 @@ class UserProfileController extends GetxController {
       final saved = await _userRepo.getProfile();
       if (saved != null) {
         profile.value = saved;
+        await _normalizeLegacyUnits(saved);
       }
     } catch (e, stackTrace) {
       debugPrint('UserProfileController.loadProfile failed: $e\n$stackTrace');
     } finally {
       isLoading.value = false;
     }
+  }
+
+  /// height/weight are always stored in cm/kg from here on — older builds
+  /// could persist them in whatever unit the user last picked (e.g. height
+  /// in meters, weight in lb), which then rendered as garbled values
+  /// ("2 cm") because callers assumed cm/kg. Convert and persist once so the
+  /// stored profile is self-consistent going forward.
+  Future<void> _normalizeLegacyUnits(UserProfile saved) async {
+    if (saved.heightUnit == 'cm' && saved.weightUnit == 'kg') return;
+
+    final heightCm = saved.heightUnit == 'm'
+        ? saved.height * 100
+        : saved.height;
+    final weightKg = saved.weightUnit == 'lb'
+        ? saved.weight / 2.20462
+        : saved.weight;
+
+    await saveProfile(
+      saved.copyWith(height: heightCm, heightUnit: 'cm', weight: weightKg, weightUnit: 'kg'),
+    );
   }
 
   Future<void> saveProfile(UserProfile updated) async {

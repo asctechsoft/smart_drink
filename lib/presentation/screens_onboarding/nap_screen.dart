@@ -1,4 +1,4 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waternudge/controller/onboarding_controller.dart';
 import 'package:waternudge/presentation/common_components/custom_switch.dart';
@@ -25,7 +25,7 @@ class NapScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: AppColumn(
+          child: Column(
             children: [
               OnboardingProgressBar(
                 currentStep: 6,
@@ -40,9 +40,9 @@ class NapScreen extends StatelessWidget {
                       title: 'nap_question'.tr,
                       subtitle: 'nap_subtitle'.tr,
                     ),
-                    AppSpacerH24,
+                    const SizedBox(height: 24),
                     _buildToggleCard(controller),
-                    AppSpacerH16,
+                    const SizedBox(height: 16),
                     Obx(
                       () => AnimatedOpacity(
                         duration: const Duration(milliseconds: 200),
@@ -67,7 +67,7 @@ class NapScreen extends StatelessWidget {
                         Get.toNamed(RouteName.onboardingBedtime);
                       },
                     ),
-                    AppSpacerH20,
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),

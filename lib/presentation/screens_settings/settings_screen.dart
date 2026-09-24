@@ -1,11 +1,11 @@
-import 'package:dsp_base/app_localize.dart';
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/controller/reminder_controller.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/auth_loading_overlay.dart';
 import 'package:waternudge/presentation/common_components/custom_switch.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/services/app_localize.dart';
 import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/legal_utils.dart';
 import 'package:waternudge/utils/share_utils.dart';
@@ -99,7 +99,16 @@ class SettingsScreen extends StatelessWidget {
                     _Divider(),
                     Obx(() {
                       final p = profileCtrl.profile.value;
-                      final heightVal = '${p.height.round()} ${p.heightUnit}';
+                      final unit = settingsCtrl.heightUnit.value;
+                      final String heightVal;
+                      if (unit == 'ft/in') {
+                        final totalIn = p.height * 0.393701;
+                        final ft = totalIn ~/ 12;
+                        final inches = (totalIn % 12).round();
+                        heightVal = "$ft'${inches.toString().padLeft(2, '0')}\"";
+                      } else {
+                        heightVal = '${p.height.round()} cm';
+                      }
                       return _SettingsTile(
                         iconData: Icons.straighten_rounded,
                         title: 'height'.tr,
@@ -114,7 +123,11 @@ class SettingsScreen extends StatelessWidget {
                     _Divider(),
                     Obx(() {
                       final p = profileCtrl.profile.value;
-                      final weightVal = '${p.weight.round()} ${p.weightUnit}';
+                      final unit = settingsCtrl.weightUnit.value;
+                      final weight = unit == 'lb'
+                          ? UnitConverter.kgToLb(p.weight).round()
+                          : p.weight.round();
+                      final weightVal = '$weight $unit';
                       return _SettingsTile(
                         iconData: Icons.monitor_weight_outlined,
                         title: 'weight'.tr,
@@ -229,7 +242,7 @@ class SettingsScreen extends StatelessWidget {
                     Obx(() {
                       final vol = settingsCtrl.volumeUnit.value;
                       final wt = settingsCtrl.weightUnit.value;
-                      final ht = profileCtrl.profile.value.heightUnit;
+                      final ht = settingsCtrl.heightUnit.value;
                       return _SettingsTile(
                         svgPath: 'assets/images/svg/ic_unit.svg',
                         title: 'units'.tr,
@@ -248,8 +261,8 @@ class SettingsScreen extends StatelessWidget {
                         iconData: Icons.language_rounded,
                         title: 'language'.tr,
                         subtitle: 'settings_language_desc'.tr,
-                        value: CommLocalize.getLocaleName(
-                          CommLocalize.getAppLocale(),
+                        value: AppLocalize.getLocaleName(
+                          AppLocalize.getAppLocale(),
                         ).split(' (').first,
                         onTap: () {
                           Analytics.settingsRowTap('language');

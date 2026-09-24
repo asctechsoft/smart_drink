@@ -1,3 +1,4 @@
+import 'package:waternudge/presentation/common_components/bubble_celebration.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -51,37 +52,75 @@ class TodayHeader extends StatelessWidget {
             ),
           ),
 
-          // Right: the old chat bot icon, kept for the visual layout — no tap
-          // handler, so it navigates nowhere.
-          const _InertCircleIcon(),
+          // Right: mascot icon.
+          const _MascotIcon(),
         ],
       ),
     );
   }
 }
 
-/// Same look as the old chat shortcut button, minus any gesture handling.
-class _InertCircleIcon extends StatelessWidget {
-  const _InertCircleIcon();
+class _MascotIcon extends StatefulWidget {
+  const _MascotIcon();
+
+  @override
+  State<_MascotIcon> createState() => _MascotIconState();
+}
+
+class _MascotIconState extends State<_MascotIcon>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _scale;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1100),
+    )..repeat(reverse: true);
+    _scale = Tween<double>(
+      begin: 0.88,
+      end: 1.08,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onTap(BuildContext context) {
+    playBubbleSound();
+    showBubbleCelebration(context);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.2),
-          width: 1,
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => _onTap(context),
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.2),
+            width: 1,
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(6),
-        child: Image.asset(
-          'assets/images/png/ic_chat_bot.png',
-          fit: BoxFit.contain,
+        padding: const EdgeInsets.all(5),
+        child: AnimatedBuilder(
+          animation: _scale,
+          builder: (context, child) =>
+              Transform.scale(scale: _scale.value, child: child),
+          child: Image.asset(
+            'assets/images/png/img_mascot.png',
+            fit: BoxFit.contain,
+          ),
         ),
       ),
     );

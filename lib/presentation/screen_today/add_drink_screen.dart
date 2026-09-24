@@ -1,6 +1,8 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/models/ui_models/drink_type.dart';
+import 'package:waternudge/presentation/common_components/app_modifier.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/screen_today/components/drink_selection_bottom_sheet.dart';
 import 'package:waternudge/utils/analytics.dart';
@@ -63,16 +65,30 @@ class _AddDrinkScreenState extends State<AddDrinkScreen> {
           elevation: 0,
           scrolledUnderElevation: 0,
           leading: IconButton(
-            icon: AppIcon(
-              'assets/images/svg/ic_back_left.svg',
-              size: 24,
-              tint: ob.textPrimary,
-              autoMirror: true,
+            icon: Builder(
+              builder: (context) {
+                final icon = SvgPicture.asset(
+                  'assets/images/svg/ic_back_left.svg',
+                  width: 24,
+                  height: 24,
+                  colorFilter: ColorFilter.mode(
+                    ob.textPrimary,
+                    BlendMode.srcIn,
+                  ),
+                );
+                return Directionality.of(context) == TextDirection.rtl
+                    ? Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.identity()..scale(-1.0, 1, 1),
+                        child: icon,
+                      )
+                    : icon;
+              },
             ),
             onPressed: () => Get.back(),
           ),
           centerTitle: true,
-          title: AppText(
+          title: Text(
             'add_drink'.tr,
             style: TextStyle(
               color: ob.textPrimary,
@@ -97,25 +113,8 @@ class _AddDrinkScreenState extends State<AddDrinkScreen> {
                 final isSelected = type == _selectedType;
                 return GestureDetector(
                   onTap: () => _showDrinkBottomSheet(type),
-                  child: AppColumn(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    modifier:
-                        Modifier.appClickable(
-                              onTap: () => _showDrinkBottomSheet(type),
-                            )
-                            .background(
-                              color: isSelected
-                                  ? ob.accent.withValues(alpha: 0.15)
-                                  : ob.bgDrinkItem,
-                              radius: 8,
-                            )
-                            .border(
-                              width: isSelected ? 2 : 0,
-                              color: isSelected
-                                  ? ob.accent
-                                  : Colors.transparent,
-                              radius: 8,
-                            ),
                     children: [
                       Image.asset(
                         type.imagePath,
@@ -127,8 +126,8 @@ class _AddDrinkScreenState extends State<AddDrinkScreen> {
                           style: const TextStyle(fontSize: 36),
                         ),
                       ),
-                      AppSpacerH6,
-                      AppText(
+                      const SizedBox(height: 6),
+                      Text(
                         type.label.tr,
                         style: TextStyle(
                           fontSize: 14,
@@ -137,15 +136,16 @@ class _AddDrinkScreenState extends State<AddDrinkScreen> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      AppRow(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          AppIcon(
+                          SvgPicture.asset(
                             'assets/images/svg/ic_water_drop.svg',
-                            size: 12,
+                            width: 12,
+                            height: 12,
                           ),
-                          AppSpacerW2,
-                          AppText(
+                          const SizedBox(width: 2),
+                          Text(
                             '${type.waterPercent}%',
                             style: TextStyle(
                               fontSize: 12,
@@ -156,6 +156,21 @@ class _AddDrinkScreenState extends State<AddDrinkScreen> {
                         ],
                       ),
                     ],
+                  ).apply(
+                    Modifier.appClickable(
+                          onTap: () => _showDrinkBottomSheet(type),
+                        )
+                        .background(
+                          color: isSelected
+                              ? ob.accent.withValues(alpha: 0.15)
+                              : ob.bgDrinkItem,
+                          radius: 8,
+                        )
+                        .border(
+                          width: isSelected ? 2 : 0,
+                          color: isSelected ? ob.accent : Colors.transparent,
+                          radius: 8,
+                        ),
                   ),
                 );
               },

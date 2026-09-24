@@ -1,4 +1,5 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:asc_common/asc_common.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 
@@ -92,7 +93,10 @@ class PrimaryButton extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            if (leading != null) ...[leading!, AppSpacerW8],
+                            if (leading != null) ...[
+                              leading!,
+                              const SizedBox(width: 8),
+                            ],
                             _buildText(
                               text,
                               textStyle ??
@@ -147,7 +151,7 @@ class PrimaryButton extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (leading != null) ...[leading!, AppSpacerW8],
+                if (leading != null) ...[leading!, const SizedBox(width: 8)],
                 _buildText(
                   text,
                   textStyle ??
@@ -157,7 +161,7 @@ class PrimaryButton extends StatelessWidget {
                         color: accentColor,
                       ),
                 ),
-                if (trailing != null) ...[AppSpacerW8, trailing!],
+                if (trailing != null) ...[const SizedBox(width: 8), trailing!],
               ],
             ),
           ),
@@ -204,7 +208,7 @@ class PrimaryButton extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (leading != null) ...[leading!, AppSpacerW8],
+                      if (leading != null) ...[leading!, const SizedBox(width: 8)],
                       _buildText(
                         text,
                         textStyle ??
@@ -214,7 +218,7 @@ class PrimaryButton extends StatelessWidget {
                               color: Colors.white,
                             ),
                       ),
-                      if (trailing != null) ...[AppSpacerW8, trailing!],
+                      if (trailing != null) ...[const SizedBox(width: 8), trailing!],
                     ],
                   ),
                 ),
@@ -233,11 +237,10 @@ class PrimaryButton extends StatelessWidget {
           text,
           style: style,
           maxLines: 1,
-          minFontSize: 10,
           textAlign: TextAlign.center,
         ),
       );
     }
-    return AppText(text, style: style);
+    return Text(text, style: style);
   }
 }

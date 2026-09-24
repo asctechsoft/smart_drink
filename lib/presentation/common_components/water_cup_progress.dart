@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 
 class WaterCupProgress extends StatefulWidget {
   final double progress;
@@ -202,9 +202,10 @@ class _ScalePainter extends CustomPainter {
     for (final step in steps) {
       final count = goalMl ~/ step;
       if (count >= 3 && count <= 6) {
-        return List.generate(count, (i) => (i + 1) * step)
-            .where((ml) => ml < goalMl)
-            .toList();
+        return List.generate(
+          count,
+          (i) => (i + 1) * step,
+        ).where((ml) => ml < goalMl).toList();
       }
     }
     return [goalMl ~/ 4, goalMl ~/ 2, goalMl * 3 ~/ 4];
@@ -274,10 +275,7 @@ class _WavePainter extends CustomPainter {
     final path2 = Path();
     path2.moveTo(0, fillY + amplitude * 0.6 * sin(phase2));
     for (double x = 0; x <= w; x += 1) {
-      path2.lineTo(
-        x,
-        fillY + amplitude * 0.6 * sin((x / w * 2 * pi) + phase2),
-      );
+      path2.lineTo(x, fillY + amplitude * 0.6 * sin((x / w * 2 * pi) + phase2));
     }
     path2.lineTo(w, h);
     path2.lineTo(0, h);
@@ -287,7 +285,6 @@ class _WavePainter extends CustomPainter {
       path2,
       Paint()..color = const Color(0xFF0050DD).withValues(alpha: 0.45),
     );
-
   }
 
   @override

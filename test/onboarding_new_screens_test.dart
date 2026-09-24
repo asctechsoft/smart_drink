@@ -19,9 +19,7 @@ void main() {
   tearDown(Get.reset);
 
   Future<void> pumpWeather(WidgetTester tester) async {
-    await tester.pumpWidget(
-      const MaterialApp(home: WeatherScreen()),
-    );
+    await tester.pumpWidget(const MaterialApp(home: WeatherScreen()));
     await tester.pump();
   }
 
@@ -64,9 +62,6 @@ void main() {
     final weather = controller.weather.value;
     expect(weather, isNotNull);
     expect(weather!.name, 'cold');
-    expect(
-      WeatherCondition.values.map((e) => e.name),
-      contains(weather.name),
-    );
+    expect(WeatherCondition.values.map((e) => e.name), contains(weather.name));
   });
 }

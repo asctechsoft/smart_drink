@@ -1,14 +1,20 @@
-import 'package:dsp_base/app_material.dart';
+import 'dart:async';
+
+import 'package:dsp_base/advertisements.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:waternudge/configs/ads_config.dart';
+import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/controller/history_controller.dart';
 import 'package:waternudge/presentation/screen_history/history_screen.dart';
 import 'package:waternudge/presentation/screen_today/today_screen.dart';
+import 'package:waternudge/presentation/screens_settings/rate_app_dialog.dart';
 import 'package:waternudge/presentation/screens_settings/settings_screen.dart';
 import 'package:waternudge/presentation/screens_reminder/reminder_settings_screen.dart';
+import 'package:waternudge/tour/tour_controller.dart';
 import 'package:waternudge/utils/analytics.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -51,10 +57,83 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  /// Anchored banner above the bottom nav, shared across every tab so it
+  /// doesn't reload on each tab switch.
+  late final BannerAdController _bannerAdController;
+
   @override
   void initState() {
     super.initState();
     _logTabView(_currentIndex);
+    _maybeShowFirstRateSheet();
+    _bannerAdController = BannerAdController.newInstance(
+      adUnitId: AdsConfig.bannerAdUnitId,
+      tag: 'home_bottom',
+    );
+    _loadBannerAd();
+  }
+
+  Future<void> _loadBannerAd() async {
+    await _bannerAdController.setupAdsSizeOnScreenBottom();
+    if (!mounted) return;
+    _bannerAdController.requestBannerAd();
+  }
+
+  /// Prompts for a rating once, the very first time the user lands on Home —
+  /// i.e. right after finishing onboarding. Gated by a persisted flag so it
+  /// never fires again on later app opens, regardless of how Home was
+  /// reached.
+  ///
+  /// Held back until the Today guided tour (Cup type / Menu intro) is done —
+  /// it starts from `TodayScreen`'s own `initState`, racing this one, so
+  /// showing the rate sheet on a fixed delay could pop it up on top of, or
+  /// even before, the tour.
+  Future<void> _maybeShowFirstRateSheet() async {
+    final prefs = await SharedPreferences.getInstance();
+    final alreadyShown =
+        prefs.getBool(PrefConst.firstRateSheetShown) ?? false;
+    final alreadyRated = prefs.getBool(PrefConst.isRated) ?? false;
+    if (alreadyShown || alreadyRated) return;
+
+    await _waitForTourToFinish();
+    if (!mounted) return;
+
+    await prefs.setBool(PrefConst.firstRateSheetShown, true);
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (!mounted) return;
+    showRateAppSheet(context);
+  }
+
+  /// Waits out the guided tour: gives it a moment to start (it needs its
+  /// anchors to mount first), then — if it does start — waits for the user to
+  /// step through or skip it. If it never starts at all (already seen before,
+  /// or its anchors failed to mount), gives up after a short grace window
+  /// instead of blocking the rate prompt forever.
+  Future<void> _waitForTourToFinish() async {
+    if (!Get.isRegistered<TourController>()) return;
+    final tour = Get.find<TourController>();
+
+    if (!tour.active.value) {
+      final started = Completer<void>();
+      final startWorker = ever<bool>(tour.active, (isActive) {
+        if (isActive && !started.isCompleted) started.complete();
+      });
+      await Future.any([
+        started.future,
+        Future.delayed(const Duration(seconds: 5)),
+      ]);
+      startWorker.dispose();
+      if (!mounted) return;
+    }
+
+    if (tour.active.value) {
+      final finished = Completer<void>();
+      final finishWorker = ever<bool>(tour.active, (isActive) {
+        if (!isActive && !finished.isCompleted) finished.complete();
+      });
+      await finished.future;
+      finishWorker.dispose();
+    }
   }
 
   void _select(int index) {
@@ -70,7 +149,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
       body: IndexedStack(
         index: _currentIndex,
         children: [
@@ -78,7 +156,15 @@ class _HomeScreenState extends State<HomeScreen> {
             _built.contains(i) ? _screens[i] : const SizedBox.shrink(),
         ],
       ),
-      bottomNavigationBar: _buildBottomNavBar(context),
+      // Nav pill on top, banner ad below it, flush against the true bottom
+      // edge — the system nav bar is hidden, so that space is ours.
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildBottomNavBar(context),
+          _bannerAdController.renderBannerAd(),
+        ],
+      ),
     );
   }
 

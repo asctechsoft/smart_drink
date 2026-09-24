@@ -331,6 +331,7 @@
     <string name="activity_very_active">Very active</string>
     <string name="btn_lets_start">Awesome! Let\'s start</string>
     <string name="coach_drink">Tap here to log the water you just drank.</string>
+    <string name="coach_cup_type">Set your cup size here — it fills the log button above.</string>
     <string name="coach_menu">Choose your drink type (water, coffee, tea...) here.</string>
     <string name="coach_chat">AI assistant — ask about hydration &amp; health here.</string>
     <string name="previous">Previous</string>

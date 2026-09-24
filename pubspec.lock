@@ -362,7 +362,7 @@ packages:
     source: hosted
     version: "0.9.3+5"
   firebase_analytics:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_analytics
       sha256: b82d2cabf4905a465ac95937037cbab4f2ca80f559cb04abd3da3f2abb9960bb
@@ -670,7 +670,7 @@ packages:
     source: hosted
     version: "0.3.3+1"
   google_mobile_ads:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: google_mobile_ads
       sha256: "8094e1ace8b0da33fe79027ca6959763c96a28855025cb7c8ec60838e1d56ed8"
@@ -1451,7 +1451,7 @@ packages:
     source: hosted
     version: "3.1.5"
   uuid:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: uuid
       sha256: "1fef9e8e11e2991bb773070d4656b7bd5d850967a2456cfc83cf47925ba79489"
@@ -1563,7 +1563,7 @@ packages:
     source: hosted
     version: "1.1.0"
   xml:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: xml
       sha256: "971043b3a0d3da28727e40ed3e0b5d18b742fa5a68665cca88e74b7876d5e025"

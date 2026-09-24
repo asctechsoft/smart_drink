@@ -1,4 +1,4 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/presentation/common_components/water_human_progress.dart';
 
 class _Organ {

@@ -331,6 +331,7 @@
     <string name="activity_very_active">Vận động nhiều</string>
     <string name="btn_lets_start">Tuyệt vời! Bắt đầu nào</string>
     <string name="coach_drink">Nhấn vào đây để ghi nhận lượng nước bạn vừa uống.</string>
+    <string name="coach_cup_type">Chọn dung tích cốc tại đây — số này sẽ đổ vào nút ghi nhận phía trên.</string>
     <string name="coach_menu">Chọn loại đồ uống (nước, cà phê, trà...) tại đây.</string>
     <string name="coach_chat">Trợ lý AI — hỏi đáp về uống nước &amp; sức khoẻ tại đây.</string>
     <string name="label_streak">Streak</string>

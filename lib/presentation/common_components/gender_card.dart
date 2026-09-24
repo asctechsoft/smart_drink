@@ -1,4 +1,4 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:get/utils.dart';
 
@@ -47,7 +47,7 @@ class GenderCard extends StatelessWidget {
                     ]
                   : null,
             ),
-            child: AppColumn(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Decode at display size, not the asset's full ~1024px resolution:
@@ -61,8 +61,8 @@ class GenderCard extends StatelessWidget {
                   cacheWidth: (116 * MediaQuery.of(context).devicePixelRatio)
                       .round(),
                 ),
-                AppSpacerH4,
-                AppText(
+                const SizedBox(height: 4),
+                Text(
                   label.tr,
                   style: TextStyle(
                     fontSize: 15,

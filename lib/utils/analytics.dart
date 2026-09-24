@@ -1,5 +1,8 @@
-import 'package:dsp_base/convenience_imports.dart';
-import 'package:flutter/foundation.dart' show visibleForTesting;
+import 'dart:async';
+
+import 'package:asc_common/asc_common.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/foundation.dart' show debugPrint, visibleForTesting;
 
 typedef AnalyticsEventSink =
     void Function(String name, Map<String, Object>? parameters);
@@ -15,7 +18,6 @@ typedef AnalyticsPropSink = void Function(String name, String value);
 /// * **String-only parameters.** GA4 custom dimensions only capture text. A
 ///   numeric parameter reports `(not set)` and quietly breaks every breakdown
 ///   built on it, so numbers are bucketed into low-cardinality strings first.
-/// * **The GDPR consent gate** ([FirebaseAssist.isAnalyticsEnabled]).
 /// * **A swappable sink**, so host tests assert on event names without a
 ///   platform channel.
 ///
@@ -32,6 +34,10 @@ class Analytics {
     'google_',
     'ga_',
   ];
+
+  static final AscAnalytics _analytics = AscAnalytics(
+    FirebaseAnalytics.instance,
+  );
 
   static AnalyticsEventSink _eventSink = _sendToFirebase;
   static AnalyticsPropSink _propSink = _sendPropToFirebase;
@@ -51,11 +57,19 @@ class Analytics {
   }
 
   static void _sendToFirebase(String name, Map<String, Object>? params) {
-    FirebaseAssist.logCustomEvent(name, params);
+    unawaited(
+      _analytics.log(AscAnalyticsEvent(name, params)).catchError((e) {
+        debugPrint('Analytics.log($name) failed: $e');
+      }),
+    );
   }
 
   static void _sendPropToFirebase(String name, String value) {
-    FirebaseAssist.setUserProperty(name, value);
+    unawaited(
+      _analytics.setUserProperty(name, value).catchError((e) {
+        debugPrint('Analytics.setUserProperty($name) failed: $e');
+      }),
+    );
   }
 
   static void _setProp(String name, String value) => _propSink(name, value);

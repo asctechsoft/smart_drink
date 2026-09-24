@@ -1,4 +1,5 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
+import 'package:waternudge/presentation/common_components/app_modifier.dart';
 import 'package:waternudge/presentation/common_components/bottom_safe_area.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
@@ -50,11 +51,29 @@ class PrimaryBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ob = OnboardingTheme.of(context);
-    return AppColumn(
+    return Column(
       mainAxisSize: MainAxisSize.min,
-      modifier: Modifier.boxDecoration(
+      children: [
+        _dragHandle(context),
+        _sheetTitle(context),
+        const SizedBox(height: 24),
+        content,
+        if (showSubmitButton) ...[
+          const SizedBox(height: 24),
+          PrimaryButton(
+            width: buttonWidth ?? double.infinity,
+            text: buttonText.tr,
+            onPressed: onButtonPressed ?? () => Navigator.pop(context),
+            useGradient: true,
+          ),
+        ],
+        const SizedBox(height: 24),
+        const BottomSafeArea(),
+      ],
+    ).apply(
+      Modifier.boxDecoration(
         color: ob.bgBottomSheet,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.10),
@@ -64,23 +83,6 @@ class PrimaryBottomSheet extends StatelessWidget {
           ),
         ],
       ).padding(horizontal: 24, vertical: 12),
-      children: [
-        _dragHandle(context),
-        _sheetTitle(context),
-        AppSpacerH24,
-        content,
-        if (showSubmitButton) ...[
-          AppSpacerH24,
-          PrimaryButton(
-            width: buttonWidth ?? double.infinity,
-            text: buttonText.tr,
-            onPressed: onButtonPressed ?? () => Navigator.pop(context),
-            useGradient: true,
-          ),
-        ],
-        AppSpacerH24,
-        const BottomSafeArea(),
-      ],
     );
   }
 
@@ -101,7 +103,7 @@ class PrimaryBottomSheet extends StatelessWidget {
 
   Widget _sheetTitle(BuildContext context) {
     final ob = OnboardingTheme.of(context);
-    return AppText(
+    return Text(
       title.tr,
       style: TextStyle(
         fontSize: 18,

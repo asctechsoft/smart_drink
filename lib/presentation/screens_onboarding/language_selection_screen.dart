@@ -1,11 +1,11 @@
 import 'package:country_flags/country_flags.dart';
-import 'package:dsp_base/app_localize.dart';
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waternudge/controller/languages_controller.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/selectable_option_tile.dart';
 import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
+import 'package:waternudge/services/app_localize.dart';
 import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/language_names.dart';
 import 'package:waternudge/values/app_colors.dart';
@@ -43,7 +43,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                   return ListView.separated(
                     padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
                     itemCount: _locales.length,
-                    separatorBuilder: (_, _) => AppSpacerH12,
+                    separatorBuilder: (_, _) => const SizedBox(height: 12),
                     itemBuilder: (context, index) {
                       final locale = _locales[index];
                       return _LanguageTile(
@@ -69,7 +69,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
     final seen = suggested.map((l) => l.toString()).toSet();
     return [
       ...suggested,
-      ...CommLocalize.supportedLocales.where(
+      ...AppLocalize.supportedLocales.where(
         (l) => !seen.contains(l.toString()),
       ),
     ];
@@ -78,10 +78,10 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   Widget _buildHeader() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 12, 20, 20),
-      child: AppRow(
+      child: Row(
         children: [
           Expanded(
-            child: AppText(
+            child: Text(
               'language'.tr,
               style: const TextStyle(
                 fontSize: 26,
@@ -191,7 +191,7 @@ class _LanguageTile extends StatelessWidget {
           highlightColor: AppColors.basic500.withValues(alpha: 0.08),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            child: AppRow(
+            child: Row(
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
@@ -202,13 +202,13 @@ class _LanguageTile extends StatelessWidget {
                     shape: const RoundedRectangle(8),
                   ),
                 ),
-                AppSpacerW16,
+                const SizedBox(width: 16),
                 Expanded(
-                  child: AppColumn(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      AppText(
+                      Text(
                         LanguageNames.nativeName(locale),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -218,8 +218,8 @@ class _LanguageTile extends StatelessWidget {
                           color: AppColors.basic500,
                         ),
                       ),
-                      AppText(
-                        CommLocalize.getLocaleName(locale),
+                      Text(
+                        AppLocalize.getLocaleName(locale),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -231,7 +231,7 @@ class _LanguageTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                AppSpacerW12,
+                const SizedBox(width: 12),
                 RadioMark(isSelected: isSelected),
               ],
             ),

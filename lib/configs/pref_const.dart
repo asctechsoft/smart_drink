@@ -36,6 +36,7 @@ class PrefConst {
   static const String isFullScreenIntentEnabled =
       'is_full_screen_intent_enabled';
   static const String isRated = 'is_rated';
+  static const String firstRateSheetShown = 'first_rate_sheet_shown';
   static const String smartNotification = 'smart_notification';
   static const String selectedAvatar = 'selected_avatar';
   static const String streakDialogShownDate = 'streak_dialog_shown_date';
@@ -51,4 +52,8 @@ class PrefConst {
 
   // Health Connect (Android): mirror each logged drink as a hydration record.
   static const String healthConnectEnabled = 'health_connect_enabled';
+
+  // A locally generated, persisted install id — used to key feedback
+  // submissions by device. See lib/services/feedback_service.dart.
+  static const String deviceId = 'device_id';
 }

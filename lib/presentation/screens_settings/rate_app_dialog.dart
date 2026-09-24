@@ -22,6 +22,51 @@ Future<void> showRateAppDialog(BuildContext context) {
   );
 }
 
+/// Same rating content as [showRateAppDialog], presented as a bottom sheet —
+/// used for the automatic first-time-on-home prompt, which reads as an
+/// interruption if it pops up as a modal dialog the way the Settings-row
+/// trigger does.
+Future<void> showRateAppSheet(BuildContext context) {
+  return showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (ctx) => Container(
+      decoration: const BoxDecoration(
+        color: Color(0xFF0A2556),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(ctx).padding.bottom + 12,
+      ),
+      child: const Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(height: 12),
+          _DragHandle(),
+          _RateAppDialogContent(),
+        ],
+      ),
+    ),
+  );
+}
+
+class _DragHandle extends StatelessWidget {
+  const _DragHandle();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 40,
+      height: 4,
+      decoration: BoxDecoration(
+        color: Colors.white24,
+        borderRadius: BorderRadius.circular(2),
+      ),
+    );
+  }
+}
+
 class _RateAppDialogContent extends StatefulWidget {
   const _RateAppDialogContent();
 

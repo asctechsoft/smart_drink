@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';

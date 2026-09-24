@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waternudge/controller/onboarding_controller.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
@@ -79,10 +79,10 @@ class _BuildingScheduleScreenState extends State<BuildingScheduleScreen>
           child: StaggerColumn(
             padding: const EdgeInsets.all(24),
             children: [
-              AppSpacerH40,
+              const SizedBox(height: 40),
               _buildTitle(),
-              AppSpacerH12,
-              AppText(
+              const SizedBox(height: 12),
+              Text(
                 'building_schedule_subtitle'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -99,7 +99,7 @@ class _BuildingScheduleScreenState extends State<BuildingScheduleScreen>
               const Spacer(),
               AnimatedBuilder(
                 animation: _progress,
-                builder: (context, _) => AppColumn(
+                builder: (context, _) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   spacing: 18,
@@ -109,7 +109,7 @@ class _BuildingScheduleScreenState extends State<BuildingScheduleScreen>
                   ),
                 ),
               ),
-              AppSpacerH40,
+              const SizedBox(height: 40),
             ],
           ),
         ),
@@ -153,7 +153,7 @@ class _BuildingScheduleScreenState extends State<BuildingScheduleScreen>
               rotation: _spin.value * 2 * math.pi,
             ),
           ),
-          AppText(
+          Text(
             '${(value * 100).round()}%',
             style: const TextStyle(
               fontSize: 40,
@@ -176,7 +176,7 @@ class _BuildingScheduleScreenState extends State<BuildingScheduleScreen>
         ? AppColors.primary500Dark
         : AppColors.basic500.withValues(alpha: 0.4);
 
-    return AppRow(
+    return Row(
       children: [
         SizedBox(
           width: 22,
@@ -190,9 +190,9 @@ class _BuildingScheduleScreenState extends State<BuildingScheduleScreen>
                 )
               : Icon(Icons.circle_outlined, size: 22, color: color),
         ),
-        AppSpacerW12,
+        const SizedBox(width: 12),
         Expanded(
-          child: AppText(
+          child: Text(
             _steps[index].tr,
             style: TextStyle(
               fontSize: 14,

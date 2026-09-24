@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:dsp_base/app_localize.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:waternudge/configs/ai_gateway_config.dart';
 import 'package:waternudge/models/ui_models/chat_card.dart';
 import 'package:waternudge/models/ui_models/chat_message.dart';
+import 'package:waternudge/services/app_localize.dart';
 
 /// A chat request that did not produce an answer.
 ///
@@ -411,12 +411,16 @@ class AiChatService {
       final auth = FirebaseAuth.instance;
       final user = auth.currentUser ?? (await auth.signInAnonymously()).user;
       if (user == null) {
-        debugPrint('AiChatService: signInAnonymously returned no user, using anonymous fallback');
+        debugPrint(
+          'AiChatService: signInAnonymously returned no user, using anonymous fallback',
+        );
         return 'anonymous';
       }
       final token = await user.getIdToken(forceRefresh);
       if (token == null || token.isEmpty) {
-        debugPrint('AiChatService: getIdToken returned nothing, using anonymous fallback');
+        debugPrint(
+          'AiChatService: getIdToken returned nothing, using anonymous fallback',
+        );
         return 'anonymous';
       }
       return token;
@@ -425,7 +429,9 @@ class AiChatService {
     } catch (e) {
       // Anonymous sign-in disabled or no network — fall back to a placeholder
       // token. The gateway accepts any bearer value when AUTH_MODE=none.
-      debugPrint('AiChatService: could not get an ID token ($e), using anonymous fallback');
+      debugPrint(
+        'AiChatService: could not get an ID token ($e), using anonymous fallback',
+      );
       return 'anonymous';
     }
   }
@@ -433,7 +439,7 @@ class AiChatService {
   /// The app's locale as a `vi_VN`-shaped tag, which is what decides the
   /// language the model answers in.
   static String _appLocaleTag() {
-    final locale = CommLocalize.getAppLocale();
+    final locale = AppLocalize.getAppLocale();
     final country = locale.countryCode;
     return (country == null || country.isEmpty)
         ? locale.languageCode

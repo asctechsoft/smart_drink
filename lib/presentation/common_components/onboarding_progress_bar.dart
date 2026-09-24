@@ -1,4 +1,5 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:waternudge/values/app_colors.dart';
 
 class OnboardingProgressBar extends StatelessWidget {
@@ -15,7 +16,7 @@ class OnboardingProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppColumn(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,22 +29,51 @@ class OnboardingProgressBar extends StatelessWidget {
                   alignment: AlignmentDirectional.centerStart,
                   child: Padding(
                     padding: const EdgeInsetsDirectional.only(start: 4),
-                    child: AppIcon(
-                      'assets/images/svg/ic_back_left.svg',
-                      tint: AppColors.basic500,
-                      autoMirror: true,
-                      size: 24,
-                      onClick: onBack,
-                    ),
+                    child: _BackIconButton(onTap: onBack!),
                   ),
                 ),
         ),
-        AppSpacerH8,
+        const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 44),
           child: _StepTrack(currentStep: currentStep, totalSteps: totalSteps),
         ),
       ],
+    );
+  }
+}
+
+/// The back chevron — mirrored under RTL, wrapped in a tap target matching
+/// dsp_base's `AppIcon`'s old `clickZone` (48dp) around a 24dp glyph.
+class _BackIconButton extends StatelessWidget {
+  final VoidCallback onTap;
+  const _BackIconButton({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget icon = SvgPicture.asset(
+      'assets/images/svg/ic_back_left.svg',
+      width: 24,
+      height: 24,
+      colorFilter: const ColorFilter.mode(
+        AppColors.basic500,
+        BlendMode.srcIn,
+      ),
+    );
+    if (Directionality.of(context) == TextDirection.rtl) {
+      icon = Transform(
+        alignment: Alignment.center,
+        transform: Matrix4.identity()..scale(-1.0, 1, 1),
+        child: icon,
+      );
+    }
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        customBorder: const CircleBorder(),
+        child: Padding(padding: const EdgeInsets.all(12), child: icon),
+      ),
     );
   }
 }

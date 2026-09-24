@@ -1,4 +1,6 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:dsp_base/advertisements.dart';
+import 'package:flutter/material.dart';
+import 'package:waternudge/configs/ads_config.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
@@ -27,14 +29,27 @@ class TodayScreen extends StatefulWidget {
 class _TodayScreenState extends State<TodayScreen> {
   Worker? _goalWorker;
 
+  /// Preloaded the moment Today mounts so it's ready by the time the goal is
+  /// hit; `requestAdAgain()` (inside the controller's dismiss callback)
+  /// refills it for the next time this fires.
+  late final InterstitialAdController _interstitialAdController;
+
   @override
   void initState() {
     super.initState();
     final controller = Get.find<TodayController>();
+
+    _interstitialAdController = InterstitialAdController.newInstance(
+      adUnitId: AdsConfig.interstitialAdUnitId,
+      tag: 'goal_reached',
+    )..requestInterstitialAd();
+
     _goalWorker = ever(controller.goalReachedEvent, (_) {
       if (mounted) {
         playBubbleSound();
         showBubbleCelebration(context);
+        // Let the bubble celebration play out before the ad takes over.
+        _interstitialAdController.showAd(delayInMillis: 3200);
       }
     });
 
@@ -296,10 +311,13 @@ class _TodayScreenState extends State<TodayScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: _ActionCard(
-              imagePath: controller.currentCupImage,
-              label: 'cup_type'.tr,
-              onTap: () => showCupSizeSheet(context),
+            child: TourAnchor(
+              id: TourAnchors.todayCupType,
+              child: _ActionCard(
+                imagePath: controller.currentCupImage,
+                label: 'cup_type'.tr,
+                onTap: () => showCupSizeSheet(context),
+              ),
             ),
           ),
           const SizedBox(width: 8),

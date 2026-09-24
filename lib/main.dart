@@ -1,11 +1,13 @@
+import 'package:dsp_base/advertisements.dart';
 import 'package:dsp_base/comm_app.dart';
-import 'package:dsp_base/app_localize.dart';
 import 'package:dsp_base/convenience_imports.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'configs/pref_const.dart';
+import 'services/app_localize.dart';
 import 'controller/user_profile_controller.dart';
 import 'controller/today_controller.dart';
 import 'controller/history_controller.dart';
@@ -21,10 +23,13 @@ import 'values/app_pages.dart';
 import 'values/route_name.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-void _ensureLocaleConfigured() {
+Future<void> _ensureLocaleConfigured() async {
+  final prefs = await SharedPreferences.getInstance();
+
   // 1. Try to load saved language first
-  final savedLanguage = PrefAssist.getString(PrefConst.language);
+  final savedLanguage = prefs.getString(PrefConst.language) ?? '';
   if (savedLanguage.isNotEmpty) {
     final parts = savedLanguage.split('_');
     final Locale savedLocale;
@@ -35,37 +40,32 @@ void _ensureLocaleConfigured() {
     }
 
     // Check if the saved locale is among supported locales
-    final isSupported = CommLocalize.supportedLocales.any(
+    final isSupported = AppLocalize.supportedLocales.any(
       (l) =>
           l.languageCode == savedLocale.languageCode &&
           (l.countryCode ?? '') == (savedLocale.countryCode ?? ''),
     );
 
     if (isSupported) {
-      CommLocalize.setAppLocale(savedLocale);
+      await AppLocalize.setAppLocale(savedLocale);
       return;
     }
   }
 
   // 2. If no saved language, use system language
-  final systemLocale = CommLocalize.getSystemLocale();
+  final systemLocale = AppLocalize.getSystemLocale();
   final langCode = systemLocale?.languageCode ?? "en";
 
   // Find the best supported locale whose language code matches the device.
   final bestMatch =
-      CommLocalize.supportedLocales.cast<Locale?>().firstWhere(
+      AppLocalize.supportedLocales.cast<Locale?>().firstWhere(
         (l) => l!.languageCode == langCode,
         orElse: () => null,
       ) ??
       const Locale("en", "US");
 
-  CommLocalize.setAppLocale(bestMatch);
-
-  // 3. Save the initially detected language
-  final key = bestMatch.countryCode != null && bestMatch.countryCode!.isNotEmpty
-      ? '${bestMatch.languageCode}_${bestMatch.countryCode}'
-      : bestMatch.languageCode;
-  PrefAssist.setString(PrefConst.language, key);
+  // setAppLocale persists the choice itself — no separate pref write needed.
+  await AppLocalize.setAppLocale(bestMatch);
 }
 
 Future<void> main() async {
@@ -78,9 +78,25 @@ Future<void> main() async {
         DeviceOrientation.portraitDown,
       ]);
 
-      // Draw behind the status and navigation bars so the app's gradient
-      // background runs edge to edge. Screens rely on SafeArea for insets.
-      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      // Hide the system navigation bar entirely (status bar stays) so the
+      // banner ad can sit flush against the true bottom edge instead of
+      // stacking on top of the device's own nav buttons. Screens rely on
+      // SafeArea for the remaining (top) inset.
+      await SystemChrome.setEnabledSystemUIMode(
+        SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top],
+      );
+      // A swipe from the bottom edge reveals the nav bar again temporarily
+      // (standard Android immersive behaviour) — re-hide it once the user's
+      // done with it instead of leaving it stuck on screen.
+      SystemChrome.setSystemUIChangeCallback((systemOverlaysAreVisible) async {
+        if (!systemOverlaysAreVisible) return;
+        await Future.delayed(const Duration(seconds: 2));
+        await SystemChrome.setEnabledSystemUIMode(
+          SystemUiMode.manual,
+          overlays: [SystemUiOverlay.top],
+        );
+      });
 
       // 1. Firebase Initialization
       try {
@@ -89,13 +105,28 @@ Future<void> main() async {
         debugPrint("Firebase initialization failed: $e");
       }
 
+      // 1.4 AdMob — must run before any BannerAdController/
+      // InterstitialAdController request(), or the request silently fails.
+      //
+      // dsp_base only swaps in Google's test ad unit IDs under the `alpha`
+      // flavor by default; `dev` is this app's everyday debug flavor and
+      // would otherwise try to load the real (placeholder) ad unit IDs from
+      // AdsConfig and silently fail. Widen it here rather than in dsp_base,
+      // which other apps share.
+      AdvertsConfig.instance.isAdTestIds = CommFigs.IS_ALPHA || CommFigs.IS_DEV;
+      try {
+        await MobileAds.instance.initialize();
+      } catch (e) {
+        debugPrint("MobileAds initialization failed: $e");
+      }
+
       // 1.5 Initialize intl date formatting
       await initializeDateFormatting();
 
-      _ensureLocaleConfigured();
+      await _ensureLocaleConfigured();
 
       // 2. Initialize translations
-      await CommLocalize.loadTranslations("lib/xml_strings", "strings.xml");
+      await AppLocalize.loadTranslations();
 
       // 3. Pin this install's guided-tour A/B branch. Sticky, and a no-op on
       // the Product release build — see TourController.assignLocalVariant.
@@ -119,9 +150,9 @@ class WaterNudgeApp extends StatelessWidget {
       theme: AppTheme.dark,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.dark,
-      locale: CommLocalize.getAppLocale(),
+      locale: AppLocalize.getAppLocale(),
       fallbackLocale: const Locale('en', 'US'),
-      supportedLocales: CommLocalize.supportedLocales,
+      supportedLocales: AppLocalize.supportedLocales,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

@@ -7,6 +7,7 @@ class TourAnchors {
   TourAnchors._();
 
   static const String todayDrinkBar = 'today_drink_bar';
+  static const String todayCupType = 'today_cup_type';
   static const String todayDrinkType = 'today_drink_type';
 }
 
@@ -56,8 +57,9 @@ class TourStep {
   bool get isLastInGroup => groupIndex == groupSize;
 }
 
-/// The Today tour: drink pill → drink-type card. Ported from the ad-hoc
-/// `showCoachMarks` walkthrough that used to live directly in `TodayScreen`.
+/// The Today tour: drink pill → cup-size card → drink-type card. Ported from
+/// the ad-hoc `showCoachMarks` walkthrough that used to live directly in
+/// `TodayScreen`.
 final List<TourStep> tourSteps = [
   TourStep(
     id: 'today_drink',
@@ -65,17 +67,26 @@ final List<TourStep> tourSteps = [
     textKey: 'coach_drink',
     group: TourGroup.today,
     groupIndex: 1,
-    groupSize: 2,
+    groupSize: 3,
     radius: 999, // pill
     spotlightBuilder: () => const DrinkActionBar(),
+  ),
+  TourStep(
+    id: 'today_cup_type',
+    anchorId: TourAnchors.todayCupType,
+    textKey: 'coach_cup_type',
+    group: TourGroup.today,
+    groupIndex: 2,
+    groupSize: 3,
+    radius: 16,
   ),
   TourStep(
     id: 'today_drink_type',
     anchorId: TourAnchors.todayDrinkType,
     textKey: 'coach_menu',
     group: TourGroup.today,
-    groupIndex: 2,
-    groupSize: 2,
+    groupIndex: 3,
+    groupSize: 3,
     radius: 16,
   ),
 ];

@@ -1,5 +1,5 @@
-import 'package:dsp_base/convenience_imports.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/configs/pref_defaults.dart';
 import 'package:waternudge/models/ui_models/avatar_option.dart';
@@ -18,10 +18,14 @@ class AvatarController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    final stored = PrefAssist.getString(
-      PrefConst.selectedAvatar,
-      defaultValue: PrefDefaults.selectedAvatar,
-    );
+    _loadSavedAvatar();
+  }
+
+  Future<void> _loadSavedAvatar() async {
+    final prefs = await SharedPreferences.getInstance();
+    final stored =
+        prefs.getString(PrefConst.selectedAvatar) ??
+        PrefDefaults.selectedAvatar;
     final id = stored.isEmpty ? AvatarOption.defaultId : stored;
     savedAvatarId.value = id;
     selectedAvatarId.value = id;
@@ -41,8 +45,12 @@ class AvatarController extends GetxController {
 
   void setCategory(AvatarCategory value) => category.value = value;
 
-  void save() {
-    PrefAssist.setString(PrefConst.selectedAvatar, selectedAvatarId.value);
+  Future<void> save() async {
+    // Update the reactive value synchronously so the UI (and a screen that
+    // navigates away right after calling this) sees it immediately; the
+    // pref write finishes in the background.
     savedAvatarId.value = selectedAvatarId.value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(PrefConst.selectedAvatar, selectedAvatarId.value);
   }
 }

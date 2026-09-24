@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waternudge/values/app_colors.dart';
 

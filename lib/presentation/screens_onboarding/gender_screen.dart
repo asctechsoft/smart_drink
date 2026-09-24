@@ -1,4 +1,4 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/controller/onboarding_controller.dart';
 import 'package:waternudge/presentation/common_components/gender_card.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
@@ -20,7 +20,7 @@ class GenderScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: AppColumn(
+          child: Column(
             children: [
               OnboardingProgressBar(
                 currentStep: 1,
@@ -35,9 +35,9 @@ class GenderScreen extends StatelessWidget {
                       title: 'select_your_gender'.tr,
                       subtitle: 'personalize_your_water_needs'.tr,
                     ),
-                    AppSpacerH40,
+                    const SizedBox(height: 40),
                     Obx(
-                      () => AppRow(
+                      () => Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GenderCard(
@@ -49,7 +49,7 @@ class GenderScreen extends StatelessWidget {
                               Analytics.onboardingGenderSelect('male');
                             },
                           ),
-                          AppSpacerW16,
+                          const SizedBox(width: 16),
                           GenderCard(
                             label: 'female',
                             icon: 'assets/images/webp/img_women.webp',
@@ -76,7 +76,7 @@ class GenderScreen extends StatelessWidget {
                         },
                       ),
                     ),
-                    AppSpacerH20,
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),

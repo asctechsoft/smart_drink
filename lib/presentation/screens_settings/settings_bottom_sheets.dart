@@ -303,7 +303,7 @@ class _WeatherSheetState extends State<_WeatherSheet> {
 void showWeightSheet(BuildContext context) {
   final ctrl = Get.find<UserProfileController>();
   final settingsCtrl = Get.find<SettingsController>();
-  final String initUnit = ctrl.profile.value.weightUnit == 'lb' ? 'lb' : 'kg';
+  final String initUnit = settingsCtrl.weightUnit.value;
   final int initKg = ctrl.profile.value.weight.round().clamp(20, 200);
   final int initLb = UnitConverter.kgToLb(
     ctrl.profile.value.weight,
@@ -661,9 +661,7 @@ class _WeightRulerPainter extends CustomPainter {
 void showHeightSheet(BuildContext context) {
   final ctrl = Get.find<UserProfileController>();
   final settingsCtrl = Get.find<SettingsController>();
-  final String initUnit = ctrl.profile.value.heightUnit == 'm'
-      ? 'cm'
-      : ctrl.profile.value.heightUnit;
+  final String initUnit = settingsCtrl.heightUnit.value;
   final double initHeight = ctrl.profile.value.heightUnit == 'm'
       ? ctrl.profile.value.height * 100
       : ctrl.profile.value.height;
@@ -674,13 +672,12 @@ void showHeightSheet(BuildContext context) {
     backgroundColor: Colors.transparent,
     builder: (ctx) => _HeightSheet(
       initialCm: initHeight.clamp(100, 250).round(),
-      initialUnit: initUnit == 'ft' ? 'ft/in' : 'cm',
+      initialUnit: initUnit == 'ft/in' ? 'ft/in' : 'cm',
       onSave: (cm, unit) {
-        final h = unit == 'ft/in' ? cm.toDouble() : cm.toDouble();
         ctrl.saveProfile(
-          ctrl.profile.value.copyWith(height: h, heightUnit: 'cm'),
+          ctrl.profile.value.copyWith(height: cm.toDouble(), heightUnit: 'cm'),
         );
-        settingsCtrl.setHeightUnit('cm');
+        settingsCtrl.setHeightUnit(unit);
         Navigator.pop(ctx);
       },
     ),
@@ -1550,29 +1547,16 @@ void showUnitsSheet(BuildContext context) {
     builder: (ctx) => _UnitsSheet(
       initialVolumeUnit: settingsCtrl.volumeUnit.value,
       initialWeightUnit: settingsCtrl.weightUnit.value,
-      initialHeightUnit: profileCtrl.profile.value.heightUnit == 'm'
-          ? 'cm'
-          : profileCtrl.profile.value.heightUnit,
+      initialHeightUnit: settingsCtrl.heightUnit.value,
       profileHeight: profileCtrl.profile.value.height,
       profileWeight: profileCtrl.profile.value.weight,
       onSave: (volUnit, weightUnit, heightUnit) {
         settingsCtrl.setVolumeUnit(volUnit);
         settingsCtrl.setWeightUnit(weightUnit);
         settingsCtrl.setHeightUnit(heightUnit);
-        final p = profileCtrl.profile.value;
-        double newWeight = p.weight;
-        if (p.weightUnit != weightUnit) {
-          newWeight = weightUnit == 'lb'
-              ? UnitConverter.kgToLb(p.weight)
-              : UnitConverter.lbToKg(p.weight);
-        }
+        // Weight/height stay stored in kg/cm — only the display unit changes.
         profileCtrl.saveProfile(
-          p.copyWith(
-            volumeUnit: volUnit,
-            weight: newWeight,
-            weightUnit: weightUnit,
-            heightUnit: heightUnit,
-          ),
+          profileCtrl.profile.value.copyWith(volumeUnit: volUnit),
         );
         Navigator.pop(ctx);
       },

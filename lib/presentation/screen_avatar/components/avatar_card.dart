@@ -1,4 +1,3 @@
-import 'package:dsp_base/app_material.dart';
 import 'package:flutter/material.dart';
 import 'package:waternudge/models/ui_models/avatar_option.dart';
 import 'package:waternudge/values/app_colors.dart';

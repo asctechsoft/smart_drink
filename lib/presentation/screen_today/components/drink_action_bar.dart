@@ -1,4 +1,5 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:asc_common/asc_common.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/models/ui_models/drink_type.dart';
@@ -185,7 +186,6 @@ class _AddDrinkPill extends StatelessWidget {
               child: AppTextAutoResize(
                 '$label  -  $drinkName',
                 maxLines: 1,
-                minFontSize: 12,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: AppColors.basic500,

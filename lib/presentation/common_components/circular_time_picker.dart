@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/app_colors.dart';
 
@@ -105,11 +105,11 @@ class _CircularTimePickerState extends State<CircularTimePicker> {
               ),
             ),
             ..._buildHourLabels(),
-            AppColumn(
+            Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                AppSpacerH12,
-                AppText(
+                const SizedBox(height: 12),
+                Text(
                   UnitConverter.formatTime(_timeString),
                   style: const TextStyle(
                     fontSize: 34,
@@ -138,7 +138,7 @@ class _CircularTimePickerState extends State<CircularTimePicker> {
         top: widget.size / 2 + dy - 9,
         child: SizedBox(
           width: 32,
-          child: AppText(
+          child: Text(
             entry.value,
             textAlign: TextAlign.center,
             style: TextStyle(

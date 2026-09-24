@@ -1,4 +1,4 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/common_components/stagger_reveal.dart';

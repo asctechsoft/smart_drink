@@ -1,4 +1,4 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/controller/onboarding_controller.dart';
 import 'package:waternudge/presentation/common_components/circular_time_picker.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
@@ -21,7 +21,7 @@ class BedtimeScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: AppColumn(
+          child: Column(
             children: [
               OnboardingProgressBar(
                 currentStep: 7,
@@ -36,7 +36,7 @@ class BedtimeScreen extends StatelessWidget {
                       title: 'what_time_do_you_go_to_bed'.tr,
                       subtitle: 'helps_remind_you_to_drink_water'.tr,
                     ),
-                    AppSpacerH40,
+                    const SizedBox(height: 40),
                     CircularTimePicker(
                       initialTime: controller.bedTime.value,
                       isNight: true,
@@ -61,7 +61,7 @@ class BedtimeScreen extends StatelessWidget {
                         Get.toNamed(RouteName.onboardingBuildingSchedule);
                       },
                     ),
-                    AppSpacerH20,
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),

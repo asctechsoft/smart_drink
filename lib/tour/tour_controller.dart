@@ -4,6 +4,7 @@ import "dart:math";
 import "package:dsp_base/convenience_imports.dart";
 import "package:flutter/widgets.dart";
 import "package:get/get.dart";
+import "package:shared_preferences/shared_preferences.dart";
 import "package:waternudge/configs/pref_const.dart";
 import "package:waternudge/tour/tour_steps.dart";
 import "package:waternudge/utils/analytics.dart";
@@ -51,9 +52,12 @@ class TourController extends GetxController {
   /// Today's tour has not been seen yet. Reuses the pref key the previous
   /// ad-hoc `showCoachMarks` walkthrough used, so an install that already
   /// dismissed it does not see it again.
-  bool get shouldStart => !PrefAssist.getBoolean(PrefConst.coachMarkHomeSeen);
+  Future<bool> get shouldStart async {
+    final prefs = await SharedPreferences.getInstance();
+    return !(prefs.getBool(PrefConst.coachMarkHomeSeen) ?? false);
+  }
 
-  bool shouldStartGroup(TourGroup group) => shouldStart;
+  Future<bool> shouldStartGroup(TourGroup group) => shouldStart;
 
   /// Anchors register from `initState`, i.e. mid-build; the Rx bump is
   /// deferred to the end of the frame so the overlay's Obx never gets a
@@ -95,7 +99,7 @@ class TourController extends GetxController {
   /// Starts only the guide belonging to [group]. Other screens (once this
   /// tour grows a second group) remain pending until opened explicitly.
   Future<bool> startGroup(TourGroup group) async {
-    if (active.value || !shouldStartGroup(group)) return false;
+    if (active.value || !(await shouldStartGroup(group))) return false;
     final firstIndex = tourSteps.indexWhere(
       (candidate) => candidate.group == group,
     );
@@ -141,7 +145,8 @@ class TourController extends GetxController {
 
   Future<void> _finish() async {
     active.value = false;
-    await PrefAssist.setBoolean(PrefConst.coachMarkHomeSeen, true);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(PrefConst.coachMarkHomeSeen, true);
   }
 
   void _logStepView() => _logStepAction("view");
@@ -164,10 +169,11 @@ class TourController extends GetxController {
   /// `CommFigs.IS_SHOW_TEST_OPTION`, so this is a no-op on the Product
   /// release build — shipping it cannot overwrite a real experiment.
   static Future<void> assignLocalVariant({Random? random}) async {
-    var assigned = PrefAssist.getString(PrefConst.tourAbVariant);
+    final prefs = await SharedPreferences.getInstance();
+    var assigned = prefs.getString(PrefConst.tourAbVariant) ?? '';
     if (assigned.isEmpty) {
       assigned = (random ?? Random()).nextBool() ? variantPlain : variantPulse;
-      await PrefAssist.setString(PrefConst.tourAbVariant, assigned);
+      await prefs.setString(PrefConst.tourAbVariant, assigned);
     }
     RconfAssist.setTestString(rcVariantKey, assigned);
   }

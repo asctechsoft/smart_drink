@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:dsp_base/app_material.dart';
-import 'package:dsp_base/convenience_imports.dart';
 import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
@@ -23,11 +22,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Analytics.splashView();
-    Analytics.appOpen(
-      'direct',
-      isFirstOpen: !(PrefAssist.getBoolean(PrefConst.onboardingCompleted)),
-    );
+    _logAppOpen();
     _navigate();
+  }
+
+  Future<void> _logAppOpen() async {
+    final prefs = await SharedPreferences.getInstance();
+    final onboarded = prefs.getBool(PrefConst.onboardingCompleted) ?? false;
+    Analytics.appOpen('direct', isFirstOpen: !onboarded);
   }
 
   Future<void> _navigate() async {

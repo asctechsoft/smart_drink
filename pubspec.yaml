@@ -25,6 +25,8 @@ dependencies:
   country_flags: ^3.0.0
   device_region: ^1.1.1
   flutter_slidable: ^3.1.1
+  uuid: any
+  xml: any
   dsp_base:
     path: ./dsp_base
   asc_common:
@@ -33,9 +35,11 @@ dependencies:
 
   firebase_core: any
   firebase_auth: any
+  firebase_analytics: any
   cloud_firestore: any
   package_info_plus: any
   google_sign_in: ^6.2.2
+  google_mobile_ads: ^9.1.0
   audioplayers: ^6.6.0
   image_picker: ^1.1.2
   # Calls server_gateway_ai from the AI chat screen.

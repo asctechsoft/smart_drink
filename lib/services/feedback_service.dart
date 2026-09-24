@@ -2,10 +2,13 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:dsp_base/convenience_imports.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 import 'package:get/get.dart';
 
+import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/controller/auth_controller.dart';
 
 /// Persists user feedback to Firestore (collection `feedbacks`).
@@ -46,15 +49,7 @@ class FeedbackService {
     required String message,
     required int attachmentCount,
   }) async {
-    String deviceId = '';
-    try {
-      deviceId = await DeviceUtils.getDeviceId().timeout(
-        const Duration(seconds: 3),
-        onTimeout: () => '',
-      );
-    } catch (_) {
-      deviceId = '';
-    }
+    final deviceId = await _getOrCreateDeviceId();
 
     String? userId;
     String? userEmail;
@@ -93,7 +88,19 @@ class FeedbackService {
         'createdAt': FieldValue.serverTimestamp(),
       });
     } catch (e) {
-      CommLogger.e('Feedback Firestore write failed: $e');
+      debugPrint('Feedback Firestore write failed: $e');
     }
+  }
+
+  /// A stable id for this install — generated once and cached in prefs. Not
+  /// a real hardware id, just enough to group a user's own submissions.
+  Future<String> _getOrCreateDeviceId() async {
+    final prefs = await SharedPreferences.getInstance();
+    final cached = prefs.getString(PrefConst.deviceId);
+    if (cached != null && cached.isNotEmpty) return cached;
+
+    final generated = const Uuid().v4();
+    await prefs.setString(PrefConst.deviceId, generated);
+    return generated;
   }
 }

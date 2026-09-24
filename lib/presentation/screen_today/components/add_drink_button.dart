@@ -1,4 +1,5 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/models/ui_models/drink_type.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
@@ -20,7 +21,11 @@ class AddDrinkButton extends StatelessWidget {
         onPressed: () => _showAddDrinkSheet(context),
         padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 14),
         height: null,
-        leading: const AppIcon('assets/images/svg/ic_plus.svg', size: 24),
+        leading: SvgPicture.asset(
+          'assets/images/svg/ic_plus.svg',
+          width: 24,
+          height: 24,
+        ),
         backgroundDecorations: [
           Positioned(left: 10, top: 24, child: _buildBubble(14)),
           Positioned(left: 24, bottom: -6, child: _buildBubble(20)),
