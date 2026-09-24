@@ -106,15 +106,18 @@ class _IntervalModeContentState extends State<IntervalModeContent> {
                       children: [
                         _iconCircle(Icons.timer_outlined),
                         const SizedBox(width: 12),
-                        Text(
-                          'interval_title'.tr,
-                          style: TextStyle(
-                            color: ob.textPrimary,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                        Expanded(
+                          child: Text(
+                            'interval_title'.tr,
+                            style: TextStyle(
+                              color: ob.textPrimary,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        const Spacer(),
+                        const SizedBox(width: 8),
                         Text(
                           controller.intervalDisplay,
                           style: const TextStyle(

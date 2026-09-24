@@ -18,7 +18,8 @@
       "program": "lib/main.dart",
       "args": [
         "--flavor",
-        "dev"
+        "dev",
+        "--dart-define=AI_GATEWAY_URL=http://192.168.1.46:8080"
       ]
     },
     {

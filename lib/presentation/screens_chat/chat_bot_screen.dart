@@ -152,12 +152,7 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                         ? [
                             StaggerReveal(index: 0, child: _buildIntro()),
                             const SizedBox(height: 16),
-                            StaggerReveal(
-                              index: 1,
-                              child: _buildSuggestionsGrid(),
-                            ),
-                            const SizedBox(height: 16),
-                            StaggerReveal(index: 2, child: _buildEmptyState()),
+                            StaggerReveal(index: 1, child: _buildEmptyState()),
                           ]
                         : [
                             for (final message in _chat.messages) ...[
@@ -742,43 +737,20 @@ class _ChatBotScreenState extends State<ChatBotScreen>
     );
   }
 
-  /// The 2×2 starter grid shown on the empty screen.
+  /// The starter prompts on the empty screen — single horizontally-scrolling row.
   Widget _buildSuggestionsGrid() {
-    const gap = 10.0;
-    final items = _suggestions;
-
-    // Two per row, and no fixed height: the chips grow to fit the whole
-    // question instead of cutting it off. IntrinsicHeight + stretch keeps the
-    // pair in a row the same height even when one wraps to more lines.
-    final rows = <Widget>[];
-    for (var i = 0; i < items.length; i += 2) {
-      final left = items[i];
-      final right = i + 1 < items.length ? items[i + 1] : null;
-      rows.add(
-        IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(child: _suggestionChip(left)),
-              const SizedBox(width: gap),
-              Expanded(
-                child: right == null
-                    ? const SizedBox.shrink()
-                    : _suggestionChip(right),
-              ),
-            ],
-          ),
+    return SizedBox(
+      height: 90,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.zero,
+        itemCount: _suggestions.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 10),
+        itemBuilder: (_, i) => SizedBox(
+          width: 160,
+          child: _suggestionChip(_suggestions[i]),
         ),
-      );
-    }
-
-    return Column(
-      children: [
-        for (var i = 0; i < rows.length; i++) ...[
-          if (i > 0) const SizedBox(height: gap),
-          rows[i],
-        ],
-      ],
+      ),
     );
   }
 

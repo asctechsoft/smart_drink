@@ -24,7 +24,7 @@ class AiGatewayConfig {
   /// release build must be pointed at an https deployment.
   static const String baseUrl = String.fromEnvironment(
     'AI_GATEWAY_URL',
-    defaultValue: 'http://192.168.1.42:8080',
+    defaultValue: 'https://server-gateway.asctechsoft.com',
   );
 
   static Uri get chatEndpoint => Uri.parse('$baseUrl/v1/chat');
