@@ -30,4 +30,7 @@
     <string name="seconds">SEGUNDOS</string>
     <string name="exceeded_your_goal">Has superado tu objetivo</string>
     <string name="goal_completed">¡Objetivo cumplido!</string>
+    <string name="noti_drink">Beber</string>
+    <string name="noti_remaining_today">Quedan %1$s %2$s hoy</string>
+    <string name="noti_today_goal">meta de hoy</string>
 </resources>

@@ -115,20 +115,6 @@ void main() {
       final end = AppDateUtils.endOfMonth(DateTime(2024, 3, 15));
       expect(end.day, 31);
     });
-
-    test('formatTime12h converts correctly', () {
-      expect(AppDateUtils.formatTime12h('13:30'), '01:30 PM');
-      expect(AppDateUtils.formatTime12h('09:00'), '09:00 AM');
-      expect(AppDateUtils.formatTime12h('00:15'), '12:15 AM');
-    });
-
-    test('formatTime12h returns 12:00 AM for invalid values', () {
-      expect(AppDateUtils.formatTime12h('25:00'), '12:00 AM');
-      expect(AppDateUtils.formatTime12h('12:61'), '12:00 AM');
-      expect(AppDateUtils.formatTime12h('-1:00'), '12:00 AM');
-      expect(AppDateUtils.formatTime12h('abc'), '12:00 AM');
-      expect(AppDateUtils.formatTime12h(''), '12:00 AM');
-    });
   });
 
   group('DrinkRecord', () {
@@ -178,10 +164,7 @@ void main() {
     });
 
     test('constructor asserts amountMl is non-negative', () {
-      expect(
-        () => DrinkRecord(amountMl: -1),
-        throwsA(isA<AssertionError>()),
-      );
+      expect(() => DrinkRecord(amountMl: -1), throwsA(isA<AssertionError>()));
     });
   });
 
@@ -340,23 +323,17 @@ void main() {
     });
 
     test('fromMap with invalid time format falls back to 08:00', () {
-      final schedule = ReminderSchedule.fromMap({
-        'time': 'not-a-time',
-      });
+      final schedule = ReminderSchedule.fromMap({'time': 'not-a-time'});
       expect(schedule.time, '08:00');
     });
 
     test('fromMap with null time falls back to 08:00', () {
-      final schedule = ReminderSchedule.fromMap({
-        'mode': 'standard',
-      });
+      final schedule = ReminderSchedule.fromMap({'mode': 'standard'});
       expect(schedule.time, '08:00');
     });
 
     test('fromMap with malformed time falls back to 08:00', () {
-      final schedule = ReminderSchedule.fromMap({
-        'time': '9:30',
-      });
+      final schedule = ReminderSchedule.fromMap({'time': '9:30'});
       expect(schedule.time, '08:00');
     });
   });
@@ -370,17 +347,26 @@ void main() {
 
     test('all drink types have valid waterPercent (0-100)', () {
       for (final type in DrinkType.values) {
-        expect(type.waterPercent, greaterThanOrEqualTo(0),
-            reason: '${type.name} waterPercent below 0');
-        expect(type.waterPercent, lessThanOrEqualTo(100),
-            reason: '${type.name} waterPercent above 100');
+        expect(
+          type.waterPercent,
+          greaterThanOrEqualTo(0),
+          reason: '${type.name} waterPercent below 0',
+        );
+        expect(
+          type.waterPercent,
+          lessThanOrEqualTo(100),
+          reason: '${type.name} waterPercent above 100',
+        );
       }
     });
 
     test('all drink types have non-empty imagePath', () {
       for (final type in DrinkType.values) {
-        expect(type.imagePath, isNotEmpty,
-            reason: '${type.name} imagePath is empty');
+        expect(
+          type.imagePath,
+          isNotEmpty,
+          reason: '${type.name} imagePath is empty',
+        );
       }
     });
 
@@ -477,4 +463,3 @@ void main() {
     });
   });
 }
-

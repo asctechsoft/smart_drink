@@ -93,6 +93,7 @@
     <string name="units">Единицы</string>
     <string name="sound">Звук</string>
     <string name="language">Язык</string>
+    <string name="system_default_language">По умолчанию</string>
     <string name="theme">Тема</string>
     <string name="rate_app">Оценить приложение</string>
     <string name="later">Позже</string>
@@ -189,6 +190,7 @@
     <string name="off">Выключенный</string>
     <string name="picker_hour">Час</string>
     <string name="picker_minute">минута</string>
+    <string name="picker_period">Период</string>
     <string name="picker_device_format_hint">Время отображается в формате вашего устройства.</string>
     <string name="reminder_pause_info">Уведомления будут приостановлены на время этого окна.</string>
     <string name="rate_dialog_title">Вам нравится приложение?</string>
@@ -278,6 +280,8 @@
     <string name="save_unit">Сохранить единицу</string>
     <string name="settings_privacy">Конфиденциальность и безопасность</string>
     <string name="settings_privacy_desc">Управляйте безопасностью и личными данными</string>
+    <string name="settings_ad_privacy">Конфиденциальность рекламы</string>
+    <string name="settings_ad_privacy_desc">Просмотр или изменение согласия на рекламу</string>
     <string name="open_link_failed">Нет приложения, способного открыть эту ссылку</string>
     <string name="settings_weather_desc">Обновление ежедневно в зависимости от погоды</string>
     <string name="settings_gender_desc">Влияет на вашу ежедневную цель по воде</string>
@@ -414,4 +418,12 @@
     <string name="reminder_time_duplicate">На это время уже установлено напоминание</string>
     <string name="reminder_custom_times_title">Время напоминаний</string>
     <string name="reminder_custom_times_subtitle">Нажмите на время для редактирования, нажмите +, чтобы добавить новое</string>
+    <string name="exit_survey_title">Уже уходите?</string>
+    <string name="exit_survey_subtitle">Расскажите почему, это поможет нам стать лучше.</string>
+    <string name="exit_survey_reason_ads">Слишком много рекламы</string>
+    <string name="exit_survey_reason_not_useful">Не полезно для меня</string>
+    <string name="exit_survey_reason_bug">Найдена ошибка</string>
+    <string name="exit_survey_reason_other">Другая причина</string>
+    <string name="exit_survey_stay">Остаться</string>
+    <string name="exit_survey_exit">Все равно выйти</string>
 </resources>

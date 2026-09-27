@@ -93,6 +93,7 @@
     <string name="units">Unités</string>
     <string name="sound">Son</string>
     <string name="language">Langue</string>
+    <string name="system_default_language">Par défaut du système</string>
     <string name="theme">Thème</string>
     <string name="rate_app">Évaluer L\'application</string>
     <string name="later">Plus tard</string>
@@ -189,6 +190,7 @@
     <string name="off">Désactivé</string>
     <string name="picker_hour">Heure</string>
     <string name="picker_minute">Minute</string>
+    <string name="picker_period">Période</string>
     <string name="picker_device_format_hint">L\'heure est affichée au format de votre appareil</string>
     <string name="reminder_pause_info">Les notifications seront suspendues pendant cette fenêtre</string>
     <string name="rate_dialog_title">Est-ce que vous appréciez l\'application ?</string>
@@ -278,6 +280,8 @@
     <string name="save_unit">Enregistrer l\'unité</string>
     <string name="settings_privacy">Confidentialité et sécurité</string>
     <string name="settings_privacy_desc">Gérer la sécurité et les données personnelles</string>
+    <string name="settings_ad_privacy">Choix de confidentialité des annonces</string>
+    <string name="settings_ad_privacy_desc">Réviser ou modifier votre consentement publicitaire</string>
     <string name="open_link_failed">Aucune application ne peut ouvrir ce lien</string>
     <string name="settings_weather_desc">Mise à jour quotidienne en fonction de la météo</string>
     <string name="settings_gender_desc">Affecte votre objectif quotidien en eau</string>
@@ -414,4 +418,12 @@
     <string name="reminder_time_duplicate">Un rappel est déjà défini pour cette heure</string>
     <string name="reminder_custom_times_title">Heures de rappel</string>
     <string name="reminder_custom_times_subtitle">Appuyez sur une heure pour la modifier, appuyez sur + pour en ajouter une nouvelle</string>
+    <string name="exit_survey_title">Vous partez déjà ?</string>
+    <string name="exit_survey_subtitle">Dites-nous pourquoi, cela nous aide à nous améliorer.</string>
+    <string name="exit_survey_reason_ads">Trop de publicités</string>
+    <string name="exit_survey_reason_not_useful">Pas utile pour moi</string>
+    <string name="exit_survey_reason_bug">Un bogue a été trouvé</string>
+    <string name="exit_survey_reason_other">Autre raison</string>
+    <string name="exit_survey_stay">Rester</string>
+    <string name="exit_survey_exit">Quitter quand même</string>
 </resources>

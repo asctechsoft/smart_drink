@@ -6,6 +6,7 @@
     <string name="off">Tắt</string>
     <string name="picker_hour">Giờ</string>
     <string name="picker_minute">Phút</string>
+    <string name="picker_period">Buổi</string>
     <string name="picker_device_format_hint">Giờ sẽ hiển thị theo định dạng của thiết bị</string>
     <string name="reminder_pause_info">Thông báo sẽ tạm dừng trong khung giờ này</string>
     <string name="select_your_gender">Chọn giới tính của bạn</string>

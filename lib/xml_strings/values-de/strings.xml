@@ -93,6 +93,7 @@
     <string name="units">Einheiten</string>
     <string name="sound">Ton</string>
     <string name="language">Sprache</string>
+    <string name="system_default_language">Systemstandard</string>
     <string name="theme">Thema</string>
     <string name="rate_app">App bewerten</string>
     <string name="later">Später</string>
@@ -189,6 +190,7 @@
     <string name="off">Aus</string>
     <string name="picker_hour">Stunde</string>
     <string name="picker_minute">Minute</string>
+    <string name="picker_period">Tageszeit</string>
     <string name="picker_device_format_hint">Die Uhrzeit wird im Format Ihres Geräts angezeigt</string>
     <string name="reminder_pause_info">Benachrichtigungen werden während dieses Fensters pausiert</string>
     <string name="rate_dialog_title">Gefällt Ihnen die App?</string>
@@ -278,6 +280,8 @@
     <string name="save_unit">Einheit speichern</string>
     <string name="settings_privacy">Datenschutz und Sicherheit</string>
     <string name="settings_privacy_desc">Verwalten Sie Sicherheits- und persönliche Daten</string>
+    <string name="settings_ad_privacy">Werbedatenschutz</string>
+    <string name="settings_ad_privacy_desc">Überprüfen oder ändern Sie Ihre Werbeeinwilligung</string>
     <string name="open_link_failed">Keine App kann diesen Link öffnen</string>
     <string name="settings_weather_desc">Tägliche Aktualisierung je nach Wetterlage</string>
     <string name="settings_gender_desc">Beeinflusst Ihr tägliches Wasserziel</string>
@@ -414,4 +418,12 @@
     <string name="reminder_time_duplicate">Für diese Zeit ist bereits eine Erinnerung eingestellt</string>
     <string name="reminder_custom_times_title">Erinnerungszeiten</string>
     <string name="reminder_custom_times_subtitle">Tippen Sie zum Bearbeiten auf eine Zeit, tippen Sie auf +, um eine neue hinzuzufügen</string>
+    <string name="exit_survey_title">Schon verlassen?</string>
+    <string name="exit_survey_subtitle">Sagen Sie uns warum, es hilft uns zu verbessern.</string>
+    <string name="exit_survey_reason_ads">Zu viele Anzeigen</string>
+    <string name="exit_survey_reason_not_useful">Nicht nützlich für mich</string>
+    <string name="exit_survey_reason_bug">Fehler gefunden</string>
+    <string name="exit_survey_reason_other">Anderer Grund</string>
+    <string name="exit_survey_stay">Bleiben</string>
+    <string name="exit_survey_exit">Trotzdem beenden</string>
 </resources>

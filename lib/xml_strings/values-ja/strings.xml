@@ -93,6 +93,7 @@
     <string name="units">単位</string>
     <string name="sound">音</string>
     <string name="language">言語</string>
+    <string name="system_default_language">システムデフォルト</string>
     <string name="theme">テーマ</string>
     <string name="rate_app">アプリを評価する</string>
     <string name="later">後で</string>
@@ -189,6 +190,7 @@
     <string name="off">オフ</string>
     <string name="picker_hour">時間</string>
     <string name="picker_minute">分</string>
+    <string name="picker_period">時間帯</string>
     <string name="picker_device_format_hint">時刻はデバイスの形式で表示されます</string>
     <string name="reminder_pause_info">この期間中は通知が一時停止されます</string>
     <string name="rate_dialog_title">アプリを楽しんでいますか？</string>
@@ -278,6 +280,8 @@
     <string name="save_unit">セーブユニット</string>
     <string name="settings_privacy">プライバシーとセキュリティ</string>
     <string name="settings_privacy_desc">セキュリティと個人データを管理する</string>
+    <string name="settings_ad_privacy">広告プライバシーの選択</string>
+    <string name="settings_ad_privacy_desc">広告同意を確認または変更します</string>
     <string name="open_link_failed">このリンクを開けるアプリがありません</string>
     <string name="settings_weather_desc">天気に応じて毎日更新</string>
     <string name="settings_gender_desc">毎日の水分目標に影響を与える</string>
@@ -414,4 +418,12 @@
     <string name="reminder_time_duplicate">その時間には既にリマインダーが設定されています</string>
     <string name="reminder_custom_times_title">リマインダーの時間</string>
     <string name="reminder_custom_times_subtitle">時間をタップして編集、+ をタップして新しい時間を追加</string>
+    <string name="exit_survey_title">もう終了しますか？</string>
+    <string name="exit_survey_subtitle">理由をお聞かせください。改善に役立てます。</string>
+    <string name="exit_survey_reason_ads">広告が多すぎる</string>
+    <string name="exit_survey_reason_not_useful">自分には役立たない</string>
+    <string name="exit_survey_reason_bug">バグを見つけた</string>
+    <string name="exit_survey_reason_other">その他の理由</string>
+    <string name="exit_survey_stay">残る</string>
+    <string name="exit_survey_exit">とにかく終了</string>
 </resources>

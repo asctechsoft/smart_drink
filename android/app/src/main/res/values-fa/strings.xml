@@ -30,4 +30,7 @@
     <string name="seconds">ثانیه‌ها</string>
     <string name="exceeded_your_goal">از هدف‌تان فراتر رفتید</string>
     <string name="goal_completed">هدف تکمیل شد!</string>
+    <string name="noti_drink">نوشیدن</string>
+    <string name="noti_remaining_today">باقی‌مانده %1$s %2$s امروز</string>
+    <string name="noti_today_goal">هدف امروز</string>
 </resources>

@@ -93,6 +93,7 @@
     <string name="units">Unidades</string>
     <string name="sound">Sonido</string>
     <string name="language">Idioma</string>
+    <string name="system_default_language">Predeterminado del sistema</string>
     <string name="theme">Tema</string>
     <string name="rate_app">Calificar la aplicación</string>
     <string name="later">Más tarde</string>
@@ -189,6 +190,7 @@
     <string name="off">Apagado</string>
     <string name="picker_hour">Hora</string>
     <string name="picker_minute">Minuto</string>
+    <string name="picker_period">Periodo</string>
     <string name="picker_device_format_hint">La hora se muestra en el formato de su dispositivo.</string>
     <string name="reminder_pause_info">Las notificaciones se pausarán durante esta ventana.</string>
     <string name="rate_dialog_title">¿Estás disfrutando de la aplicación?</string>
@@ -278,6 +280,8 @@
     <string name="save_unit">Guardar unidad</string>
     <string name="settings_privacy">Privacidad y seguridad</string>
     <string name="settings_privacy_desc">Gestionar la seguridad y los datos personales</string>
+    <string name="settings_ad_privacy">Opciones de privacidad de anuncios</string>
+    <string name="settings_ad_privacy_desc">Revisa o cambia tu consentimiento de anuncios</string>
     <string name="open_link_failed">Ninguna aplicación puede abrir este enlace</string>
     <string name="settings_weather_desc">Actualización diaria según el clima.</string>
     <string name="settings_gender_desc">Afecta tu objetivo diario de agua</string>
@@ -414,4 +418,12 @@
     <string name="reminder_time_duplicate">Ya hay un recordatorio programado para esa hora</string>
     <string name="reminder_custom_times_title">Horarios de recordatorio</string>
     <string name="reminder_custom_times_subtitle">Toca una hora para editarla, toca + para agregar una nueva</string>
+    <string name="exit_survey_title">¿Ya te vas?</string>
+    <string name="exit_survey_subtitle">Dinos por qué, nos ayuda a mejorar.</string>
+    <string name="exit_survey_reason_ads">Demasiados anuncios</string>
+    <string name="exit_survey_reason_not_useful">No es útil para mí</string>
+    <string name="exit_survey_reason_bug">Encontré un error</string>
+    <string name="exit_survey_reason_other">Otra razón</string>
+    <string name="exit_survey_stay">Quedarse</string>
+    <string name="exit_survey_exit">Salir de todos modos</string>
 </resources>

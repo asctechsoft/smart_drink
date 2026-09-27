@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waternudge/presentation/common_components/wheel_picker_chrome.dart';
+import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:get/get.dart';
 
@@ -34,23 +35,45 @@ class WheelTimePicker extends StatefulWidget {
 }
 
 class _WheelTimePickerState extends State<WheelTimePicker> {
-  // The picker always works in 24h. Display formatting elsewhere follows the
-  // device setting; there is no AM/PM selector.
+  // Follows the device's 24h/12h setting: the 24h device gets a 0-23 hour
+  // wheel (unchanged); the 12h device gets a 1-12 wheel plus an AM/PM wheel,
+  // matching how the saved time is later displayed everywhere else
+  // (`UnitConverter.formatTime` / `ReminderController.formatDisplayTime`).
+  late final bool _use24h;
+
+  /// Source of truth, always 0-23 — what `widget.onChanged` receives.
   late int _hour;
   late int _minute;
   late FixedExtentScrollController _hourController;
   late FixedExtentScrollController _minuteController;
+
+  /// Wheel index: 0-23 when `_use24h`, otherwise 0-11 (hour-of-12 minus 1).
   late int _selectedHourIndex;
   late int _selectedMinuteIndex;
+
+  /// 12h-only AM/PM wheel: 0 = AM, 1 = PM.
+  late int _periodIndex;
+  FixedExtentScrollController? _periodController;
 
   @override
   void initState() {
     super.initState();
+    _use24h = UnitConverter.deviceUses24h();
     final parts = widget.initialTime.split(':');
     _hour = int.tryParse(parts[0]) ?? 7;
     _minute = parts.length > 1 ? (int.tryParse(parts[1]) ?? 0) : 0;
 
-    _selectedHourIndex = _hour;
+    if (_use24h) {
+      _selectedHourIndex = _hour;
+      _periodIndex = 0;
+    } else {
+      final hour12 = _hour % 12 == 0 ? 12 : _hour % 12;
+      _selectedHourIndex = hour12 - 1;
+      _periodIndex = _hour >= 12 ? 1 : 0;
+      _periodController = FixedExtentScrollController(
+        initialItem: _periodIndex,
+      );
+    }
     _selectedMinuteIndex = _minute;
 
     _hourController = FixedExtentScrollController(
@@ -65,7 +88,19 @@ class _WheelTimePickerState extends State<WheelTimePicker> {
   void dispose() {
     _hourController.dispose();
     _minuteController.dispose();
+    _periodController?.dispose();
     super.dispose();
+  }
+
+  /// Recomputes the true 24h `_hour` from the 12h wheel + AM/PM wheel.
+  void _applyHour12() {
+    final hour12 = _selectedHourIndex + 1; // 1..12
+    final isPm = _periodIndex == 1;
+    if (hour12 == 12) {
+      _hour = isPm ? 12 : 0;
+    } else {
+      _hour = isPm ? hour12 + 12 : hour12;
+    }
   }
 
   void _notifyChange() {
@@ -75,6 +110,14 @@ class _WheelTimePickerState extends State<WheelTimePicker> {
   }
 
   String _two(int i) => i.toString().padLeft(2, '0');
+
+  /// Preview text in the device's format, e.g. "21:00" or "09:00 PM".
+  String get _previewText {
+    if (_use24h) return '${_two(_hour)}:${_two(_minute)}';
+    final hour12 = _selectedHourIndex + 1;
+    final period = _periodIndex == 1 ? 'pm'.tr : 'am'.tr;
+    return '${_two(hour12)}:${_two(_minute)} $period';
+  }
 
   Widget _buildWheel({
     required FixedExtentScrollController controller,
@@ -147,17 +190,22 @@ class _WheelTimePickerState extends State<WheelTimePicker> {
     final ob = OnboardingTheme.of(context);
     final double hourW = widget.enhanced ? 96 : 60;
     final double minW = widget.enhanced ? 96 : 60;
+    final double periodW = widget.enhanced ? 72 : 46;
 
     Widget hourWheel = _buildWheel(
       controller: _hourController,
-      itemCount: 24,
-      labelBuilder: _two,
+      itemCount: _use24h ? 24 : 12,
+      labelBuilder: (i) => _use24h ? _two(i) : _two(i + 1),
       selectedIndex: _selectedHourIndex,
       width: hourW,
       onChanged: (i) {
         setState(() {
           _selectedHourIndex = i;
-          _hour = i;
+          if (_use24h) {
+            _hour = i;
+          } else {
+            _applyHour12();
+          }
         });
         _notifyChange();
       },
@@ -177,6 +225,23 @@ class _WheelTimePickerState extends State<WheelTimePicker> {
         _notifyChange();
       },
     );
+
+    Widget? periodWheel = _use24h
+        ? null
+        : _buildWheel(
+            controller: _periodController!,
+            itemCount: 2,
+            labelBuilder: (i) => (i == 0 ? 'am'.tr : 'pm'.tr).toUpperCase(),
+            selectedIndex: _periodIndex,
+            width: periodW,
+            onChanged: (i) {
+              setState(() {
+                _periodIndex = i;
+                _applyHour12();
+              });
+              _notifyChange();
+            },
+          );
 
     // Compact layout (default): original full-width band highlight.
     if (!widget.enhanced) {
@@ -220,6 +285,10 @@ class _WheelTimePickerState extends State<WheelTimePicker> {
                 ),
               ),
               minuteWheel,
+              if (periodWheel != null) ...[
+                const SizedBox(width: 8),
+                periodWheel,
+              ],
             ],
           ),
         ],
@@ -252,13 +321,19 @@ class _WheelTimePickerState extends State<WheelTimePicker> {
               'picker_minute',
               minuteWheel,
             ),
+            if (periodWheel != null) ...[
+              const SizedBox(width: 12),
+              WheelPickerChrome.labeledColumn(
+                context,
+                periodW,
+                'picker_period',
+                periodWheel,
+              ),
+            ],
           ],
         ),
         const SizedBox(height: 8),
-        WheelPickerChrome.gradientPreview(
-          context,
-          '${_two(_hour)}:${_two(_minute)}',
-        ),
+        WheelPickerChrome.gradientPreview(context, _previewText),
         if (widget.infoText != null) ...[
           const SizedBox(height: 20),
           WheelPickerChrome.infoPill(

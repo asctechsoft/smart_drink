@@ -30,4 +30,7 @@
     <string name="seconds">초</string>
     <string name="exceeded_your_goal">목표를 초과했습니다</string>
     <string name="goal_completed">목표 완료!</string>
+    <string name="noti_drink">마시기</string>
+    <string name="noti_remaining_today">오늘 남은 양 %1$s %2$s</string>
+    <string name="noti_today_goal">오늘의 목표</string>
 </resources>

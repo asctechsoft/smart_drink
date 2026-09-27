@@ -93,6 +93,7 @@
     <string name="units">Satuan</string>
     <string name="sound">Suara</string>
     <string name="language">Bahasa</string>
+    <string name="system_default_language">Default Sistem</string>
     <string name="theme">Tema</string>
     <string name="rate_app">Nilai aplikasi</string>
     <string name="later">Nanti</string>
@@ -189,6 +190,7 @@
     <string name="off">Mati</string>
     <string name="picker_hour">Jam</string>
     <string name="picker_minute">Menit</string>
+    <string name="picker_period">Periode</string>
     <string name="picker_device_format_hint">Waktu ditampilkan dalam format perangkat Anda</string>
     <string name="reminder_pause_info">Notifikasi akan dijeda selama jendela ini</string>
     <string name="rate_dialog_title">Apakah Anda menikmati aplikasinya?</string>
@@ -278,6 +280,8 @@
     <string name="save_unit">Simpan satuan</string>
     <string name="settings_privacy">Privasi &amp; keamanan</string>
     <string name="settings_privacy_desc">Kelola keamanan dan data pribadi</string>
+    <string name="settings_ad_privacy">Pilihan privasi iklan</string>
+    <string name="settings_ad_privacy_desc">Tinjau atau ubah persetujuan iklan Anda</string>
     <string name="open_link_failed">Tidak ada aplikasi yang dapat membuka tautan ini</string>
     <string name="settings_weather_desc">Perbarui setiap hari berdasarkan cuaca</string>
     <string name="settings_gender_desc">Mempengaruhi target air harian Anda</string>
@@ -414,4 +418,12 @@
     <string name="reminder_time_duplicate">Pengingat sudah diatur untuk waktu tersebut</string>
     <string name="reminder_custom_times_title">Waktu pengingat</string>
     <string name="reminder_custom_times_subtitle">Ketuk waktu untuk mengedit, ketuk + untuk menambah yang baru</string>
+    <string name="exit_survey_title">Sudah mau keluar?</string>
+    <string name="exit_survey_subtitle">Beri tahu kami alasannya, ini membantu kami berkembang.</string>
+    <string name="exit_survey_reason_ads">Terlalu banyak iklan</string>
+    <string name="exit_survey_reason_not_useful">Tidak berguna bagi saya</string>
+    <string name="exit_survey_reason_bug">Menemukan bug</string>
+    <string name="exit_survey_reason_other">Alasan lain</string>
+    <string name="exit_survey_stay">Tetap di sini</string>
+    <string name="exit_survey_exit">Tetap keluar</string>
 </resources>

@@ -93,6 +93,7 @@
     <string name="units">وحدات</string>
     <string name="sound">صوت</string>
     <string name="language">اللغة</string>
+    <string name="system_default_language">افتراضي النظام</string>
     <string name="theme">السمة</string>
     <string name="rate_app">قيم التطبيق</string>
     <string name="later">لاحقًا</string>
@@ -189,6 +190,7 @@
     <string name="off">عن</string>
     <string name="picker_hour">ساعة</string>
     <string name="picker_minute">دقيقة</string>
+    <string name="picker_period">الفترة</string>
     <string name="picker_device_format_hint">يظهر الوقت بتنسيق جهازك</string>
     <string name="reminder_pause_info">Notifications will pause during this window</string>
     <string name="rate_dialog_title">هل تستمتع بالتطبيق؟</string>
@@ -278,6 +280,8 @@
     <string name="save_unit">حفظ الوحدة</string>
     <string name="settings_privacy">الخصوصية والأمن</string>
     <string name="settings_privacy_desc">إدارة الأمن والبيانات الشخصية</string>
+    <string name="settings_ad_privacy">خيارات خصوصية الإعلانات</string>
+    <string name="settings_ad_privacy_desc">مراجعة أو تغيير موافقتك على الإعلانات</string>
     <string name="open_link_failed">لا يوجد تطبيق يمكنه فتح هذا الرابط</string>
     <string name="settings_weather_desc">تحديث يوميا بناء على الطقس</string>
     <string name="settings_gender_desc">يؤثر على هدفك المائي اليومي</string>
@@ -414,4 +418,12 @@
     <string name="reminder_time_duplicate">توجد تذكير بالفعل في هذا الوقت</string>
     <string name="reminder_custom_times_title">أوقات التذكير</string>
     <string name="reminder_custom_times_subtitle">اضغط على الوقت للتعديل، واضغط على + لإضافة وقت جديد</string>
+    <string name="exit_survey_title">هل تغادر بالفعل؟</string>
+    <string name="exit_survey_subtitle">أخبرنا بالسبب، فهذا يساعدنا على التحسين.</string>
+    <string name="exit_survey_reason_ads">إعلانات كثيرة جداً</string>
+    <string name="exit_survey_reason_not_useful">غير مفيد بالنسبة لي</string>
+    <string name="exit_survey_reason_bug">تم العثور على خطأ</string>
+    <string name="exit_survey_reason_other">سبب آخر</string>
+    <string name="exit_survey_stay">البقاء</string>
+    <string name="exit_survey_exit">الخروج على أي حال</string>
 </resources>

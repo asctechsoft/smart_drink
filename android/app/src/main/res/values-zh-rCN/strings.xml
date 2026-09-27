@@ -30,4 +30,7 @@
     <string name="seconds">秒</string>
     <string name="exceeded_your_goal">已超过您的目标</string>
     <string name="goal_completed">目标完成！</string>
+    <string name="noti_drink">喝水</string>
+    <string name="noti_remaining_today">今天还剩 %1$s %2$s</string>
+    <string name="noti_today_goal">今日目标</string>
 </resources>

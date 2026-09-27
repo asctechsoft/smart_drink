@@ -10,6 +10,7 @@ import 'package:waternudge/presentation/common_components/onboarding_background.
 import 'package:waternudge/tour/tour_anchor.dart';
 import 'package:waternudge/tour/tour_controller.dart';
 import 'package:waternudge/tour/tour_steps.dart';
+import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
@@ -257,15 +258,12 @@ class _TodayScreenState extends State<TodayScreen> {
         ? controller.todayRecords.last
         : null;
 
-    String lastTime = '--:--';
-    String lastAmPm = '';
-    if (lastDrink != null) {
-      lastAmPm = lastDrink.timestamp.hour >= 12 ? 'pm'.tr : 'am'.tr;
-      int h = lastDrink.timestamp.hour % 12;
-      if (h == 0) h = 12;
-      lastTime =
-          '${h.toString().padLeft(2, '0')}:${lastDrink.timestamp.minute.toString().padLeft(2, '0')}';
-    }
+    final lastTime = lastDrink == null
+        ? '--:--'
+        : UnitConverter.formatTime(
+            '${lastDrink.timestamp.hour.toString().padLeft(2, '0')}:'
+            '${lastDrink.timestamp.minute.toString().padLeft(2, '0')}',
+          );
 
     TextStyle labelStyle() => TextStyle(
       fontSize: 16,
@@ -288,10 +286,7 @@ class _TodayScreenState extends State<TodayScreen> {
             children: [
               Text('last_time'.tr, style: labelStyle()),
               const SizedBox(height: 2),
-              Text(
-                lastAmPm.isEmpty ? lastTime : '$lastTime $lastAmPm',
-                style: valueStyle(),
-              ),
+              Text(lastTime, style: valueStyle()),
             ],
           ),
           const Spacer(),

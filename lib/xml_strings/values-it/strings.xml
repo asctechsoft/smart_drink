@@ -93,6 +93,7 @@
     <string name="units">Unità</string>
     <string name="sound">Suono</string>
     <string name="language">Lingua</string>
+    <string name="system_default_language">Predefinito di sistema</string>
     <string name="theme">Tema</string>
     <string name="rate_app">Valuta l\'app</string>
     <string name="later">Più tardi</string>
@@ -189,6 +190,7 @@
     <string name="off">Spento</string>
     <string name="picker_hour">Ora</string>
     <string name="picker_minute">Minuto</string>
+    <string name="picker_period">Periodo</string>
     <string name="picker_device_format_hint">L\'ora viene mostrata nel formato del tuo dispositivo</string>
     <string name="reminder_pause_info">Le notifiche verranno sospese durante questa finestra</string>
     <string name="rate_dialog_title">Ti piace l\'app?</string>
@@ -278,6 +280,8 @@
     <string name="save_unit">Salva unità</string>
     <string name="settings_privacy">Privacy e sicurezza</string>
     <string name="settings_privacy_desc">Gestire la sicurezza e i dati personali</string>
+    <string name="settings_ad_privacy">Opzioni di privacy degli annunci</string>
+    <string name="settings_ad_privacy_desc">Rivedi o modifica il tuo consenso per gli annunci</string>
     <string name="open_link_failed">Nessuna app può aprire questo link</string>
     <string name="settings_weather_desc">Aggiornamento quotidiano in base al meteo</string>
     <string name="settings_gender_desc">Influisce sul tuo obiettivo idrico giornaliero</string>
@@ -414,4 +418,12 @@
     <string name="reminder_time_duplicate">È già impostato un promemoria per quell'ora</string>
     <string name="reminder_custom_times_title">Orari dei promemoria</string>
     <string name="reminder_custom_times_subtitle">Tocca un'ora per modificarla, tocca + per aggiungerne una nuova</string>
+    <string name="exit_survey_title">Te ne vai già?</string>
+    <string name="exit_survey_subtitle">Dicci il perché, ci aiuta a migliorare.</string>
+    <string name="exit_survey_reason_ads">Troppi annunci</string>
+    <string name="exit_survey_reason_not_useful">Non utile per me</string>
+    <string name="exit_survey_reason_bug">Trovato un bug</string>
+    <string name="exit_survey_reason_other">Altro motivo</string>
+    <string name="exit_survey_stay">Resta</string>
+    <string name="exit_survey_exit">Esci comunque</string>
 </resources>

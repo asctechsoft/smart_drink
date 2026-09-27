@@ -93,6 +93,7 @@
     <string name="units">Unidades</string>
     <string name="sound">Som</string>
     <string name="language">Idioma</string>
+    <string name="system_default_language">Padrão do sistema</string>
     <string name="theme">Tema</string>
     <string name="rate_app">Avaliar app</string>
     <string name="later">Mais tarde</string>
@@ -189,6 +190,7 @@
     <string name="off">Desligado</string>
     <string name="picker_hour">Hora</string>
     <string name="picker_minute">Minuto</string>
+    <string name="picker_period">Período</string>
     <string name="picker_device_format_hint">A hora é mostrada no formato do seu dispositivo</string>
     <string name="reminder_pause_info">As notificações serão pausadas durante esta janela</string>
     <string name="rate_dialog_title">Você está gostando do aplicativo?</string>
@@ -278,6 +280,8 @@
     <string name="save_unit">Salvar unidade</string>
     <string name="settings_privacy">Privacidade e segurança</string>
     <string name="settings_privacy_desc">Gerenciar segurança e dados pessoais</string>
+    <string name="settings_ad_privacy">Opções de privacidade de anúncios</string>
+    <string name="settings_ad_privacy_desc">Revise ou altere seu consentimento de anúncios</string>
     <string name="open_link_failed">Nenhum app pode abrir este link</string>
     <string name="settings_weather_desc">Atualizar diariamente com base no clima</string>
     <string name="settings_gender_desc">Afeta sua meta diária de água</string>
@@ -414,4 +418,12 @@
     <string name="reminder_time_duplicate">Já existe um lembrete definido para esse horário</string>
     <string name="reminder_custom_times_title">Horários dos lembretes</string>
     <string name="reminder_custom_times_subtitle">Toque num horário para editar, toque em + para adicionar um novo</string>
+    <string name="exit_survey_title">Já vai embora?</string>
+    <string name="exit_survey_subtitle">Diga-nos o motivo, isso nos ajuda a melhorar.</string>
+    <string name="exit_survey_reason_ads">Anúncios em excesso</string>
+    <string name="exit_survey_reason_not_useful">Não é útil para mim</string>
+    <string name="exit_survey_reason_bug">Encontrei um erro</string>
+    <string name="exit_survey_reason_other">Outro motivo</string>
+    <string name="exit_survey_stay">Ficar</string>
+    <string name="exit_survey_exit">Sair mesmo assim</string>
 </resources>

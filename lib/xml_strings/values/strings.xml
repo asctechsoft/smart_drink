@@ -6,6 +6,7 @@
     <string name="off">Off</string>
     <string name="picker_hour">Hour</string>
     <string name="picker_minute">Minute</string>
+    <string name="picker_period">Period</string>
     <string name="picker_device_format_hint">Time is shown in your device\'s format</string>
     <string name="reminder_pause_info">Notifications will pause during this window</string>
     <string name="select_your_gender">Select your gender</string>

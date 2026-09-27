@@ -2040,7 +2040,7 @@ class _NapSheetContentState extends State<_NapSheetContent> {
               ),
               const SizedBox(height: 4),
               AppText(
-                time,
+                UnitConverter.formatTime(time),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,

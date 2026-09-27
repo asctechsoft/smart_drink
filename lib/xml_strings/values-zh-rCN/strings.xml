@@ -93,6 +93,7 @@
     <string name="units">单位</string>
     <string name="sound">声音</string>
     <string name="language">语言</string>
+    <string name="system_default_language">系统默认</string>
     <string name="theme">主题</string>
     <string name="rate_app">评价应用</string>
     <string name="later">稍后</string>
@@ -189,6 +190,7 @@
     <string name="off">离开</string>
     <string name="picker_hour">小时</string>
     <string name="picker_minute">分钟</string>
+    <string name="picker_period">时段</string>
     <string name="picker_device_format_hint">时间以您设备的格式显示</string>
     <string name="reminder_pause_info">通知将在此窗口期间暂停</string>
     <string name="rate_dialog_title">您喜欢这个应用程序吗？</string>
@@ -278,6 +280,8 @@
     <string name="save_unit">保存单位</string>
     <string name="settings_privacy">隐私与安全</string>
     <string name="settings_privacy_desc">管理安全和个人数据</string>
+    <string name="settings_ad_privacy">广告隐私选项</string>
+    <string name="settings_ad_privacy_desc">查看或更改您的广告同意设置</string>
     <string name="open_link_failed">没有可以打开此链接的应用</string>
     <string name="settings_weather_desc">根据天气每日更新</string>
     <string name="settings_gender_desc">影响您的每日饮水目标</string>
@@ -414,4 +418,12 @@
     <string name="reminder_time_duplicate">该时间已设置提醒</string>
     <string name="reminder_custom_times_title">提醒时间</string>
     <string name="reminder_custom_times_subtitle">点击时间进行编辑，点击 + 添加新时间</string>
+    <string name="exit_survey_title">确定要离开吗？</string>
+    <string name="exit_survey_subtitle">告诉我们原因，以帮助我们改进。</string>
+    <string name="exit_survey_reason_ads">广告太多</string>
+    <string name="exit_survey_reason_not_useful">对我没有用</string>
+    <string name="exit_survey_reason_bug">发现了错误</string>
+    <string name="exit_survey_reason_other">其他原因</string>
+    <string name="exit_survey_stay">留下</string>
+    <string name="exit_survey_exit">依然退出</string>
 </resources>

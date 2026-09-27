@@ -93,6 +93,7 @@
     <string name="units">Birimler</string>
     <string name="sound">Ses</string>
     <string name="language">Dil</string>
+    <string name="system_default_language">Sistem Varsayılanı</string>
     <string name="theme">Tema</string>
     <string name="rate_app">Uygulamayı değerlendir</string>
     <string name="later">Daha sonra</string>
@@ -189,6 +190,7 @@
     <string name="off">Kapalı</string>
     <string name="picker_hour">Saat</string>
     <string name="picker_minute">Dakika</string>
+    <string name="picker_period">Dönem</string>
     <string name="picker_device_format_hint">Saat, cihazınızın biçiminde gösterilir</string>
     <string name="reminder_pause_info">Bu pencerede bildirimler duraklatılacak</string>
     <string name="rate_dialog_title">Uygulamadan memnun musunuz?</string>
@@ -278,6 +280,8 @@
     <string name="save_unit">Birimi kaydet</string>
     <string name="settings_privacy">Gizlilik ve Güvenlik</string>
     <string name="settings_privacy_desc">Güvenliği ve kişisel verileri yönetin</string>
+    <string name="settings_ad_privacy">Reklam gizlilik tercihleri</string>
+    <string name="settings_ad_privacy_desc">Reklam onayınızı inceleyin veya değiştirin</string>
     <string name="open_link_failed">Bu bağlantıyı açabilecek uygulama yok</string>
     <string name="settings_weather_desc">Hava durumuna göre günlük güncelleme</string>
     <string name="settings_gender_desc">Günlük su hedefinizi etkiler</string>
@@ -414,4 +418,12 @@
     <string name="reminder_time_duplicate">Bu zaman için zaten bir hatırlatıcı ayarlanmış</string>
     <string name="reminder_custom_times_title">Hatırlatma zamanları</string>
     <string name="reminder_custom_times_subtitle">Düzenlemek için bir zamana dokunun, yeni eklemek için +'ya dokunun</string>
+    <string name="exit_survey_title">Ayrılıyor musunuz?</string>
+    <string name="exit_survey_subtitle">Nedenini bize söyleyin, gelişmemize yardımcı olur.</string>
+    <string name="exit_survey_reason_ads">Çok fazla reklam var</string>
+    <string name="exit_survey_reason_not_useful">Benim için yararlı değil</string>
+    <string name="exit_survey_reason_bug">Bir hata buldum</string>
+    <string name="exit_survey_reason_other">Diğer neden</string>
+    <string name="exit_survey_stay">Kal</string>
+    <string name="exit_survey_exit">Yine de çık</string>
 </resources>

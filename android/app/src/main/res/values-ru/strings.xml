@@ -30,4 +30,7 @@
     <string name="seconds">СЕКУНДЫ</string>
     <string name="exceeded_your_goal">Превысил свою цель</string>
     <string name="goal_completed">Цель достигнута!</string>
+    <string name="noti_drink">Пить</string>
+    <string name="noti_remaining_today">Осталось %1$s %2$s на сегодня</string>
+    <string name="noti_today_goal">цель на сегодня</string>
 </resources>

@@ -30,4 +30,7 @@
     <string name="seconds">DETIK</string>
     <string name="exceeded_your_goal">Melebihi target anda</string>
     <string name="goal_completed">Tujuan tercapai!</string>
+    <string name="noti_drink">Minum</string>
+    <string name="noti_remaining_today">Sisa %1$s %2$s hari ini</string>
+    <string name="noti_today_goal">target hari ini</string>
 </resources>
