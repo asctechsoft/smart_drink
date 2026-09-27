@@ -236,6 +236,7 @@
     <string name="detail_history">詳しい経緯</string>
     <string name="unit_days">日</string>
     <string name="unit_times">回</string>
+    <string name="unit_caption">単位 (%1$s)</string>
     <string name="month_short">M%1$s</string>
     <string name="goal_per_day">毎日の目標</string>
     <string name="welcome_title_1">十分な水を飲みましょう</string>
@@ -341,7 +342,7 @@
     <string name="chat_screen_title">AIに聞く</string>
     <string name="chat_screen_subtitle">健康と水分補給のアシスタント</string>
     <string name="chat_greeting_title">やあ！ 👋</string>
-    <string name="chat_greeting_body">私は AquaMind の AI アシスタントです。\n水分補給と健康について何でも聞いてください。</string>
+    <string name="chat_greeting_body">私は Aqua Mind の AI アシスタントです。\n水分補給と健康について何でも聞いてください。</string>
     <string name="chat_empty_title">まだ会話はありません</string>
     <string name="chat_empty_body">提案された質問を選択するか、独自の質問を入力して開始してください。</string>
     <string name="chat_input_hint">AIに聞いてみると…</string>
@@ -409,4 +410,8 @@
     <string name="history_overview_title">概要</string>
     <string name="reminder_slots_title">リマインダー時間</string>
     <string name="reminder_slots_subtitle">タップして時間を編集</string>
+    <string name="coach_cup_type">ここでカップのサイズを選択します — 上の記録ボタンに反映されます。</string>
+    <string name="reminder_time_duplicate">その時間には既にリマインダーが設定されています</string>
+    <string name="reminder_custom_times_title">リマインダーの時間</string>
+    <string name="reminder_custom_times_subtitle">時間をタップして編集、+ をタップして新しい時間を追加</string>
 </resources>

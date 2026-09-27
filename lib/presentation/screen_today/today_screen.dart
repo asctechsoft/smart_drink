@@ -1,4 +1,4 @@
-import 'package:dsp_base/advertisements.dart';
+import 'package:asc_common/asc_common.dart';
 import 'package:flutter/material.dart';
 import 'package:waternudge/configs/ads_config.dart';
 import 'package:waternudge/controller/settings_controller.dart';
@@ -30,26 +30,28 @@ class _TodayScreenState extends State<TodayScreen> {
   Worker? _goalWorker;
 
   /// Preloaded the moment Today mounts so it's ready by the time the goal is
-  /// hit; `requestAdAgain()` (inside the controller's dismiss callback)
-  /// refills it for the next time this fires.
-  late final InterstitialAdController _interstitialAdController;
+  /// hit; `showIfReady()`'s own dismiss callback reloads it for the next
+  /// time this fires.
+  late final AscInterstitialAdService _interstitialAd;
 
   @override
   void initState() {
     super.initState();
     final controller = Get.find<TodayController>();
 
-    _interstitialAdController = InterstitialAdController.newInstance(
+    _interstitialAd = AscInterstitialAdService(
       adUnitId: AdsConfig.interstitialAdUnitId,
-      tag: 'goal_reached',
-    )..requestInterstitialAd();
+    )..load();
 
     _goalWorker = ever(controller.goalReachedEvent, (_) {
       if (mounted) {
         playBubbleSound();
         showBubbleCelebration(context);
         // Let the bubble celebration play out before the ad takes over.
-        _interstitialAdController.showAd(delayInMillis: 3200);
+        Future.delayed(
+          const Duration(milliseconds: 3200),
+          _interstitialAd.showIfReady,
+        );
       }
     });
 
@@ -63,6 +65,7 @@ class _TodayScreenState extends State<TodayScreen> {
   @override
   void dispose() {
     _goalWorker?.dispose();
+    _interstitialAd.dispose();
     super.dispose();
   }
 

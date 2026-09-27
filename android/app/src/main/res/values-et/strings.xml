@@ -5,13 +5,13 @@
     <string name="widget_medium_a_desc">Järgmise meeldetuletuse loendur</string>
     <string name="widget_medium_b_desc">Tänane tarbimine kiire lisamisega</string>
     <string name="widget_large_desc">Täielik armatuurlaud ajalooga</string>
-    <string name="app_name">AquaMind</string>
+    <string name="app_name">Aqua Mind</string>
     <string name="custom">Kohandatud</string>
     <string name="today_s_intake">Täna tarbitud</string>
     <string name="no_records_today">Täna pole kirjeid</string>
-    <string name="add_drink">Lisa Jook</string>
+    <string name="add_drink">Lisa jook</string>
     <string name="time_to_drink_water">Aeg juua vett!</string>
-    <string name="water_tracking">Vee Jälgimine</string>
+    <string name="water_tracking">Vee jälgimine</string>
     <string name="ongoing_desc">Jätkuva vee tarbimise jälgimise teade</string>
     <string name="drink_reminders">Joogimeeldetuletused</string>
     <string name="daily_desc">Igapäevased veejoomise meeldetuletused</string>

@@ -96,7 +96,7 @@ class _AxisUnitLabel extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: Text(
-        'Unit ($unit)',
+        'unit_caption'.trParams({'args1': unit}),
         style: const TextStyle(fontSize: 10, color: Colors.white70),
       ),
     );

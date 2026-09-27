@@ -1,4 +1,5 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:asc_common/asc_common.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/presentation/common_components/bottom_safe_area.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
@@ -34,6 +35,7 @@ class PremiumScreen extends StatelessWidget {
                 children: [
                   // Top bar
                   AppRow(
+                    mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AppIcon(
@@ -101,6 +103,7 @@ class PremiumScreen extends StatelessWidget {
 
                   // Caption
                   AppRow(
+                    mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AppIcon(

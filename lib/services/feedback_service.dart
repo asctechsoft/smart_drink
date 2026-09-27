@@ -6,15 +6,12 @@ import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
-import 'package:get/get.dart';
 
 import 'package:waternudge/configs/pref_const.dart';
-import 'package:waternudge/controller/auth_controller.dart';
 
 /// Persists user feedback to Firestore (collection `feedbacks`).
 ///
-/// Every submission is keyed by the device id; when the user is signed in the
-/// Firebase user id (and email) are attached as well. Screenshot attachments are
+/// Every submission is keyed by the device id. Screenshot attachments are
 /// NOT uploaded yet — only their count is recorded; file upload will move to a
 /// dedicated backend later.
 class FeedbackService {
@@ -51,16 +48,6 @@ class FeedbackService {
   }) async {
     final deviceId = await _getOrCreateDeviceId();
 
-    String? userId;
-    String? userEmail;
-    if (Get.isRegistered<AuthController>()) {
-      final auth = AuthController.to;
-      if (auth.isLoggedIn) {
-        userId = auth.user.value?.uid;
-        userEmail = auth.email.isNotEmpty ? auth.email : null;
-      }
-    }
-
     String appVersion = '';
     String appBuild = '';
     try {
@@ -76,8 +63,6 @@ class FeedbackService {
     try {
       await _db.collection('feedbacks').add({
         'deviceId': deviceId,
-        'userId': userId,
-        'userEmail': userEmail,
         'category': category,
         'subject': subject.trim(),
         'message': message.trim(),

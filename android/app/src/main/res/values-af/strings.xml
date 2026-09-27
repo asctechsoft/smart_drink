@@ -5,11 +5,11 @@
     <string name="widget_medium_a_desc">Volgende herinnering aftelling</string>
     <string name="widget_medium_b_desc">Vandag se inname met vinnige toevoeging</string>
     <string name="widget_large_desc">Volledige dashboard met geskiedenis</string>
-    <string name="app_name">AquaMind</string>
+    <string name="app_name">Aqua Mind</string>
     <string name="custom">Pasgemaak</string>
     <string name="today_s_intake">Vandag se inname</string>
     <string name="no_records_today">Geen rekords vandag nie</string>
-    <string name="add_drink">Voeg Drank By</string>
+    <string name="add_drink">Voeg drank by</string>
     <string name="time_to_drink_water">Tyd om water te drink!</string>
     <string name="water_tracking">Wateropsporing</string>
     <string name="ongoing_desc">Voortgesette waterinname-opsporing kennisgewing</string>

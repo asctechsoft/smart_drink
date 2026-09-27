@@ -1,4 +1,5 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:asc_common/asc_common.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/presentation/common_components/custom_switch.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
@@ -93,6 +94,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                             },
                             radius: 16,
                           ).padding(horizontal: 16, vertical: 12),
+                          mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             AppText(

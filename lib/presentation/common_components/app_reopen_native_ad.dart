@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:dsp_base/advertisements.dart';
+import 'package:asc_common/asc_common.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:waternudge/configs/ads_config.dart';
 
 /// The Native Ad shown after the splash hands off to Home for a returning
-/// user (Android only — [NativeAdController] no-ops on iOS, which keeps
-/// using the App Open ad instead; see `splash_screen.dart`).
+/// user (Android only — the app's native ad factory, registered in
+/// `MainActivity.kt`, isn't wired up on iOS, which keeps using the App Open
+/// ad instead; see `splash_screen.dart`).
 ///
 /// Call [preload] once at app startup so the ad is ready by the time
 /// [show] is called; [show] is a no-op until it's actually loaded, so it
@@ -15,48 +15,33 @@ import 'package:waternudge/configs/ads_config.dart';
 class AppReopenNativeAd {
   AppReopenNativeAd._();
 
-  static const String _tag = 'app_reopen';
-
-  /// Matches how `NativeAdController.newInstance`/`getInstance` derive the
-  /// GetX tag internally — kept in one place so the preload and lookup can
-  /// never drift apart.
-  static String get _getxTag =>
-      '${AdsConfig.nativeAdUnitId}${AdsConfig.nativeAdFactoryId}$_tag';
+  static final _service = AscNativeAdService(
+    adUnitId: AdsConfig.nativeAdUnitId,
+    factoryId: AdsConfig.nativeAdFactoryId,
+  );
 
   static void preload() {
     if (!Platform.isAndroid) return;
-    NativeAdController.newInstance(
-      adUnitId: AdsConfig.nativeAdUnitId,
-      factoryId: AdsConfig.nativeAdFactoryId,
-      tag: _tag,
-      adHeight: 120,
-    ).requestAd();
+    _service.load();
   }
 
   static void show(BuildContext context) {
     if (!Platform.isAndroid) return;
-    if (!Get.isRegistered<NativeAdController>(tag: _getxTag)) return;
-
-    final controller = NativeAdController.getInstance(
-      adUnitId: AdsConfig.nativeAdUnitId,
-      factoryId: AdsConfig.nativeAdFactoryId,
-      tag: _tag,
-    );
-    if (!controller.isAdLoaded.value) return;
+    if (!_service.isLoaded) return;
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (ctx) => _NativeAdSheet(controller: controller),
+      builder: (ctx) => _NativeAdSheet(service: _service),
     );
   }
 }
 
 class _NativeAdSheet extends StatelessWidget {
-  const _NativeAdSheet({required this.controller});
+  const _NativeAdSheet({required this.service});
 
-  final NativeAdController controller;
+  final AscNativeAdService service;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +76,7 @@ class _NativeAdSheet extends StatelessWidget {
           Stack(
             clipBehavior: Clip.none,
             children: [
-              controller.renderAd(),
+              service.render(height: 120),
               Positioned(
                 top: -4,
                 right: -4,

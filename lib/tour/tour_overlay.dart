@@ -50,7 +50,8 @@ class _TourStepViewState extends State<_TourStepView>
   Timer? _autoAdvanceTimer;
   int _lastIndex = -1;
 
-  static const double _gap = 22; // gap between target and bubble (arrow lives here)
+  static const double _gap =
+      22; // gap between target and bubble (arrow lives here)
   static const double _arrowW = 26;
   static const double _arrowH = 14;
   static const double _growScale = 0.10; // how much the target grows at peak
@@ -158,30 +159,7 @@ class _TourStepViewState extends State<_TourStepView>
             ),
           _buildArrow(size, target, below),
           _buildBubble(size, target, below, step, controller),
-          _buildSkip(controller),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSkip(TourController controller) {
-    return Positioned(
-      top: 12,
-      right: 12,
-      child: SafeArea(
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: controller.skip,
-          child: Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              color: Colors.black.withValues(alpha: 0.35),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(Icons.close_rounded, size: 18, color: Colors.white),
-          ),
-        ),
       ),
     );
   }

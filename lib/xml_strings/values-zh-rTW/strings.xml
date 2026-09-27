@@ -236,6 +236,7 @@
     <string name="detail_history">詳細歷史</string>
     <string name="unit_days">天</string>
     <string name="unit_times">次</string>
+    <string name="unit_caption">單位 (%1$s)</string>
     <string name="month_short">M%1$s</string>
     <string name="goal_per_day">每日目標</string>
     <string name="welcome_title_1">喝足夠的水</string>
@@ -341,7 +342,7 @@
     <string name="chat_screen_title">詢問人工智慧</string>
     <string name="chat_screen_subtitle">健康與補水助手</string>
     <string name="chat_greeting_title">你好呀！ 👋</string>
-    <string name="chat_greeting_body">我是 AquaMind 的人工智慧助理。 \n請向我詢問有關補水和健康的任何問題！</string>
+    <string name="chat_greeting_body">我是 Aqua Mind 的人工智慧助理。 \n請向我詢問有關補水和健康的任何問題！</string>
     <string name="chat_empty_title">還沒有對話</string>
     <string name="chat_empty_body">選擇一個建議的問題或輸入您自己的問題即可開始。</string>
     <string name="chat_input_hint">問人工智慧...</string>
@@ -409,4 +410,8 @@
     <string name="history_overview_title">概覽</string>
     <string name="reminder_slots_title">提醒時間段</string>
     <string name="reminder_slots_subtitle">點擊時間段以編輯時間</string>
+    <string name="coach_cup_type">在此選擇您的杯子容量 — 它將套用到上方的記錄按鈕。</string>
+    <string name="reminder_time_duplicate">該時間已設定提醒</string>
+    <string name="reminder_custom_times_title">提醒時間</string>
+    <string name="reminder_custom_times_subtitle">點擊時間進行編輯，點擊 + 新增新時間</string>
 </resources>

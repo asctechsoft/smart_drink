@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
-import 'package:dsp_base/app_material.dart';
+import 'package:asc_common/asc_common.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/controller/history_controller.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/today_controller.dart';
@@ -1074,16 +1075,17 @@ class _LargeWidget extends StatelessWidget {
         const SizedBox(width: 10),
         AppText(
           time.tr,
-          modifier: Modifier.background(
-            color: AppColors.basic100,
-            radius: 100,
-          ).padding(horizontal: 8, vertical: 8),
           style: TextStyle(
             fontSize: 9,
             fontWeight: FontWeight.w400,
             color: AppColors.basic500,
             letterSpacing: 0.6,
           ),
+        ).apply(
+          Modifier.background(
+            color: AppColors.basic100,
+            radius: 100,
+          ).padding(horizontal: 8, vertical: 8),
         ),
       ],
     );

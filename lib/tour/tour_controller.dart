@@ -1,11 +1,12 @@
 import "dart:async";
 import "dart:math";
 
-import "package:dsp_base/convenience_imports.dart";
 import "package:flutter/widgets.dart";
 import "package:get/get.dart";
 import "package:shared_preferences/shared_preferences.dart";
+import "package:waternudge/configs/app_figs.dart";
 import "package:waternudge/configs/pref_const.dart";
+import "package:waternudge/services/app_remote_config.dart";
 import "package:waternudge/tour/tour_steps.dart";
 import "package:waternudge/utils/analytics.dart";
 
@@ -160,14 +161,16 @@ class TourController extends GetxController {
     });
   }
 
-  static String _readVariantFromRemoteConfig() =>
-      RconfAssist.getString(rcVariantKey);
+  static String _readVariantFromRemoteConfig() => AppRemoteConfig.getString(
+    rcVariantKey,
+    testOptionEnabled: AppFigs.isShowTestOption,
+  );
 
   /// Local A/B split until the Remote Config experiment exists: picks
   /// [variantPulse] or [variantPlain] once per install and pins it through
-  /// `RconfAssist`'s test override. That override is itself gated on
-  /// `CommFigs.IS_SHOW_TEST_OPTION`, so this is a no-op on the Product
-  /// release build — shipping it cannot overwrite a real experiment.
+  /// `AppRemoteConfig`'s test override. That override is itself gated on
+  /// `AppFigs.isShowTestOption`, so this is a no-op on the Product release
+  /// build — shipping it cannot overwrite a real experiment.
   static Future<void> assignLocalVariant({Random? random}) async {
     final prefs = await SharedPreferences.getInstance();
     var assigned = prefs.getString(PrefConst.tourAbVariant) ?? '';
@@ -175,6 +178,10 @@ class TourController extends GetxController {
       assigned = (random ?? Random()).nextBool() ? variantPlain : variantPulse;
       await prefs.setString(PrefConst.tourAbVariant, assigned);
     }
-    RconfAssist.setTestString(rcVariantKey, assigned);
+    await AppRemoteConfig.setTestString(
+      rcVariantKey,
+      assigned,
+      testOptionEnabled: AppFigs.isShowTestOption,
+    );
   }
 }

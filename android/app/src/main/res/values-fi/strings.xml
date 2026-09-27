@@ -5,13 +5,13 @@
     <string name="widget_medium_a_desc">Seuraavan muistutuksen lähtölaskenta</string>
     <string name="widget_medium_b_desc">Tämän päivän saanti pikalisäyksellä</string>
     <string name="widget_large_desc">Täysi kojelauta historialla</string>
-    <string name="app_name">AquaMind</string>
+    <string name="app_name">Aqua Mind</string>
     <string name="custom">Mukautettu</string>
     <string name="today_s_intake">Tämän päivän saanti</string>
     <string name="no_records_today">Ei tallenteita tänään</string>
-    <string name="add_drink">Lisää Juoma</string>
+    <string name="add_drink">Lisää juoma</string>
     <string name="time_to_drink_water">On aika juoda vettä!</string>
-    <string name="water_tracking">Veden Seuranta</string>
+    <string name="water_tracking">Veden seuranta</string>
     <string name="ongoing_desc">Jatkuva vedenkulutuksen seuranta-ilmoitus</string>
     <string name="drink_reminders">Juomamuistutukset</string>
     <string name="daily_desc">Päivittäiset vedenjuontimuistutukset</string>

@@ -12,6 +12,14 @@ class LanguagesController extends GetxController {
   final Rx<Locale> currentAppLocale = AppLocalize.getAppLocale().obs;
   final Rx<Locale?> regionSuggestedLocale = Rx<Locale?>(null);
 
+  /// Whether "System Default" (rather than a specific language) is picked —
+  /// see `AppLocalize.useSystemLocale`. Warmed from the persisted flag in
+  /// [onInit] so the picker's radio state survives app restarts. Defaults to
+  /// `true` so a fresh install's first paint highlights "System Default"
+  /// (matching the locale already resolved by `_ensureLocaleConfigured`)
+  /// instead of the auto-detected language row.
+  final RxBool isSystemDefault = true.obs;
+
   static const int _maxLocaleHistorySize = 3;
 
   /// In-memory cache of the persisted MRU history, so [getSuggestedLocales]
@@ -25,11 +33,21 @@ class LanguagesController extends GetxController {
     super.onInit();
     _loadHistoryCache();
     _loadRegionSuggestedLocale();
+    _loadFollowSystemFlag();
   }
 
   Future<void> _loadHistoryCache() async {
     final prefs = await SharedPreferences.getInstance();
     _historyRaw = prefs.getString(PrefConst.languageSelectionHistory) ?? '';
+  }
+
+  Future<void> _loadFollowSystemFlag() async {
+    final prefs = await SharedPreferences.getInstance();
+    // Unset (never explicitly false/true) only happens before the user has
+    // ever touched this picker — treat that as "System Default", same as the
+    // field's own initial value above.
+    isSystemDefault.value =
+        prefs.getBool(PrefConst.followSystemLanguage) ?? true;
   }
 
   Future<void> _loadRegionSuggestedLocale() async {
@@ -70,6 +88,15 @@ class LanguagesController extends GetxController {
       // Small delay to allow the loading dialog to render before the heavy UI blocking task
       await Future.delayed(const Duration(milliseconds: 150));
 
+      // Picking a specific language overrides "System Default", if it was
+      // set — clear the pin flag so a later cold start trusts this choice
+      // instead of re-detecting.
+      if (isSystemDefault.value) {
+        isSystemDefault.value = false;
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool(PrefConst.followSystemLanguage, false);
+      }
+
       await AppLocalize.setAppLocale(locale);
       currentAppLocale.value = locale;
       await _pushLocaleToHistory(locale);
@@ -86,6 +113,31 @@ class LanguagesController extends GetxController {
       Analytics.userLanguage(key);
     } finally {
       // Dismiss loading overlay
+      LoadingUtils.hide();
+    }
+  }
+
+  /// "System Default" — follows the device's own language from now on,
+  /// re-detecting on every cold start instead of pinning to whatever it
+  /// resolves to right now. See `AppLocalize.useSystemLocale`.
+  Future<void> useSystemDefault() async {
+    LoadingUtils.show();
+    try {
+      await Future.delayed(const Duration(milliseconds: 150));
+
+      await AppLocalize.useSystemLocale();
+      isSystemDefault.value = true;
+      currentAppLocale.value = AppLocalize.getAppLocale();
+      await _pushLocaleToHistory(currentAppLocale.value);
+
+      final key = _localeToKey(currentAppLocale.value);
+      if (Get.isRegistered<SettingsController>()) {
+        Get.find<SettingsController>().language.value = key;
+      }
+
+      Analytics.languageSelect('system_default');
+      Analytics.userLanguage(key);
+    } finally {
       LoadingUtils.hide();
     }
   }
@@ -172,4 +224,3 @@ class LanguagesController extends GetxController {
     return result;
   }
 }
-

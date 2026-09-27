@@ -1,11 +1,11 @@
-import 'package:dsp_base/app_material.dart';
+import 'package:asc_common/asc_common.dart';
 import 'package:country_flags/country_flags.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:waternudge/controller/languages_controller.dart';
 import 'package:waternudge/services/app_localize.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:waternudge/values/route_name.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class LanguageListWidget extends StatelessWidget {
   final String searchQuery;
@@ -40,11 +40,10 @@ class LanguageListWidget extends StatelessWidget {
       if (hasNoResults) {
         return Center(
           child: AppText(
-            modifier: Modifier.paddingAll(24),
             'no_matching_language_found'.tr,
             textAlign: TextAlign.center,
             style: TextStyle(color: ob.textrReminderCountdown, fontSize: 15),
-          ),
+          ).apply(Modifier.paddingAll(24)),
         );
       }
 

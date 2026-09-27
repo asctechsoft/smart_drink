@@ -236,6 +236,7 @@
     <string name="detail_history">자세한 역사</string>
     <string name="unit_days">날</string>
     <string name="unit_times">타임스</string>
+    <string name="unit_caption">단위 (%1$s)</string>
     <string name="month_short">M%1$s</string>
     <string name="goal_per_day">일일 목표</string>
     <string name="welcome_title_1">물을 충분히 마시세요</string>
@@ -409,4 +410,8 @@
     <string name="history_overview_title">개요</string>
     <string name="reminder_slots_title">리마인더 시간</string>
     <string name="reminder_slots_subtitle">시간을 수정하려면 슬롯을 탭하세요</string>
+    <string name="coach_cup_type">여기에서 컵 용량을 선택하세요 — 위 기록 버튼에 적용됩니다.</string>
+    <string name="reminder_time_duplicate">해당 시간에 이미 알림이 설정되어 있습니다</string>
+    <string name="reminder_custom_times_title">알림 시간</string>
+    <string name="reminder_custom_times_subtitle">시간을 탭하여 수정하고 +를 탭하여 새 시간을 추가하세요</string>
 </resources>

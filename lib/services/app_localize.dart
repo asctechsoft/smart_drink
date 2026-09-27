@@ -107,6 +107,30 @@ class AppLocalize {
 
   static Locale? getConfiguredLocale() => _configuredLocale;
 
+  /// Activates whatever [supportedLocales] entry best matches the device's
+  /// current system locale, and marks [PrefConst.followSystemLanguage] so a
+  /// later cold start re-detects instead of trusting the resolved locale
+  /// this persists to [PrefConst.language] as a pin — see `main.dart`'s
+  /// `_ensureLocaleConfigured`. Used by "System Default" in the language
+  /// picker; the counterpart to explicitly picking a locale via
+  /// [setAppLocale] (which callers should pair with clearing this flag).
+  static Future<void> useSystemLocale() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(PrefConst.followSystemLanguage, true);
+    await setAppLocale(bestSupportedMatchFor(getSystemLocale()));
+  }
+
+  /// The [supportedLocales] entry closest to [locale] (by language code),
+  /// or English if [locale] is null or unsupported.
+  static Locale bestSupportedMatchFor(Locale? locale) {
+    if (locale == null) return const Locale('en', 'US');
+    return supportedLocales.cast<Locale?>().firstWhere(
+          (l) => l!.languageCode == locale.languageCode,
+          orElse: () => null,
+        ) ??
+        const Locale('en', 'US');
+  }
+
   /// The actual system locale from the platform — more reliable than
   /// `Get.deviceLocale`, which can return the wrong value on some devices.
   static Locale? getSystemLocale() {

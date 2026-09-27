@@ -1,5 +1,5 @@
 name: waternudge
-description: "AquaMind: Water & AI Coach"
+description: "Aqua Mind: Water & AI Coach"
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   flutter:
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
   cupertino_icons: ^1.0.8
   get:
@@ -34,16 +36,14 @@ dependencies:
       url: https://github.com/asctechsoft/asc_common.git
 
   firebase_core: any
-  firebase_auth: any
   firebase_analytics: any
+  firebase_remote_config: any
+  firebase_crashlytics: any
   cloud_firestore: any
   package_info_plus: any
-  google_sign_in: ^6.2.2
   google_mobile_ads: ^9.1.0
   audioplayers: ^6.6.0
   image_picker: ^1.1.2
-  # Calls server_gateway_ai from the AI chat screen.
-  http: ^1.6.0
   health: ^13.3.1
   url_launcher: ^6.3.2
 dev_dependencies:

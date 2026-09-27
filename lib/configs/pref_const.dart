@@ -10,6 +10,13 @@ class PrefConst {
   static const String heightUnit = 'height_unit';
   static const String language = 'language';
   static const String languageSelectionHistory = 'language_selection_history';
+
+  /// `true` when the user picked "System Default" instead of a specific
+  /// language — [language] still gets updated to whatever that resolves to
+  /// right now (for display), but on the next cold start the app re-detects
+  /// the system locale instead of trusting that as a pin. See
+  /// `AppLocalize.useSystemLocale`.
+  static const String followSystemLanguage = 'follow_system_language';
   static const String intervalMinutes = 'interval_minutes';
   static const String sleepTimeStart = 'sleep_time_start';
   static const String sleepTimeEnd = 'sleep_time_end';
@@ -45,10 +52,6 @@ class PrefConst {
   // Guided tour A/B branch — assigned once per install, sticky across
   // sessions. See lib/tour/tour_controller.dart.
   static const String tourAbVariant = 'tour_ab_variant';
-
-  // AI chat free quota — counted per device, reset on the local calendar day.
-  static const String chatFreeUsedDate = 'chat_free_used_date';
-  static const String chatFreeUsedCount = 'chat_free_used_count';
 
   // Health Connect (Android): mirror each logged drink as a hydration record.
   static const String healthConnectEnabled = 'health_connect_enabled';

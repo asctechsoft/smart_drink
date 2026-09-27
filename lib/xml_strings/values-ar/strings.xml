@@ -236,6 +236,7 @@
     <string name="detail_history">التاريخ التفصيلي</string>
     <string name="unit_days">أيام</string>
     <string name="unit_times">مرات</string>
+    <string name="unit_caption">الوحدة (%1$s)</string>
     <string name="month_short">م%1$s</string>
     <string name="goal_per_day">الهدف اليومي</string>
     <string name="welcome_title_1">شرب كمية كافية من الماء</string>
@@ -341,7 +342,7 @@
     <string name="chat_screen_title">اسأل الذكاء الاصطناعي</string>
     <string name="chat_screen_subtitle">مساعد الصحة والترطيب</string>
     <string name="chat_greeting_title">أهلاً! 👋</string>
-    <string name="chat_greeting_body">أنا مساعد الذكاء الاصطناعي لـ AquaMind.\nاسألني أي شيء عن الماء والصحة!</string>
+    <string name="chat_greeting_body">أنا مساعد الذكاء الاصطناعي لـ Aqua Mind.\nاسألني أي شيء عن الماء والصحة!</string>
     <string name="chat_empty_title">لا توجد محادثات حتى الآن</string>
     <string name="chat_empty_body">اختر سؤالاً مقترحًا أو اكتب سؤالك الخاص للبدء.</string>
     <string name="chat_input_hint">اسأل الذكاء الاصطناعي...</string>
@@ -409,4 +410,8 @@
     <string name="history_overview_title">نظرة عامة</string>
     <string name="reminder_slots_title">مواعيد التذكير</string>
     <string name="reminder_slots_subtitle">انقر على الموعد لتعديل الوقت</string>
+    <string name="coach_cup_type">حدد سعة الكوب هنا - ستظهر في زر التسجيل أعلاه.</string>
+    <string name="reminder_time_duplicate">توجد تذكير بالفعل في هذا الوقت</string>
+    <string name="reminder_custom_times_title">أوقات التذكير</string>
+    <string name="reminder_custom_times_subtitle">اضغط على الوقت للتعديل، واضغط على + لإضافة وقت جديد</string>
 </resources>

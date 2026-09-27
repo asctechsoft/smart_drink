@@ -72,6 +72,9 @@ class GenderScreen extends StatelessWidget {
                         onPressed: () {
                           Analytics.onboardingNext('gender');
                           controller.nextStep();
+                          // FSN_1 temporarily unwired here — see
+                          // FullScreenNativeAdScreen / AdsConfig.
+                          // genderFullScreenNativeAdUnitId if re-adding it.
                           Get.toNamed(RouteName.onboardingHeight);
                         },
                       ),

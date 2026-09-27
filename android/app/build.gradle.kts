@@ -79,7 +79,7 @@ android {
         create("alpha") {
             dimension = "environment"
             applicationIdSuffix = ""
-            resValue("string", "app_name", "AquaMind Alpha")
+            resValue("string", "app_name", "Aqua Mind")
             ndk {
                 abiFilters += listOf("arm64-v8a")
             }
@@ -87,20 +87,20 @@ android {
         create("dev") {
             dimension = "environment"
             applicationIdSuffix = ""
-            resValue("string", "app_name", "AquaMind Dev")
+            resValue("string", "app_name", "Aqua Mind")
             ndk {
                 abiFilters += listOf("arm64-v8a")
             }
         }
         create("product") {
             dimension = "environment"
-            resValue("string", "app_name", "AquaMind")
+            resValue("string", "app_name", "Aqua Mind")
             signingConfig = signingConfigs.getByName("productRelease")
         }
         create("claude") {
             dimension = "environment"
             applicationIdSuffix = ""
-            resValue("string", "app_name", "AquaMind Claude")
+            resValue("string", "app_name", "Aqua Mind")
             signingConfig = signingConfigs.getByName("release")
         }
     }

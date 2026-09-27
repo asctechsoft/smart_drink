@@ -1,4 +1,6 @@
+import 'package:asc_common/asc_common.dart';
 import 'package:flutter/material.dart';
+import 'package:waternudge/configs/ads_config.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
@@ -7,8 +9,41 @@ import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:get/get.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
+
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  /// Preloaded on mount so it's ready by the time "Start" is tapped —
+  /// there's no earlier point in onboarding to load it from.
+  late final AscInterstitialAdService _interstitialAd;
+
+  @override
+  void initState() {
+    super.initState();
+    _interstitialAd = AscInterstitialAdService(
+      adUnitId: AdsConfig.welcomeInterstitialAdUnitId,
+    )..load();
+  }
+
+  @override
+  void dispose() {
+    _interstitialAd.dispose();
+    super.dispose();
+  }
+
+  Future<void> _onStartTap() async {
+    Analytics.onboardingNext('welcome');
+    // Waits for the ad to be dismissed (or resolves immediately if it was
+    // never ready) before moving on — never lets onboarding navigate away
+    // out from under a still-showing interstitial.
+    await _interstitialAd.showIfReady();
+    if (!mounted) return;
+    Get.toNamed(RouteName.onboardingGender);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +80,7 @@ class WelcomeScreen extends StatelessWidget {
                   child: PrimaryButton(
                     width: double.infinity,
                     text: 'welcome_start_btn'.tr,
-                    onPressed: () {
-                      Analytics.onboardingNext('welcome');
-                      Get.toNamed(RouteName.onboardingGender);
-                    },
+                    onPressed: _onStartTap,
                     useGradient: true,
                     trailing: Container(
                       width: 32,

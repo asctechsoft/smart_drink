@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:waternudge/configs/ads_config.dart';
+import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
+import 'package:waternudge/presentation/common_components/full_screen_native_ad_screen.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
@@ -40,14 +44,13 @@ class DailyGoalResultScreen extends StatelessWidget {
                   child: StaggerColumn(
                     children: [
                       const SizedBox(height: 8),
-                      _backButton(ob),
-                      const SizedBox(height: 4),
-                      Image.asset(
-                        'assets/images/webp/img_daily_success.webp',
-                        height: 140,
-                        fit: BoxFit.contain,
-                      ),
-                      const SizedBox(height: 8),
+                      // _backButton(ob),
+                      // // Image.asset(
+                      // //   'assets/images/webp/img_daily_success.webp',
+                      // //   height: 140,
+                      // //   fit: BoxFit.contain,
+                      // // ),
+                      const SizedBox(height: 36),
                       Text(
                         'daily_goal_title'.tr,
                         textAlign: TextAlign.center,
@@ -95,7 +98,13 @@ class DailyGoalResultScreen extends StatelessWidget {
                       color: AppColors.basic500,
                       size: 20,
                     ),
-                    onPressed: () => Get.offAllNamed(RouteName.home),
+                    onPressed: () => FullScreenNativeAdScreen.pushOrSkip(
+                      context,
+                      adUnitId: AdsConfig.dailyGoalFullScreenNativeAdUnitId,
+                      // FSN_2 — back locked out entirely (default), only
+                      // the X button (post-countdown) leads onward.
+                      onContinue: _finishOnboarding,
+                    ),
                   ),
                 ),
               ),
@@ -104,6 +113,19 @@ class DailyGoalResultScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// Really marks onboarding done — deliberately *not* in
+  /// `OnboardingController.completeOnboarding` (which runs when the
+  /// "Building schedule" animation finishes, well before the user's even
+  /// seen this screen). Setting it that early meant killing the app while
+  /// still on Daily Goal made the next launch treat this as a returning
+  /// user — straight to Home, app-reopen ad and all — instead of finishing
+  /// onboarding properly.
+  static Future<void> _finishOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(PrefConst.onboardingCompleted, true);
+    Get.offAllNamed(RouteName.home);
   }
 
   Widget _backButton(OnboardingTheme ob) {
@@ -187,7 +209,10 @@ class DailyGoalResultScreen extends StatelessWidget {
             icon: Icons.favorite_rounded,
             color: const Color(0xFFA98BFF),
             label: 'stat_activity'.tr,
-            value: (_activityLabelKeys[profile.activityLevel] ?? 'activity_moderate_active').tr,
+            value:
+                (_activityLabelKeys[profile.activityLevel] ??
+                        'activity_moderate_active')
+                    .tr,
           ),
         ],
       ),

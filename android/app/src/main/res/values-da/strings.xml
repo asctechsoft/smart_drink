@@ -5,11 +5,11 @@
     <string name="widget_medium_a_desc">Næste påmindelsesnedtælling</string>
     <string name="widget_medium_b_desc">Dagens indtag med hurtig tilføjelse</string>
     <string name="widget_large_desc">Fuld oversigt med historik</string>
-    <string name="app_name">AquaMind</string>
+    <string name="app_name">Aqua Mind</string>
     <string name="custom">Tilpasset</string>
     <string name="today_s_intake">Dagens indtag</string>
     <string name="no_records_today">Ingen poster i dag</string>
-    <string name="add_drink">Tilføj Drik</string>
+    <string name="add_drink">Tilføj drik</string>
     <string name="time_to_drink_water">Det er tid til at drikke vand!</string>
     <string name="water_tracking">Vandsporing</string>
     <string name="ongoing_desc">Løbende notifikation om sporing af vandindtag</string>

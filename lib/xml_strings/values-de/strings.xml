@@ -25,7 +25,7 @@
     <string name="next_reminder">Nächste Erinnerung %1$s</string>
     <string name="exceeded_your_goal">Ziel überschritten</string>
     <string name="goal_completed">Ziel erreicht!</string>
-    <string name="add_drink">Getränk Hinzufügen</string>
+    <string name="add_drink">Getränk hinzufügen</string>
     <string name="physical_activity">Körperliche Aktivität</string>
     <string name="weather">Wetter</string>
     <string name="light_active">Leicht aktiv</string>
@@ -53,19 +53,19 @@
     <string name="reminders">Erinnerungen</string>
     <string name="sleep_time_start">Schlafzeit-start</string>
     <string name="sleep_time_end">Schlafzeit ende</string>
-    <string name="after_wake_up">Nach Dem Aufwachen</string>
-    <string name="before_breakfast">Vor Dem Frühstück</string>
-    <string name="after_breakfast">Nach Dem Frühstück</string>
-    <string name="before_lunch">Vor Dem Mittagessen</string>
-    <string name="after_lunch">Nach Dem Mittagessen</string>
-    <string name="before_dinner">Vor Dem Abendessen</string>
-    <string name="after_dinner">Nach Dem Abendessen</string>
-    <string name="before_sleep">Vor Dem Schlafengehen</string>
-    <string name="set_interval">Intervall Festlegen</string>
-    <string name="add_timer">Timer Hinzufügen</string>
+    <string name="after_wake_up">Nach dem Aufwachen</string>
+    <string name="before_breakfast">Vor dem Frühstück</string>
+    <string name="after_breakfast">Nach dem Frühstück</string>
+    <string name="before_lunch">Vor dem Mittagessen</string>
+    <string name="after_lunch">Nach dem Mittagessen</string>
+    <string name="before_dinner">Vor dem Abendessen</string>
+    <string name="after_dinner">Nach dem Abendessen</string>
+    <string name="before_sleep">Vor dem Schlafengehen</string>
+    <string name="set_interval">Intervall festlegen</string>
+    <string name="add_timer">Timer hinzufügen</string>
     <string name="add">Hinzufügen</string>
     <string name="a_reminder_at">Eine Erinnerung um %1$s existiert bereits.</string>
-    <string name="edit_timer">Timer Bearbeiten</string>
+    <string name="edit_timer">Timer bearbeiten</string>
     <string name="remove">Entfernen</string>
     <string name="everyday">Jeden tag</string>
     <string name="weekdays">Wochentage</string>
@@ -94,7 +94,7 @@
     <string name="sound">Ton</string>
     <string name="language">Sprache</string>
     <string name="theme">Thema</string>
-    <string name="rate_app">App Bewerten</string>
+    <string name="rate_app">App bewerten</string>
     <string name="later">Später</string>
     <string name="rate_us_5_stars">Bewerten sie uns mit 5 sternen</string>
     <string name="thank_you">Danke!</string>
@@ -154,7 +154,7 @@
     <string name="cancel">Abbrechen</string>
     <string name="custom">Benutzerdefiniert</string>
     <string name="day">Tag</string>
-    <string name="edit_drink">Getränk Bearbeiten</string>
+    <string name="edit_drink">Getränk bearbeiten</string>
     <string name="history">Geschichte</string>
     <string name="no_records_found">Keine datensätze gefunden</string>
     <string name="month">Monat</string>
@@ -236,6 +236,7 @@
     <string name="detail_history">Detaillierte Geschichte</string>
     <string name="unit_days">Tage</string>
     <string name="unit_times">mal</string>
+    <string name="unit_caption">Einheit (%1$s)</string>
     <string name="month_short">M%1$s</string>
     <string name="goal_per_day">Tagesziel</string>
     <string name="welcome_title_1">Trinken Sie ausreichend Wasser</string>
@@ -341,7 +342,7 @@
     <string name="chat_screen_title">Fragen Sie die KI</string>
     <string name="chat_screen_subtitle">Assistent für Gesundheit und Flüssigkeitszufuhr</string>
     <string name="chat_greeting_title">Hallo! 👋</string>
-    <string name="chat_greeting_body">Ich bin der KI-Assistent von AquaMind.\nFragen Sie mich alles zum Thema Flüssigkeitszufuhr und Gesundheit!</string>
+    <string name="chat_greeting_body">Ich bin der KI-Assistent von Aqua Mind.\nFragen Sie mich alles zum Thema Flüssigkeitszufuhr und Gesundheit!</string>
     <string name="chat_empty_title">Noch keine Gespräche</string>
     <string name="chat_empty_body">Wählen Sie eine vorgeschlagene Frage aus oder geben Sie Ihre eigene ein, um loszulegen.</string>
     <string name="chat_input_hint">Fragen Sie AI...</string>
@@ -409,4 +410,8 @@
     <string name="history_overview_title">Überblick</string>
     <string name="reminder_slots_title">Erinnerungszeiten</string>
     <string name="reminder_slots_subtitle">Tippen Sie auf eine Zeit, um sie zu bearbeiten</string>
+    <string name="coach_cup_type">Wählen Sie hier Ihre Bechergröße — sie wird in die Schaltfläche oben übernommen.</string>
+    <string name="reminder_time_duplicate">Für diese Zeit ist bereits eine Erinnerung eingestellt</string>
+    <string name="reminder_custom_times_title">Erinnerungszeiten</string>
+    <string name="reminder_custom_times_subtitle">Tippen Sie zum Bearbeiten auf eine Zeit, tippen Sie auf +, um eine neue hinzuzufügen</string>
 </resources>

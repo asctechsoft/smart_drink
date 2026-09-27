@@ -1,11 +1,13 @@
 import 'dart:async';
 
-import 'package:dsp_base/advertisements.dart';
+import 'package:asc_common/asc_common.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemNavigator;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waternudge/configs/ads_config.dart';
 import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/controller/history_controller.dart';
+import 'package:waternudge/presentation/common_components/exit_survey_sheet.dart';
 import 'package:waternudge/presentation/screen_history/history_screen.dart';
 import 'package:waternudge/presentation/screen_today/today_screen.dart';
 import 'package:waternudge/presentation/screens_settings/rate_app_dialog.dart';
@@ -58,18 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// Anchored banner above the bottom nav, shared across every tab so it
-  /// doesn't reload on each tab switch. Not requested until
+  /// doesn't reload on each tab switch. Not mounted (so not requested) until
   /// [_runFirstVisitFlowThenLoadAds] clears the tour/rate-sheet gate below.
-  late final BannerAdController _bannerAdController;
+  bool _showBanner = false;
 
   @override
   void initState() {
     super.initState();
     _logTabView(_currentIndex);
-    _bannerAdController = BannerAdController.newInstance(
-      adUnitId: AdsConfig.bannerAdUnitId,
-      tag: 'home_bottom',
-    );
     _runFirstVisitFlowThenLoadAds();
   }
 
@@ -85,9 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadBannerAd() async {
-    await _bannerAdController.setupAdsSizeOnScreenBottom();
     if (!mounted) return;
-    _bannerAdController.requestBannerAd();
+    setState(() => _showBanner = true);
   }
 
   /// Prompts for a rating once, the very first time the user lands on Home —
@@ -102,8 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
   /// [_runFirstVisitFlowThenLoadAds] doesn't load the banner ad underneath it.
   Future<void> _maybeShowFirstRateSheet() async {
     final prefs = await SharedPreferences.getInstance();
-    final alreadyShown =
-        prefs.getBool(PrefConst.firstRateSheetShown) ?? false;
+    final alreadyShown = prefs.getBool(PrefConst.firstRateSheetShown) ?? false;
     final alreadyRated = prefs.getBool(PrefConst.isRated) ?? false;
     if (alreadyShown || alreadyRated) return;
 
@@ -158,42 +154,63 @@ class _HomeScreenState extends State<HomeScreen> {
     _logTabView(index);
   }
 
+  /// Backing out of Home is the app's actual exit point (this is the root
+  /// screen — `Get.offAllNamed` cleared the stack to get here) — gate it
+  /// behind the exit survey instead of exiting immediately.
+  Future<void> _onBackPressed() async {
+    final shouldExit = await showExitSurveySheet(context);
+    if (shouldExit) SystemNavigator.pop();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // Each tab paints its own gradient via OnboardingBackground, but the
-      // nav pill's rounded top corners leave slivers uncovered by that — this
-      // backdrop (the gradient's own tail colour) is what shows through them,
-      // instead of the Scaffold's default black.
-      backgroundColor: const Color.fromARGB(255, 34, 24, 109),
-      // A crossfade, not IndexedStack directly — each tab keeps a stable key
-      // so switching never disposes/recreates its state (scroll position,
-      // the tour's post-frame callback, preloaded ads, etc.), only its
-      // opacity and hit-testing change.
-      body: Stack(
-        children: [
-          for (var i = 0; i < _screens.length; i++)
-            if (_built.contains(i))
-              AnimatedOpacity(
-                key: ValueKey('tab_$i'),
-                opacity: i == _currentIndex ? 1 : 0,
-                duration: const Duration(milliseconds: 220),
-                curve: Curves.easeInOut,
-                child: IgnorePointer(
-                  ignoring: i != _currentIndex,
-                  child: _screens[i],
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _onBackPressed();
+      },
+      child: Scaffold(
+        // Each tab paints its own gradient via OnboardingBackground, but the
+        // nav pill's rounded top corners leave slivers uncovered by that — this
+        // backdrop (the gradient's own tail colour) is what shows through them,
+        // instead of the Scaffold's default black.
+        backgroundColor: const Color.fromARGB(255, 34, 24, 109),
+        // A crossfade, not IndexedStack directly — each tab keeps a stable key
+        // so switching never disposes/recreates its state (scroll position,
+        // the tour's post-frame callback, preloaded ads, etc.), only its
+        // opacity and hit-testing change.
+        body: Stack(
+          children: [
+            for (var i = 0; i < _screens.length; i++)
+              if (_built.contains(i))
+                AnimatedOpacity(
+                  key: ValueKey('tab_$i'),
+                  opacity: i == _currentIndex ? 1 : 0,
+                  duration: const Duration(milliseconds: 220),
+                  curve: Curves.easeInOut,
+                  child: IgnorePointer(
+                    ignoring: i != _currentIndex,
+                    child: _screens[i],
+                  ),
                 ),
+          ],
+        ),
+        // Nav pill on top, banner ad below it, flush against the true bottom
+        // edge — the system nav bar is hidden, so that space is ours.
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildBottomNavBar(context),
+            // Not just relying on AscBannerAdView's own isHideAd check — kept
+            // out of the tree entirely so a hidden-ads build never reserves
+            // this Column's second slot at all.
+            if (_showBanner && !AscAdsConfig.isHideAd)
+              AscBannerAdView.anchoredAdaptive(
+                adUnitId: AdsConfig.bannerAdUnitId,
+                anchoredAdaptiveWidth: MediaQuery.sizeOf(context).width,
               ),
-        ],
-      ),
-      // Nav pill on top, banner ad below it, flush against the true bottom
-      // edge — the system nav bar is hidden, so that space is ours.
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildBottomNavBar(context),
-          _bannerAdController.renderBannerAd(),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,14 +1,19 @@
-import 'package:dsp_base/advertisements.dart';
-import 'package:dsp_base/comm_app.dart';
-import 'package:dsp_base/convenience_imports.dart';
+import 'dart:async';
+import 'dart:isolate';
+import 'dart:ui';
+
+import 'package:asc_common/asc_common.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'configs/ads_config.dart';
+import 'configs/app_figs.dart';
 import 'configs/pref_const.dart';
 import 'presentation/common_components/app_reopen_native_ad.dart';
+import 'services/app_ads.dart';
+import 'services/app_gdpr_consent.dart';
 import 'services/app_localize.dart';
 import 'controller/user_profile_controller.dart';
 import 'controller/today_controller.dart';
@@ -16,7 +21,6 @@ import 'controller/history_controller.dart';
 import 'controller/settings_controller.dart';
 import 'controller/reminder_controller.dart';
 import 'controller/avatar_controller.dart';
-import 'controller/auth_controller.dart';
 import 'tour/tour_controller.dart';
 import 'tour/tour_overlay.dart';
 import 'utils/route_analytics.dart';
@@ -30,50 +34,49 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 Future<void> _ensureLocaleConfigured() async {
   final prefs = await SharedPreferences.getInstance();
 
-  // 1. Try to load saved language first
-  final savedLanguage = prefs.getString(PrefConst.language) ?? '';
-  if (savedLanguage.isNotEmpty) {
-    final parts = savedLanguage.split('_');
-    final Locale savedLocale;
-    if (parts.length == 2) {
-      savedLocale = Locale(parts[0], parts[1]);
-    } else {
-      savedLocale = Locale(parts[0]);
-    }
+  // "System Default" was picked — the saved language key is just a display
+  // cache of what that last resolved to, not a real pin. Always re-detect,
+  // in case the device's own language changed since the last cold start.
+  final followSystem = prefs.getBool(PrefConst.followSystemLanguage) ?? false;
 
-    // Check if the saved locale is among supported locales
-    final isSupported = AppLocalize.supportedLocales.any(
-      (l) =>
-          l.languageCode == savedLocale.languageCode &&
-          (l.countryCode ?? '') == (savedLocale.countryCode ?? ''),
-    );
+  if (!followSystem) {
+    // Try to load an explicitly-pinned saved language first.
+    final savedLanguage = prefs.getString(PrefConst.language) ?? '';
+    if (savedLanguage.isNotEmpty) {
+      final parts = savedLanguage.split('_');
+      final Locale savedLocale;
+      if (parts.length == 2) {
+        savedLocale = Locale(parts[0], parts[1]);
+      } else {
+        savedLocale = Locale(parts[0]);
+      }
 
-    if (isSupported) {
-      await AppLocalize.setAppLocale(savedLocale);
-      return;
+      // Check if the saved locale is among supported locales
+      final isSupported = AppLocalize.supportedLocales.any(
+        (l) =>
+            l.languageCode == savedLocale.languageCode &&
+            (l.countryCode ?? '') == (savedLocale.countryCode ?? ''),
+      );
+
+      if (isSupported) {
+        await AppLocalize.setAppLocale(savedLocale);
+        return;
+      }
     }
   }
 
-  // 2. If no saved language, use system language
-  final systemLocale = AppLocalize.getSystemLocale();
-  final langCode = systemLocale?.languageCode ?? "en";
-
-  // Find the best supported locale whose language code matches the device.
-  final bestMatch =
-      AppLocalize.supportedLocales.cast<Locale?>().firstWhere(
-        (l) => l!.languageCode == langCode,
-        orElse: () => null,
-      ) ??
-      const Locale("en", "US");
-
+  // No pin (or explicitly following system) — use the device's language.
   // setAppLocale persists the choice itself — no separate pref write needed.
-  await AppLocalize.setAppLocale(bestMatch);
+  await AppLocalize.setAppLocale(
+    AppLocalize.bestSupportedMatchFor(AppLocalize.getSystemLocale()),
+  );
 }
 
 Future<void> main() async {
-  await commRunApp(
-    () => const WaterNudgeApp(),
-    onBindingInitialized: (widgetsBinding) async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runZonedGuarded(
+    () async {
       // Lock orientation to portrait only
       await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
@@ -107,17 +110,64 @@ Future<void> main() async {
         debugPrint("Firebase initialization failed: $e");
       }
 
-      // 1.4 AdMob — must run before any BannerAdController/
-      // InterstitialAdController request(), or the request silently fails.
+      if (Firebase.apps.isNotEmpty) {
+        await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
+          true,
+        );
+        FlutterError.onError = (details) {
+          FlutterError.presentError(details);
+          FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+        };
+        PlatformDispatcher.instance.onError = (error, stack) {
+          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+          return true;
+        };
+        Isolate.current.addErrorListener(
+          RawReceivePort((pair) async {
+            final List<dynamic> errorAndStacktrace = pair;
+            await FirebaseCrashlytics.instance.recordError(
+              errorAndStacktrace.first,
+              errorAndStacktrace.last,
+              fatal: true,
+            );
+          }).sendPort,
+        );
+      }
+
+      // 1.4 AdMob — must run before any ad service's load()/preload, or the
+      // request silently fails.
       //
-      // dsp_base only swaps in Google's test ad unit IDs under the `alpha`
-      // flavor by default; `dev` is this app's everyday debug flavor and
-      // would otherwise try to load the real (placeholder) ad unit IDs from
-      // AdsConfig and silently fail. Widen it here rather than in dsp_base,
-      // which other apps share.
-      AdvertsConfig.instance.isAdTestIds = CommFigs.IS_ALPHA || CommFigs.IS_DEV;
+      // Only the `alpha` flavor swapped in Google's test ad unit IDs by
+      // default; `dev` is this app's everyday debug flavor and would
+      // otherwise try to load the real (placeholder) ad unit IDs from
+      // AdsConfig and silently fail.
+      AscAdsConfig.isAdTestIds = AppFigs.isAlpha || AppFigs.isDev;
+
+      // GDPR/UMP consent — must resolve before any ad is requested. Shows
+      // the consent form itself for users in the EEA/UK/Switzerland; a
+      // no-op everywhere else. `canRequestAds()` is false only in the rare
+      // case a required form never got resolved (e.g. failed to load) —
+      // folded into isHideAd so every ad placement in the app (they all
+      // already gate on it) skips loading until that's sorted out, instead
+      // of needing its own separate check.
+      await AppGdprConsent.gatherConsent();
+      final canRequestAds = await AppGdprConsent.canRequestAds();
+
+      // `alpha` is the "NoAds Debug" launch config (see .vscode/launch.json)
+      // — every other flavor (dev/product/claude) keeps showing ads.
+      AscAdsConfig.isHideAd = AppFigs.isAlpha || !canRequestAds;
       try {
         await MobileAds.instance.initialize();
+        // Marks this device as an AdMob test device even when a real ad
+        // unit id is requested — avoids Google flagging the account for
+        // abnormal real-ad-request volume from a dev device.
+        if (AppFigs.isShowTestOption) {
+          MobileAds.instance.updateRequestConfiguration(
+            RequestConfiguration(
+              testDeviceIds: [await AscAdsConfig.getAdMobTestDeviceId()],
+            ),
+          );
+        }
       } catch (e) {
         debugPrint("MobileAds initialization failed: $e");
       }
@@ -129,11 +179,8 @@ Future<void> main() async {
       // this path.
       //
       // Android shows the Native Ad below (custom-styled, blends into the
-      // app); iOS falls back to this App Open ad — NativeAdController is
-      // Android-only in dsp_base.
-      OpenAdController.newInstance(
-        adUnitId: AdsConfig.appOpenAdUnitId,
-      ).requestOpenAd();
+      // app); iOS falls back to this App Open ad.
+      AppAds.openAd.load();
       AppReopenNativeAd.preload();
 
       // 1.5 Initialize intl date formatting
@@ -147,6 +194,13 @@ Future<void> main() async {
       // 3. Pin this install's guided-tour A/B branch. Sticky, and a no-op on
       // the Product release build — see TourController.assignLocalVariant.
       await TourController.assignLocalVariant();
+
+      runApp(const WaterNudgeApp());
+    },
+    (error, stack) {
+      if (Firebase.apps.isNotEmpty) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      }
     },
   );
 }
@@ -156,8 +210,8 @@ class WaterNudgeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommApp(
-      title: 'AquaMind',
+    return GetMaterialApp(
+      title: 'Aqua Mind',
       debugShowCheckedModeBanner: false,
       // The app has one look: every screen sits on the dark gradient and the
       // foreground palette is fixed dark-on-dark. Both slots get the dark
@@ -181,7 +235,6 @@ class WaterNudgeApp extends StatelessWidget {
       builder: (context, child) =>
           TourOverlay(child: child ?? const SizedBox.shrink()),
       initialBinding: BindingsBuilder(() {
-        Get.put(AuthController(), permanent: true);
         Get.put(SettingsController(), permanent: true);
         Get.put(UserProfileController(), permanent: true);
         Get.put(TodayController(), permanent: true);

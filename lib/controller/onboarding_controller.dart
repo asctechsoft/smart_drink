@@ -196,7 +196,13 @@ class OnboardingController extends GetxController {
       await settingsCtrl.setHeightUnit(heightUnit.value == 'm' ? 'cm' : heightUnit.value);
 
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool(PrefConst.onboardingCompleted, true);
+      // Deliberately NOT PrefConst.onboardingCompleted here — this runs the
+      // instant the "Building schedule" animation finishes, well before the
+      // user has actually seen/confirmed the Daily Goal screen. Marking it
+      // done this early meant killing the app while still on Daily Goal made
+      // the next launch treat this as a returning user (skips straight to
+      // Home, triggers the app-reopen ad) instead of finishing onboarding.
+      // Set for real in DailyGoalResultScreen's "Let's start" tap instead.
       await prefs.setInt(PrefConst.intervalMinutes, intervalMinutes.value);
       await prefs.setString(PrefConst.soundEffect, soundEffect.value);
       await prefs.setBool(PrefConst.vibrateEnabled, vibrate.value);

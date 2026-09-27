@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'dart:math' as math;
 
-import 'package:dsp_base/advertisements.dart';
-import 'package:dsp_base/app_material.dart';
-import 'package:waternudge/configs/ads_config.dart';
+import 'package:asc_common/asc_common.dart';
+import 'package:flutter/material.dart';
 import 'package:waternudge/configs/pref_const.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/app_reopen_native_ad.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/services/app_ads.dart';
 import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/route_name.dart';
@@ -75,12 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _showAppOpenAdOverHome() {
-    if (!Get.isRegistered<OpenAdController>(
-      tag: AdsConfig.appOpenAdUnitId,
-    )) {
-      return;
-    }
-    OpenAdController.getInstance(adUnitId: AdsConfig.appOpenAdUnitId).showAd();
+    AppAds.openAd.showIfAvailable();
   }
 
   Future<void> _waitForProfile(UserProfileController ctrl) async {
@@ -112,7 +107,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     AppIcon('assets/images/png/logo_app_v3.png', size: 104),
                     AppSpacerH16,
                     AppText(
-                      'AquaMind',
+                      'Aqua Mind',
                       style: TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.w800,

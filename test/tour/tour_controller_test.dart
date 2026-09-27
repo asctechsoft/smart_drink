@@ -1,4 +1,3 @@
-import 'package:dsp_base/convenience_imports.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,7 +32,8 @@ Future<List<_Event>> _walk(
   // Each walk simulates a fresh install: a previous walk in the same test
   // marks the tour done, which would otherwise block every walk after the
   // first from starting at all.
-  await PrefAssist.setBoolean(PrefConst.coachMarkHomeSeen, false);
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool(PrefConst.coachMarkHomeSeen, false);
   final controller = _controllerWith(variant);
   await controller.start();
   for (final action in actions) {
@@ -45,9 +45,8 @@ Future<List<_Event>> _walk(
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  setUp(() async {
+  setUp(() {
     SharedPreferences.setMockInitialValues({});
-    await PrefAssist.init();
   });
 
   tearDown(Analytics.resetEventSinkForTest);
@@ -201,12 +200,14 @@ void main() {
 
   group('A/B variant assignment', () {
     test('assignLocalVariant is sticky across calls', () async {
+      final prefs = await SharedPreferences.getInstance();
+
       await TourController.assignLocalVariant();
-      final first = PrefAssist.getString(PrefConst.tourAbVariant);
+      final first = prefs.getString(PrefConst.tourAbVariant);
       expect(first, isNotEmpty);
 
       await TourController.assignLocalVariant();
-      final second = PrefAssist.getString(PrefConst.tourAbVariant);
+      final second = prefs.getString(PrefConst.tourAbVariant);
       expect(second, first);
     });
   });

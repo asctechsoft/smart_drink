@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-AquaMind (formerly WaterNudge — the Dart package is still named `waternudge`) is a Flutter app for tracking daily water intake. It supports Android and iOS, with an 8-step onboarding flow, daily drink logging, history charts, reminders, AI chat, and home screen widgets.
+Aqua Mind (formerly WaterNudge — the Dart package is still named `waternudge`) is a Flutter app for tracking daily water intake. It supports Android and iOS, with an 8-step onboarding flow, daily drink logging, history charts, reminders, AI chat, and home screen widgets.
 
 ## Commands
 
@@ -33,13 +33,16 @@ flutter pub get
 **State Management & Routing:** GetX (`get` package) — controllers extend `GetxController`, routes use `GetMaterialApp` with named `GetPage` entries defined in `lib/main.dart`, route constants in `lib/values/route_name.dart`.
 
 **Permanent controllers** (survive route changes, bound in `main.dart`'s `initialBinding`):
+
 - `SettingsController` — theme, language, units
 - `UserProfileController` — user profile and daily goal
 
 **Route-scoped controllers** (bound via `GetPage.binding`):
+
 - `TodayController` — bound when entering home screen
 
 **Layer structure:**
+
 ```
 Presentation (lib/presentation/)  →  screens & reusable widgets
 Controllers  (lib/controller/)    →  GetX reactive state
@@ -51,6 +54,7 @@ Storage      (lib/services/storage/) → SQLite via sqflite (singleton DatabaseH
 **Database:** SQLite (`drink_water.db`) with tables: `user_profile`, `drink_record` (indexed on `date_key`), `daily_summary`, `reminder_schedule`. Schema defined in `lib/services/storage/schema.dart`.
 
 **Native platform channels:**
+
 - `com.amobi.drinkwater/notifications` — reminder scheduling
 - `com.amobi.drinkwater/widget` — home screen widget updates
 

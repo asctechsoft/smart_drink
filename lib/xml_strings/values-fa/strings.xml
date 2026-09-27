@@ -236,6 +236,7 @@
     <string name="detail_history">تاریخچه مفصل</string>
     <string name="unit_days">روز</string>
     <string name="unit_times">بارها</string>
+    <string name="unit_caption">واحد (%1$s)</string>
     <string name="month_short">M%1$s</string>
     <string name="goal_per_day">هدف روزانه</string>
     <string name="welcome_title_1">آب کافی بنوشید</string>
@@ -341,7 +342,7 @@
     <string name="chat_screen_title">از هوش مصنوعی بپرسید</string>
     <string name="chat_screen_subtitle">دستیار سلامت و هیدراتاسیون</string>
     <string name="chat_greeting_title">سلام! 👋</string>
-    <string name="chat_greeting_body">من دستیار هوش مصنوعی AquaMind هستم.\nدر مورد هیدراتاسیون و سلامتی از من بپرسید!</string>
+    <string name="chat_greeting_body">من دستیار هوش مصنوعی Aqua Mind هستم.\nدر مورد هیدراتاسیون و سلامتی از من بپرسید!</string>
     <string name="chat_empty_title">هنوز مکالمه ای وجود ندارد</string>
     <string name="chat_empty_body">برای شروع، سؤال پیشنهادی را انتخاب کنید یا سؤال خود را تایپ کنید.</string>
     <string name="chat_input_hint">از هوش مصنوعی بپرس...</string>
@@ -409,4 +410,8 @@
     <string name="history_overview_title">بررسی اجمالی</string>
     <string name="reminder_slots_title">زمان‌بندی‌های یادآوری</string>
     <string name="reminder_slots_subtitle">برای ویرایش زمان، روی نوبت ضربه بزنید</string>
+    <string name="coach_cup_type">اندازه لیوان خود را اینجا انتخاب کنید - دکمه ثبت بالا را پر می‌کند.</string>
+    <string name="reminder_time_duplicate">یادآوری برای این زمان قبلاً تنظیم شده است</string>
+    <string name="reminder_custom_times_title">زمان‌های یادآوری</string>
+    <string name="reminder_custom_times_subtitle">برای ویرایش، روی زمان ضربه بزنید، برای افزودن زمان جدید روی + ضربه بزنید</string>
 </resources>

@@ -34,6 +34,10 @@ class MainActivity : FlutterFragmentActivity() {
         // Must match the factoryId passed to NativeAdController on the Dart
         // side (see AdsConfig.nativeAdFactoryId).
         const val NATIVE_AD_FACTORY_ID = "appOpenReplacement"
+
+        // Must match AdsConfig.fsnNativeAdFactoryId on the Dart side — the
+        // full-screen native ad used by FullScreenNativeAdScreen.
+        const val FSN_NATIVE_AD_FACTORY_ID = "fsn_native_ad"
     }
 
     private var pendingPermissionResult: MethodChannel.Result? = null
@@ -74,6 +78,11 @@ class MainActivity : FlutterFragmentActivity() {
             flutterEngine,
             NATIVE_AD_FACTORY_ID,
             AppNativeAdFactory(this)
+        )
+        GoogleMobileAdsPlugin.registerNativeAdFactory(
+            flutterEngine,
+            FSN_NATIVE_AD_FACTORY_ID,
+            FsnNativeAdFactory(this)
         )
 
         NotificationCenter.createNotificationChannels(this)
@@ -342,6 +351,7 @@ class MainActivity : FlutterFragmentActivity() {
 
     override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
         GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, NATIVE_AD_FACTORY_ID)
+        GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, FSN_NATIVE_AD_FACTORY_ID)
         super.cleanUpFlutterEngine(flutterEngine)
     }
 

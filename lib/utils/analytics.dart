@@ -192,9 +192,6 @@ class Analytics {
   static void userIsPremium(bool isPremium) =>
       _setProp('is_premium', _flag(isPremium));
 
-  static void userIsLoggedIn(bool isLoggedIn) =>
-      _setProp('is_logged_in', _flag(isLoggedIn));
-
   static void userStreak(int days) =>
       _setProp('streak_bucket', countBucket(days));
 
@@ -362,10 +359,10 @@ class Analytics {
   static void reminderSoundSelect(String sound) =>
       _log('reminder_sound_select', {'sound': sound});
 
-  static void reminderSave(String mode, int slotCount) => _log('reminder_save', {
-    'mode': mode,
-    'slot_count_bucket': countBucket(slotCount),
-  });
+  static void reminderSave(String mode, int slotCount) => _log(
+    'reminder_save',
+    {'mode': mode, 'slot_count_bucket': countBucket(slotCount)},
+  );
 
   static void reminderNotiOpen() => _log('reminder_noti_open');
 
@@ -436,28 +433,6 @@ class Analytics {
   static void avatarSave(String avatarId) =>
       _log('avatar_save', {'avatar': avatarId});
 
-  // ============================== AI chat ==============================
-
-  static void chatView(String source) => _log('chat_view', {'source': source});
-
-  static void chatSend({required bool isSuggestion, required int quotaLeft}) =>
-      _log('chat_send', {
-        'is_suggestion': _flag(isSuggestion),
-        'quota_left': '$quotaLeft',
-      });
-
-  static void chatResponseSuccess() => _log('chat_response_success');
-
-  /// [reason] is a fixed slug from app code, never a raw server message.
-  static void chatResponseFail(String reason) =>
-      _log('chat_response_fail', {'reason': reason});
-
-  static void chatRetry() => _log('chat_retry');
-
-  static void chatNew() => _log('chat_new');
-
-  static void chatQuotaExhausted() => _log('chat_quota_exhausted');
-
   // ============================== Premium / IAP ==============================
 
   static void premiumView(String source) =>
@@ -469,15 +444,14 @@ class Analytics {
   static void premiumPurchaseSuccess(String productId) =>
       _log('premium_purchase_success', {'product_id': productId});
 
-  // ============================== Auth ==============================
+  // ============================== Exit survey ==============================
 
-  static void loginTap(String method) => _log('login_tap', {'method': method});
+  static void exitSurveyShown() => _log('exit_survey_shown');
 
-  static void loginSuccess(String method) =>
-      _log('login_success', {'method': method});
+  static void exitSurveyReasonSelect(String reason) =>
+      _log('exit_survey_reason_select', {'reason': reason});
 
-  static void loginFail(String method) =>
-      _log('login_fail', {'method': method});
+  static void exitSurveyStay() => _log('exit_survey_stay');
 
-  static void logout() => _log('logout');
+  static void exitSurveyExit() => _log('exit_survey_exit');
 }

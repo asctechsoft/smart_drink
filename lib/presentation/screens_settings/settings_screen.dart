@@ -1,10 +1,12 @@
+import 'package:asc_common/asc_common.dart';
 import 'package:flutter/material.dart';
+import 'package:waternudge/configs/app_figs.dart';
 import 'package:waternudge/controller/reminder_controller.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
-import 'package:waternudge/presentation/common_components/auth_loading_overlay.dart';
 import 'package:waternudge/presentation/common_components/custom_switch.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
+import 'package:waternudge/services/app_gdpr_consent.dart';
 import 'package:waternudge/services/app_localize.dart';
 import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/legal_utils.dart';
@@ -26,320 +28,340 @@ class SettingsScreen extends StatelessWidget {
     final profileCtrl = Get.find<UserProfileController>();
     final reminderCtrl = Get.find<ReminderController>();
 
-    return AuthLoadingOverlay(
-      child: OnboardingBackground(
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SafeArea(
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
-              children: [
-                // ── Header ──
-                _buildHeader(context),
-                // const SizedBox(height: 24),
+    return OnboardingBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
+            children: [
+              // ── Header ──
+              _buildHeader(context),
+              // const SizedBox(height: 24),
 
-                // ── 1. DRINK ── things that affect hydration goal ──
-                _SectionTitle(label: 'section_drink'.tr),
-                const SizedBox(height: 10),
-                _SectionCard(
-                  children: [
-                    Obx(() {
-                      final p = profileCtrl.profile.value;
+              // ── 1. DRINK ── things that affect hydration goal ──
+              _SectionTitle(label: 'section_drink'.tr),
+              const SizedBox(height: 10),
+              _SectionCard(
+                children: [
+                  Obx(() {
+                    final p = profileCtrl.profile.value;
 
-                      final String goalVal;
-                      if (p.volumeUnit == 'oz') {
-                        goalVal =
-                            '${UnitConverter.mlToOz(p.dailyGoalMl.toDouble()).toStringAsFixed(1)} oz';
-                      } else if (p.dailyGoalMl >= 1000) {
-                        goalVal =
-                            '${(p.dailyGoalMl / 1000).toStringAsFixed(1)} L';
-                      } else {
-                        goalVal = '${p.dailyGoalMl} ml';
-                      }
-                      return _SettingsTile(
-                        iconData: Icons.local_drink_outlined,
-                        title: 'daily_goal'.tr,
-                        subtitle: 'settings_daily_goal_desc'.tr,
-                        value: goalVal,
-                        onTap: () {
-                          Analytics.settingsRowTap('daily_goal');
-                          showDailyGoalSheet(context);
-                        },
-                      );
-                    }),
-                    _Divider(),
-                    Obx(() {
-                      final weather =
-                          profileCtrl.profile.value.weatherCondition;
-                      return _SettingsTile(
-                        iconData: Icons.wb_cloudy_outlined,
-                        title: 'weather'.tr,
-                        subtitle: 'settings_weather_desc'.tr,
-                        value: weather.tr,
-                        onTap: () {
-                          Analytics.settingsRowTap('weather');
-                          showWeatherSheet(context);
-                        },
-                      );
-                    }),
-                    _Divider(),
-                    Obx(() {
-                      final gender = profileCtrl.profile.value.gender;
-                      return _SettingsTile(
-                        iconData: Icons.person_outline_rounded,
-                        title: 'gender'.tr,
-                        subtitle: 'settings_gender_desc'.tr,
-                        value: gender.tr,
-                        onTap: () {
-                          Analytics.settingsRowTap('gender');
-                          showGenderSheet(context);
-                        },
-                      );
-                    }),
-                    _Divider(),
-                    Obx(() {
-                      final p = profileCtrl.profile.value;
-                      final unit = settingsCtrl.heightUnit.value;
-                      final String heightVal;
-                      if (unit == 'ft/in') {
-                        final totalIn = p.height * 0.393701;
-                        final ft = totalIn ~/ 12;
-                        final inches = (totalIn % 12).round();
-                        heightVal = "$ft'${inches.toString().padLeft(2, '0')}\"";
-                      } else {
-                        heightVal = '${p.height.round()} cm';
-                      }
-                      return _SettingsTile(
-                        iconData: Icons.straighten_rounded,
-                        title: 'height'.tr,
-                        subtitle: 'settings_height_desc'.tr,
-                        value: heightVal,
-                        onTap: () {
-                          Analytics.settingsRowTap('height');
-                          showHeightSheet(context);
-                        },
-                      );
-                    }),
-                    _Divider(),
-                    Obx(() {
-                      final p = profileCtrl.profile.value;
-                      final unit = settingsCtrl.weightUnit.value;
-                      final weight = unit == 'lb'
-                          ? UnitConverter.kgToLb(p.weight).round()
-                          : p.weight.round();
-                      final weightVal = '$weight $unit';
-                      return _SettingsTile(
-                        iconData: Icons.monitor_weight_outlined,
-                        title: 'weight'.tr,
-                        subtitle: 'settings_weight_desc'.tr,
-                        value: weightVal,
-                        onTap: () {
-                          Analytics.settingsRowTap('weight');
-                          showWeightSheet(context);
-                        },
-                      );
-                    }),
-                  ],
-                ),
-                const SizedBox(height: 24),
-
-                // ── 2. SCHEDULE ── daily rhythm & reminders ──
-                _SectionTitle(label: 'section_schedule'.tr),
-                const SizedBox(height: 10),
-                _SectionCard(
-                  children: [
-                    Obx(() {
-                      final wakeUp = profileCtrl.profile.value.wakeUpTime;
-                      return _SettingsTile(
-                        iconData: Icons.wb_sunny_outlined,
-                        title: 'what_time_do_you_wake_up'.tr,
-                        subtitle: 'settings_wakeup_desc'.tr,
-                        value: wakeUp,
-                        onTap: () {
-                          Analytics.settingsRowTap('wakeup');
-                          showWakeupSheet(context);
-                        },
-                      );
-                    }),
-                    _Divider(),
-                    Obx(() {
-                      final bedTime = profileCtrl.profile.value.bedTime;
-                      return _SettingsTile(
-                        iconData: Icons.nightlight_round,
-                        title: 'bedtime'.tr,
-                        subtitle: 'settings_bedtime_desc'.tr,
-                        value: bedTime,
-                        onTap: () {
-                          Analytics.settingsRowTap('bedtime');
-                          showBedtimeSheet(context);
-                        },
-                      );
-                    }),
-                    _Divider(),
-                    Obx(() {
-                      final napValue = reminderCtrl.napEnabled.value
-                          ? '${reminderCtrl.napStart.value} - ${reminderCtrl.napEnd.value}'
-                          : 'off'.tr;
-                      return _SettingsTile(
-                        iconData: Icons.bedtime_outlined,
-                        title: 'nap_time_range'.tr,
-                        subtitle: 'settings_nap_desc'.tr,
-                        value: napValue,
-                        onTap: () {
-                          Analytics.settingsRowTap('nap');
-                          showNapScheduleSheet(context);
-                        },
-                      );
-                    }),
-                  ],
-                ),
-                const SizedBox(height: 24),
-
-                // ── 3. GENERAL ── app-wide settings ──
-                _SectionTitle(label: 'section_general'.tr),
-                const SizedBox(height: 10),
-                _SectionCard(
-                  children: [
-                    // Master reminder toggle (moved here from the Reminder tab).
-                    Obx(
-                      () => _SettingsToggleTile(
-                        iconData: Icons.notifications_outlined,
-                        title: 'reminder_enable_title'.tr,
-                        subtitle: 'reminder_enable_subtitle'.tr,
-                        value: reminderCtrl.enabled.value,
-                        onChanged: (v) {
-                          Analytics.reminderToggle(v);
-                          reminderCtrl.enabled.value = v;
-                          reminderCtrl.saveSettings();
-                        },
-                      ),
-                    ),
-                    // Health Connect sync — Android only, and only once the
-                    // platform app is actually installed, so the row never
-                    // offers something the device cannot do.
-                    Obx(() {
-                      if (!settingsCtrl.healthConnectAvailable.value) {
-                        return const SizedBox.shrink();
-                      }
-                      return Column(
-                        children: [
-                          _Divider(),
-                          _SettingsToggleTile(
-                            iconData: Icons.favorite_outline_rounded,
-                            title: 'health_connect_title'.tr,
-                            subtitle: 'health_connect_desc'.tr,
-                            value: settingsCtrl.healthConnectEnabled.value,
-                            onChanged: (v) => _onHealthConnectChanged(
-                              context,
-                              settingsCtrl,
-                              v,
-                            ),
-                          ),
-                        ],
-                      );
-                    }),
-                    _Divider(),
-                    Obx(() {
-                      final vol = settingsCtrl.volumeUnit.value;
-                      final wt = settingsCtrl.weightUnit.value;
-                      final ht = settingsCtrl.heightUnit.value;
-                      return _SettingsTile(
-                        svgPath: 'assets/images/svg/ic_unit.svg',
-                        title: 'units'.tr,
-                        subtitle: 'settings_units_desc'.tr,
-                        value: '$vol / $wt / $ht',
-                        onTap: () {
-                          Analytics.settingsRowTap('units');
-                          showUnitsSheet(context);
-                        },
-                      );
-                    }),
-                    _Divider(),
-                    Obx(() {
-                      settingsCtrl.language.value;
-                      return _SettingsTile(
-                        iconData: Icons.language_rounded,
-                        title: 'language'.tr,
-                        subtitle: 'settings_language_desc'.tr,
-                        value: AppLocalize.getLocaleName(
-                          AppLocalize.getAppLocale(),
-                        ).split(' (').first,
-                        onTap: () {
-                          Analytics.settingsRowTap('language');
-                          showLanguageSheet(context);
-                        },
-                      );
-                    }),
-                  ],
-                ),
-                const SizedBox(height: 24),
-
-                // ── 4. SUPPORT & ABOUT ──
-                _SectionTitle(label: 'section_support'.tr),
-                const SizedBox(height: 10),
-                _SectionCard(
-                  children: [
-                    _SettingsTile(
-                      iconData: Icons.shield_outlined,
-                      title: 'settings_privacy'.tr,
-                      subtitle: 'settings_privacy_desc'.tr,
-                      onTap: LegalUtils.openPrivacyPolicy,
-                    ),
-                    _Divider(),
-                    _SettingsTile(
-                      iconData: Icons.feedback_outlined,
-                      title: 'settings_feedback'.tr,
-                      subtitle: 'settings_feedback_desc'.tr,
+                    final String goalVal;
+                    if (p.volumeUnit == 'oz') {
+                      goalVal =
+                          '${UnitConverter.mlToOz(p.dailyGoalMl.toDouble()).toStringAsFixed(1)} oz';
+                    } else if (p.dailyGoalMl >= 1000) {
+                      goalVal =
+                          '${(p.dailyGoalMl / 1000).toStringAsFixed(1)} L';
+                    } else {
+                      goalVal = '${p.dailyGoalMl} ml';
+                    }
+                    return _SettingsTile(
+                      iconData: Icons.local_drink_outlined,
+                      title: 'daily_goal'.tr,
+                      subtitle: 'settings_daily_goal_desc'.tr,
+                      value: goalVal,
                       onTap: () {
-                        Analytics.settingsRowTap('feedback');
-                        Get.toNamed(RouteName.feedback);
+                        Analytics.settingsRowTap('daily_goal');
+                        showDailyGoalSheet(context);
                       },
-                    ),
-                    _Divider(),
-                    Obx(
-                      () => settingsCtrl.isRated.value
-                          ? const SizedBox.shrink()
-                          : Column(
-                              children: [
-                                _SettingsTile(
-                                  svgPath: 'assets/images/svg/ic_rate.svg',
-                                  title: 'rate_app'.tr,
-                                  subtitle: 'settings_rate_desc'.tr,
-                                  onTap: () {
-                                    Analytics.settingsRateTap();
-                                    showRateAppDialog(context);
-                                  },
-                                ),
-                                _Divider(),
-                              ],
-                            ),
-                    ),
-                    _SettingsTile(
-                      iconData: Icons.share_outlined,
-                      title: 'settings_share'.tr,
-                      subtitle: 'settings_share_desc'.tr,
+                    );
+                  }),
+                  _Divider(),
+                  Obx(() {
+                    final weather = profileCtrl.profile.value.weatherCondition;
+                    return _SettingsTile(
+                      iconData: Icons.wb_cloudy_outlined,
+                      title: 'weather'.tr,
+                      subtitle: 'settings_weather_desc'.tr,
+                      value: weather.tr,
                       onTap: () {
-                        Analytics.settingsShareTap();
-                        ShareUtils.shareApp(context);
+                        Analytics.settingsRowTap('weather');
+                        showWeatherSheet(context);
                       },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
+                    );
+                  }),
+                  _Divider(),
+                  Obx(() {
+                    final gender = profileCtrl.profile.value.gender;
+                    return _SettingsTile(
+                      iconData: Icons.person_outline_rounded,
+                      title: 'gender'.tr,
+                      subtitle: 'settings_gender_desc'.tr,
+                      value: gender.tr,
+                      onTap: () {
+                        Analytics.settingsRowTap('gender');
+                        showGenderSheet(context);
+                      },
+                    );
+                  }),
+                  _Divider(),
+                  Obx(() {
+                    final p = profileCtrl.profile.value;
+                    final unit = settingsCtrl.heightUnit.value;
+                    final String heightVal;
+                    if (unit == 'ft/in') {
+                      final totalIn = p.height * 0.393701;
+                      final ft = totalIn ~/ 12;
+                      final inches = (totalIn % 12).round();
+                      heightVal = "$ft'${inches.toString().padLeft(2, '0')}\"";
+                    } else {
+                      heightVal = '${p.height.round()} cm';
+                    }
+                    return _SettingsTile(
+                      iconData: Icons.straighten_rounded,
+                      title: 'height'.tr,
+                      subtitle: 'settings_height_desc'.tr,
+                      value: heightVal,
+                      onTap: () {
+                        Analytics.settingsRowTap('height');
+                        showHeightSheet(context);
+                      },
+                    );
+                  }),
+                  _Divider(),
+                  Obx(() {
+                    final p = profileCtrl.profile.value;
+                    final unit = settingsCtrl.weightUnit.value;
+                    final weight = unit == 'lb'
+                        ? UnitConverter.kgToLb(p.weight).round()
+                        : p.weight.round();
+                    final weightVal = '$weight $unit';
+                    return _SettingsTile(
+                      iconData: Icons.monitor_weight_outlined,
+                      title: 'weight'.tr,
+                      subtitle: 'settings_weight_desc'.tr,
+                      value: weightVal,
+                      onTap: () {
+                        Analytics.settingsRowTap('weight');
+                        showWeightSheet(context);
+                      },
+                    );
+                  }),
+                ],
+              ),
+              const SizedBox(height: 24),
 
-                // ── App version ──
-                Center(
-                  child: Text(
-                    'settings_about_desc'.tr,
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.5),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
+              // ── 2. SCHEDULE ── daily rhythm & reminders ──
+              _SectionTitle(label: 'section_schedule'.tr),
+              const SizedBox(height: 10),
+              _SectionCard(
+                children: [
+                  Obx(() {
+                    final wakeUp = profileCtrl.profile.value.wakeUpTime;
+                    return _SettingsTile(
+                      iconData: Icons.wb_sunny_outlined,
+                      title: 'what_time_do_you_wake_up'.tr,
+                      subtitle: 'settings_wakeup_desc'.tr,
+                      value: wakeUp,
+                      onTap: () {
+                        Analytics.settingsRowTap('wakeup');
+                        showWakeupSheet(context);
+                      },
+                    );
+                  }),
+                  _Divider(),
+                  Obx(() {
+                    final bedTime = profileCtrl.profile.value.bedTime;
+                    return _SettingsTile(
+                      iconData: Icons.nightlight_round,
+                      title: 'bedtime'.tr,
+                      subtitle: 'settings_bedtime_desc'.tr,
+                      value: bedTime,
+                      onTap: () {
+                        Analytics.settingsRowTap('bedtime');
+                        showBedtimeSheet(context);
+                      },
+                    );
+                  }),
+                  _Divider(),
+                  Obx(() {
+                    final napValue = reminderCtrl.napEnabled.value
+                        ? '${reminderCtrl.napStart.value} - ${reminderCtrl.napEnd.value}'
+                        : 'off'.tr;
+                    return _SettingsTile(
+                      iconData: Icons.bedtime_outlined,
+                      title: 'nap_time_range'.tr,
+                      subtitle: 'settings_nap_desc'.tr,
+                      value: napValue,
+                      onTap: () {
+                        Analytics.settingsRowTap('nap');
+                        showNapScheduleSheet(context);
+                      },
+                    );
+                  }),
+                ],
+              ),
+              const SizedBox(height: 24),
+
+              // ── 3. GENERAL ── app-wide settings ──
+              _SectionTitle(label: 'section_general'.tr),
+              const SizedBox(height: 10),
+              _SectionCard(
+                children: [
+                  // Master reminder toggle (moved here from the Reminder tab).
+                  Obx(
+                    () => _SettingsToggleTile(
+                      iconData: Icons.notifications_outlined,
+                      title: 'reminder_enable_title'.tr,
+                      subtitle: 'reminder_enable_subtitle'.tr,
+                      value: reminderCtrl.enabled.value,
+                      onChanged: (v) {
+                        Analytics.reminderToggle(v);
+                        reminderCtrl.enabled.value = v;
+                        reminderCtrl.saveSettings();
+                      },
                     ),
                   ),
+                  // Health Connect sync — Android only, and only once the
+                  // platform app is actually installed, so the row never
+                  // offers something the device cannot do.
+                  Obx(() {
+                    if (!settingsCtrl.healthConnectAvailable.value) {
+                      return const SizedBox.shrink();
+                    }
+                    return Column(
+                      children: [
+                        _Divider(),
+                        _SettingsToggleTile(
+                          iconData: Icons.favorite_outline_rounded,
+                          title: 'health_connect_title'.tr,
+                          subtitle: 'health_connect_desc'.tr,
+                          value: settingsCtrl.healthConnectEnabled.value,
+                          onChanged: (v) =>
+                              _onHealthConnectChanged(context, settingsCtrl, v),
+                        ),
+                      ],
+                    );
+                  }),
+                  _Divider(),
+                  Obx(() {
+                    final vol = settingsCtrl.volumeUnit.value;
+                    final wt = settingsCtrl.weightUnit.value;
+                    final ht = settingsCtrl.heightUnit.value;
+                    return _SettingsTile(
+                      svgPath: 'assets/images/svg/ic_unit.svg',
+                      title: 'units'.tr,
+                      subtitle: 'settings_units_desc'.tr,
+                      value: '$vol / $wt / $ht',
+                      onTap: () {
+                        Analytics.settingsRowTap('units');
+                        showUnitsSheet(context);
+                      },
+                    );
+                  }),
+                  _Divider(),
+                  Obx(() {
+                    settingsCtrl.language.value;
+                    return _SettingsTile(
+                      iconData: Icons.language_rounded,
+                      title: 'language'.tr,
+                      subtitle: 'settings_language_desc'.tr,
+                      value: AppLocalize.getLocaleName(
+                        AppLocalize.getAppLocale(),
+                      ).split(' (').first,
+                      onTap: () {
+                        Analytics.settingsRowTap('language');
+                        showLanguageSheet(context);
+                      },
+                    );
+                  }),
+                ],
+              ),
+              const SizedBox(height: 24),
+
+              // ── 4. SUPPORT & ABOUT ──
+              _SectionTitle(label: 'section_support'.tr),
+              const SizedBox(height: 10),
+              _SectionCard(
+                children: [
+                  _SettingsTile(
+                    iconData: Icons.shield_outlined,
+                    title: 'settings_privacy'.tr,
+                    subtitle: 'settings_privacy_desc'.tr,
+                    onTap: LegalUtils.openPrivacyPolicy,
+                  ),
+                  _Divider(),
+                  // Only shown to users UMP actually requires a "manage ad
+                  // consent" entry point for (EEA/UK/Switzerland) — most
+                  // users never see this row at all.
+                  FutureBuilder<bool>(
+                    future: AppGdprConsent.isPrivacyOptionsRequired(),
+                    builder: (context, snapshot) {
+                      if (snapshot.data != true) return const SizedBox.shrink();
+                      return Column(
+                        children: [
+                          _SettingsTile(
+                            iconData: Icons.privacy_tip_outlined,
+                            title: 'settings_ad_privacy'.tr,
+                            subtitle: 'settings_ad_privacy_desc'.tr,
+                            onTap: () async {
+                              Analytics.settingsRowTap('ad_privacy');
+                              final canRequestAds =
+                                  await AppGdprConsent.showPrivacyOptionsForm();
+                              AscAdsConfig.isHideAd =
+                                  AppFigs.isAlpha || !canRequestAds;
+                            },
+                          ),
+                          _Divider(),
+                        ],
+                      );
+                    },
+                  ),
+                  _SettingsTile(
+                    iconData: Icons.feedback_outlined,
+                    title: 'settings_feedback'.tr,
+                    subtitle: 'settings_feedback_desc'.tr,
+                    onTap: () {
+                      Analytics.settingsRowTap('feedback');
+                      Get.toNamed(RouteName.feedback);
+                    },
+                  ),
+                  _Divider(),
+                  Obx(
+                    () => settingsCtrl.isRated.value
+                        ? const SizedBox.shrink()
+                        : Column(
+                            children: [
+                              _SettingsTile(
+                                svgPath: 'assets/images/svg/ic_rate.svg',
+                                title: 'rate_app'.tr,
+                                subtitle: 'settings_rate_desc'.tr,
+                                onTap: () {
+                                  Analytics.settingsRateTap();
+                                  showRateAppDialog(context);
+                                },
+                              ),
+                              _Divider(),
+                            ],
+                          ),
+                  ),
+                  _SettingsTile(
+                    iconData: Icons.share_outlined,
+                    title: 'settings_share'.tr,
+                    subtitle: 'settings_share_desc'.tr,
+                    onTap: () {
+                      Analytics.settingsShareTap();
+                      ShareUtils.shareApp(context);
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+
+              // ── App version ──
+              Center(
+                child: Text(
+                  'settings_about_desc'.tr,
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.5),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
