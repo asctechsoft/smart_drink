@@ -31,6 +31,6 @@
     <string name="exceeded_your_goal">Objectif dépassé</string>
     <string name="goal_completed">Objectif atteint !</string>
     <string name="noti_drink">Boire</string>
-    <string name="noti_remaining_today">Reste %1$s %2$s aujourd'hui</string>
+    <string name="noti_remaining_today">Reste %1$s %2$s aujourd\'hui</string>
     <string name="noti_today_goal">objectif du jour</string>
 </resources>

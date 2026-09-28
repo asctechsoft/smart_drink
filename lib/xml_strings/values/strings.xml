@@ -279,7 +279,7 @@
     <string name="settings_weather_desc">Update daily based on weather</string>
     <string name="settings_gender_desc">Affects your daily water goal</string>
     <string name="settings_rate_desc">Rate to help us improve</string>
-    <string name="settings_about_desc">Version 1.0.0</string>
+    <string name="settings_about_desc">Version %1$s</string>
     <string name="settings_language_desc">Select your language</string>
     <string name="settings_wakeup_desc">Set your wake-up time</string>
     <string name="settings_bedtime_desc">Set your bedtime</string>

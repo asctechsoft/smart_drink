@@ -286,7 +286,7 @@
     <string name="settings_weather_desc">Perbarui setiap hari berdasarkan cuaca</string>
     <string name="settings_gender_desc">Mempengaruhi target air harian Anda</string>
     <string name="settings_rate_desc">Beri nilai untuk membantu kami meningkatkan</string>
-    <string name="settings_about_desc">Versi 1.0.0</string>
+    <string name="settings_about_desc">Versi %1$s</string>
     <string name="settings_language_desc">Pilih bahasa Anda</string>
     <string name="settings_wakeup_desc">Atur waktu bangun Anda</string>
     <string name="settings_bedtime_desc">Atur waktu tidur Anda</string>

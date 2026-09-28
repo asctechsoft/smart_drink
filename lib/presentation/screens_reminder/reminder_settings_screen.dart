@@ -21,9 +21,10 @@ class ReminderSettingsPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+          child: Column(
             children: [
+              // Fixed: header banner, day-range chips and mode tabs never
+              // scroll — only the per-mode content below does.
               const _HeaderBanner(),
               const SizedBox(height: 14),
               Padding(
@@ -36,23 +37,26 @@ class ReminderSettingsPage extends StatelessWidget {
                 child: _ModeTabs(ctrl: ctrl),
               ),
               const SizedBox(height: 14),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Obx(() {
-                  switch (ctrl.mode.value) {
-                    case ReminderMode.interval:
-                      return IntervalModeContent(controller: ctrl);
-                    case ReminderMode.custom:
-                      return DisabledOverlay(
-                        disabled: !ctrl.enabled.value,
-                        child: ReminderSlotsSection(controller: ctrl),
-                      );
-                    case ReminderMode.standard:
-                      return StandardModeContent(controller: ctrl);
-                  }
-                }),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+                  children: [
+                    Obx(() {
+                      switch (ctrl.mode.value) {
+                        case ReminderMode.interval:
+                          return IntervalModeContent(controller: ctrl);
+                        case ReminderMode.custom:
+                          return DisabledOverlay(
+                            disabled: !ctrl.enabled.value,
+                            child: ReminderSlotsSection(controller: ctrl),
+                          );
+                        case ReminderMode.standard:
+                          return StandardModeContent(controller: ctrl);
+                      }
+                    }),
+                  ],
+                ),
               ),
-              const SizedBox(height: 24),
             ],
           ),
         ),
@@ -70,8 +74,9 @@ class _HeaderBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     final ob = OnboardingTheme.of(context);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 12, 12, 0),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Column(

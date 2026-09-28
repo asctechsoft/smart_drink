@@ -12,6 +12,17 @@
       ]
     },
     {
+      "name": "water_nudge (NoAds Release)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "alpha"
+      ]
+    },
+    {
       "name": "water_nudge (Dev Debug)",
       "request": "launch",
       "type": "dart",
@@ -20,6 +31,17 @@
         "--flavor",
         "dev",
         "--dart-define=AI_GATEWAY_URL=http://192.168.1.46:8080"
+      ]
+    },
+    {
+      "name": "water_nudge (Dev Release)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "dev"
       ]
     },
     {

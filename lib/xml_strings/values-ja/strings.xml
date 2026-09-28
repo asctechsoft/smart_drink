@@ -286,7 +286,7 @@
     <string name="settings_weather_desc">天気に応じて毎日更新</string>
     <string name="settings_gender_desc">毎日の水分目標に影響を与える</string>
     <string name="settings_rate_desc">改善に役立つ評価をしてください</string>
-    <string name="settings_about_desc">バージョン1.0.0</string>
+    <string name="settings_about_desc">バージョン%1$s</string>
     <string name="settings_language_desc">言語を選択してください</string>
     <string name="settings_wakeup_desc">起床時間を設定する</string>
     <string name="settings_bedtime_desc">就寝時間を設定する</string>

@@ -279,7 +279,7 @@
     <string name="settings_weather_desc">Cập nhật theo thời tiết hằng ngày</string>
     <string name="settings_gender_desc">Ảnh hưởng đến mục tiêu uống nước</string>
     <string name="settings_rate_desc">Gửi đánh giá để giúp chúng tôi cải thiện</string>
-    <string name="settings_about_desc">Phiên bản 1.0.0</string>
+    <string name="settings_about_desc">Phiên bản %1$s</string>
     <string name="settings_language_desc">Chọn ngôn ngữ của bạn</string>
     <string name="settings_wakeup_desc">Thiết lập giờ thức dậy</string>
     <string name="settings_bedtime_desc">Thiết lập giờ đi ngủ</string>

@@ -286,7 +286,7 @@
     <string name="settings_weather_desc">Hava durumuna göre günlük güncelleme</string>
     <string name="settings_gender_desc">Günlük su hedefinizi etkiler</string>
     <string name="settings_rate_desc">Gelişmemize yardımcı olacak oran</string>
-    <string name="settings_about_desc">Sürüm 1.0.0</string>
+    <string name="settings_about_desc">Sürüm %1$s</string>
     <string name="settings_language_desc">Dilinizi seçin</string>
     <string name="settings_wakeup_desc">Uyanma saatinizi ayarlayın</string>
     <string name="settings_bedtime_desc">Yatma vaktinizi ayarlayın</string>

@@ -16,6 +16,7 @@ import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/route_name.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'settings_bottom_sheets.dart';
 import 'rate_app_dialog.dart';
 
@@ -352,13 +353,20 @@ class SettingsScreen extends StatelessWidget {
 
               // ── App version ──
               Center(
-                child: Text(
-                  'settings_about_desc'.tr,
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.5),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
+                child: FutureBuilder<PackageInfo>(
+                  future: PackageInfo.fromPlatform(),
+                  builder: (context, snapshot) {
+                    final version = snapshot.data?.version;
+                    if (version == null) return const SizedBox.shrink();
+                    return Text(
+                      'settings_about_desc'.trParams({'args1': version}),
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.5),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    );
+                  },
                 ),
               ),
             ],

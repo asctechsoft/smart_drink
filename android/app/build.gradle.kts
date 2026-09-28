@@ -13,7 +13,9 @@ plugins {
 
 android {
     namespace = "com.amobi.drinkwater.water_nudge"
-    compileSdk = flutter.compileSdkVersion
+    // permission_handler_android requires SDK 37; compileSdk is backward
+    // compatible so pin it explicitly instead of trusting Flutter's default.
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

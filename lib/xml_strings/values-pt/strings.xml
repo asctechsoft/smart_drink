@@ -286,7 +286,7 @@
     <string name="settings_weather_desc">Atualizar diariamente com base no clima</string>
     <string name="settings_gender_desc">Afeta sua meta diária de água</string>
     <string name="settings_rate_desc">Avalie para nos ajudar a melhorar</string>
-    <string name="settings_about_desc">Versão 1.0.0</string>
+    <string name="settings_about_desc">Versão %1$s</string>
     <string name="settings_language_desc">Selecione seu idioma</string>
     <string name="settings_wakeup_desc">Defina seu horário de despertar</string>
     <string name="settings_bedtime_desc">Defina sua hora de dormir</string>

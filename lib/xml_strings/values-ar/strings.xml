@@ -286,7 +286,7 @@
     <string name="settings_weather_desc">تحديث يوميا بناء على الطقس</string>
     <string name="settings_gender_desc">يؤثر على هدفك المائي اليومي</string>
     <string name="settings_rate_desc">معدل لمساعدتنا على التحسن</string>
-    <string name="settings_about_desc">الإصدار 1.0.0</string>
+    <string name="settings_about_desc">الإصدار %1$s</string>
     <string name="settings_language_desc">اختر لغتك</string>
     <string name="settings_wakeup_desc">اضبط وقت استيقاظك</string>
     <string name="settings_bedtime_desc">اضبط موعد نومك</string>

@@ -286,7 +286,7 @@
     <string name="settings_weather_desc">根據天氣每日更新</string>
     <string name="settings_gender_desc">影響您的每日飲水目標</string>
     <string name="settings_rate_desc">評分以幫助我們改進</string>
-    <string name="settings_about_desc">版本1.0.0</string>
+    <string name="settings_about_desc">版本%1$s</string>
     <string name="settings_language_desc">選擇您的語言</string>
     <string name="settings_wakeup_desc">設定你的起床時間</string>
     <string name="settings_bedtime_desc">設定你的就寢時間</string>

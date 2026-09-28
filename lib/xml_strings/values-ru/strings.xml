@@ -286,7 +286,7 @@
     <string name="settings_weather_desc">Обновление ежедневно в зависимости от погоды</string>
     <string name="settings_gender_desc">Влияет на вашу ежедневную цель по воде</string>
     <string name="settings_rate_desc">Оцените, чтобы помочь нам стать лучше</string>
-    <string name="settings_about_desc">Версия 1.0.0</string>
+    <string name="settings_about_desc">Версия %1$s</string>
     <string name="settings_language_desc">Выберите свой язык</string>
     <string name="settings_wakeup_desc">Установите время пробуждения</string>
     <string name="settings_bedtime_desc">Установите время сна</string>

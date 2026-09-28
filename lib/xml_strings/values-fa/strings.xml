@@ -286,7 +286,7 @@
     <string name="settings_weather_desc">به روز رسانی روزانه بر اساس آب و هوا</string>
     <string name="settings_gender_desc">بر هدف آب روزانه شما تأثیر می گذارد</string>
     <string name="settings_rate_desc">برای کمک به بهبود ما امتیاز دهید</string>
-    <string name="settings_about_desc">نسخه 1.0.0</string>
+    <string name="settings_about_desc">نسخه %1$s</string>
     <string name="settings_language_desc">زبان خود را انتخاب کنید</string>
     <string name="settings_wakeup_desc">زمان بیداری خود را تنظیم کنید</string>
     <string name="settings_bedtime_desc">ساعت خواب خود را تنظیم کنید</string>

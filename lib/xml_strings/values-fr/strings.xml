@@ -286,7 +286,7 @@
     <string name="settings_weather_desc">Mise à jour quotidienne en fonction de la météo</string>
     <string name="settings_gender_desc">Affecte votre objectif quotidien en eau</string>
     <string name="settings_rate_desc">Évaluez pour nous aider à nous améliorer</string>
-    <string name="settings_about_desc">Version 1.0.0</string>
+    <string name="settings_about_desc">Version %1$s</string>
     <string name="settings_language_desc">Sélectionnez votre langue</string>
     <string name="settings_wakeup_desc">Réglez votre heure de réveil</string>
     <string name="settings_bedtime_desc">Réglez votre heure de coucher</string>
