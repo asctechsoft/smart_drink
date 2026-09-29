@@ -42,7 +42,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
   // Week tab: scrolls the day-card row to the selected day whenever it's
   // built (entering the tab, changing week, or picking another day).
   final ScrollController _weekScrollController = ScrollController();
-  final List<GlobalKey> _weekDayKeys = List.generate(7, (_) => GlobalKey());
 
   String? get _locale => Get.locale?.toString();
 
@@ -55,11 +54,22 @@ class _HistoryScreenState extends State<HistoryScreen> {
   void _scrollToSelectedWeekDay(int index) {
     if (index < 0) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final ctx = _weekDayKeys[index].currentContext;
-      if (ctx == null) return;
-      Scrollable.ensureVisible(
-        ctx,
-        alignment: 0.5,
+      // Scroll only the horizontal day-card strip, never the page. Was using
+      // `Scrollable.ensureVisible`, which walks every ancestor Scrollable —
+      // including the vertical ListView this strip sits inside — so entering
+      // (or reselecting a day on) the Week tab also jumped the whole page
+      // down to make the strip visible.
+      if (!_weekScrollController.hasClients) return;
+      const cardWidth = 84.0;
+      const gap = 8.0;
+      const step = cardWidth + gap;
+      final viewport = _weekScrollController.position.viewportDimension;
+      final target = (index * step + cardWidth / 2 - viewport / 2).clamp(
+        0.0,
+        _weekScrollController.position.maxScrollExtent,
+      );
+      _weekScrollController.animateTo(
+        target,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
@@ -346,7 +356,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
           var selectedIndex = -1;
           for (var i = 0; i < 7; i++) {
             final d = monday.add(Duration(days: i));
-            if (d.year == sel.year && d.month == sel.month && d.day == sel.day) {
+            if (d.year == sel.year &&
+                d.month == sel.month &&
+                d.day == sel.day) {
               selectedIndex = i;
               break;
             }
@@ -374,7 +386,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         _locale,
                       ).format(dayDate);
                       return SizedBox(
-                        key: _weekDayKeys[i],
                         width: 84,
                         child: WeekDayCard(
                           summary: summary,
@@ -731,10 +742,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       child: Slider(
                         min: 0,
                         max: sliderMax,
-                        value: (double.tryParse(textController.text) ?? 0).clamp(
-                          0,
-                          sliderMax,
-                        ),
+                        value: (double.tryParse(textController.text) ?? 0)
+                            .clamp(0, sliderMax),
                         onChanged: (v) {
                           setState(() {
                             textController.text = isOz

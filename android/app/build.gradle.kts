@@ -82,6 +82,7 @@ android {
             dimension = "environment"
             applicationIdSuffix = ""
             resValue("string", "app_name", "Aqua Mind")
+            signingConfig = signingConfigs.getByName("release")
             ndk {
                 abiFilters += listOf("arm64-v8a")
             }
@@ -90,6 +91,7 @@ android {
             dimension = "environment"
             applicationIdSuffix = ""
             resValue("string", "app_name", "Aqua Mind")
+            signingConfig = signingConfigs.getByName("release")
             ndk {
                 abiFilters += listOf("arm64-v8a")
             }
@@ -103,12 +105,6 @@ android {
             dimension = "environment"
             applicationIdSuffix = ""
             resValue("string", "app_name", "Aqua Mind")
-            signingConfig = signingConfigs.getByName("release")
-        }
-    }
-
-    buildTypes {
-        release {
             signingConfig = signingConfigs.getByName("release")
         }
     }

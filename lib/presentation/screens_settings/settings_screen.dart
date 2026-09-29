@@ -155,7 +155,7 @@ class SettingsScreen extends StatelessWidget {
                       iconData: Icons.wb_sunny_outlined,
                       title: 'what_time_do_you_wake_up'.tr,
                       subtitle: 'settings_wakeup_desc'.tr,
-                      value: wakeUp,
+                      value: UnitConverter.formatTime(wakeUp),
                       onTap: () {
                         Analytics.settingsRowTap('wakeup');
                         showWakeupSheet(context);
@@ -169,7 +169,7 @@ class SettingsScreen extends StatelessWidget {
                       iconData: Icons.nightlight_round,
                       title: 'bedtime'.tr,
                       subtitle: 'settings_bedtime_desc'.tr,
-                      value: bedTime,
+                      value: UnitConverter.formatTime(bedTime),
                       onTap: () {
                         Analytics.settingsRowTap('bedtime');
                         showBedtimeSheet(context);
@@ -179,7 +179,8 @@ class SettingsScreen extends StatelessWidget {
                   _Divider(),
                   Obx(() {
                     final napValue = reminderCtrl.napEnabled.value
-                        ? '${reminderCtrl.napStart.value} - ${reminderCtrl.napEnd.value}'
+                        ? '${UnitConverter.formatTime(reminderCtrl.napStart.value)} - '
+                              '${UnitConverter.formatTime(reminderCtrl.napEnd.value)}'
                         : 'off'.tr;
                     return _SettingsTile(
                       iconData: Icons.bedtime_outlined,

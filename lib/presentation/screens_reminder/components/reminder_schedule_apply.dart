@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waternudge/controller/reminder_controller.dart';
@@ -60,7 +62,7 @@ class ScheduleApplySection extends StatelessWidget {
                   'preset_custom'.tr,
                   'preset_custom_sub'.tr,
                   preset == 'custom',
-                  null,
+                  _setRandomCustom,
                 ),
               ],
             ),
@@ -119,8 +121,6 @@ class ScheduleApplySection extends StatelessWidget {
           color: Colors.transparent,
           borderRadius: radius,
           clipBehavior: Clip.antiAlias,
-          // The "custom" preset passes a null onTap — it is a state readout,
-          // not a button — so InkWell leaves it inert and rippleless.
           child: InkWell(
             onTap: onTap,
             borderRadius: radius,
@@ -237,5 +237,15 @@ class ScheduleApplySection extends StatelessWidget {
   void _setPreset(List<int> days) {
     ctrl.repeatDays.assignAll(days);
     ctrl.saveSettings();
+  }
+
+  /// "Tùy chỉnh" starting point: 2 random weekdays + 1 random weekend day,
+  /// rather than leaving the user staring at an all-off day row with no
+  /// obvious next step.
+  void _setRandomCustom() {
+    final rand = Random();
+    final weekdays = [1, 2, 3, 4, 5]..shuffle(rand);
+    final weekend = [6, 7]..shuffle(rand);
+    _setPreset([...weekdays.take(2), weekend.first]..sort());
   }
 }

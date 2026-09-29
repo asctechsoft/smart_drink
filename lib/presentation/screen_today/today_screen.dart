@@ -97,71 +97,93 @@ class _TodayScreenState extends State<TodayScreen> {
                   const TodayHeader(),
 
                   Expanded(
-                    child: Stack(
-                      children: [
-                        Positioned.fill(
-                          child: Align(
-                            alignment: Alignment.topCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 32),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        // Fixed 260x340 overflowed on shorter screens, pushing
+                        // the figure down into the "Remaining" pill anchored
+                        // to the bottom of this same Stack. Reserve the top
+                        // padding + an estimate of the pill's height so the
+                        // figure only shrinks below its natural 340 when this
+                        // device genuinely doesn't have room for it — normal/
+                        // tall screens keep the original size untouched.
+                        const topPadding = 32.0;
+                        const pillReserve = 72.0;
+                        final available =
+                            constraints.maxHeight - topPadding - pillReserve;
+                        final figureH = available.clamp(180.0, 340.0);
+                        final figureW = figureH / 340 * 260;
+                        return Stack(
+                          children: [
+                            Positioned.fill(
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 32),
 
-                              child: SizedBox(
-                                width: 260,
-                                height: 340,
-                                child: RepaintBoundary(
-                                  child: Obx(
-                                    () => FittedBox(
-                                      fit: BoxFit.contain,
-                                      child: WaterHumanProgress(
-                                        progress: controller.progress,
-                                        currentMl:
-                                            controller.currentIntakeMl.value,
-                                        goalMl: controller.adjustedGoal,
-                                        volumeUnit:
-                                            Get.find<SettingsController>()
-                                                .volumeUnit
+                                  child: SizedBox(
+                                    width: figureW,
+                                    height: figureH,
+                                    child: RepaintBoundary(
+                                      child: Obx(
+                                        () => FittedBox(
+                                          fit: BoxFit.contain,
+                                          child: WaterHumanProgress(
+                                            progress: controller.progress,
+                                            currentMl: controller
+                                                .currentIntakeMl
                                                 .value,
-                                        width: 300,
-                                        isFemale:
-                                            Get.find<UserProfileController>()
-                                                .profile
-                                                .value
-                                                .gender ==
-                                            'female',
+                                            goalMl: controller.adjustedGoal,
+                                            volumeUnit:
+                                                Get.find<SettingsController>()
+                                                    .volumeUnit
+                                                    .value,
+                                            width: 300,
+                                            isFemale:
+                                                Get.find<
+                                                      UserProfileController
+                                                    >()
+                                                    .profile
+                                                    .value
+                                                    .gender ==
+                                                'female',
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          child: Obx(() => _buildTopInfo(controller, context)),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: Obx(
-                            () => Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                // _buildGoalStatus(controller, context),
-                                Center(
-                                  child: _buildRemainingPill(
-                                    controller,
-                                    context,
-                                  ),
-                                ),
-                              ],
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              child: Obx(
+                                () => _buildTopInfo(controller, context),
+                              ),
                             ),
-                          ),
-                        ),
-                      ],
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Obx(
+                                () => Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    // _buildGoalStatus(controller, context),
+                                    Center(
+                                      child: _buildRemainingPill(
+                                        controller,
+                                        context,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
 

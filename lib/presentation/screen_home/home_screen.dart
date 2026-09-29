@@ -190,7 +190,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   curve: Curves.easeInOut,
                   child: IgnorePointer(
                     ignoring: i != _currentIndex,
-                    child: _screens[i],
+                    // Keeping every visited tab mounted (see above) means any
+                    // AnimationController on it — the Home mascot's idle
+                    // bounce, in particular — otherwise keeps ticking every
+                    // frame forever once built, even while a different tab is
+                    // showing. TickerMode(enabled: false) mutes tickers in
+                    // this subtree without disposing it, so it resumes
+                    // exactly where it left off when the tab is revisited.
+                    child: TickerMode(
+                      enabled: i == _currentIndex,
+                      child: _screens[i],
+                    ),
                   ),
                 ),
           ],
@@ -331,13 +341,17 @@ class _PillNavItem extends StatelessWidget {
                 colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
               ),
               const SizedBox(height: 2),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
-                  color: color,
-                  letterSpacing: 0.3,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                    color: color,
+                    letterSpacing: 0.3,
+                  ),
                 ),
               ),
               const SizedBox(height: 4),

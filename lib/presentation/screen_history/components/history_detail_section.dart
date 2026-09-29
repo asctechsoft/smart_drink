@@ -101,58 +101,75 @@ class DrinkRecordRow extends StatelessWidget {
           ),
         ],
       ),
-      child: HistoryCard(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        child: Row(
-          children: [
-            Image.asset(
-              type.imagePath,
-              fit: BoxFit.contain,
-              width: 24,
-              height: 24,
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                timeStr,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: ob.textPrimary,
+      // Builder gives the GestureDetector a context below this Slidable, so
+      // `Slidable.of` can find it — tapping the row now opens the same
+      // edit/delete pane a manual swipe would, instead of only reacting to
+      // the swipe gesture. Tapping again while it's already open closes it.
+      child: Builder(
+        builder: (slidableContext) => GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {
+            final controller = Slidable.of(slidableContext);
+            if (controller?.actionPaneType.value == ActionPaneType.end) {
+              controller?.close();
+            } else {
+              controller?.openEndActionPane();
+            }
+          },
+          child: HistoryCard(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            child: Row(
+              children: [
+                Image.asset(
+                  type.imagePath,
+                  fit: BoxFit.contain,
+                  width: 24,
+                  height: 24,
                 ),
-              ),
-            ),
-            SizedBox(
-              width: 64,
-              child: Text(
-                amount,
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: ob.textPrimary.withValues(alpha: 0.9),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    timeStr,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: ob.textPrimary,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            SizedBox(
-              width: 88,
-              child: Text(
-                type.label.tr,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ob.textPrimary.withValues(alpha: 0.6),
+                SizedBox(
+                  width: 64,
+                  child: Text(
+                    amount,
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: ob.textPrimary.withValues(alpha: 0.9),
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(width: 12),
+                SizedBox(
+                  width: 88,
+                  child: Text(
+                    type.label.tr,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: ob.textPrimary.withValues(alpha: 0.6),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 6),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  size: 24,
+                  color: Color(0xFF96D2A8),
+                ),
+              ],
             ),
-            const SizedBox(width: 6),
-            Icon(
-              Icons.chevron_right_rounded,
-              size: 24,
-              color: Color(0xFF96D2A8),
-            ),
-          ],
+          ),
         ),
       ),
     );
