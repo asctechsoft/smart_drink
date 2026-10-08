@@ -32,8 +32,7 @@ dependencies:
   dsp_base:
     path: ./dsp_base
   asc_common:
-    git:
-      url: https://github.com/asctechsoft/asc_common.git
+    path: ../asc_common
 
   firebase_core: any
   firebase_analytics: any

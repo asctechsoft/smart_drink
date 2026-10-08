@@ -1,4 +1,4 @@
-import 'package:asc_common/asc_common.dart';
+import 'package:dsp_base/dsp_base.dart';
 import 'package:flutter/material.dart';
 import 'package:waternudge/configs/ads_config.dart';
 import 'package:waternudge/controller/settings_controller.dart';
@@ -33,14 +33,14 @@ class _TodayScreenState extends State<TodayScreen> {
   /// Preloaded the moment Today mounts so it's ready by the time the goal is
   /// hit; `showIfReady()`'s own dismiss callback reloads it for the next
   /// time this fires.
-  late final AscInterstitialAdService _interstitialAd;
+  late final DspInterstitialAdService _interstitialAd;
 
   @override
   void initState() {
     super.initState();
     final controller = Get.find<TodayController>();
 
-    _interstitialAd = AscInterstitialAdService(
+    _interstitialAd = DspInterstitialAdService(
       adUnitId: AdsConfig.interstitialAdUnitId,
     )..load();
 

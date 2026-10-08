@@ -1,12 +1,10 @@
-import 'package:asc_common/asc_common.dart';
+import 'package:dsp_base/dsp_base.dart';
 import 'package:flutter/material.dart';
-import 'package:waternudge/configs/app_figs.dart';
 import 'package:waternudge/controller/reminder_controller.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/custom_switch.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
-import 'package:waternudge/services/app_gdpr_consent.dart';
 import 'package:waternudge/services/app_localize.dart';
 import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/legal_utils.dart';
@@ -288,29 +286,30 @@ class SettingsScreen extends StatelessWidget {
                   // Only shown to users UMP actually requires a "manage ad
                   // consent" entry point for (EEA/UK/Switzerland) — most
                   // users never see this row at all.
-                  FutureBuilder<bool>(
-                    future: AppGdprConsent.isPrivacyOptionsRequired(),
-                    builder: (context, snapshot) {
-                      if (snapshot.data != true) return const SizedBox.shrink();
-                      return Column(
-                        children: [
-                          _SettingsTile(
-                            iconData: Icons.privacy_tip_outlined,
-                            title: 'settings_ad_privacy'.tr,
-                            subtitle: 'settings_ad_privacy_desc'.tr,
-                            onTap: () async {
-                              Analytics.settingsRowTap('ad_privacy');
-                              final canRequestAds =
-                                  await AppGdprConsent.showPrivacyOptionsForm();
-                              AscAdsConfig.isHideAd =
-                                  AppFigs.isAlpha || !canRequestAds;
-                            },
-                          ),
-                          _Divider(),
-                        ],
-                      );
-                    },
-                  ),
+                  Obx(() {
+                    if (!DspConsentService
+                        .to
+                        .state
+                        .value
+                        .isPrivacyOptionsRequired) {
+                      return const SizedBox.shrink();
+                    }
+                    return Column(
+                      children: [
+                        _SettingsTile(
+                          iconData: Icons.privacy_tip_outlined,
+                          title: 'settings_ad_privacy'.tr,
+                          subtitle: 'settings_ad_privacy_desc'.tr,
+                          onTap: () async {
+                            Analytics.settingsRowTap('ad_privacy');
+                            await DspConsentService.to.showPrivacyOptionsForm();
+                            DspAdsController.to.refreshHidden();
+                          },
+                        ),
+                        _Divider(),
+                      ],
+                    );
+                  }),
                   _SettingsTile(
                     iconData: Icons.feedback_outlined,
                     title: 'settings_feedback'.tr,

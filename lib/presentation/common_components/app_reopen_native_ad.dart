@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:asc_common/asc_common.dart';
+import 'package:dsp_base/dsp_base.dart';
 import 'package:flutter/material.dart';
 import 'package:waternudge/configs/ads_config.dart';
 
@@ -15,7 +15,7 @@ import 'package:waternudge/configs/ads_config.dart';
 class AppReopenNativeAd {
   AppReopenNativeAd._();
 
-  static final _service = AscNativeAdService(
+  static final _service = DspNativeAdService(
     adUnitId: AdsConfig.nativeAdUnitId,
     factoryId: AdsConfig.nativeAdFactoryId,
   );
@@ -41,7 +41,7 @@ class AppReopenNativeAd {
 class _NativeAdSheet extends StatelessWidget {
   const _NativeAdSheet({required this.service});
 
-  final AscNativeAdService service;
+  final DspNativeAdService service;
 
   @override
   Widget build(BuildContext context) {

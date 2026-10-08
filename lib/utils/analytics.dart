@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:asc_common/asc_common.dart';
+import 'package:dsp_base/dsp_base.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart' show debugPrint, visibleForTesting;
 
@@ -35,7 +35,7 @@ class Analytics {
     'ga_',
   ];
 
-  static final AscAnalytics _analytics = AscAnalytics(
+  static final DspAnalytics _analytics = DspAnalytics(
     FirebaseAnalytics.instance,
   );
 
@@ -58,7 +58,7 @@ class Analytics {
 
   static void _sendToFirebase(String name, Map<String, Object>? params) {
     unawaited(
-      _analytics.log(AscAnalyticsEvent(name, params)).catchError((e) {
+      _analytics.log(DspAnalyticsEvent(name, params)).catchError((e) {
         debugPrint('Analytics.log($name) failed: $e');
       }),
     );

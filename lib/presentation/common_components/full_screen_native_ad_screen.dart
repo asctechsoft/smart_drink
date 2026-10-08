@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:asc_common/asc_common.dart';
+import 'package:dsp_base/dsp_base.dart';
 import 'package:flutter/material.dart';
 import 'package:waternudge/configs/ads_config.dart';
 
@@ -18,7 +18,7 @@ import 'package:waternudge/configs/ads_config.dart';
 ///
 /// Call [FullScreenNativeAdScreen.pushOrSkip] rather than navigating to this
 /// directly — it's a no-op straight to [onContinue] when ads are hidden
-/// ([AscAdsConfig.isHideAd]) or the ad never loads, so it's never a dead end.
+/// ([DspAdsConfig.isHideAd]) or the ad never loads, so it's never a dead end.
 class FullScreenNativeAdScreen extends StatefulWidget {
   const FullScreenNativeAdScreen({
     super.key,
@@ -34,7 +34,7 @@ class FullScreenNativeAdScreen extends StatefulWidget {
   final bool canGoBack;
 
   /// Pushes this screen, or skips straight to [onContinue] when ads are
-  /// hidden — the caller never needs its own `if (AscAdsConfig.isHideAd)`
+  /// hidden — the caller never needs its own `if (DspAdsConfig.isHideAd)`
   /// check at the call site.
   static void pushOrSkip(
     BuildContext context, {
@@ -43,7 +43,7 @@ class FullScreenNativeAdScreen extends StatefulWidget {
     int countdownSeconds = 3,
     bool canGoBack = false,
   }) {
-    if (AscAdsConfig.isHideAd) {
+    if (DspAdsConfig.isHideAd) {
       onContinue();
       return;
     }
@@ -65,7 +65,7 @@ class FullScreenNativeAdScreen extends StatefulWidget {
 }
 
 class _FullScreenNativeAdScreenState extends State<FullScreenNativeAdScreen> {
-  late final AscNativeAdService _adService;
+  late final DspNativeAdService _adService;
   bool _adLoaded = false;
   late int _remaining = widget.countdownSeconds;
   Timer? _countdown;
@@ -77,7 +77,7 @@ class _FullScreenNativeAdScreenState extends State<FullScreenNativeAdScreen> {
     // renders at its own compact natural size, leaving the rest blank) — a
     // real full-screen look needs a custom native factory whose own layout
     // is built to fill the space (see FsnNativeAdFactory.kt).
-    _adService = AscNativeAdService(
+    _adService = DspNativeAdService(
       adUnitId: widget.adUnitId,
       factoryId: AdsConfig.fsnNativeAdFactoryId,
     );

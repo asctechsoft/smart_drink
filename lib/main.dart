@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:isolate';
-import 'dart:ui';
 
-import 'package:asc_common/asc_common.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:dsp_base/dsp_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -13,7 +10,6 @@ import 'configs/app_figs.dart';
 import 'configs/pref_const.dart';
 import 'presentation/common_components/app_reopen_native_ad.dart';
 import 'services/app_ads.dart';
-import 'services/app_gdpr_consent.dart';
 import 'services/app_localize.dart';
 import 'controller/user_profile_controller.dart';
 import 'controller/today_controller.dart';
@@ -27,9 +23,7 @@ import 'utils/route_analytics.dart';
 import 'values/app_theme.dart';
 import 'values/app_pages.dart';
 import 'values/route_name.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 Future<void> _ensureLocaleConfigured() async {
   final prefs = await SharedPreferences.getInstance();
@@ -103,74 +97,28 @@ Future<void> main() async {
         );
       });
 
-      // 1. Firebase Initialization
-      try {
-        await Firebase.initializeApp();
-      } catch (e) {
-        debugPrint("Firebase initialization failed: $e");
-      }
-
-      if (Firebase.apps.isNotEmpty) {
-        await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
-          true,
-        );
-        FlutterError.onError = (details) {
-          FlutterError.presentError(details);
-          FirebaseCrashlytics.instance.recordFlutterFatalError(details);
-        };
-        PlatformDispatcher.instance.onError = (error, stack) {
-          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-          return true;
-        };
-        Isolate.current.addErrorListener(
-          RawReceivePort((pair) async {
-            final List<dynamic> errorAndStacktrace = pair;
-            await FirebaseCrashlytics.instance.recordError(
-              errorAndStacktrace.first,
-              errorAndStacktrace.last,
-              fatal: true,
-            );
-          }).sendPort,
-        );
-      }
-
-      // 1.4 AdMob — must run before any ad service's load()/preload, or the
-      // request silently fails.
+      // 1. Firebase (core + App Check + Crashlytics), Remote Config, then the
+      // GDPR/UMP consent flow and AdMob — all registered with GetX and run in
+      // order by DspBase.start; it never throws.
       //
-      // Only the `alpha` flavor swapped in Google's test ad unit IDs by
-      // default; `dev` is this app's everyday debug flavor and would
-      // otherwise try to load the real (placeholder) ad unit IDs from
-      // AdsConfig and silently fail.
-      AscAdsConfig.isAdTestIds = AppFigs.isAlpha || AppFigs.isDev;
-
-      // GDPR/UMP consent — must resolve before any ad is requested. Shows
-      // the consent form itself for users in the EEA/UK/Switzerland; a
-      // no-op everywhere else. `canRequestAds()` is false only in the rare
-      // case a required form never got resolved (e.g. failed to load) —
-      // folded into isHideAd so every ad placement in the app (they all
-      // already gate on it) skips loading until that's sorted out, instead
-      // of needing its own separate check.
-      await AppGdprConsent.gatherConsent();
-      final canRequestAds = await AppGdprConsent.canRequestAds();
-
-      // `alpha` is the "NoAds Debug" launch config (see .vscode/launch.json)
-      // — every other flavor (dev/product/claude) keeps showing ads.
-      AscAdsConfig.isHideAd = AppFigs.isAlpha || !canRequestAds;
-      try {
-        await MobileAds.instance.initialize();
-        // Marks this device as an AdMob test device even when a real ad
-        // unit id is requested — avoids Google flagging the account for
-        // abnormal real-ad-request volume from a dev device.
-        if (AppFigs.isShowTestOption) {
-          MobileAds.instance.updateRequestConfiguration(
-            RequestConfiguration(
-              testDeviceIds: [await AscAdsConfig.getAdMobTestDeviceId()],
-            ),
-          );
-        }
-      } catch (e) {
-        debugPrint("MobileAds initialization failed: $e");
-      }
+      // App Check uses the debug provider in debug builds — register the
+      // token it logs in the Firebase console before enforcing. Consent folds
+      // "forbids requesting ads" into `DspAdsConfig.isHideAd`, which every ad
+      // placement gates on, so ads must be started before any ad service's
+      // load()/preload.
+      //
+      // `alpha` is the "NoAds Debug" launch config (see .vscode/launch.json);
+      // `alpha`/`dev` use Google's test ad unit IDs (dev would otherwise load
+      // the real placeholder IDs from AdsConfig and silently fail); a test
+      // device is registered so a dev device never trips AdMob's abnormal
+      // real-ad-request flagging.
+      await DspBase.start(
+        remoteConfigDefaults: const {TourController.rcVariantKey: ''},
+        hideAds: AppFigs.isAlpha,
+        useTestAdIds: AppFigs.isAlpha || AppFigs.isDev,
+        registerTestAdDevice: AppFigs.isShowTestOption,
+        debugEeaConsent: AppFigs.isShowTestOption,
+      );
 
       // Preload now so it's ready by the time the splash screen (~900ms)
       // hands off to Home — SplashScreen looks these back up to show them.
@@ -198,8 +146,8 @@ Future<void> main() async {
       runApp(const WaterNudgeApp());
     },
     (error, stack) {
-      if (Firebase.apps.isNotEmpty) {
-        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      if (DspFirebaseService.isCoreReady) {
+        DspCrashlytics.recordError(error, stack, fatal: true);
       }
     },
   );

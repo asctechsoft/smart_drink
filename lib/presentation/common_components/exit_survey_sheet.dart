@@ -1,4 +1,5 @@
 import 'package:asc_common/asc_common.dart';
+import 'package:dsp_base/dsp_base.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waternudge/configs/ads_config.dart';
@@ -115,7 +116,7 @@ class _ExitSurveySheetContentState extends State<_ExitSurveySheetContent> {
             AppSpacerH8,
           ],
           AppSpacerH8,
-          AscNativeAdView.factory(
+          DspNativeAdView.factory(
             adUnitId: AdsConfig.exitSurveyNativeAdUnitId,
             factoryId: AdsConfig.nativeAdFactoryId,
             height: 150,

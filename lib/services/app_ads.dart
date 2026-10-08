@@ -1,4 +1,4 @@
-import 'package:asc_common/asc_common.dart';
+import 'package:dsp_base/dsp_base.dart';
 import 'package:waternudge/configs/ads_config.dart';
 
 /// Shared App Open ad instance - preloaded once at startup (`main.dart`) and
@@ -8,5 +8,5 @@ import 'package:waternudge/configs/ads_config.dart';
 class AppAds {
   AppAds._();
 
-  static final openAd = AscAppOpenAdService(adUnitId: AdsConfig.appOpenAdUnitId);
+  static final openAd = DspAppOpenAdService(adUnitId: AdsConfig.appOpenAdUnitId);
 }

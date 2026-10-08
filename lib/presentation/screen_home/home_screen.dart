@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:asc_common/asc_common.dart';
+import 'package:dsp_base/dsp_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemNavigator;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -211,11 +211,11 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildBottomNavBar(context),
-            // Not just relying on AscBannerAdView's own isHideAd check — kept
+            // Not just relying on DspBannerAdView's own isHideAd check — kept
             // out of the tree entirely so a hidden-ads build never reserves
             // this Column's second slot at all.
-            if (_showBanner && !AscAdsConfig.isHideAd)
-              AscBannerAdView.anchoredAdaptive(
+            if (_showBanner && !DspAdsConfig.isHideAd)
+              DspBannerAdView.anchoredAdaptive(
                 adUnitId: AdsConfig.bannerAdUnitId,
                 anchoredAdaptiveWidth: MediaQuery.sizeOf(context).width,
               ),

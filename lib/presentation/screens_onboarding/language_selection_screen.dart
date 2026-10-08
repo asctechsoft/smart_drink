@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:asc_common/asc_common.dart';
+import 'package:dsp_base/dsp_base.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,8 +47,8 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   /// Two separate ad units for the same slot — "lan1" before a language is
   /// picked, "lan2" the instant one is. Both preloaded up front so the swap
   /// on pick is immediate, not another cold load.
-  late final AscNativeAdService _lan1;
-  late final AscNativeAdService _lan2;
+  late final DspNativeAdService _lan1;
+  late final DspNativeAdService _lan2;
   bool _lan1Loaded = false;
   bool _lan2Loaded = false;
 
@@ -59,11 +59,11 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   @override
   void initState() {
     super.initState();
-    _lan1 = AscNativeAdService(
+    _lan1 = DspNativeAdService(
       adUnitId: AdsConfig.languageBeforePickNativeAdUnitId,
       factoryId: AdsConfig.nativeAdFactoryId,
     );
-    _lan2 = AscNativeAdService(
+    _lan2 = DspNativeAdService(
       adUnitId: AdsConfig.languageAfterPickNativeAdUnitId,
       factoryId: AdsConfig.nativeAdFactoryId,
     );
@@ -72,10 +72,10 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   }
 
   Future<void> _loadNativeAd(
-    AscNativeAdService service, {
+    DspNativeAdService service, {
     required VoidCallback onLoaded,
   }) async {
-    if (AscAdsConfig.isHideAd) return;
+    if (DspAdsConfig.isHideAd) return;
     await service.load();
     if (mounted && service.isLoaded) onLoaded();
   }
@@ -197,7 +197,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
               // Reserves _adHeight regardless of load state — the ad card
               // fades in once ready, but the layout never jumps. Dropped
               // entirely on no-ads builds so no empty strip is left behind.
-              if (!AscAdsConfig.isHideAd)
+              if (!DspAdsConfig.isHideAd)
                 Container(
                   height: _adHeight,
                   width: double.infinity,

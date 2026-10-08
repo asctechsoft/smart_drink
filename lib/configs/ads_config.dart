@@ -1,4 +1,4 @@
-/// AdMob ad unit IDs — real IDs before shipping, `AscAdsConfig.isAdTestIds` swaps in Google's test IDs outside Product builds.
+/// AdMob ad unit IDs — real IDs before shipping, `DspAdsConfig.isAdTestIds` swaps in Google's test IDs outside Product builds.
 class AdsConfig {
   AdsConfig._();
 

@@ -1,4 +1,4 @@
-import 'package:asc_common/asc_common.dart';
+import 'package:dsp_base/dsp_base.dart';
 import 'package:flutter/material.dart';
 import 'package:waternudge/configs/ads_config.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
@@ -19,12 +19,12 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   /// Preloaded on mount so it's ready by the time "Start" is tapped —
   /// there's no earlier point in onboarding to load it from.
-  late final AscInterstitialAdService _interstitialAd;
+  late final DspInterstitialAdService _interstitialAd;
 
   @override
   void initState() {
     super.initState();
-    _interstitialAd = AscInterstitialAdService(
+    _interstitialAd = DspInterstitialAdService(
       adUnitId: AdsConfig.welcomeInterstitialAdUnitId,
     )..load();
   }
