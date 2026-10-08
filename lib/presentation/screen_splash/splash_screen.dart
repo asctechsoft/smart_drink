@@ -117,7 +117,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                     const SizedBox(height: 10),
                     AppText(
-                      'Theo dõi nước uống mỗi ngày',
+                      'track_water_daily'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 15,
@@ -138,7 +138,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                     const SizedBox(height: 16),
                     AppText(
-                      'Đang khởi động...',
+                      'starting_up'.tr,
                       style: TextStyle(
                         fontSize: 13.5,
                         fontWeight: FontWeight.w500,

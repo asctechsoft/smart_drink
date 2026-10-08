@@ -341,16 +341,21 @@ class _PillNavItem extends StatelessWidget {
                 colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
               ),
               const SizedBox(height: 2),
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
-                    color: color,
-                    letterSpacing: 0.3,
+              // Side padding keeps long translations (e.g. "Configurações")
+              // clear of the pill edge once FittedBox scales them down.
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                      color: color,
+                    ),
                   ),
                 ),
               ),

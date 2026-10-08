@@ -195,26 +195,28 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                 ),
               ),
               // Reserves _adHeight regardless of load state — the ad card
-              // fades in once ready, but the layout never jumps.
-              Container(
-                height: _adHeight,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      color: AppColors.basic500.withValues(alpha: 0.14),
+              // fades in once ready, but the layout never jumps. Dropped
+              // entirely on no-ads builds so no empty strip is left behind.
+              if (!AscAdsConfig.isHideAd)
+                Container(
+                  height: _adHeight,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: AppColors.basic500.withValues(alpha: 0.14),
+                      ),
                     ),
                   ),
+                  padding: const EdgeInsets.all(12),
+                  child: _hasPickedOnce
+                      ? (_lan2Loaded
+                            ? _lan2.render(height: _adHeight - 24)
+                            : const SizedBox.shrink())
+                      : (_lan1Loaded
+                            ? _lan1.render(height: _adHeight - 24)
+                            : const SizedBox.shrink()),
                 ),
-                padding: const EdgeInsets.all(12),
-                child: _hasPickedOnce
-                    ? (_lan2Loaded
-                          ? _lan2.render(height: _adHeight - 24)
-                          : const SizedBox.shrink())
-                    : (_lan1Loaded
-                          ? _lan1.render(height: _adHeight - 24)
-                          : const SizedBox.shrink()),
-              ),
             ],
           ),
         ),

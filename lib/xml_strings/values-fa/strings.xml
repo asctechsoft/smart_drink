@@ -409,7 +409,7 @@
     <string name="T4">چهارشنبه</string>
     <string name="T5">پنج شنبه</string>
     <string name="T6">جمعه</string>
-    <string name="T7">نشست</string>
+    <string name="T7">شنبه</string>
     <string name="CN">خورشید</string>
     <string name="history_overview_title">بررسی اجمالی</string>
     <string name="reminder_slots_title">زمان‌بندی‌های یادآوری</string>
@@ -426,4 +426,6 @@
     <string name="exit_survey_reason_other">دلیل دیگر</string>
     <string name="exit_survey_stay">ماندن</string>
     <string name="exit_survey_exit">خروج در هر صورت</string>
+    <string name="track_water_daily">پیگیری روزانه مصرف آب</string>
+    <string name="starting_up">در حال راه‌اندازی...</string>
 </resources>

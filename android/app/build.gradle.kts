@@ -82,7 +82,7 @@ android {
             dimension = "environment"
             applicationIdSuffix = ""
             resValue("string", "app_name", "Aqua Mind")
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("productRelease")
             ndk {
                 abiFilters += listOf("arm64-v8a")
             }

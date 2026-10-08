@@ -253,10 +253,10 @@
     <string name="welcome_feat_habit_desc">Sağlığı iyileştirin</string>
     <string name="welcome_start_btn">Sağlıklı yolculuğa başlayın</string>
     <string name="settings_subtitle">İçme deneyiminizi kişiselleştirin</string>
-    <string name="section_drink">İÇMEK</string>
-    <string name="section_schedule">TAKVİM</string>
-    <string name="section_general">GENEL</string>
-    <string name="section_support">DESTEK VE HAKKINDA</string>
+    <string name="section_drink">İçmek</string>
+    <string name="section_schedule">Takvim</string>
+    <string name="section_general">Genel</string>
+    <string name="section_support">Destek ve hakkında</string>
     <string name="settings_feedback">Geri bildirim gönder</string>
     <string name="settings_feedback_desc">Düşüncelerinizi bizimle paylaşın</string>
     <string name="settings_share">Uygulamayı paylaş</string>
@@ -409,7 +409,7 @@
     <string name="T4">Çar</string>
     <string name="T5">Per</string>
     <string name="T6">Cuma</string>
-    <string name="T7">Doygunluk</string>
+    <string name="T7">Cmt</string>
     <string name="CN">Güneş</string>
     <string name="history_overview_title">Genel Bakış</string>
     <string name="reminder_slots_title">Hatırlatıcı zamanları</string>
@@ -426,4 +426,6 @@
     <string name="exit_survey_reason_other">Diğer neden</string>
     <string name="exit_survey_stay">Kal</string>
     <string name="exit_survey_exit">Yine de çık</string>
+    <string name="track_water_daily">Günlük su alımını takip edin</string>
+    <string name="starting_up">Başlatılıyor...</string>
 </resources>

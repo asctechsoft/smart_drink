@@ -426,4 +426,6 @@
     <string name="exit_survey_reason_other">其他原因</string>
     <string name="exit_survey_stay">留下</string>
     <string name="exit_survey_exit">依然退出</string>
+    <string name="track_water_daily">每天記錄飲水量</string>
+    <string name="starting_up">正在啟動...</string>
 </resources>

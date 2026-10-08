@@ -11,6 +11,7 @@ import 'package:waternudge/values/route_name.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:get/get.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Star color used for both the filled and (dimmed) empty state.
 const Color _kStarColor = Color(0xFFFFC53D);
@@ -211,13 +212,23 @@ class _RateAppDialogContentState extends State<_RateAppDialogContent>
     _requestReview();
   }
 
+  /// Opens the Play Store listing directly — the in-app review sheet is
+  /// quota-limited and never shows for sideloaded/test builds, so a tap on
+  /// "Rate us" could otherwise appear to do nothing.
   static Future<void> _requestReview() async {
-    final inAppReview = InAppReview.instance;
-    if (await inAppReview.isAvailable()) {
-      await inAppReview.requestReview();
-    } else {
-      await inAppReview.openStoreListing();
+    const storeUrl =
+        'https://play.google.com/store/apps/details?id=com.dsp.smartdrinkai';
+    try {
+      if (await launchUrl(
+        Uri.parse(storeUrl),
+        mode: LaunchMode.externalApplication,
+      )) {
+        return;
+      }
+    } catch (e) {
+      debugPrint('RateAppDialog open store failed: $e');
     }
+    await InAppReview.instance.openStoreListing();
   }
 }
 

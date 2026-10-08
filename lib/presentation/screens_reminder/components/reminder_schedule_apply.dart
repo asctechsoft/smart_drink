@@ -138,28 +138,34 @@ class ScheduleApplySection extends StatelessWidget {
                     color: selected ? Colors.white : ob.textActiveBottomNavBar,
                   ),
                   const SizedBox(height: 6),
-                  Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: selected ? Colors.white : ob.textPrimary,
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      softWrap: false,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: selected ? Colors.white : ob.textPrimary,
+                      ),
                     ),
                   ),
                   if (sub != null)
-                    Text(
-                      sub,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 9,
-                        color: selected
-                            ? Colors.white.withValues(alpha: 0.85)
-                            : ob.textSecondary,
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        sub,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        softWrap: false,
+                        style: TextStyle(
+                          fontSize: 9,
+                          color: selected
+                              ? Colors.white.withValues(alpha: 0.85)
+                              : ob.textSecondary,
+                        ),
                       ),
                     ),
                 ],
@@ -204,14 +210,20 @@ class ScheduleApplySection extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 9),
               alignment: Alignment.center,
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: selected
-                      ? Colors.white
-                      : ob.textPrimary.withValues(alpha: 0.85),
+              // Long translations shrink to fit the chip instead of wrapping.
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  softWrap: false,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: selected
+                        ? Colors.white
+                        : ob.textPrimary.withValues(alpha: 0.85),
+                  ),
                 ),
               ),
             ),

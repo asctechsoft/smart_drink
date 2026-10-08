@@ -253,10 +253,10 @@
     <string name="welcome_feat_habit_desc">Migliorare la salute</string>
     <string name="welcome_start_btn">Inizia un viaggio sano</string>
     <string name="settings_subtitle">Personalizza la tua esperienza di consumo</string>
-    <string name="section_drink">BERE</string>
-    <string name="section_schedule">PROGRAMMA</string>
-    <string name="section_general">GENERALE</string>
-    <string name="section_support">SUPPORTO E INFORMAZIONI</string>
+    <string name="section_drink">Bere</string>
+    <string name="section_schedule">Programma</string>
+    <string name="section_general">Generale</string>
+    <string name="section_support">Supporto e informazioni</string>
     <string name="settings_feedback">Invia feedback</string>
     <string name="settings_feedback_desc">Condividi i tuoi pensieri con noi</string>
     <string name="settings_share">Condividi l\'app</string>
@@ -426,4 +426,6 @@
     <string name="exit_survey_reason_other">Altro motivo</string>
     <string name="exit_survey_stay">Resta</string>
     <string name="exit_survey_exit">Esci comunque</string>
+    <string name="track_water_daily">Monitora l\'assunzione giornaliera di acqua</string>
+    <string name="starting_up">Avvio in corso...</string>
 </resources>

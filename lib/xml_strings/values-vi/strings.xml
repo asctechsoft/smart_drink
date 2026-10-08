@@ -246,10 +246,10 @@
     <string name="welcome_feat_habit_desc">Cải thiện sức khỏe</string>
     <string name="welcome_start_btn">Bắt đầu hành trình khỏe mạnh</string>
     <string name="settings_subtitle">Tùy chỉnh trải nghiệm uống nước của bạn</string>
-    <string name="section_drink">UỐNG NƯỚC</string>
-    <string name="section_schedule">LỊCH TRÌNH</string>
-    <string name="section_general">CHUNG</string>
-    <string name="section_support">HỖ TRỢ &amp; GIỚI THIỆU</string>
+    <string name="section_drink">Uống nước</string>
+    <string name="section_schedule">Lịch trình</string>
+    <string name="section_general">Chung</string>
+    <string name="section_support">Hỗ trợ &amp; giới thiệu</string>
     <string name="settings_feedback">Gửi phản hồi</string>
     <string name="settings_feedback_desc">Chia sẻ ý kiến của bạn với chúng tôi</string>
     <string name="settings_share">Chia sẻ ứng dụng</string>
@@ -426,4 +426,6 @@
     <string name="exit_survey_reason_other">Lý do khác</string>
     <string name="exit_survey_stay">Ở lại</string>
     <string name="exit_survey_exit">Vẫn thoát</string>
+    <string name="track_water_daily">Theo dõi nước uống mỗi ngày</string>
+    <string name="starting_up">Đang khởi động...</string>
 </resources>

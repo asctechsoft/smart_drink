@@ -253,10 +253,10 @@
     <string name="welcome_feat_habit_desc">Улучшить здоровье</string>
     <string name="welcome_start_btn">Начни здоровое путешествие</string>
     <string name="settings_subtitle">Персонализируйте свой опыт употребления алкоголя</string>
-    <string name="section_drink">НАПИТОК</string>
-    <string name="section_schedule">РАСПИСАНИЕ</string>
-    <string name="section_general">ОБЩИЙ</string>
-    <string name="section_support">ПОДДЕРЖКА И О КОМПАНИИ</string>
+    <string name="section_drink">Напиток</string>
+    <string name="section_schedule">Расписание</string>
+    <string name="section_general">Общий</string>
+    <string name="section_support">Поддержка и о компании</string>
     <string name="settings_feedback">Отправить отзыв</string>
     <string name="settings_feedback_desc">Поделитесь с нами своими мыслями</string>
     <string name="settings_share">Поделиться приложением</string>
@@ -409,7 +409,7 @@
     <string name="T4">Обвенчались</string>
     <string name="T5">Чт</string>
     <string name="T6">Пт</string>
-    <string name="T7">Суббота</string>
+    <string name="T7">Сб</string>
     <string name="CN">Солнце</string>
     <string name="history_overview_title">Обзор</string>
     <string name="reminder_slots_title">Время напоминаний</string>
@@ -426,4 +426,6 @@
     <string name="exit_survey_reason_other">Другая причина</string>
     <string name="exit_survey_stay">Остаться</string>
     <string name="exit_survey_exit">Все равно выйти</string>
+    <string name="track_water_daily">Отслеживайте ежедневное потребление воды</string>
+    <string name="starting_up">Запуск...</string>
 </resources>

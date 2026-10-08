@@ -409,7 +409,7 @@
     <string name="T4">تزوج</string>
     <string name="T5">الخميس</string>
     <string name="T6">الجمعة</string>
-    <string name="T7">قعد</string>
+    <string name="T7">سبت</string>
     <string name="CN">شمس</string>
     <string name="history_overview_title">نظرة عامة</string>
     <string name="reminder_slots_title">مواعيد التذكير</string>
@@ -426,4 +426,6 @@
     <string name="exit_survey_reason_other">سبب آخر</string>
     <string name="exit_survey_stay">البقاء</string>
     <string name="exit_survey_exit">الخروج على أي حال</string>
+    <string name="track_water_daily">تتبع شرب الماء يوميًا</string>
+    <string name="starting_up">جاري البدء...</string>
 </resources>

@@ -253,10 +253,10 @@
     <string name="welcome_feat_habit_desc">Améliorer la santé</string>
     <string name="welcome_start_btn">Commencez un voyage sain</string>
     <string name="settings_subtitle">Personnalisez votre expérience de consommation</string>
-    <string name="section_drink">BOIRE</string>
-    <string name="section_schedule">CALENDRIER</string>
-    <string name="section_general">GÉNÉRAL</string>
-    <string name="section_support">SOUTIEN ET À PROPOS</string>
+    <string name="section_drink">Boire</string>
+    <string name="section_schedule">Calendrier</string>
+    <string name="section_general">Général</string>
+    <string name="section_support">Soutien et à propos</string>
     <string name="settings_feedback">Envoyer des commentaires</string>
     <string name="settings_feedback_desc">Partagez vos réflexions avec nous</string>
     <string name="settings_share">Partager l\'application</string>
@@ -409,7 +409,7 @@
     <string name="T4">Épouser</string>
     <string name="T5">Jeu</string>
     <string name="T6">Ven</string>
-    <string name="T7">Assis</string>
+    <string name="T7">sam</string>
     <string name="CN">Soleil</string>
     <string name="history_overview_title">Aperçu</string>
     <string name="reminder_slots_title">Plages de rappel</string>
@@ -426,4 +426,6 @@
     <string name="exit_survey_reason_other">Autre raison</string>
     <string name="exit_survey_stay">Rester</string>
     <string name="exit_survey_exit">Quitter quand même</string>
+    <string name="track_water_daily">Suivez votre consommation d\'eau quotidienne</string>
+    <string name="starting_up">Démarrage en cours...</string>
 </resources>

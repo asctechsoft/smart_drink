@@ -246,10 +246,10 @@
     <string name="welcome_feat_habit_desc">Improve health</string>
     <string name="welcome_start_btn">Start healthy journey</string>
     <string name="settings_subtitle">Customize your drinking experience</string>
-    <string name="section_drink">DRINK</string>
-    <string name="section_schedule">SCHEDULE</string>
-    <string name="section_general">GENERAL</string>
-    <string name="section_support">SUPPORT &amp; ABOUT</string>
+    <string name="section_drink">Drink</string>
+    <string name="section_schedule">Schedule</string>
+    <string name="section_general">General</string>
+    <string name="section_support">Support &amp; About</string>
     <string name="settings_feedback">Send feedback</string>
     <string name="settings_feedback_desc">Share your thoughts with us</string>
     <string name="settings_share">Share app</string>
@@ -426,4 +426,6 @@
     <string name="exit_survey_reason_other">Other reason</string>
     <string name="exit_survey_stay">Stay</string>
     <string name="exit_survey_exit">Exit anyway</string>
+    <string name="track_water_daily">Track daily water intake</string>
+    <string name="starting_up">Starting up...</string>
 </resources>

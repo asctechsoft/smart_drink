@@ -426,4 +426,6 @@
     <string name="exit_survey_reason_other">その他の理由</string>
     <string name="exit_survey_stay">残る</string>
     <string name="exit_survey_exit">とにかく終了</string>
+    <string name="track_water_daily">毎日の水分摂取量を記録</string>
+    <string name="starting_up">起動中...</string>
 </resources>

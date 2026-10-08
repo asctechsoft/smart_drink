@@ -253,10 +253,10 @@
     <string name="welcome_feat_habit_desc">Meningkatkan kesehatan</string>
     <string name="welcome_start_btn">Mulailah perjalanan sehat</string>
     <string name="settings_subtitle">Sesuaikan pengalaman minum Anda</string>
-    <string name="section_drink">MINUM</string>
-    <string name="section_schedule">JADWAL</string>
-    <string name="section_general">UMUM</string>
-    <string name="section_support">DUKUNGAN &amp; TENTANG</string>
+    <string name="section_drink">Minum</string>
+    <string name="section_schedule">Jadwal</string>
+    <string name="section_general">Umum</string>
+    <string name="section_support">Dukungan &amp; tentang</string>
     <string name="settings_feedback">Kirim masukan</string>
     <string name="settings_feedback_desc">Bagikan pemikiran Anda dengan kami</string>
     <string name="settings_share">Bagikan aplikasi</string>
@@ -409,7 +409,7 @@
     <string name="T4">Menikahi</string>
     <string name="T5">Kam</string>
     <string name="T6">Jumat</string>
-    <string name="T7">Duduk</string>
+    <string name="T7">Sab</string>
     <string name="CN">Matahari</string>
     <string name="history_overview_title">Ringkasan</string>
     <string name="reminder_slots_title">Slot pengingat</string>
@@ -426,4 +426,6 @@
     <string name="exit_survey_reason_other">Alasan lain</string>
     <string name="exit_survey_stay">Tetap di sini</string>
     <string name="exit_survey_exit">Tetap keluar</string>
+    <string name="track_water_daily">Lacak asupan air harian</string>
+    <string name="starting_up">Sedang memulai...</string>
 </resources>
