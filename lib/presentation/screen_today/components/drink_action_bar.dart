@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/models/ui_models/drink_type.dart';
-import 'package:waternudge/presentation/common_components/app_touchable.dart';
 import 'package:waternudge/presentation/common_components/primary_bottom_sheet.dart';
 import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/toast_utils.dart';

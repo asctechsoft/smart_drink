@@ -1,7 +1,7 @@
+import 'package:asc_common/asc_common.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:waternudge/utils/water_calculation.dart';
 import 'package:waternudge/utils/unit_converter.dart';
-import 'package:waternudge/utils/date_utils.dart';
 import 'package:waternudge/models/data_models/drink_record.dart';
 import 'package:waternudge/models/data_models/daily_summary.dart';
 import 'package:waternudge/models/data_models/user_profile.dart';
@@ -84,15 +84,15 @@ void main() {
     });
   });
 
-  group('AppDateUtils', () {
+  group('AscDateUtils', () {
     test('formatDateKey pads correctly', () {
-      final key = AppDateUtils.formatDateKey(DateTime(2024, 1, 5));
+      final key = AscDateUtils.formatDateKey(DateTime(2024, 1, 5));
       expect(key, '2024-01-05');
     });
 
     test('parseDateKey round-trips', () {
       const key = '2024-03-15';
-      final dt = AppDateUtils.parseDateKey(key);
+      final dt = AscDateUtils.parseDateKey(key);
       expect(dt.year, 2024);
       expect(dt.month, 3);
       expect(dt.day, 15);
@@ -100,19 +100,19 @@ void main() {
 
     test('startOfWeek returns Monday', () {
       // 2024-03-15 is a Friday
-      final start = AppDateUtils.startOfWeek(DateTime(2024, 3, 15));
+      final start = AscDateUtils.startOfWeek(DateTime(2024, 3, 15));
       expect(start.weekday, DateTime.monday);
     });
 
     test('endOfWeek returns Sunday', () {
-      final end = AppDateUtils.endOfWeek(DateTime(2024, 3, 15));
+      final end = AscDateUtils.endOfWeek(DateTime(2024, 3, 15));
       expect(end.weekday, DateTime.sunday);
     });
 
     test('startOfMonth and endOfMonth', () {
-      final start = AppDateUtils.startOfMonth(DateTime(2024, 3, 15));
+      final start = AscDateUtils.startOfMonth(DateTime(2024, 3, 15));
       expect(start.day, 1);
-      final end = AppDateUtils.endOfMonth(DateTime(2024, 3, 15));
+      final end = AscDateUtils.endOfMonth(DateTime(2024, 3, 15));
       expect(end.day, 31);
     });
   });

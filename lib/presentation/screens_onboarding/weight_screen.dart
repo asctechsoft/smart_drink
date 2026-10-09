@@ -2,7 +2,6 @@ import 'package:asc_common/asc_common.dart';
 import 'package:flutter/material.dart';
 import 'package:waternudge/controller/onboarding_controller.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
-import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
 import 'package:waternudge/presentation/common_components/onboarding_progress_bar.dart';
 import 'package:waternudge/presentation/common_components/onboarding_step_header.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';

@@ -1,9 +1,9 @@
+import 'package:asc_common/asc_common.dart';
 import 'package:dsp_base/dsp_base.dart';
 import 'package:flutter/material.dart';
 import 'package:waternudge/configs/ads_config.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
-import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
 import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/route_name.dart';

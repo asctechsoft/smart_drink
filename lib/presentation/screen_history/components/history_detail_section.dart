@@ -1,3 +1,4 @@
+import 'package:asc_common/asc_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -5,7 +6,6 @@ import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/models/data_models/daily_summary.dart';
 import 'package:waternudge/models/data_models/drink_record.dart';
 import 'package:waternudge/models/ui_models/drink_type.dart';
-import 'package:waternudge/utils/date_utils.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 
@@ -271,7 +271,7 @@ class PeriodSummaryRow extends StatelessWidget {
   ) {
     final date = DateTime.tryParse(summary.dateKey);
     return PeriodSummaryRow(
-      label: date != null ? AppDateUtils.formatViDate(date) : summary.dateKey,
+      label: date != null ? AscDateUtils.shortDate(date) : summary.dateKey,
       totalMl: summary.totalMl,
       goalMl: summary.goalMl > 0 ? summary.goalMl : fallbackGoalMl,
     );

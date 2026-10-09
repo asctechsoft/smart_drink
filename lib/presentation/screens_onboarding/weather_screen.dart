@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:waternudge/controller/onboarding_controller.dart';
 import 'package:waternudge/models/ui_models/weather_condition.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
-import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
 import 'package:waternudge/presentation/common_components/onboarding_progress_bar.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/common_components/selectable_option_tile.dart';

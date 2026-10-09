@@ -1,6 +1,5 @@
+import 'package:asc_common/asc_common.dart';
 import 'package:flutter/material.dart';
-import 'package:waternudge/presentation/common_components/app_modifier.dart';
-import 'package:waternudge/presentation/common_components/bottom_safe_area.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';

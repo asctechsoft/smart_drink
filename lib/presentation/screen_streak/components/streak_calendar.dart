@@ -1,8 +1,8 @@
+import 'package:asc_common/asc_common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:waternudge/controller/streak_controller.dart';
-import 'package:waternudge/utils/date_utils.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 
@@ -54,7 +54,7 @@ class StreakCalendar extends StatelessWidget {
           onTap: controller.previousMonth,
         ),
         Text(
-          AppDateUtils.monthLabel(month),
+          AscDateUtils.monthLabel(month),
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w700,

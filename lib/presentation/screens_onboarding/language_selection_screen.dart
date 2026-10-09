@@ -1,3 +1,4 @@
+import 'package:asc_common/asc_common.dart';
 import 'dart:async';
 
 import 'package:dsp_base/dsp_base.dart';
@@ -8,10 +9,7 @@ import 'package:waternudge/configs/ads_config.dart';
 import 'package:waternudge/controller/languages_controller.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/selectable_option_tile.dart';
-import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
-import 'package:waternudge/services/app_localize.dart';
 import 'package:waternudge/utils/analytics.dart';
-import 'package:waternudge/utils/language_names.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/route_name.dart';
 
@@ -231,7 +229,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
     final seen = suggested.map((l) => l.toString()).toSet();
     return [
       ...suggested,
-      ...AppLocalize.supportedLocales.where(
+      ...AscLocale.supportedLocales.where(
         (l) => !seen.contains(l.toString()),
       ),
     ];
@@ -261,8 +259,8 @@ class _SystemDefaultTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final resolved = AppLocalize.bestSupportedMatchFor(
-      AppLocalize.getSystemLocale(),
+    final resolved = AscLocale.bestSupportedMatchFor(
+      AscLocale.getSystemLocale(),
     );
     const radius = BorderRadius.all(Radius.circular(16));
     return DecoratedBox(
@@ -329,7 +327,7 @@ class _SystemDefaultTile extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        AppLocalize.getLocaleName(resolved),
+                        LanguageNames.englishName(resolved),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -429,7 +427,7 @@ class _LanguageTile extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        AppLocalize.getLocaleName(locale),
+                        LanguageNames.englishName(locale),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

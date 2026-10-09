@@ -1,3 +1,4 @@
+import 'package:asc_common/asc_common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,7 +8,6 @@ import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/full_screen_native_ad_screen.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/primary_button.dart';
-import 'package:waternudge/presentation/common_components/stagger_reveal.dart';
 import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/values/app_colors.dart';
 import 'package:waternudge/values/onboarding_theme.dart';

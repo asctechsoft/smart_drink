@@ -1,7 +1,7 @@
+import 'package:asc_common/asc_common.dart';
 import 'package:device_region/device_region.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waternudge/configs/pref_const.dart';
-import 'package:waternudge/services/app_localize.dart';
 import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/loading_utils.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +9,11 @@ import 'package:get/get.dart';
 import 'settings_controller.dart';
 
 class LanguagesController extends GetxController {
-  final Rx<Locale> currentAppLocale = AppLocalize.getAppLocale().obs;
+  final Rx<Locale> currentAppLocale = AscLocale.getAppLocale().obs;
   final Rx<Locale?> regionSuggestedLocale = Rx<Locale?>(null);
 
   /// Whether "System Default" (rather than a specific language) is picked —
-  /// see `AppLocalize.useSystemLocale`. Warmed from the persisted flag in
+  /// see `AscLocale.useSystemLocale`. Warmed from the persisted flag in
   /// [onInit] so the picker's radio state survives app restarts. Defaults to
   /// `true` so a fresh install's first paint highlights "System Default"
   /// (matching the locale already resolved by `_ensureLocaleConfigured`)
@@ -54,8 +54,8 @@ class LanguagesController extends GetxController {
     try {
       final countryCode = await DeviceRegion.getSIMCountryCode();
       if (countryCode == null || countryCode.length != 2) return;
-      const supported = AppLocalize.supportedLocales;
-      final deviceLocale = AppLocalize.getSystemLocale();
+      final supported = AscLocale.supportedLocales;
+      final deviceLocale = AscLocale.getSystemLocale();
       final upper = countryCode.toUpperCase();
       final matching = supported
           .where((l) => (l.countryCode ?? '').toUpperCase() == upper)
@@ -97,11 +97,11 @@ class LanguagesController extends GetxController {
         await prefs.setBool(PrefConst.followSystemLanguage, false);
       }
 
-      await AppLocalize.setAppLocale(locale);
+      await AscLocale.setAppLocale(locale);
       currentAppLocale.value = locale;
       await _pushLocaleToHistory(locale);
 
-      // AppLocalize.setAppLocale already persisted PrefConst.language.
+      // AscLocale.setAppLocale already persisted PrefConst.language.
       final key = _localeToKey(locale);
 
       // Sync with SettingsController so the settings screen updates reactively
@@ -119,15 +119,15 @@ class LanguagesController extends GetxController {
 
   /// "System Default" — follows the device's own language from now on,
   /// re-detecting on every cold start instead of pinning to whatever it
-  /// resolves to right now. See `AppLocalize.useSystemLocale`.
+  /// resolves to right now. See `AscLocale.useSystemLocale`.
   Future<void> useSystemDefault() async {
     LoadingUtils.show();
     try {
       await Future.delayed(const Duration(milliseconds: 150));
 
-      await AppLocalize.useSystemLocale();
+      await AscLocale.useSystemLocale();
       isSystemDefault.value = true;
-      currentAppLocale.value = AppLocalize.getAppLocale();
+      currentAppLocale.value = AscLocale.getAppLocale();
       await _pushLocaleToHistory(currentAppLocale.value);
 
       final key = _localeToKey(currentAppLocale.value);
@@ -143,7 +143,7 @@ class LanguagesController extends GetxController {
   }
 
   Future<void> _pushLocaleToHistory(Locale locale) async {
-    const supported = AppLocalize.supportedLocales;
+    final supported = AscLocale.supportedLocales;
     if (!supported.any((l) => _localeEquals(l, locale))) return;
     final key = _localeToKey(locale);
     final list = _historyRaw.isEmpty
@@ -186,8 +186,8 @@ class LanguagesController extends GetxController {
 
   List<Locale> getSuggestedLocales() {
     const english = Locale('en', 'US');
-    const supported = AppLocalize.supportedLocales;
-    final deviceLocale = AppLocalize.getSystemLocale();
+    final supported = AscLocale.supportedLocales;
+    final deviceLocale = AscLocale.getSystemLocale();
     final historyKeys = _historyRaw.isEmpty
         ? <String>[]
         : _historyRaw.split(',').where((s) => s.isNotEmpty).toList();

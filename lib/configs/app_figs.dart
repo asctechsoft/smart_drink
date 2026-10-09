@@ -1,18 +1,17 @@
-import 'package:flutter/services.dart';
+import 'package:asc_common/asc_common.dart';
 
-/// App-owned replacement for dsp_base's `CommFigs` — build-flavor flags this
-/// app actually reads. Matches the `--flavor` names declared in
-/// `android/app/build.gradle.kts` (`alpha`, `dev`, `product`, `claude`).
+/// Build-flavor flags — thin alias over [AscBuildFlavor]. Flavor names match
+/// the `--flavor` declared in `android/app/build.gradle.kts` (`alpha`, `dev`,
+/// `product`, `claude`).
 class AppFigs {
   AppFigs._();
 
-  static const bool isAlpha = appFlavor == 'Alpha' || appFlavor == 'alpha';
-  static const bool isDev = appFlavor == 'Dev' || appFlavor == 'dev';
-  static const bool isProduct =
-      appFlavor == 'Product' || appFlavor == 'product';
-  static const bool isClaude = appFlavor == 'Claude' || appFlavor == 'claude';
+  static const bool isAlpha = AscBuildFlavor.isAlpha;
+  static const bool isDev = AscBuildFlavor.isDev;
+  static const bool isProduct = AscBuildFlavor.isProduct;
+  static const bool isClaude = AscBuildFlavor.isClaude;
 
   /// Gates debug-only affordances (remote-config test overrides, forced test
   /// ad ids, ...) — everywhere except a shipped Product build.
-  static const bool isShowTestOption = isClaude || isAlpha || isDev;
+  static const bool isShowTestOption = AscBuildFlavor.isShowTestOption;
 }

@@ -3,7 +3,6 @@ import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waternudge/controller/languages_controller.dart';
-import 'package:waternudge/services/app_localize.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
 import 'package:waternudge/values/route_name.dart';
 
@@ -22,7 +21,7 @@ class LanguageListWidget extends StatelessWidget {
       final _ = controller.currentAppLocale.value;
 
       final suggestedLanguages = controller.getSuggestedLocales();
-      const allLanguages = AppLocalize.supportedLocales;
+      final allLanguages = AscLocale.supportedLocales;
       final query = searchQuery.toLowerCase();
 
       final filteredSuggested = query.isEmpty
@@ -128,7 +127,7 @@ class LanguageListWidget extends StatelessWidget {
 
   bool _localeMatchesQuery(Locale l, String query) {
     if (query.isEmpty) return true;
-    return AppLocalize.getLocaleName(l).toLowerCase().contains(query);
+    return LanguageNames.englishName(l).toLowerCase().contains(query);
   }
 
   Widget _buildLanguageItem(
@@ -170,7 +169,7 @@ class LanguageListWidget extends StatelessWidget {
               AppSpacerW(16),
               Expanded(
                 child: AppText(
-                  AppLocalize.getLocaleName(locale).split(' (').first,
+                  LanguageNames.englishName(locale).split(' (').first,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

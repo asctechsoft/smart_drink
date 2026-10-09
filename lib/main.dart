@@ -1,3 +1,4 @@
+import 'package:asc_common/asc_common.dart';
 import 'dart:async';
 
 import 'package:dsp_base/dsp_base.dart';
@@ -7,10 +8,10 @@ import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'configs/app_figs.dart';
+import 'configs/locale_config.dart';
 import 'configs/pref_const.dart';
 import 'presentation/common_components/app_reopen_native_ad.dart';
 import 'services/app_ads.dart';
-import 'services/app_localize.dart';
 import 'controller/user_profile_controller.dart';
 import 'controller/today_controller.dart';
 import 'controller/history_controller.dart';
@@ -46,14 +47,14 @@ Future<void> _ensureLocaleConfigured() async {
       }
 
       // Check if the saved locale is among supported locales
-      final isSupported = AppLocalize.supportedLocales.any(
+      final isSupported = AscLocale.supportedLocales.any(
         (l) =>
             l.languageCode == savedLocale.languageCode &&
             (l.countryCode ?? '') == (savedLocale.countryCode ?? ''),
       );
 
       if (isSupported) {
-        await AppLocalize.setAppLocale(savedLocale);
+        await AscLocale.setAppLocale(savedLocale);
         return;
       }
     }
@@ -61,13 +62,14 @@ Future<void> _ensureLocaleConfigured() async {
 
   // No pin (or explicitly following system) — use the device's language.
   // setAppLocale persists the choice itself — no separate pref write needed.
-  await AppLocalize.setAppLocale(
-    AppLocalize.bestSupportedMatchFor(AppLocalize.getSystemLocale()),
+  await AscLocale.setAppLocale(
+    AscLocale.bestSupportedMatchFor(AscLocale.getSystemLocale()),
   );
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  AppLocaleConfig.configure();
 
   runZonedGuarded(
     () async {
@@ -137,7 +139,7 @@ Future<void> main() async {
       await _ensureLocaleConfigured();
 
       // 2. Initialize translations
-      await AppLocalize.loadTranslations();
+      await AscLocale.loadTranslations();
 
       // 3. Pin this install's guided-tour A/B branch. Sticky, and a no-op on
       // the Product release build — see TourController.assignLocalVariant.
@@ -168,9 +170,9 @@ class WaterNudgeApp extends StatelessWidget {
       theme: AppTheme.dark,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.dark,
-      locale: AppLocalize.getAppLocale(),
+      locale: AscLocale.getAppLocale(),
       fallbackLocale: const Locale('en', 'US'),
-      supportedLocales: AppLocalize.supportedLocales,
+      supportedLocales: AscLocale.supportedLocales,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

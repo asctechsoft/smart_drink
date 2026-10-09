@@ -8,7 +8,6 @@ import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/models/data_models/drink_record.dart';
 import 'package:waternudge/models/ui_models/drink_type.dart';
-import 'package:waternudge/presentation/common_components/bottom_safe_area.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
 import 'package:waternudge/presentation/common_components/progress_ring.dart';
 import 'package:waternudge/services/native/widget_channel.dart';

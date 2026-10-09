@@ -1,3 +1,4 @@
+import 'package:asc_common/asc_common.dart';
 import 'package:dsp_base/dsp_base.dart';
 import 'package:flutter/material.dart';
 import 'package:waternudge/controller/reminder_controller.dart';
@@ -5,7 +6,6 @@ import 'package:waternudge/controller/settings_controller.dart';
 import 'package:waternudge/controller/user_profile_controller.dart';
 import 'package:waternudge/presentation/common_components/custom_switch.dart';
 import 'package:waternudge/presentation/common_components/onboarding_background.dart';
-import 'package:waternudge/services/app_localize.dart';
 import 'package:waternudge/utils/analytics.dart';
 import 'package:waternudge/utils/legal_utils.dart';
 import 'package:waternudge/utils/share_utils.dart';
@@ -258,8 +258,8 @@ class SettingsScreen extends StatelessWidget {
                       iconData: Icons.language_rounded,
                       title: 'language'.tr,
                       subtitle: 'settings_language_desc'.tr,
-                      value: AppLocalize.getLocaleName(
-                        AppLocalize.getAppLocale(),
+                      value: LanguageNames.englishName(
+                        AscLocale.getAppLocale(),
                       ).split(' (').first,
                       onTap: () {
                         Analytics.settingsRowTap('language');

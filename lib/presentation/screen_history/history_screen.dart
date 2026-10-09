@@ -13,7 +13,6 @@ import 'package:waternudge/presentation/common_components/onboarding_background.
 import 'package:waternudge/presentation/common_components/primary_button.dart';
 import 'package:waternudge/presentation/common_components/primary_dialog.dart';
 import 'package:waternudge/utils/analytics.dart';
-import 'package:waternudge/utils/date_utils.dart';
 import 'package:waternudge/utils/toast_utils.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/values/onboarding_theme.dart';
@@ -338,7 +337,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 132),
       children: [
         WeekChartCard(
-          weekLabel: AppDateUtils.weekRange(selected),
+          weekLabel: AscDateUtils.weekRange(selected),
           dailyTotals: dailyTotals,
           dailyGoal: goal,
           totalDrinkCount: totalDrinkCount,
@@ -434,7 +433,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       children: [
         MonthSummaryCard(
           title: 'history_overview_title'.tr,
-          subtitle: AppDateUtils.monthLabel(selected),
+          subtitle: AscDateUtils.monthLabel(selected),
           totalMl: total,
           monthGoalMl: goal * daysInMonth,
           avgPerDayMl: controller.avgPerDayMl,

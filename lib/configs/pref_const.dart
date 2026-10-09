@@ -15,7 +15,7 @@ class PrefConst {
   /// language — [language] still gets updated to whatever that resolves to
   /// right now (for display), but on the next cold start the app re-detects
   /// the system locale instead of trusting that as a pin. See
-  /// `AppLocalize.useSystemLocale`.
+  /// `AscLocale.useSystemLocale`.
   static const String followSystemLanguage = 'follow_system_language';
   static const String intervalMinutes = 'interval_minutes';
   static const String sleepTimeStart = 'sleep_time_start';

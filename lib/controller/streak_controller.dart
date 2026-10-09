@@ -1,8 +1,8 @@
+import 'package:asc_common/asc_common.dart';
 import 'package:get/get.dart';
 import 'package:waternudge/models/data_models/daily_summary.dart';
 import 'package:waternudge/services/application/drink_data_service.dart';
 import 'package:waternudge/utils/analytics.dart';
-import 'package:waternudge/utils/date_utils.dart';
 
 /// How a single calendar day scored against the daily goal.
 enum DayStatus {
@@ -51,8 +51,8 @@ class StreakController extends GetxController {
       final end = DateTime(now.year + 1, 12, 31);
 
       final list = await _drinkService.getSummariesBetween(
-        AppDateUtils.formatDateKey(start),
-        AppDateUtils.formatDateKey(end),
+        AscDateUtils.formatDateKey(start),
+        AscDateUtils.formatDateKey(end),
       );
 
       final map = <String, DailySummary>{};
@@ -72,7 +72,7 @@ class StreakController extends GetxController {
 
   /// A day counts toward the streak once anything is logged for it.
   bool _isStreakDay(Map<String, DailySummary> map, DateTime day) =>
-      map.containsKey(AppDateUtils.formatDateKey(day));
+      map.containsKey(AscDateUtils.formatDateKey(day));
 
   int _computeCurrentStreak(Map<String, DailySummary> map) {
     final today = DateTime.now();
@@ -96,7 +96,7 @@ class StreakController extends GetxController {
   int _computeLongestStreak(Map<String, DailySummary> map) {
     if (map.isEmpty) return 0;
 
-    final days = map.keys.map(AppDateUtils.parseDateKey).toList()..sort();
+    final days = map.keys.map(AscDateUtils.parseDateKey).toList()..sort();
 
     var longest = 1;
     var run = 1;
@@ -109,7 +109,7 @@ class StreakController extends GetxController {
   }
 
   DayStatus statusOf(DateTime day) {
-    final summary = summaries[AppDateUtils.formatDateKey(day)];
+    final summary = summaries[AscDateUtils.formatDateKey(day)];
     if (summary == null || summary.totalMl <= 0) return DayStatus.missed;
     final goal = summary.goalMl > 0 ? summary.goalMl : 2000;
     return summary.totalMl >= goal ? DayStatus.tracked : DayStatus.partial;
@@ -130,7 +130,7 @@ class StreakController extends GetxController {
 
   /// Days in the current week (Mon–Sun) where the goal was reached.
   int get goalDaysThisWeek {
-    final monday = AppDateUtils.startOfWeek(DateTime.now());
+    final monday = AscDateUtils.startOfWeek(DateTime.now());
     var count = 0;
     for (var i = 0; i < 7; i++) {
       if (statusOf(monday.add(Duration(days: i))) == DayStatus.tracked) count++;

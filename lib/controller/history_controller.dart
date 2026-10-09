@@ -1,10 +1,10 @@
+import 'package:asc_common/asc_common.dart';
 import 'package:waternudge/services/application/health_sync_service.dart';
 import 'package:waternudge/controller/today_controller.dart';
 import 'package:waternudge/models/data_models/daily_summary.dart';
 import 'package:waternudge/models/data_models/drink_record.dart';
 import 'package:waternudge/services/application/drink_data_service.dart';
 import 'package:waternudge/utils/analytics.dart';
-import 'package:waternudge/utils/date_utils.dart';
 import 'package:get/get.dart';
 import 'user_profile_controller.dart';
 
@@ -75,16 +75,16 @@ class HistoryController extends GetxController {
   /// Trailing consecutive goal-met days within the selected week. A day still
   /// in progress (today, nothing logged) does not break the run.
   int get weekStreak {
-    final monday = AppDateUtils.startOfWeek(selectedDate.value);
+    final monday = AscDateUtils.startOfWeek(selectedDate.value);
     final today = DateTime.now();
-    final todayKey = AppDateUtils.formatDateKey(today);
+    final todayKey = AscDateUtils.formatDateKey(today);
     final byKey = {for (final s in summaries) s.dateKey: s};
 
     var streak = 0;
     for (var i = 6; i >= 0; i--) {
       final day = monday.add(Duration(days: i));
       if (day.isAfter(today)) continue;
-      final key = AppDateUtils.formatDateKey(day);
+      final key = AscDateUtils.formatDateKey(day);
       final s = byKey[key];
       final met = s != null && s.totalMl > 0 && s.totalMl >= _goalFor(s);
       if (met) {
@@ -265,25 +265,25 @@ class HistoryController extends GetxController {
   }
 
   Future<void> _loadDayData() async {
-    final dateKey = AppDateUtils.formatDateKey(selectedDate.value);
+    final dateKey = AscDateUtils.formatDateKey(selectedDate.value);
     final records = await _drinkService.getRecordsByDate(dateKey);
     dayRecords.assignAll(records);
     totalMl.value = records.fold(0, (sum, r) => sum + r.amountMl);
 
-    final weekStart = AppDateUtils.startOfWeek(selectedDate.value);
-    final weekEnd = AppDateUtils.endOfWeek(selectedDate.value);
+    final weekStart = AscDateUtils.startOfWeek(selectedDate.value);
+    final weekEnd = AscDateUtils.endOfWeek(selectedDate.value);
     final weekData = await _drinkService.getSummariesBetween(
-      AppDateUtils.formatDateKey(weekStart),
-      AppDateUtils.formatDateKey(weekEnd),
+      AscDateUtils.formatDateKey(weekStart),
+      AscDateUtils.formatDateKey(weekEnd),
     );
     weekSummariesForDay.assignAll(weekData);
   }
 
   Future<void> _loadWeekData() async {
-    final start = AppDateUtils.startOfWeek(selectedDate.value);
-    final end = AppDateUtils.endOfWeek(selectedDate.value);
-    final startKey = AppDateUtils.formatDateKey(start);
-    final endKey = AppDateUtils.formatDateKey(end);
+    final start = AscDateUtils.startOfWeek(selectedDate.value);
+    final end = AscDateUtils.endOfWeek(selectedDate.value);
+    final startKey = AscDateUtils.formatDateKey(start);
+    final endKey = AscDateUtils.formatDateKey(end);
     final data = await _drinkService.getSummariesBetween(startKey, endKey);
     summaries.assignAll(data);
     totalMl.value = data.fold(0, (sum, s) => sum + s.totalMl);
@@ -293,22 +293,22 @@ class HistoryController extends GetxController {
   }
 
   Future<void> _loadMonthData() async {
-    final start = AppDateUtils.startOfMonth(selectedDate.value);
-    final end = AppDateUtils.endOfMonth(selectedDate.value);
+    final start = AscDateUtils.startOfMonth(selectedDate.value);
+    final end = AscDateUtils.endOfMonth(selectedDate.value);
     final data = await _drinkService.getSummariesBetween(
-      AppDateUtils.formatDateKey(start),
-      AppDateUtils.formatDateKey(end),
+      AscDateUtils.formatDateKey(start),
+      AscDateUtils.formatDateKey(end),
     );
     summaries.assignAll(data);
     totalMl.value = data.fold(0, (sum, s) => sum + s.totalMl);
   }
 
   Future<void> _loadYearData() async {
-    final start = AppDateUtils.startOfYear(selectedDate.value);
-    final end = AppDateUtils.endOfYear(selectedDate.value);
+    final start = AscDateUtils.startOfYear(selectedDate.value);
+    final end = AscDateUtils.endOfYear(selectedDate.value);
     final data = await _drinkService.getSummariesBetween(
-      AppDateUtils.formatDateKey(start),
-      AppDateUtils.formatDateKey(end),
+      AscDateUtils.formatDateKey(start),
+      AscDateUtils.formatDateKey(end),
     );
     summaries.assignAll(data);
     totalMl.value = data.fold(0, (sum, s) => sum + s.totalMl);
@@ -358,8 +358,8 @@ class HistoryController extends GetxController {
             sel.month == now.month &&
             sel.day == now.day;
       case HistoryViewMode.week:
-        final selW = AppDateUtils.startOfWeek(sel);
-        final nowW = AppDateUtils.startOfWeek(now);
+        final selW = AscDateUtils.startOfWeek(sel);
+        final nowW = AscDateUtils.startOfWeek(now);
         return selW.year == nowW.year &&
             selW.month == nowW.month &&
             selW.day == nowW.day;
@@ -391,7 +391,7 @@ class HistoryController extends GetxController {
   }
 
   void _refreshTodayIfNeeded(String dateKey) {
-    final todayKey = AppDateUtils.formatDateKey(DateTime.now());
+    final todayKey = AscDateUtils.formatDateKey(DateTime.now());
     if (dateKey == todayKey && Get.isRegistered<TodayController>()) {
       Get.find<TodayController>().loadTodayData();
     }
@@ -405,8 +405,8 @@ class HistoryController extends GetxController {
         return DateTime(sel.year, sel.month, sel.day)
             .isBefore(DateTime(now.year, now.month, now.day));
       case HistoryViewMode.week:
-        final selWeek = AppDateUtils.startOfWeek(sel);
-        final nowWeek = AppDateUtils.startOfWeek(now);
+        final selWeek = AscDateUtils.startOfWeek(sel);
+        final nowWeek = AscDateUtils.startOfWeek(now);
         return DateTime(selWeek.year, selWeek.month, selWeek.day)
             .isBefore(DateTime(nowWeek.year, nowWeek.month, nowWeek.day));
       case HistoryViewMode.month:
@@ -425,13 +425,13 @@ class HistoryController extends GetxController {
         if (sel.year == now.year && sel.month == now.month && sel.day == now.day) {
           return 'today';
         }
-        return AppDateUtils.formatDateKey(selectedDate.value);
+        return AscDateUtils.formatDateKey(selectedDate.value);
       case HistoryViewMode.week:
-        return AppDateUtils.weekRange(selectedDate.value);
+        return AscDateUtils.weekRange(selectedDate.value);
       case HistoryViewMode.month:
-        return AppDateUtils.monthLabel(selectedDate.value);
+        return AscDateUtils.monthLabel(selectedDate.value);
       case HistoryViewMode.year:
-        return AppDateUtils.yearLabel(selectedDate.value);
+        return AscDateUtils.yearLabel(selectedDate.value);
     }
   }
 }

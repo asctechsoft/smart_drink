@@ -1,3 +1,4 @@
+import 'package:asc_common/asc_common.dart';
 import 'dart:async';
 
 import 'package:waternudge/services/application/health_sync_service.dart';
@@ -13,7 +14,6 @@ import 'package:waternudge/services/application/drink_data_service.dart';
 import 'package:waternudge/services/native/notification_channel.dart';
 import 'package:waternudge/services/native/widget_channel.dart';
 import 'package:waternudge/utils/analytics.dart';
-import 'package:waternudge/utils/date_utils.dart';
 import 'package:waternudge/utils/legal_utils.dart';
 import 'package:waternudge/utils/unit_converter.dart';
 import 'package:waternudge/utils/water_calculation.dart';
@@ -130,7 +130,7 @@ class TodayController extends GetxController with WidgetsBindingObserver {
     unawaited(_checkHealthPrivacyPolicyRequest());
 
     // Check if date has changed since last load (midnight crossing)
-    final currentDateKey = AppDateUtils.todayKey();
+    final currentDateKey = AscDateUtils.todayKey();
     if (_lastLoadedDateKey.isNotEmpty && _lastLoadedDateKey != currentDateKey) {
       // Date changed - reset view to today's fresh data
       await loadTodayData();
@@ -153,7 +153,7 @@ class TodayController extends GetxController with WidgetsBindingObserver {
 
   Future<void> loadTodayData() async {
     final total = await _drinkService.getTodayTotal();
-    _lastLoadedDateKey = AppDateUtils.todayKey();
+    _lastLoadedDateKey = AscDateUtils.todayKey();
     currentIntakeMl.value = total;
 
     final records = await _drinkService.getTodayRecords();
@@ -257,15 +257,15 @@ class TodayController extends GetxController with WidgetsBindingObserver {
     final today = DateTime.now();
     final startDate = today.subtract(const Duration(days: 60));
     final summaries = await _drinkService.getSummariesBetween(
-      AppDateUtils.formatDateKey(startDate),
-      AppDateUtils.formatDateKey(today),
+      AscDateUtils.formatDateKey(startDate),
+      AscDateUtils.formatDateKey(today),
     );
     summaries.sort((a, b) => b.dateKey.compareTo(a.dateKey));
 
     int streak = 0;
     var checkDate = today;
     for (final summary in summaries) {
-      final expectedKey = AppDateUtils.formatDateKey(checkDate);
+      final expectedKey = AscDateUtils.formatDateKey(checkDate);
       if (summary.dateKey != expectedKey) break;
       if (summary.totalMl <= 0) break;
       streak++;
