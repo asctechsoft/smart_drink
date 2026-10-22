@@ -2,6 +2,7 @@ import 'package:asc_common/asc_common.dart';
 import 'dart:async';
 
 import 'package:dsp_base/dsp_base.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -117,7 +118,7 @@ Future<void> main() async {
       await DspBase.start(
         remoteConfigDefaults: const {TourController.rcVariantKey: ''},
         hideAds: AppFigs.isAlpha,
-        useTestAdIds: AppFigs.isAlpha || AppFigs.isDev,
+        useTestAdIds: kDebugMode || AppFigs.isAlpha || AppFigs.isDev,
         registerTestAdDevice: AppFigs.isShowTestOption,
         debugEeaConsent: AppFigs.isShowTestOption,
       );

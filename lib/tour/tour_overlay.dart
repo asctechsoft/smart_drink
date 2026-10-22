@@ -49,6 +49,7 @@ class _TourStepViewState extends State<_TourStepView>
   late final AnimationController _pulse;
   Timer? _autoAdvanceTimer;
   int _lastIndex = -1;
+  Rect? _lastTarget;
 
   static const double _gap =
       22; // gap between target and bubble (arrow lives here)
@@ -68,6 +69,19 @@ class _TourStepViewState extends State<_TourStepView>
       vsync: this,
       duration: const Duration(milliseconds: 950),
     )..repeat(reverse: true);
+    _pulse.addListener(_remeasureIfMoved);
+  }
+
+  /// The target can still be settling when the step first measures it (first
+  /// launch: ad/banner insets, fonts, Get.width/safe-area catching up), which
+  /// left the spotlight clone at a stale size/position next to the real
+  /// widget. The pulse ticks every frame, so use it to re-measure and rebuild
+  /// only when the rect actually changed.
+  void _remeasureIfMoved() {
+    if (!mounted || _lastTarget == null) return;
+    final controller = widget.controller;
+    final current = controller.anchorRect(controller.step.anchorId);
+    if (current != null && current != _lastTarget) setState(() {});
   }
 
   @override
@@ -99,6 +113,7 @@ class _TourStepViewState extends State<_TourStepView>
     final target = controller.anchorRect(step.anchorId);
     final size = MediaQuery.of(context).size;
 
+    _lastTarget = target;
     if (target == null) {
       _armAutoAdvance(controller.index.value);
       // Not laid out yet (registered this frame) — retry next frame.
